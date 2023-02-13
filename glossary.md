@@ -48,7 +48,7 @@ See [hydration](#hydration).
 
 This is a common software engineering term that stands for [Don't repeat
 yourself](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself), and attempts
-to reduce repitition in software development. In the Kubernetes configuration
+to reduce repetition in software development. In the Kubernetes configuration
 management context, a good example is a Helm chart, which attempts to abstract
 the particular manifests for a given workload. A kpt package that is not yet
 ready to deploy is also an example of a DRY artifact. In general, any sort of
@@ -77,6 +77,15 @@ on that artifact to achieve your goal, but you store the results of those
 operations directly in the same artifact. Utilization of a version control
 system such as Git is critical in this case. This is the kind of hydration we
 typically use when operating on kpt packages.
+
+With out-of-place hydration, the author of the template has to figure out,
+upfront, all the possible outcomes of the hydration process. Then, they have to
+make available inputs to the pipeline in order to make all of those different
+outcomes achievable. This leads to "over-parameterization" - where effectively
+every option possible in the outputs becomes an option in the input. At that
+point, you have mostly *moved* complexity rather than *reduced* complexity.
+In-place hydration can help with the over-parameterization, as values that are
+rarely changed by users can simply be edited in-place.
 
 While related, *DRY* and *WET* are not exactly the same concepts as *in-place* and
 *out-of-place* hydration. The former two refer to principles, whereas the latter
@@ -136,15 +145,46 @@ See [Kubernetes Resource Model](#kubernetes-resource-model).
 
 ## manifest
 
+## mutation
+The act of changing the configuration. There are different processes that can be
+usd for mutation, including controllers, injectors, KRM functions, web hooks,
+and manual in-place edits.
+
+*See also*: [validation](#validation)
+
 ## operator
 
 ## package
 
 ## resource
 
+## validation
+The act of verifying that the configuration is syntactical correct, and that it
+matches a set of rules (or policies). Those rules or policies may be for
+internal consistency (e.g., matching Deployment and Service label selectors),
+or they may be organizationally related (e.g., all Deployments must contain a
+label indicating cost allocation center).
+
 ## value propagation
+The same value in a configuration is often used in more than one place. *Value
+propagation* is the technique of setting or generating the value once, and then
+copying (or propagating) it to different places in the configuration. For
+example, setting a Helm value in the values.yaml file, and then having it used
+in multiple places across different resources.
 
 ## variant
+A *variant* is an modified version of a package. Sometimes it is the output of
+the hydration process, particularly when using out-of-place hydration. For
+example, if you use the same Helm chart with different inputs to create
+per-cluster workloads, you are generating variants.
+
+In Nephio, we use kpt packages to help keep an association between a package and
+the variants of that package. When you clone a kpt package, an association is
+maintained with the upstream package. Every deployable variant of a package is a
+clone of the original, upstream package. This assists greatly in Day 2
+operations; when you update the original package, you can identify all variants
+and merge the updates from the upstream into the downstream. This behavior is
+automated via the PackageVariant controller.
 
 ## WET
 This term, which we use as an acryonym for "Write Every Time", comes from [software
