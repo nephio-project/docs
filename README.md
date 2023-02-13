@@ -9,6 +9,7 @@ links to other resources. In time we develop comprehensive documentation.
 ## Basic Resources
 * [Nephio Website](https://nephio.org)
 * [Nephio Wiki](https://wiki.nephio.org)
+* [Slack Workspace](https://nephio.slack.com)
 
 ## Blog Posts
 * [Linux Foundation Press Release](https://www.linuxfoundation.org/press/press-release/the-linux-foundation-and-google-cloud-launch-nephio-to-enable-and-simplify-cloud-native-automation-of-telecom-network-functions)
