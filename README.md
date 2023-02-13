@@ -14,9 +14,9 @@ links to other resources. In time we develop comprehensive documentation.
 * [Linux Foundation Press Release](https://www.linuxfoundation.org/press/press-release/the-linux-foundation-and-google-cloud-launch-nephio-to-enable-and-simplify-cloud-native-automation-of-telecom-network-functions)
 * [Google Cloud Blog Post Announcement](https://cloud.google.com/blog/topics/telecommunications/automating-cloud-native-telecommunication-networks)
 * [Achieving cloud-native network automation at a global scale with Nephio](https://cloud.google.com/blog/topics/telecommunications/network-automation-csps-linus-nephio-cloud-native) outlines three basic principles Nephio follows:
- * **Intent-driven**: Nephio uses Kubernetes Resource Model (KRM) for intent
- * **Distributed actuation**: Nephio uses gitops and independent Kubernetes clusters at the edge
- * **Uniformity in systems**: Nephio uses Kubernetes-based management for
+    * **Intent-driven**: Nephio uses Kubernetes Resource Model (KRM) for intent
+    * **Distributed actuation**: Nephio uses gitops and independent Kubernetes clusters at the edge
+    * **Uniformity in systems**: Nephio uses Kubernetes-based management for
    infrastructure, functions, and function configuration ("Kubernetes Everywhere")
 * [On the road to public cloud 5G networks](https://nephio.org/on-the-road-to-public-cloud-5g-networks/) provides context and challenges for CSPs, function vendors, and cloud providers in bringing 5G networks to public cloud.
 * [Join us in evolving the usability of GitOps](https://cloud.google.com/blog/products/containers-kubernetes/lets-improve-gitops-usability) discusses some of the underlying configuration management techniques and technologies in Nephio.
