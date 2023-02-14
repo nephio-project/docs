@@ -195,10 +195,6 @@ repeatable modifications to package resources.
 operations in a Kubernetes-based API, allowing automation of these operations
 using standard Kubernetes controller techniques.
 
-Short for **P**ackage **Orch**estration.
-
-*See also*: [kpt](#kpt)
-
 ## kpt function
 See [KRM function](#krm-function).
 
@@ -280,6 +276,10 @@ for more information.
 providing opinionated package management, manipulation, and lifecycle
 operations in a Kubernetes-based API. This allows automation of these
 operations using standard Kubernetes controller techniques.
+
+Short for **P**ackage **Orch**estration.
+
+*See also*: [kpt](#kpt)
 
 ## resource
 
