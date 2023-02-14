@@ -40,6 +40,8 @@ This term comes from Kubernetes where [controller](https://kubernetes.io/docs/re
 *See also*: [operator](#operator), [injector](#injector), [KRM
 function](#krm-function)
 
+## CRD
+
 ## dehydration
 
 See [hydration](#hydration).
@@ -56,6 +58,8 @@ ready to deploy is also an example of a DRY artifact. In general, any sort of
 pattern, following this principle.
 
 *See also*: [hydration](#hydration), [WET](#wet)
+
+## fanout
 
 ## hydration
 A play on [DRY](#dry) and [WET](#wet), this is the process by which a DRY
