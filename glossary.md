@@ -6,7 +6,6 @@ Nephio-specific terms. This glossary is intended to help clarify our usage of
 these terms.
 
 ## config
-
 See [configuration](#configuration).
 
 ## configuration
@@ -30,24 +29,57 @@ types of configuration. See
 [docs#4](https://github.com/nephio-project/docs/issues/4).
 
 ## config injection
-
 See [injector](#injector).
 
 ## controller
-
 This term comes from Kubernetes where [controller](https://kubernetes.io/docs/reference/glossary/?fundamental=true#term-controller) is defined as a control loop that watches the intended and actual state of the cluster, and attempts to make changes as needed to make the actual state match the intended state. More specifically, this typically refers to software that processes Kubernetes Resources residing in the Kubernetes API server, and either transforms them into new resources, or calls to other APIs that change the state of some entity external to the API server. For example, `kubelet` itself is a controller that processes Pod resources to create and manage containers on a Node.
 
 *See also*: [operator](#operator), [injector](#injector), [KRM
 function](#krm-function)
 
+## controller manager
+This term comes from Kubernetes and refers to an executable that bundles many
+[controllers](#controller) into one binary.
+
+*See also*: [controller](#controller), [operator](#operator)
+
+## CR
+See [custom resource](#custom-resource).
+
 ## CRD
+See [custom resource definition](#custom-resource-definition).
+
+## custom resource
+A custom resource (CR) is a resource in a Kubernetes API server that has a
+Group/Version/Kind that was added to the API server via a
+[custom resource definition](#custom-resource-definition). The
+relationship between a CR and a CRD is analogous to that of an object and a
+class in object-oriented programming; the CRD defines the schema, and the CR is
+a particular instance.
+
+Note that it is common for people to say "CRD" when in fact they mean "CR", so
+be sure to ask for clarification if necessary.
+
+*See also*: [custom resource definition](#custom-resource-definition)
+
+## custom resource definition
+A [custom resource
+definition (CRD)](https://kubernetes.io/docs/reference/glossary/?fundamental=true#term-CustomResourceDefinition)
+is a built-in Kubernetes resource which is used to define custom resources
+within a Kubernetes API server. That is, it is a way to extend the functionality
+of a Kubernetes API server by adding new resource types. The CRD, identified by
+its Group/Version/Kind, defines the schema associated with the resource, as well
+as the resource API endpoints.
+
+Note that it is common for people to say "CRD" when in fact they mean "CR", so
+be sure to ask for clarification if necessary.
+
+*See also*: [custom resource](#custom-resource)
 
 ## dehydration
-
 See [hydration](#hydration).
 
 ## DRY
-
 This is a common software engineering term that stands for [Don't repeat
 yourself](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself), and attempts
 to reduce repetition in software development. In the Kubernetes configuration
@@ -60,6 +92,23 @@ pattern, following this principle.
 *See also*: [hydration](#hydration), [WET](#wet)
 
 ## fanout
+This term refers to the process of taking a package and customizing it across a
+series of targets. It is a type of [variant generation](#variant-generation) but
+more specific than that term. It is also an application of the [DRY](#dry)
+principle.
+
+Some examples:
+ * A script that loops through an array, feeding values into Helm and rendering
+   individually specialized manifests for each entry in the array.
+ * The PackageDeployment controller from the ONE Summit 2022 Workshop uses a
+   label selector to identify target clusters, then clones a kpt package for
+   each, creating one package revision per cluster.
+ * The PackageVariantSet controller in Porch can be used to clone a package
+   across a set of repositories, or can create multiple clones of the same
+   package with different names in a single repository, based on arbitrary
+   object selectors.
+
+*See also*: [hydration](#hydration), [variant](#variant), [variant generation](#variant-generation)
 
 ## hydration
 A play on [DRY](#dry) and [WET](#wet), this is the process by which a DRY
@@ -103,7 +152,6 @@ non-native English speakers.
 *See also*: [DRY](#dry), [WET](#wet)
 
 ## injection
-
 See [injector](#injector).
 
 ## injector
@@ -134,20 +182,58 @@ us to combine upstream ([DRY](#dry)) configuration with cluster-specific
 configuration based upon the target cluster.
 
 ## kpt
+[Kpt](https://kpt.dev) is an open source tool for managing bundles of Kubernetes
+resource configurations, called kpt [packages](#package), using the
+[Configuration-as-Data](config-as-data) methodology.
+
+The `kpt` command line tool allows pulling, pushing, cloning and otherwise
+managing packages stored in version control repositories (Git or OCI), as well
+as execution of [KRM functions](#krm-function) to perform consistent and
+repeatable modifications to package resources.
+
+[Porch](#porch) provides these package management, manipulation, and lifecycle
+operations in a Kubernetes-based API, allowing automation of these operations
+using standard Kubernetes controller techniques.
+
+Short for **P**ackage **Orch**estration.
+
+*See also*: [kpt](#kpt)
 
 ## kpt function
-
 See [KRM function](#krm-function).
 
 ## KRM
-
-See [Kubernetes Resource Model](#kubernetes-resource-model).
+See [Kubernetes resource model](#kubernetes-resource-model).
 
 ## KRM function
+A [KRM
+function](https://github.com/kubernetes-sigs/kustomize/blob/master/cmd/config/docs/api-conventions/functions-spec.md)
+is an executable that takes Kubernetes resources as inputs, and produces
+Kubernetes resources as outputs. The function may add, remove, or modify the
+input resources to produce the outputs. This is similar to a Unix pipeline, but
+with KRM on the input and output, rather than simple streams.
 
-## Kubernetes Resource Model
+Generally, best practices suggest KRM functions be hermetic (that is, they do
+not access the outside world).
+
+In terms of the specification linked above, kustomize, kpt, and Porch are all
+*orchestrators*.
+
+*See also*: [controller](#controller), [kpt](#kpt), [Porch](#porch)
+
+## Kubernetes resource model
+The [Kubernetes Resource Model
+(KRM)](https://github.com/kubernetes/design-proposals-archive/blob/main/architecture/resource-management.md)
+is the underlying declarative, intent-based API model and machinery for
+Kubernetes. It is the general name for what you likely think of when you hear
+"Kubernetes API". Additional background:
+* [Kubernetes API Overview](https://kubernetes.io/docs/concepts/overview/kubernetes-api/)
+* [Kubernetes API
+  Concepts](https://kubernetes.io/docs/reference/using-api/api-concepts/)
 
 ## manifest
+A file (or files) containing a representation of resources. Typically YAML
+files, but it could also be JSON or some other format.
 
 ## mutation
 The act of changing the configuration. There are different processes that can be
@@ -157,10 +243,53 @@ and manual in-place edits.
 *See also*: [validation](#validation)
 
 ## operator
+An operator is a software component - usually a collection of one or more
+[controller managers](#controller-manager) - that manages a particular type of
+workload. For example, a set of Kubernetes controllers to manage MySQL instances
+would be an operator.
+
+Speaking loosely, [controller](#controller) and operator are often used
+interchangeably, though an operator always refers to code managing CRs rather
+than Kuberenetes built-in types.
+
+See [CNFs and
+Operators](https://docs.google.com/document/d/1Le8TUgr0dXix7fvq7BqMSY3rgeEwaxW7mEf9G72itBI/edit?usp=sharing)
+for a thorough discussion.
 
 ## package
+Generically, a logical grouping of Kubernetes resources or templated resources,
+for example representing a particular workload or network function installation.
+
+For kpt packages, this specifically means well-formed Kubernetes resources along
+with a Kptfile. See the kpt [package
+documentation](https://kpt.dev/book/02-concepts/01-packages).
+
+This could also refer to a Helm chart, though generally we mean "kpt package"
+when we say "package".
+
+## package revision
+This specifically refers to the Porch `PackageRevision` resource. Porch adds
+opinionated versioning and lifecycle management to packages, beyond what the
+baseline `kpt` CLI expects. See the [Porch
+documentation](https://kpt.dev/book/08-package-orchestration/04-package-authoring)
+for more information.
+
+## Porch
+
+[Porch](https://kpt.dev/book/08-package-orchestration/) is "kpt-as-a-service",
+providing opinionated package management, manipulation, and lifecycle
+operations in a Kubernetes-based API. This allows automation of these
+operations using standard Kubernetes controller techniques.
 
 ## resource
+
+A [Kubernetes
+term](https://kubernetes.io/docs/reference/using-api/api-concepts/#standard-api-terminology)
+referring to a specific object stored in the API server,
+although we also use it to refer to the external representation of that object
+(for example text in a YAML file).
+
+Also see [REST](https://en.wikipedia.org/wiki/Representational_state_transfer).
 
 ## validation
 The act of verifying that the configuration is syntactical correct, and that it
@@ -189,6 +318,20 @@ clone of the original, upstream package. This assists greatly in Day 2
 operations; when you update the original package, you can identify all variants
 and merge the updates from the upstream into the downstream. This behavior is
 automated via the PackageVariant controller.
+
+## variant generation
+The process of creating [variants](#variant), typically in an automated way.
+Variants could be created across different dimensions - for example, you could
+create a package per cluster. Alternatively, you may create a variant per
+envivornment - for example, development, staging, and production variants.
+
+Different methods may be warranted depending on the reason for your variants. In
+the ONE Summit 2022 Workshop, the PackageDeployment controller generated
+variants based upon the target clusters. The Porch PackageVariantSet allows more
+general-purpose generation of variants, based upon an explicity list, a label
+selector on repositories, or an arbitrary object selector. As we develop Nephio,
+we may build new types of variant generators, and may even compose them (for
+example, to produce variants that are affected by both environment and cluster).
 
 ## WET
 This term, which we use as an acryonym for "Write Every Time", comes from [software
