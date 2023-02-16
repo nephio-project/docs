@@ -39,6 +39,7 @@ More tutorials are under discussion in
   * [Nephio Reference Implementation](https://youtu.be/UHr3fBNr8BI?t=20664)
 * October 2022: KubeCon North America 2022 Detroit talk *Orchestrating Interconnected Apps Across Geographically Distributed Kubernetes Clusters* ([sched](https://sched.co/182H0), [video](https://youtu.be/ya1fUqAgvN8)).
 * November 2022: ONE Summit 2022 Nephio [playlist](https://www.youtube.com/playlist?list=PLiW9_IXAWtkuZDHYalEEjl0LdATSzf8Qd)
+* February 2023: Linux Foundation Networking - Developer and Testing Forum [Nephio Topics](https://wiki.lfnetworking.org/display/LN/2023-02+LFN+Developer+Event+Topics+February+13+-+16#id-202302LFNDeveloperEventTopicsFebruary1316-NephioTopics)
 
 ## Meetings
 * [TSC Meeting Playlist](https://www.youtube.com/playlist?list=PLiW9_IXAWtks6qhQyXAulDsJQI3W-GIXm)
