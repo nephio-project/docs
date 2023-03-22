@@ -49,4 +49,5 @@ More tutorials are under discussion in
 
 ## Other Resources
 * The [glossary](glossary.md) defines common terminology used in the Nephio
-  project.
+  project. [test]
+ 
