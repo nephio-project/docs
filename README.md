@@ -50,4 +50,4 @@ More tutorials are under discussion in
 ## Other Resources
 * The [glossary](glossary.md) defines common terminology used in the Nephio
   project.
- 
+ * The [Nephio Learning Resources page](learning.md) lists some learning resources that are useful for the Nephio community.
