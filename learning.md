@@ -21,6 +21,7 @@
 ## KPT
 
 * [The kpt Book](https://kpt.dev/book/):  A short online book that covers kpt. Well laid out and easy to read in a few hours. The examples work well and can be executed in parallel with reading the book.
+* [The Porch User Guide](https://kpt.dev/guides/porch-user-guide):  A User Guide focused on using Porch via the kpt CLI.
 
 ## 5G Core
 
