@@ -1,0 +1,25 @@
+Steps:
+- install git
+- install virtualbox
+- install vagrant
+- open git bash
+- `git config --global core.autocrlf false` This is to start the vagrant machine directly from its file. [See what it does here.](https://stackoverflow.com/questions/68264886/what-is-the-correct-core-autocrlf-setting-i-should-use/68265163#68265163)
+- `git clone https://github.com/nephio-project/test-infra.git && cd test-infra/e2e/provision`
+- `vagrant up`
+- `vagrant ssh -- -L 7007:localhost:7007 -L 3000:172.18.0.200:3000`
+
+Also in order to access the nephio web-ui and gitea web-ui, the vagrant networking will not work on windows for [Hyper-V limitation](https://developer.hashicorp.com/vagrant/docs/providers/hyperv/limitations#limited-networking). 
+Meanwhile for [Virtualbox](https://developer.hashicorp.com/vagrant/docs/providers/virtualbox/networking#virtualbox-nic-type) (used here) we can create an internal network adding this line to Vagrant.configure: 
+
+`config.vm.network "private_network", ip: "192.168.50.4", virtualbox__intnet: true`
+
+But the easiest way is to force the port-forwarding in the common way (as shown before):
+`vagrant ssh -- -L 7007:localhost:7007 -L 3000:172.18.0.200:3000`
+
+Tests were done on:
+Laptop 1: Windows 11 i7-10750H (16 T) 32GB ram (8VCPU 32GB)
+Laptop 2: Windows 10 i5-7200U (4T) 24GB ram (4VCPU 16RAM)
+
+Note: for low end machines(less then 8T32GB) you need to alter the Vagrant file. This is not recommended!
+In the Vagrant file there are _CPUS_ _RAM_ parameters in `config.vm.provider`.
+In the ansible "./playbooks/roles/bootstrap/tasks/prechecks.yml" there are the checks for _CPUS_ _RAM_
