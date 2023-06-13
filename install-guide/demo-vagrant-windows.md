@@ -1,4 +1,6 @@
-Steps:
+# Nephio demo on Windows
+
+## Steps:
 - install git
 - install virtualbox
 - install vagrant
@@ -14,12 +16,19 @@ Meanwhile for [Virtualbox](https://developer.hashicorp.com/vagrant/docs/provider
 `config.vm.network "private_network", ip: "192.168.50.4", virtualbox__intnet: true`
 
 But the easiest way is to force the port-forwarding in the common way (as shown before):
+
 `vagrant ssh -- -L 7007:localhost:7007 -L 3000:172.18.0.200:3000`
 
-Tests were done on:
+## Tests were done on:
+
 Laptop 1: Windows 11 i7-10750H (16 T) 32GB ram (8VCPU 32GB)
+
 Laptop 2: Windows 10 i5-7200U (4T) 24GB ram (4VCPU 16RAM)
 
-Note: for low end machines(less then 8T32GB) you need to alter the Vagrant file. This is not recommended!
-In the Vagrant file there are _CPUS_ _RAM_ parameters in `config.vm.provider`.
-In the ansible "./playbooks/roles/bootstrap/tasks/prechecks.yml" there are the checks for _CPUS_ _RAM_
+## Notes
+
+**Warning**: for low end machines(less then 8T32GB) you need to alter the Vagrant file. This is not recommended!
+
+- In the Vagrant file "./Vagrantfile" there are *CPUS & RAM* parameters in `config.vm.provider`.
+
+- In the ansible "./playbooks/roles/bootstrap/tasks/prechecks.yml" there are the checks for *CPUS & RAM*
