@@ -3,7 +3,7 @@
 ## Steps:
 - install git
 - install virtualbox
-- install vagrant
+- install [vagrant](https://developer.hashicorp.com/vagrant/docs/installation)
 - open git bash
 - `git config --global core.autocrlf false` This is to start the vagrant machine directly from its file. [See what it does here.](https://stackoverflow.com/questions/68264886/what-is-the-correct-core-autocrlf-setting-i-should-use/68265163#68265163)
 - `git clone https://github.com/nephio-project/test-infra.git && cd test-infra/e2e/provision`
