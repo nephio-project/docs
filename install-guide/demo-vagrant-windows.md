@@ -5,7 +5,6 @@
 - install virtualbox
 - install [vagrant](https://developer.hashicorp.com/vagrant/docs/installation)
 - open git bash
-- `git config --global core.autocrlf false` This is to start the vagrant machine directly from its file. [See what it does here.](https://stackoverflow.com/questions/68264886/what-is-the-correct-core-autocrlf-setting-i-should-use/68265163#68265163)
 - `git clone https://github.com/nephio-project/test-infra.git && cd test-infra/e2e/provision`
 - `vagrant up`
 - `vagrant ssh -- -L 7007:localhost:7007 -L 3000:172.18.0.200:3000`
@@ -31,6 +30,8 @@ But the easiest way is to force the port-forwarding in the common way (as shown 
 
 **Warning**: for low end machines(less then 8T32GB) you need to alter the Vagrant file. This is not recommended!
 
-- In the Vagrant file "./Vagrantfile" there are *CPUS & RAM* parameters in `config.vm.provider`.
+- In the Vagrant file "./Vagrantfile" there are *CPUS & RAM* parameters in `config.vm.provider`, it's possible to override them at runtime:
+
+  -On Linux, or the Git Bash on Windows we can use one-liner command `CPUS=16 MEMORY=32768 vagrant up`
 
 - In the ansible "./playbooks/roles/bootstrap/tasks/prechecks.yml" there are the checks for *CPUS & RAM*
