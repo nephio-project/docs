@@ -47,7 +47,8 @@ The rendered kpt packages containing components are unpacked in the */tmp/kpt-pk
 
 ```
 <details>
- <summary>You can check the status of an applied kpt package using a *kpt live status \<kpt-package-dir\>* command.</summary>
+ <summary>You can check the status of an applied kpt package using a "kpt live status package_dir" command.</summary>
+ 
 ```
 sudo kpt live status /tmp/kpt-pkg/nephio-controllers/
 inventory-38069595/clusterrole.rbac.authorization.k8s.io//nephio-controller-approval-role is Current: Resource is current
