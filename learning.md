@@ -29,3 +29,8 @@
 * [https://github.com/Orange-OpenSource/towards5gs-helm](https://github.com/Orange-OpenSource/towards5gs-helm): Reference helm charts from Orange for the Free5gc core network NFs and for the UERANSIM Radio Access Network
 * [https://github.com/matysiaq/kpt-packages-catalog](https://github.com/matysiaq/kpt-packages-catalog): Custom kpt packages for free5gc and UERANSIM from Orange
 * [https://github.com/matysiaq/nephio-pocs/tree/main/free5gc-operator](https://github.com/matysiaq/nephio-pocs/tree/main/free5gc-operator): An improved f5ee5gc operator from Orange
+
+## Other Useful Resources
+* [Using the Metallb LoadBalancer in Kind](https://kind.sigs.k8s.io/docs/user/loadbalancer/): Short but excellent guide to setting up the Metallb load balancer in *kind*
+* [Kubernetes echo server](https://ealenn.github.io/Echo-Server/pages/quick-start/kubernetes.html): Small HTTP server that echos responses, useful for debugging networking and connectivity, available on amd64 and arm64 architectures
+
