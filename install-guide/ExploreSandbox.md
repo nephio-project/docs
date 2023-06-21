@@ -50,7 +50,7 @@ The rendered kpt packages containing components are unpacked in the */tmp/kpt-pk
  <summary>You can check the status of an applied kpt package using a "kpt live status package_dir" command.</summary>
  
 ```
-sudo kpt live status /tmp/kpt-pkg/nephio-controllers/
+kpt live status /tmp/kpt-pkg/nephio-controllers/
 inventory-38069595/clusterrole.rbac.authorization.k8s.io//nephio-controller-approval-role is Current: Resource is current
 inventory-38069595/clusterrole.rbac.authorization.k8s.io//nephio-controller-bootstrap-role is Current: Resource is current
 inventory-38069595/clusterrole.rbac.authorization.k8s.io//nephio-controller-controller-role is Current: Resource is current
@@ -100,7 +100,7 @@ The following base components are installed on the kind management cluster. Base
 | Postgres     | Used by Gitea to store repositories                                |
 | Cluster CAPI | Used deploy kind workload clusters                                 |
 | IPAM         | A system used to allocate and manage IP addresses                  |
-| VLAM         | A system used to allocate and manage VLANs                         |
+| VLAN         | A system used to allocate and manage VLANs                         |
 
 ## Specific Components
 
@@ -141,43 +141,34 @@ kind
 <summary>Querying the k8s pods running after the install produces output similar to:</summary>
 
 ```
-$ kubectl get pods -A
-NAMESPACE                           NAME                                                            READY   STATUS    RESTARTS        AGE
-backend-system                      resource-backend-controller-6c7cc59945-5kxjq                    2/2     Running   4 (24h ago)     4d21h
-capd-system                         capd-controller-manager-c479754b7-kv4c2                         1/1     Running   2 (34h ago)     4d21h
-capi-kubeadm-bootstrap-system       capi-kubeadm-bootstrap-controller-manager-bcdfbf4c5-6jgg7       1/1     Running   3 (24h ago)     4d21h
-capi-kubeadm-control-plane-system   capi-kubeadm-control-plane-controller-manager-b9485b857-cszkj   1/1     Running   1 (4d21h ago)   4d21h
-capi-system                         capi-controller-manager-9d9548dc8-59n5t                         1/1     Running   3 (24h ago)     4d21h
-cert-manager                        cert-manager-7476c8fcf4-r2f4w                                   1/1     Running   1 (4d21h ago)   4d21h
-cert-manager                        cert-manager-cainjector-bdd866bd4-bf95d                         1/1     Running   1 (4d21h ago)   4d21h
-cert-manager                        cert-manager-webhook-5655dcfb4b-2ztqj                           1/1     Running   1 (4d21h ago)   4d21h
-config-management-monitoring        otel-collector-798c8784bd-t4m4k                                 1/1     Running   1 (4d21h ago)   4d21h
-config-management-system            config-management-operator-6946b77565-9ssmd                     1/1     Running   1 (4d21h ago)   4d21h
-config-management-system            reconciler-manager-5b5d8557-kffnv                               2/2     Running   2 (4d21h ago)   4d21h
-config-management-system            root-reconciler-mgmt-6fdf94dfd4-f5rhs                           4/4     Running   0               4d21h
-gitea                               gitea-0                                                         1/1     Running   1 (4d21h ago)   4d21h
-gitea                               gitea-memcached-6777864fbd-mhvz5                                1/1     Running   1 (4d21h ago)   4d21h
-gitea                               gitea-postgresql-0                                              1/1     Running   1 (4d21h ago)   4d21h
-kube-system                         coredns-5d78c9869d-8lxtd                                        1/1     Running   1 (4d21h ago)   4d21h
-kube-system                         coredns-5d78c9869d-vlxhr                                        1/1     Running   1 (4d21h ago)   4d21h
-kube-system                         etcd-kind-control-plane                                         1/1     Running   1 (4d21h ago)   4d21h
-kube-system                         kindnet-tgfwd                                                   1/1     Running   1 (4d21h ago)   4d21h
-kube-system                         kube-apiserver-kind-control-plane                               1/1     Running   1 (4d21h ago)   4d21h
-kube-system                         kube-controller-manager-kind-control-plane                      1/1     Running   3 (24h ago)     4d21h
-kube-system                         kube-proxy-q9q7q                                                1/1     Running   1 (4d21h ago)   4d21h
-kube-system                         kube-scheduler-kind-control-plane                               1/1     Running   3 (24h ago)     4d21h
-local-path-storage                  local-path-provisioner-6bc4bddd6b-79mmd                         1/1     Running   1 (4d21h ago)   4d21h
-metallb-system                      controller-7948676b95-fg7bp                                     1/1     Running   1 (4d21h ago)   4d21h
-metallb-system                      speaker-8gpcr                                                   1/1     Running   2 (4d21h ago)   4d21h
-nephio-system                       nephio-controller-76db4b45b7-hr4rh                              2/2     Running   4 (4d21h ago)   4d21h
-nephio-system                       token-controller-75c98bd77-h657j                                2/2     Running   2 (4d21h ago)   4d21h
-nephio-webui                        nephio-webui-7df7bb7c45-zmn9t                                   1/1     Running   1 (4d21h ago)   4d21h
-porch-system                        function-runner-5d4f65476d-25l9h                                1/1     Running   1 (4d21h ago)   4d21h
-porch-system                        function-runner-5d4f65476d-rkw4p                                1/1     Running   1 (4d21h ago)   4d21h
-porch-system                        porch-controllers-646dfb5f6-n8jtx                               1/1     Running   4 (4d21h ago)   4d21h
-porch-system                        porch-server-69445b4d58-rkkrn                                   1/1     Running   62 (77m ago)    4d21h
-resource-group-system               resource-group-controller-manager-6c9d56d88-g2h7g               3/3     Running   5 (24h ago)     4d21h
-</details>
+$ kubectl get pods -A --field-selector=metadata.namespace!=kube-system
+NAMESPACE                           NAME                                                            READY   STATUS    RESTARTS       AGE
+backend-system                      resource-backend-controller-6c7cc59945-sv59w                    2/2     Running   6 (105m ago)   41h
+capd-system                         capd-controller-manager-c479754b7-dwmps                         1/1     Running   6 (105m ago)   41h
+capi-kubeadm-bootstrap-system       capi-kubeadm-bootstrap-controller-manager-bcdfbf4c5-8xnz6       1/1     Running   6 (105m ago)   41h
+capi-kubeadm-control-plane-system   capi-kubeadm-control-plane-controller-manager-b9485b857-7hr6x   1/1     Running   0              41h
+capi-system                         capi-controller-manager-9d9548dc8-cs6dv                         1/1     Running   6 (105m ago)   41h
+cert-manager                        cert-manager-7476c8fcf4-ctfbp                                   1/1     Running   0              41h
+cert-manager                        cert-manager-cainjector-bdd866bd4-vlgx2                         1/1     Running   0              41h
+cert-manager                        cert-manager-webhook-5655dcfb4b-k5p2z                           1/1     Running   0              41h
+config-management-monitoring        otel-collector-798c8784bd-79bd8                                 1/1     Running   0              41h
+config-management-system            config-management-operator-6946b77565-s8sm7                     1/1     Running   0              41h
+config-management-system            reconciler-manager-5b5d8557-prsfm                               2/2     Running   0              41h
+config-management-system            root-reconciler-mgmt-6fdf94dfd4-6cngg                           4/4     Running   0              40h
+gitea                               gitea-0                                                         1/1     Running   0              41h
+gitea                               gitea-memcached-6777864fbd-q7c78                                1/1     Running   0              41h
+gitea                               gitea-postgresql-0                                              1/1     Running   0              41h
+local-path-storage                  local-path-provisioner-6bc4bddd6b-zl78t                         1/1     Running   0              41h
+metallb-system                      controller-7948676b95-l554z                                     1/1     Running   0              41h
+metallb-system                      speaker-v6lml                                                   1/1     Running   0              41h
+nephio-system                       nephio-controller-76db4b45b7-g44w6                              2/2     Running   0              41h
+nephio-system                       token-controller-75c98bd77-7kl4k                                2/2     Running   0              41h
+nephio-webui                        nephio-webui-7df7bb7c45-9xmcx                                   1/1     Running   0              41h
+porch-system                        function-runner-5d4f65476d-hjn6v                                1/1     Running   0              41h
+porch-system                        function-runner-5d4f65476d-jvlm7                                1/1     Running   0              41h
+porch-system                        porch-controllers-646dfb5f6-lxthk                               1/1     Running   0              41h
+porch-system                        porch-server-69445b4d58-mkqqt                                   1/1     Running   28 (41m ago)   41h
+resource-group-system               resource-group-controller-manager-6c9d56d88-njjr6               3/3     Running   6 (105m ago)   41h
 ```
 </details>
 
