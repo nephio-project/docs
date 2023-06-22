@@ -90,7 +90,7 @@ inventory-38069595/namespace//nephio-system is Current: Resource is current
 
 ## Base Components
 
-The following base components are installed on the kind management cluster. Base components are standard components in the k8s ecosystem, which Nephio uses out of the box.
+The following base components are installed on the kind management cluster. Base components are the infrastructure components that are needed for the Nephio sandbox, which Nephio uses out of the box. In real-world installations, alternative components that provide the same functionality may be used.
 
 | Component    | Purpose                                                            |
 | ------------ | -------------------------------------------------------------------|
@@ -99,8 +99,8 @@ The following base components are installed on the kind management cluster. Base
 | Gitea        | Used to allow creation and management of local git repos by Nephio |
 | Postgres     | Used by Gitea to store repositories                                |
 | Cluster CAPI | Used deploy kind workload clusters                                 |
-| IPAM         | A system used to allocate and manage IP addresses                  |
-| VLAN         | A system used to allocate and manage VLANs                         |
+| IPAM         | A reference backend system to allocate and manage IP addresses     |
+| VLAN         | A reference backend system used to allocate and manage VLANs       |
 
 ## Specific Components
 
