@@ -4,7 +4,7 @@ Exploring the Nephio Sandbox
 You've installed the Nephio sandbox on your VM
 [using the installation instructions](https://github.com/nephio-project/test-infra/blob/main/e2e/provision/README.md). The installation has done a really good job of installing a pretty complex software stack without any fuss. Let's take a look around.
 
-![Software installed by the Nephio Sandbox installation](ExploreSandbox-diagrams/ManagementCLuster.png)
+![Software installed by the Nephio Sandbox installation](ExploreSandbox-diagrams/ManagementCluster.png)
 
 # Components installed on the VM itself
 
