@@ -17,7 +17,7 @@ The following components are installed on the VM itself. These components are in
 | kubectl   | Used to control clusters created by kind                                                 |
 | kpt       | Used to install packages (software and metadata) on k8s clusters                         |
 | cni       | Used to implement the k8s network model for the kind clusters                            |
-| gtp5g     | A linux module that supports the 3GPP GPRS tunnelling protocol (required by free5gc NFs) |
+| gtp5g     | A linux module that supports the 3GPP GPRS tunneling protocol (required by free5gc NFs)  |
 
 The ansible install scripts use kind to create the management cluster. Once the kind cluster is created, the install uses kpt packages to install the remainder of the software.
 
