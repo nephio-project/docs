@@ -1,2 +1,5 @@
+# Tox environments
+.idea
 .DS_Store
 .$*
+
