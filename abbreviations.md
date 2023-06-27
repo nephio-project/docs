@@ -11,5 +11,5 @@ This page gives brief explanations of abbreviations used in the Nephio project. 
 * AMF: Access and Mobility Management Function
 * DNN: Data Network Name
 * NAD: Network Attachment Definition
-* SMF: Session Management Funciton
+* SMF: Session Management Function
 * UPF: User Plane Function

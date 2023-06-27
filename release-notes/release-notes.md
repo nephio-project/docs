@@ -7,7 +7,7 @@ Technologies like distributed cloud enable on-demand, API-driven access to the e
 
 The solution is intended to address the initial provisioning of the network functions and the underlying cloud infrastructure, and also provide Kubernetes-enabled reconciliation to ensure the network stays up through failures, scaling events, and changes to the distributed cloud. 
 
-Nephio leverages "configuration as data" principle and Kubernetes declarative, actively-reconciled methodology along with machine-manipulable configuration to tame the complexity of Network Functions deployment and life cycle management..
+Nephio leverages "configuration as data" principle and Kubernetes declarative, actively-reconciled methodology along with machine-manipulable configuration to tame the complexity of Network Functions deployment and life-cycle management..
 
 This release of Nephio focuses on:
 * Exhibiting the core Nephio principles such as Configuration as data and leveraging the intent driver, actively reconciled nature of kubernetes.
@@ -57,7 +57,7 @@ Basic web UI to view and manage Package Variants and Package variant sets.
 
 ## Known Issues and Workarounds
 * In case of deploying sandbox environment on ubuntu VM running on openstack, the deployment may fail. Reinstall the packages to get around this issue. ( **More details needed here**).
-* End to end call issues and workarounds. (**More details needed here**)
+* End-to-end call issues and workarounds. (**More details needed here**)
 * **Others???**
 
 

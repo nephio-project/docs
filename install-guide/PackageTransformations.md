@@ -238,7 +238,7 @@ During the clone operation, the command above performs the following operations:
   <br><br>
   a. In all `PackageVariant` files, the `metadata.name` and `spec.downstream.package` field before the '-' is replaced with that field value. In this way, the downstream package names for all the packages to be pulled from the `mgmt-staging` repo for the workload cluster are specified.
   <br>b. In all `PackageVariant` files, the `spec.injectors.WorkloadCluster.name` field is replaced with the workload cluster name. This gives us the handle for `packageVariant` injection for the workload cluster in question.
-  <br>c. In all `PackageVariant` files, the `spec.pipeline.mutators.[image=gcr.io/kpt-fn/set-annotations:v0.1.4].configMap.[nephio.org/cluster-name]` field is repalced with the workload cluster name.
+  <br>c. In all `PackageVariant` files, the `spec.pipeline.mutators.[image=gcr.io/kpt-fn/set-annotations:v0.1.4].configMap.[nephio.org/cluster-name]` field is replaced with the workload cluster name.
   <br>d. In all `WorkloadCluster` files, the `metadata.name` and `spec.clusterName` fields are replaced with the workload cluster name.
 
 We now have a draft blueprint package for our workload cluster ready for further configuration.

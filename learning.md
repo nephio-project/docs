@@ -25,7 +25,7 @@
 
 ## 5G Core
 
-* [OpenAirInterface 5G Core Network Deployment using Helm Charts](https://gitlab.eurecom.fr/oai/cn5g/oai-cn5g-fed/-/blob/master/docs/DEPLOY_SA5G_HC.md): OAI 5G core network have different network functions which can be used invidiually or deployed all together in different combination on a production grade Kubernetes cluster like Openshift or a vanilla kubernetes cluster.
+* [OpenAirInterface 5G Core Network Deployment using Helm Charts](https://gitlab.eurecom.fr/oai/cn5g/oai-cn5g-fed/-/blob/master/docs/DEPLOY_SA5G_HC.md): OAI 5G core network have different network functions which can be used individually or deployed all together in different combination on a production grade Kubernetes cluster like Openshift or a vanilla kubernetes cluster.
 * [https://github.com/Orange-OpenSource/towards5gs-helm](https://github.com/Orange-OpenSource/towards5gs-helm): Reference helm charts from Orange for the Free5gc core network NFs and for the UERANSIM Radio Access Network
 * [https://github.com/matysiaq/kpt-packages-catalog](https://github.com/matysiaq/kpt-packages-catalog): Custom kpt packages for free5gc and UERANSIM from Orange
 * [https://github.com/matysiaq/nephio-pocs/tree/main/free5gc-operator](https://github.com/matysiaq/nephio-pocs/tree/main/free5gc-operator): An improved free5gc operator from Orange

@@ -17,7 +17,7 @@ overloaded with multiple meanings.
 Sometimes, folks will say *network config* or *workload config* to refer to the
 internal configuration of the network functions. Consider that most network
 functions today cannot be directly configured via Kubernetes resources. Instead,
-they are configurd via a proprietary configuration file, netconf, or even an
+they are configured via a proprietary configuration file, netconf, or even an
 API. In that case, those terms usually refer to this proprietary configuration
 language rather than Kubernetes resources. It is a goal for Nephio to help
 vendors enable KRM-based management of this internal configuration, to allow
@@ -113,8 +113,8 @@ Some examples:
 ## hydration
 A play on [DRY](#dry) and [WET](#wet), this is the process by which a DRY
 artifact becomes ready for deployment. A familiar example is rendering a Helm
-chart. A lot of the effort in the configration management aspects of Nephio are
-spent on making the hydration process scalable, collaborative, and managable in
+chart. A lot of the effort in the configuration management aspects of Nephio are
+spent on making the hydration process scalable, collaborative, and manageable in
 Day 2 and beyond, all of which are challenges with current techniques.
 
 Hydration may be *out-of-place*, where the source material (e.g., the Helm
@@ -161,7 +161,7 @@ This refers to a software component that runs in the Nephio management cluster,
 and could be considered a type of [controller](#controller). However, it
 specifically watches for `PackageRevision` resources in a Draft state, and
 checks for the [conditions](#conditions) on those resources. When it finds
-unsastisfied conditions of the type it handles, the injector will
+unsatisfied conditions of the type it handles, the injector will
 [mutate](#mutation) (modify) the Draft package by adding (or *injecting*) new or
 changed resources.
 
@@ -186,7 +186,7 @@ configuration based upon the target cluster.
 resource configurations, called kpt [packages](#package), using the
 [Configuration-as-Data](config-as-data) methodology.
 
-The `kpt` command line tool allows pulling, pushing, cloning and otherwise
+The `kpt` command-line tool allows pulling, pushing, cloning and otherwise
 managing packages stored in version control repositories (Git or OCI), as well
 as execution of [KRM functions](#krm-function) to perform consistent and
 repeatable modifications to package resources.
@@ -246,7 +246,7 @@ would be an operator.
 
 Speaking loosely, [controller](#controller) and operator are often used
 interchangeably, though an operator always refers to code managing CRs rather
-than Kuberenetes built-in types.
+than Kubernetes built-in types.
 
 See [CNFs and
 Operators](https://docs.google.com/document/d/1Le8TUgr0dXix7fvq7BqMSY3rgeEwaxW7mEf9G72itBI/edit?usp=sharing)
@@ -323,18 +323,18 @@ automated via the PackageVariant controller.
 The process of creating [variants](#variant), typically in an automated way.
 Variants could be created across different dimensions - for example, you could
 create a package per cluster. Alternatively, you may create a variant per
-envivornment - for example, development, staging, and production variants.
+environment - for example, development, staging, and production variants.
 
 Different methods may be warranted depending on the reason for your variants. In
 the ONE Summit 2022 Workshop, the PackageDeployment controller generated
 variants based upon the target clusters. The Porch PackageVariantSet allows more
-general-purpose generation of variants, based upon an explicity list, a label
+general-purpose generation of variants, based upon an explicitly list, a label
 selector on repositories, or an arbitrary object selector. As we develop Nephio,
 we may build new types of variant generators, and may even compose them (for
 example, to produce variants that are affected by both environment and cluster).
 
 ## WET
-This term, which we use as an acryonym for "Write Every Time", comes from [software
+This term, which we use as an acronym for "Write Every Time", comes from [software
 engineering](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself#WET), and is a somewhat pejorative term in contrast to [DRY](#dry). However, in the context of *configuration-as-data*, rather than *code*, the idea of storing the configuration as fully-formed data enables automation and the use of data-management techniques to manage the configuration at scale.
 
 *See also*: [DRY](#dry), [hydration](#hydration)

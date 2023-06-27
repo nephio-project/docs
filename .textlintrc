@@ -1,0 +1,11 @@
+{
+  "rules": {
+    "terminology": {
+      "defaultTerms": true,
+      // List of terms
+      "terms": [
+        ["repo\\b", "repository"]
+      ]
+    }
+  }
+}
