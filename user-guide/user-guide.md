@@ -90,7 +90,7 @@ Basic web UI to view and manage Package Variants and Package variant sets.
 ## Deployment model 
 For the purposes of Nephio deployment we can categorize clusters into two varieties
 
-Management cluster: This is where the majority of Nephio components are installed. It is dedicated to manage the deployment and life cycle management of network functions that will be deployed on workload clusters.
+Management cluster: This is where the majority of Nephio components are installed. It is dedicated to manage the deployment and lifecycle management of network functions that will be deployed on workload clusters.
 
 Workload cluster: This is where the actual network function workloads are deployed and running.
 
@@ -181,6 +181,6 @@ The diagram below depicts deployment at the high level.
 * sessions established
 * pods running
 * pings
-* End to end Call
+* End-to-end Call
 
 ## Troubleshooting and workarounds

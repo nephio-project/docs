@@ -7,7 +7,7 @@ This is a very early work-in-progress; right now it is just a starter page with
 links to other resources. In time we develop comprehensive documentation.
 
 ## Basic Resources
-* [Nephio Website](https://nephio.org)
+* [Nephio site](https://nephio.org)
 * [Nephio Wiki](https://wiki.nephio.org)
 * [Slack Workspace](https://nephio.slack.com)
 

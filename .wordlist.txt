@@ -135,7 +135,7 @@ HC
 hjn
 Howto
 href
-https
+HTTPS
 hyperv
 hyRuO
 img
@@ -217,7 +217,7 @@ PackageVariantSet
 parameterization
 PLiW
 pluralsight
-png
+PNG
 pocs
 Postgres
 pq
