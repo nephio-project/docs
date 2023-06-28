@@ -242,8 +242,8 @@ nephio-example-packages-dc0b55fb7a17d107e834417a2c9d8fb37f36d7cb   vlanindex    
 
 </details>
 
-<summary>To see the versions of a particular package:</summary>
 <details>
+<summary>To see the versions of a particular package:</summary>
 
 ```
 $ kpt alpha rpkg get --name nephio-workload-cluster

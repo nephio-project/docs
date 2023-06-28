@@ -16,15 +16,16 @@ in all of this that Nephio is about managing complex, inter-related workloads
 like Helm charts and scripts are sufficient. Similarly, if we want to deploy
 some infrastructure, then using existing Infrastructure-as-Code tools can
 accomplish that. Configuring running network functions can already be done today
-with element managers. So, why do we need Nephio? The problems Nephio wants to
-solve solve start only once we try to operate at scale. "Scale" here does not
-simply mean "large number of sites". It can be across many different dimensions:
-number of sites, number of services, number of workloads, size of the
-individual workloads, number of machines needed to operate the workloads,
-complexity of the organization running the workloads, and other factors. The
-fact that our infrastructure, workloads, and the workload configurations are all
-interconnected dramatically increases the difficulty in managing these
-architectures at scale.
+with element managers.
+
+So, why do we need Nephio? The problems Nephio wants to solve solve start only
+once we try to operate at scale. "Scale" here does not simply mean "large number
+of sites". It can be across many different dimensions: number of sites, number
+of services, number of workloads, size of the individual workloads, number of
+machines needed to operate the workloads, complexity of the organization running
+the workloads, and other factors. The fact that our infrastructure, workloads,
+and the workload configurations are all interconnected dramatically increases
+the difficulty in managing these architectures at scale.
 
 To address these challenges, Nephio follows a [few basic
 principles](https://cloud.google.com/blog/topics/telecommunications/network-automation-csps-linus-nephio-cloud-native)
