@@ -1,19 +1,6 @@
 # Nephio R1 Release Notes
 
 ## Overview
-Nephio is a Kubernetes-based intent-driven automation of network functions and the underlying infrastructure that supports those functions. It allows users to express high-level intent, and provides intelligent, declarative automation that can set up the cloud and edge infrastructure, render initial configurations for the network functions, and then deliver those configurations to the right clusters to get the network up and running.
-
-Technologies like distributed cloud enable on-demand, API-driven access to the edge. Unfortunately, existing brittle, imperative, fire-and-forget orchestration methods struggle to take full advantage of the dynamic capabilities of these new infrastructure platforms. To succeed at this, Nephio uses new approaches that can handle the complexity of provisioning and managing a multi-vendor, multi-site deployment of interconnected network functions across on-demand distributed cloud.
-
-The solution is intended to address the initial provisioning of the network functions and the underlying cloud infrastructure, and also provide Kubernetes-enabled reconciliation to ensure the network stays up through failures, scaling events, and changes to the distributed cloud. 
-
-Nephio leverages "configuration as data" principle and Kubernetes declarative, actively-reconciled methodology along with machine-manipulable configuration to tame the complexity of Network Functions deployment and life-cycle management..
-
-This release of Nephio focuses on:
-* Exhibiting the core Nephio principles such as Configuration as data and leveraging the intent driver, actively reconciled nature of kubernetes.
-*  Infrastructure orchestration/automation using controllers based on  cluster API. At this time only KIND cluster creation is supported.
-* Orchestration/automation of 5G core network functions deployment and management. This release focuses on network functions from free5gc. 
-
 ## Prerequisites
 
 Refer to install guide (link here) for the prerequisites on supported environments. 

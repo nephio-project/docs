@@ -1,54 +1,47 @@
-# Nephio Documentation
-This repository contains user-oriented documentation and tutorials. For
-developer documentation, see the
-[nephio](https://github.com/nephio-project/nephio) repository.
+# Nephio R1
 
-This is a very early work-in-progress; right now it is just a starter page with
-links to other resources. In time we develop comprehensive documentation.
+## Introduction
 
-## Basic Resources
-* [Nephio site](https://nephio.org)
-* [Nephio Wiki](https://wiki.nephio.org)
-* [Slack Workspace](https://nephio.slack.com)
+Welcome to the R1 release of Nephio.  Nephio’s mission is "to deliver carrier-grade, simple, open, Kubernetes-based cloud native intent automation and common automation templates that materially simplify the deployment and management of multi-vendor cloud infrastructure and network functions across large scale edge deployments." But what does that mean? With this release and the accompanying documentation, we hope to make that clear.
 
-## Blog Posts
-* [Linux Foundation Press Release](https://www.linuxfoundation.org/press/press-release/the-linux-foundation-and-google-cloud-launch-nephio-to-enable-and-simplify-cloud-native-automation-of-telecom-network-functions)
-* [Google Cloud Blog Post Announcement](https://cloud.google.com/blog/topics/telecommunications/automating-cloud-native-telecommunication-networks)
-* [Achieving cloud-native network automation at a global scale with Nephio](https://cloud.google.com/blog/topics/telecommunications/network-automation-csps-linus-nephio-cloud-native) outlines three basic principles Nephio follows:
-    * **Intent-driven**: Nephio uses Kubernetes Resource Model (KRM) for intent
-    * **Distributed actuation**: Nephio uses gitops and independent Kubernetes clusters at the edge
-    * **Uniformity in systems**: Nephio uses Kubernetes-based management for
-   infrastructure, functions, and function configuration ("Kubernetes Everywhere")
-* [On the road to public cloud 5G networks](https://nephio.org/on-the-road-to-public-cloud-5g-networks/) provides context and challenges for CSPs, function vendors, and cloud providers in bringing 5G networks to public cloud.
-* [Join us in evolving the usability of GitOps](https://cloud.google.com/blog/products/containers-kubernetes/lets-improve-gitops-usability) discusses some of the underlying configuration management techniques and technologies in Nephio.
+To do that, let's step back a little and consider the problem Nephio is trying to solve for a communications service provider (CSP). 
 
-## Tutorials and Workshops
-
-More tutorials are under discussion in
-[docs#1](https://github.com/nephio-project/docs/issues/1).
-
-* [ONE Summit 2022
-  Workshop](https://github.com/nephio-project/one-summit-22-workshop#one-summit-2022-nephio-workshop)
+**** Grab the blog here ****
 
 
-## Conference Talks
-* October 2021: ONE Summit 2021 Panel discussing the underlying problems Nephio is working to solve ([sched](https://sched.co/lSv3), [video](https://youtu.be/swuUElcR3x0)).
-* October 2021: ONE Summit 2021 talk *Living the Dream: Achieving Cloud Native Network Function Deployment at the Edge*, introducing the ideas behind Nephio ([sched](https://sched.co/lSux), [video](https://youtu.be/aZT17TU_M14)).
-* June 2022: Nephio First Developer Summit [playlist](https://www.youtube.com/playlist?list=PLiW9_IXAWtkurqeM-ZKIGXIORcYjsESac), but this is a very long video. Two parts that may be of particular interest from a technology background perspective:
-  * [How Config as Data Enables Automation](https://youtu.be/UHr3fBNr8BI?t=11185)
-  * [Nephio Reference Implementation](https://youtu.be/UHr3fBNr8BI?t=20664)
-* October 2022: KubeCon North America 2022 Detroit talk *Orchestrating Interconnected Apps Across Geographically Distributed Kubernetes Clusters* ([sched](https://sched.co/182H0), [video](https://youtu.be/ya1fUqAgvN8)).
-* November 2022: ONE Summit 2022 Nephio [playlist](https://www.youtube.com/playlist?list=PLiW9_IXAWtkuZDHYalEEjl0LdATSzf8Qd)
-* February 2023: Linux Foundation Networking - Developer and Testing Forum [Nephio Topics](https://wiki.lfnetworking.org/display/LN/2023-02+LFN+Developer+Event+Topics+February+13+-+16#id-202302LFNDeveloperEventTopicsFebruary1316-NephioTopics)
+Nephio is about managing complex, inter-related workloads at scale. That *scale* can be across many different dimensions: number of sites, number of developers, number of workloads, size of the individual workloads, complexity of the organization, and other factors.
 
-## Meetings
-* [TSC Meeting Playlist](https://www.youtube.com/playlist?list=PLiW9_IXAWtks6qhQyXAulDsJQI3W-GIXm)
-* [SIG Net Arch Meeting Playlist](https://www.youtube.com/playlist?list=PLiW9_IXAWtkvR-96MSlb6esigohA7zX9W)
-* [SIG Automation Meeting Playlist](https://www.youtube.com/playlist?list=PLiW9_IXAWtkv-2lONtj0pq2hyRuO8REcb)
-* [SIG Release Meeting playlist](https://www.youtube.com/playlist?list=PLiW9_IXAWtks9Ys4Zs6wPRNEuQYAnWcg1)
+To manage these challenges, Nephio follows a few basic principles
+Nephio is a Kubernetes-based intent-driven automation of network functions and the underlying infrastructure that supports those functions. It allows users to express high-level intent, and provides intelligent, declarative automation that can set up the cloud and edge infrastructure, render initial configurations for the network functions, and then deliver those configurations to the right clusters to get the network up and running.
 
-## Other Resources
-* The [glossary](glossary.md) defines common terminology used in the Nephio
-  project.
-* The [Nephio Learning Resources page](learning.md) lists some learning resources that are useful for the Nephio community
-* The [Abbreviation Decoder page](abbreviations.md) explains common abbreviations used in the project.
+### Why Now?
+
+Technologies like distributed cloud enable on-demand, API-driven access to the edge. Unfortunately, existing brittle, imperative, fire-and-forget orchestration methods struggle to take full advantage of the dynamic capabilities of these new infrastructure platforms. To succeed at this, Nephio uses new approaches that can handle the complexity of provisioning and managing a multi-vendor, multi-site deployment of interconnected network functions across on-demand distributed cloud.
+
+The solution is intended to address the initial provisioning of the network functions and the underlying cloud infrastructure, and also provide Kubernetes-enabled reconciliation to ensure the network stays up through failures, scaling events, and changes to the distributed cloud. 
+
+Nephio leverages "configuration as data" principle and Kubernetes declarative, actively-reconciled methodology along with machine-manipulable configuration to tame the complexity of Network Functions deployment and life-cycle management..
+
+This release of Nephio focuses on:
+* Exhibiting the core Nephio principles such as Configuration as data and leveraging the intent driver, actively reconciled nature of kubernetes.
+*  Infrastructure orchestration/automation using controllers based on  cluster API. At this time only KIND cluster creation is supported.
+* Orchestration/automation of 5G core network functions deployment and management. This release focuses on network functions from free5gc. 
+
+## How
+
+From the very high-level, an intent-based system only does two things:
+- Enables the user to specify their intent ("I want...")
+- Ensures that the intent is realized at all times ("Make it so, and keep it that way")
+
+To address "specifying intent", we need a language to unambigously describe our intent. In Nephio, we have chosen the Kubernetes Resource Model (KRM) as our basic language for specifying intent. KRM models everything as a "resource", and every resource has some basic properties like a name and user-defined labels. Additionally, most resources include two fields specifically to help with managing intent: `Spec` and `Status`. The spec (short for "specification") describes the intent for that resource, whereas the status is the last known state of the resource. It is the job of the system to reconcile the difference between the two ("make it so").
+
+## User Documentation
+* [Core Concepts](https://github.com/nephio-project/docs/blob/main/concepts.md)
+* [Demo Sandbox Environment Installation](https://github.com/nephio-project/docs/blob/main/install-guide/README.md)
+* [Quick Start Exercises](https://github.com/nephio-project/docs/blob/main/user-guide/README.md)
+* [User Guide](https://github.com/nephio-project/docs/blob/main/user-guide/README.md)
+
+## Other Documentation
+
+* [Developer Documentation](https://github.com/nephio-project/nephio)
+* [Project Resources](https://github.com/nephio-project/docs/blob/main/resources.md)
