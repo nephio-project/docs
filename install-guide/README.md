@@ -29,11 +29,10 @@
 * Management cluster setup
 * Workload cluster setup
 
-## Definition of successful installation 
+## Definition of successful installation
 * running clusters
 * running pods
 * How to validate
-
 
 ## Troubleshooting steps
 

@@ -1,54 +1,101 @@
-# Nephio Documentation
-This repository contains user-oriented documentation and tutorials. For
-developer documentation, see the
-[nephio](https://github.com/nephio-project/nephio) repository.
+# Nephio R1
 
-This is a very early work-in-progress; right now it is just a starter page with
-links to other resources. In time we develop comprehensive documentation.
+## Introduction
 
-## Basic Resources
-* [Nephio site](https://nephio.org)
-* [Nephio Wiki](https://wiki.nephio.org)
-* [Slack Workspace](https://nephio.slack.com)
+Welcome to the R1 release of Nephio.  Nephio’s mission is "to deliver carrier
+-grade, simple, open, Kubernetes-based cloud native intent automation and
+common automation templates that materially simplify the deployment and
+management of multi-vendor cloud infrastructure and network functions across
+large scale edge deployments." But what does that mean? With this release and
+the accompanying documentation, we hope to make that clear.
 
-## Blog Posts
-* [Linux Foundation Press Release](https://www.linuxfoundation.org/press/press-release/the-linux-foundation-and-google-cloud-launch-nephio-to-enable-and-simplify-cloud-native-automation-of-telecom-network-functions)
-* [Google Cloud Blog Post Announcement](https://cloud.google.com/blog/topics/telecommunications/automating-cloud-native-telecommunication-networks)
-* [Achieving cloud-native network automation at a global scale with Nephio](https://cloud.google.com/blog/topics/telecommunications/network-automation-csps-linus-nephio-cloud-native) outlines three basic principles Nephio follows:
-    * **Intent-driven**: Nephio uses Kubernetes Resource Model (KRM) for intent
-    * **Distributed actuation**: Nephio uses gitops and independent Kubernetes clusters at the edge
-    * **Uniformity in systems**: Nephio uses Kubernetes-based management for
-   infrastructure, functions, and function configuration ("Kubernetes Everywhere")
-* [On the road to public cloud 5G networks](https://nephio.org/on-the-road-to-public-cloud-5g-networks/) provides context and challenges for CSPs, function vendors, and cloud providers in bringing 5G networks to public cloud.
-* [Join us in evolving the usability of GitOps](https://cloud.google.com/blog/products/containers-kubernetes/lets-improve-gitops-usability) discusses some of the underlying configuration management techniques and technologies in Nephio.
+The mission outlines the basic goals, and the [About Nephio page](https://nephio.org/about/)
+describes the high-level architecture of Nephio. It is important to understand
+in all of this that Nephio is about managing complex, inter-related workloads
+*at scale*. If we simply want to deploy a network function, existing methods
+like Helm charts and scripts are sufficient. Similarly, if we want to deploy
+some infrastructure, then using existing Infrastructure-as-Code tools can
+accomplish that. Configuring running network functions can already be done today
+with element managers. So, why do we need Nephio? The problems Nephio wants to
+solve solve start only once we try to operate at scale. "Scale" here does not
+simply mean "large number of sites". It can be across many different dimensions:
+number of sites, number of services, number of workloads, size of the
+individual workloads, number of machines needed to operate the workloads,
+complexity of the organization running the workloads, and other factors. The
+fact that our infrastructure, workloads, and the workload configurations are all
+interconnected dramatically increases the difficulty in managing these
+architectures at scale.
 
-## Tutorials and Workshops
+To address these challenges, Nephio follows a [few basic
+principles](https://cloud.google.com/blog/topics/telecommunications/network-automation-csps-linus-nephio-cloud-native)
+that experience has shown enable higher scaling with less management overhead:
+- *Intent-driven* to enable the user to specify "what they want" and let the
+  system figure out "how to make that happen".
+- *Distributed actuation* to increase reliability across widely distributed
+  fleets.
+- *Uniformity in systems* to reduce redundant tooling and processes, and
+  simplify operations.
 
-More tutorials are under discussion in
-[docs#1](https://github.com/nephio-project/docs/issues/1).
+Additionally, Nephio leverages the "configuration as data" principle. This
+methodology means that the "intent" is captured in a machine-manageable format
+that we can treat as data, rather than code. In Nephio, we use the Kubernetes
+Resource Model (KRM) to capture intent. As Kubernetes itself is already an
+intent-driven system, this model is well suited to our needs.
 
-* [ONE Summit 2022
-  Workshop](https://github.com/nephio-project/one-summit-22-workshop#one-summit-2022-nephio-workshop)
+To understand why we need to treat configuration as data, let's consider an
+example. In a given instance, a network function may have, say, 100 parameters
+that need to be decided upon. When we have 100 such network functions, across
+10,000 clusters, this results in 100,000,000 inputs we need to define and
+manage. Handling that sheer number of values, with interdependencies and a need
+for consistency management between them, requires *data management* techniques,
+not *code* management techniques. This is why existing methodologies begin to
+break down at scale, particular edge-level scale.
 
+Consider as well that no single human will understand all of those values. Those
+values relate not only to workloads, but to the infrastructure we need to
+support those workloads. These are different areas of expertise, and different
+organizational boundaries of control. For example, you will need input from
+network planning (IP address, VLAN tags, ASNs, etc.), you will need input from
+compute infrastructure teams (types of hardware or VMs available, OS available),
+Kubernetes platform teams, security teams, network function experts, and many,
+many other individuals and teams. Each of those teams will have their own
+systems for tracking the values they control, and processes for allocating and
+distributing those values. This coordination between teams is a fundamental
+*organizational* problem with operating at scale. The existing tools and methods
+do not even attempt to address these parts of the problem; they *start* once all
+of the "input" decisions are made.
 
-## Conference Talks
-* October 2021: ONE Summit 2021 Panel discussing the underlying problems Nephio is working to solve ([sched](https://sched.co/lSv3), [video](https://youtu.be/swuUElcR3x0)).
-* October 2021: ONE Summit 2021 talk *Living the Dream: Achieving Cloud Native Network Function Deployment at the Edge*, introducing the ideas behind Nephio ([sched](https://sched.co/lSux), [video](https://youtu.be/aZT17TU_M14)).
-* June 2022: Nephio First Developer Summit [playlist](https://www.youtube.com/playlist?list=PLiW9_IXAWtkurqeM-ZKIGXIORcYjsESac), but this is a very long video. Two parts that may be of particular interest from a technology background perspective:
-  * [How Config as Data Enables Automation](https://youtu.be/UHr3fBNr8BI?t=11185)
-  * [Nephio Reference Implementation](https://youtu.be/UHr3fBNr8BI?t=20664)
-* October 2022: KubeCon North America 2022 Detroit talk *Orchestrating Interconnected Apps Across Geographically Distributed Kubernetes Clusters* ([sched](https://sched.co/182H0), [video](https://youtu.be/ya1fUqAgvN8)).
-* November 2022: ONE Summit 2022 Nephio [playlist](https://www.youtube.com/playlist?list=PLiW9_IXAWtkuZDHYalEEjl0LdATSzf8Qd)
-* February 2023: Linux Foundation Networking - Developer and Testing Forum [Nephio Topics](https://wiki.lfnetworking.org/display/LN/2023-02+LFN+Developer+Event+Topics+February+13+-+16#id-202302LFNDeveloperEventTopicsFebruary1316-NephioTopics)
+The Nephio project believes the organizational challenge around figuring out
+these values is actually one of the primary limiting factors to achieving
+efficient management of large, complex systems at scale. This gets even harder
+when we realize we need to manage changes to these values over time, and
+understand how changes to some values implies the need to change other values.
+This challenge is currently left to ad hoc processes that differ across
+organizations. Nephio is working on how to structure the intent to make it
+manageable using data management techniques.
 
-## Meetings
-* [TSC Meeting Playlist](https://www.youtube.com/playlist?list=PLiW9_IXAWtks6qhQyXAulDsJQI3W-GIXm)
-* [SIG Net Arch Meeting Playlist](https://www.youtube.com/playlist?list=PLiW9_IXAWtkvR-96MSlb6esigohA7zX9W)
-* [SIG Automation Meeting Playlist](https://www.youtube.com/playlist?list=PLiW9_IXAWtkv-2lONtj0pq2hyRuO8REcb)
-* [SIG Release Meeting playlist](https://www.youtube.com/playlist?list=PLiW9_IXAWtks9Ys4Zs6wPRNEuQYAnWcg1)
+This release of Nephio focuses:
+- Demonstrating the core Nephio principles such as Configuration-as-Data and
+  leveraging the intent-driven, actively-reconciled nature of Kubernetes.
+- Infrastructure orchestration/automation using controllers based on
+  Cluster API. At this time only KIND cluster creation is supported.
+- Orchestration/automation of 5G core network functions deployment and
+  management. This release focuses on network functions from
+  [free5gc](https://free5gc.org/).
 
-## Other Resources
-* The [glossary](glossary.md) defines common terminology used in the Nephio
-  project.
-* The [Nephio Learning Resources page](learning.md) lists some learning resources that are useful for the Nephio community
-* The [Abbreviation Decoder page](abbreviations.md) explains common abbreviations used in the project.
+While the current release uses Cluster API, KIND, and free5gc for demonstration
+purposes, the exact same principles and even code can be used for managing other
+infrastructure and network functions. The *uniformity in systems* principle
+means that as long as something is managable via the Kubernetes Resource Model,
+it is manageable via Nephio.
+
+## User Documentation
+* [Core Concepts](https://github.com/nephio-project/docs/blob/main/user-guide/concepts.md)
+* [Demo Sandbox Environment Installation](https://github.com/nephio-project/docs/blob/main/install-guide/README.md)
+* [Quick Start Exercises](https://github.com/nephio-project/docs/blob/main/user-guide/exercises.md)
+* [User Guide](https://github.com/nephio-project/docs/blob/main/user-guide/README.md)
+
+## Other Documentation
+
+* [Developer Documentation](https://github.com/nephio-project/nephio)
+* [Project Resources](https://github.com/nephio-project/docs/blob/main/resources.md)

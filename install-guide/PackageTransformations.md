@@ -19,22 +19,27 @@ Before reading this, please read [the kpt book](https://kpt.dev/book/).
 
 ## kpt pkg get
 
-The `kpt pkg get --for-deployment https://<repo-path>/<repo-pkg-name>@<repo-pkg-name>/<pkg-version> <local-pkg-name>` command downloads a kpt package from a repository.
+The `kpt pkg get --for-deployment
+https://<repo-path>/<repo-pkg-name>@<repo-pkg-name>/<pkg-version>
+<local-pkg-name>` command downloads a kpt package from a repository.
 
 The fields in the command above are as follows:
 
-| Field            | Description                                                                |
-| ---------------- | -------------------------------------------------------------------------- |
-| `repo-path`      | The path in the repo to the kpt package                                    |
-| `repo-pkg-name`  | The name of the kpt package in the repo                                    |
-| `pkg-version`    | The version of the kpt package                                             |
-| `local-pkg-name` | The local name of the kpt package in the repo, defaults to `repo-pkg-name` |
+| Field            | Description                                                                      |
+| ---------------- | -------------------------------------------------------------------------------- |
+| `repo-path`      | The path in the repository to the kpt package                                    |
+| `repo-pkg-name`  | The name of the kpt package in the repository                                    |
+| `pkg-version`    | The version of the kpt package                                                   |
+| `local-pkg-name` | The local name of the kpt package in the repository, defaults to `repo-pkg-name` |
 
 `kpt pkg get` make the following transformations:
 
-1. The `metadata.name` field in the root `Kptfile` in the package is changed from whatever value it has to `local-pkg-name`
-2. The `metadata.namespace` field in the root `Kptfile` in the package is removed
-3. `upstream` and `upstreamlock` root fields are added to the root `Kptfile` as follows:
+1. The `metadata.name` field in the root `Kptfile` in the package is changed
+   from whatever value it has to `local-pkg-name`
+2. The `metadata.namespace` field in the root `Kptfile` in the package is
+   removed
+3. `upstream` and `upstreamlock` root fields are added to the root `Kptfile` as
+   follows:
 
 ```
 upstream:
@@ -52,8 +57,10 @@ upstreamLock:
     ref: <pkg-version>
     commit: 0123456789abcdef0123456789abcdef01234567
 ```
-4. The `data.name` field in the root  `package-context.yaml` files is changed to be `local-pkg-name`
-5. The `package-context.yaml` file is added if it does not exist with the following content:
+4. The `data.name` field in the root  `package-context.yaml` files is changed to
+   be `local-pkg-name`
+5. The `package-context.yaml` file is added if it does not exist with the
+   following content:
 
 ```
 apiVersion: v1
@@ -66,9 +73,16 @@ data:
   name: <local-pkg-name|sub-pkg-name>
 ```
 
-6. The `data.name` field in `package-context.yaml` files in sub kpt packages is changed to be the name of the sub package
+6. The `data.name` field in `package-context.yaml` files in sub kpt packages is
+   changed to be the name of the sub package
 7. All other sub-fields under the `data:` field are deleted
-8. The comment `metadata: # kpt-merge: <namespace>/<name>` is added to root `metadata` fields on all yaml documents in the kpt package and enclosed sub-packages that have a root `apiVersion` and `kind` field if such a comment does not already exist. The `namespace` and `name` values used are the values of those fields in the `metadata` field. Note that a yaml file can contain multiple yaml documents and each root `metadata` field is commented. For example:
+8. The comment `metadata: # kpt-merge: <namespace>/<name>` is added to root
+   `metadata` fields on all yaml documents in the kpt package and enclosed
+   sub-packages that have a root `apiVersion` and `kind` field if such a comment
+   does not already exist. The `namespace` and `name` values used are the values
+   of those fields in the `metadata` field. Note that a yaml file can contain
+   multiple yaml documents and each root `metadata` field is commented. For
+   example:
 
 ```
 metadata: # kpt-merge: cert-manager/cert-manager-cainjector
@@ -76,7 +90,14 @@ metadata: # kpt-merge: cert-manager/cert-manager-cainjector
   namespace: cert-manager
 ```
 
-9. The annotation `internal.kpt.dev/upstream-identifier: '<apiVersion>|<kind>|<namespace>|<name>'` is added to root `metadata.annotations:` fields on all yaml documents in the kpt package and enclosed sub-packages that have a root `apiVersion:` and `kind:` field if such an annotation does not already exist. The `namespace` and `name` values used are the values of those fields in the `metadata` field. Note that a yaml file can contain multiple yaml documents and each root `metadata` field is commented. For example:
+9. The annotation `internal.kpt.dev/upstream-identifier:
+   '<apiVersion>|<kind>|<namespace>|<name>'` is added to root
+   `metadata.annotations:` fields on all yaml documents in the kpt package and
+   enclosed sub-packages that have a root `apiVersion:` and `kind:` field if
+   such an annotation does not already exist. The `namespace` and `name` values
+   used are the values of those fields in the `metadata` field. Note that a yaml
+   file can contain multiple yaml documents and each root `metadata` field is
+   commented. For example:
 
 ```
 metadata: # kpt-merge: cert-manager/cert-manager-cainjector
@@ -91,13 +112,18 @@ metadata: # kpt-merge: capi-kubeadm/leader-election-rolebinding
 
 ## kpt fn render
 
-The `kpt fn render <local-pkg-name>` runs kpt functions on a local package, thus applying local changes to the package.
+The `kpt fn render <local-pkg-name>` runs kpt functions on a local package, thus
+applying local changes to the package.
 
-In the Nephio sandbox install, kpt fn render only acts on the `repository` and `rootsync` kpt packages from [nephio-example-packages](https://github.com/nephio-project/nephio-example-packages).
+In the Nephio sandbox install, kpt fn render only acts on the `repository` and
+`rootsync` kpt packages from
+[nephio-example-packages](https://github.com/nephio-project/nephio-example-packages).
 
 ### repository package
 
-The `repository` package has a kpt function written in [starlark](https://github.com/bazelbuild/starlark), which is invoked by a pipeline specified in the `kptfile`.
+The `repository` package has a kpt function written in
+[starlark](https://github.com/bazelbuild/starlark), which is invoked by a
+pipeline specified in the `kptfile`.
 
 ```
 pipeline:
@@ -106,37 +132,49 @@ pipeline:
     configPath: set-values.yaml
 ```
 
-The starlark function is specified in the `set-values.yaml` file. It makes the following transformations on repositories:
+The starlark function is specified in the `set-values.yaml` file. It makes the
+following transformations on repositories:
 
 1. in the file `repo-gitea.yaml`
   - the `metadata.name` field gets the value of `<local-pkg-name>`
   - the `spec.description` field gets the value of `<local-pkg-name> repository`
 2. in the file `repo-porch.yaml`
   - the `metadata.name` field gets the value of `<local-pkg-name>`
-  - the `spec.git.repo` field gets the value of `"http://172.18.0.200:3000/nephio/<local-pkg-name>.git`
-  - the `spec.git.secretRef.name` field gets the value of `<local-pkg-name>-access-token-porch`
-  - if the `<local-pkg-name>` is called `mgmt-staging`, then the following extra changes are made:
+  - the `spec.git.repo` field gets the value of
+    `"http://172.18.0.200:3000/nephio/<local-pkg-name>.git`
+  - the `spec.git.secretRef.name` field gets the value of
+    `<local-pkg-name>-access-token-porch`
+  - if the `<local-pkg-name>` is called `mgmt-staging`, then the following extra
+    changes are made:
     - the `spec.deployment` field is set to `false` (it defaults to `true`)
     - the annotation `metadata.annotations.nephio.org/staging: "true"` is added
 
 3. in the file `token-configsync.yaml`
-  - the `metadata.name` field gets the value of `<local-pkg-name>-access-token-configsync`
+  - the `metadata.name` field gets the value of
+    `<local-pkg-name>-access-token-configsync`
   - the `metadata.namespace` field gets the value of `config-management-system`
 4. in the file `token-porch.yaml`
-  - the `metadata.name` field gets the value of `<local-pkg-name>-access-token-porch`
+  - the `metadata.name` field gets the value of
+    `<local-pkg-name>-access-token-porch`
 
 ### rootsync package
 
-The `rootsync` package also has a kpt function written in [starlark](https://github.com/bazelbuild/starlark) specified in the `set-values.yaml` file. It makes the following transformations on repositories:
+The `rootsync` package also has a kpt function written in
+[starlark](https://github.com/bazelbuild/starlark) specified in the
+`set-values.yaml` file. It makes the following transformations on repositories:
 
 1. in the file `rootsync.yaml`
   - the `metadata.name` field gets the value of `<local-pkg-name>`
-  - the `spec.git.repo` field gets the value of `"http://172.18.0.200:3000/nephio/<local-pkg-name>.git`
-  - the `spec.git.secretRef.name` field gets the value of `<local-pkg-name>-access-token-configsync`
-  
+  - the `spec.git.repo` field gets the value of
+    `"http://172.18.0.200:3000/nephio/<local-pkg-name>.git`
+  - the `spec.git.secretRef.name` field gets the value of
+    `<local-pkg-name>-access-token-configsync`
+
 ## kpt live init
 
-The `kpt live init <local-pkg-name>` initializes a local package, making it ready for application to a cluster. This command creates a `resourcegroup.yaml` in the kpt package with content similar to:
+The `kpt live init <local-pkg-name>` initializes a local package, making it
+ready for application to a cluster. This command creates a `resourcegroup.yaml`
+in the kpt package with content similar to:
 
 ```
 apiVersion: kpt.dev/v1alpha1
@@ -149,7 +187,9 @@ metadata:
 ```
 # kpt alpha rpkg for workload clusters
 
-The `kpt alpha rpkg` suite of commands that act on `Repository` resources on the kubernetes cluster in scope. The packages in the `Repository` resources are *remote packages (rpkg)*.
+The `kpt alpha rpkg` suite of commands that act on `Repository` resources on the
+kubernetes cluster in scope. The packages in the `Repository` resources are
+*remote packages (rpkg)*.
 
 To see what repositories are in scope:
 
@@ -202,8 +242,8 @@ nephio-example-packages-dc0b55fb7a17d107e834417a2c9d8fb37f36d7cb   vlanindex    
 
 </details>
 
-<details>
 <summary>To see the versions of a particular package:</summary>
+<details>
 
 ```
 $ kpt alpha rpkg get --name nephio-workload-cluster
@@ -221,31 +261,52 @@ nephio-example-packages-7895e28d847c0296a204007ed577cd2a4222d1ea   nephio-worklo
 
 </details>
 
-## Create workload cluster package 
+## Create workload cluster package
 
-The workload cluster package contains `PackageVariant` files for configuring the new cluster. 
+The workload cluster package contains `PackageVariant` files for configuring the
+new cluster.
 
-Clone the `nephio-workload-cluster` package into the `mgmt` repo. This creates the blueprint package for the workload cluster in the management repo.
+Clone the `nephio-workload-cluster` package into the `mgmt` repository. This
+creates the blueprint package for the workload cluster in the management
+repository.
 
 ```
 kpt alpha rpkg clone -n default nephio-example-packages-7895e28d847c0296a204007ed577cd2a4222d1ea --repository mgmt regional
 ```
 
 During the clone operation, the command above performs the following operations:
-1. It creates a `drafts/regional/v1` branch on the `mgmt` repo
-2. It does the equivalent of a [kpt pkg get](#kpt-pkg-get) on the `nephio-workload-cluster` package into a directory called `regional` on that branch, with the same transformations on package files carried out as the [kpt pkg get](#kpt-pkg-get) command above, this content is checked into the new branch in the initial commit
-3. The pipeline specified in the `Kptfile`of the `nephio-workload-cluster` package specifies an `apply-replacements` specified in the `apply-replacements.yaml` file in the package and uses the value of the `package-context.yaml:data.name` field set in 2. above (which is the workload cluster name) as follows:
-  <br><br>
-  a. In all `PackageVariant` files, the `metadata.name` and `spec.downstream.package` field before the '-' is replaced with that field value. In this way, the downstream package names for all the packages to be pulled from the `mgmt-staging` repo for the workload cluster are specified.
-  <br>b. In all `PackageVariant` files, the `spec.injectors.WorkloadCluster.name` field is replaced with the workload cluster name. This gives us the handle for `packageVariant` injection for the workload cluster in question.
-  <br>c. In all `PackageVariant` files, the `spec.pipeline.mutators.[image=gcr.io/kpt-fn/set-annotations:v0.1.4].configMap.[nephio.org/cluster-name]` field is replaced with the workload cluster name.
-  <br>d. In all `WorkloadCluster` files, the `metadata.name` and `spec.clusterName` fields are replaced with the workload cluster name.
+1. It creates a `drafts/regional/v1` branch on the `mgmt` repository
+2. It does the equivalent of a [kpt pkg get](#kpt-pkg-get) on the
+   `nephio-workload-cluster` package into a directory called `regional` on that
+   branch, with the same transformations on package files carried out as the
+   [kpt pkg get](#kpt-pkg-get) command above, this content is checked into the
+   new branch in the initial commit
+3. The pipeline specified in the `Kptfile`of the `nephio-workload-cluster`
+   package specifies an `apply-replacements` specified in the
+   `apply-replacements.yaml` file in the package and uses the value of the
+   `package-context.yaml:data.name` field set in 2. above (which is the workload
+   cluster name) as follows:
+   - In all `PackageVariant` files, the `metadata.name` and
+     `spec.downstream.package` field before the '-' is replaced with that field
+     value. In this way, the downstream package names for all the packages to be
+     pulled from the `mgmt-staging` reposistory for the workload cluster are
+     specified.
+   - In all `PackageVariant` files, the `spec.injectors.WorkloadCluster.name`
+     field is replaced with the workload cluster name. This gives us the handle
+     for `packageVariant` injection for the workload cluster in question.
+   - In all `PackageVariant` files, the
+     `spec.pipeline.mutators.[image=gcr.io/kpt-fn/set-annotations:v0.1.4].configMap.[nephio.org/cluster-name]`
+     field is replaced with the workload cluster name.
+   - In all `WorkloadCluster` files, the `metadata.name` and `spec.clusterName`
+     fields are replaced with the workload cluster name.
 
-We now have a draft blueprint package for our workload cluster ready for further configuration.
+We now have a draft blueprint package for our workload cluster ready for further
+configuration.
 
 ## Configure the package
 
-We follow the instructions in the [installation README file](https://github.com/nephio-project/test-infra/tree/main/e2e/provision).
+We follow the instructions in the [installation README
+file](https://github.com/nephio-project/test-infra/tree/main/e2e/provision).
 
 1. Get the name of the package:
 
@@ -274,11 +335,11 @@ labels:
   nephio.org/site-type: regional
 ```
 
-5. Push the updated package back to the draft branch on the repo:
+5. Push the updated package back to the draft branch on the repository:
 
 ```
 kpt alpha rpkg push -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 regional
-[RUNNING] "gcr.io/kpt-fn/apply-replacements:v0.1.1" 
+[RUNNING] "gcr.io/kpt-fn/apply-replacements:v0.1.1"
 [PASS] "gcr.io/kpt-fn/apply-replacements:v0.1.1"
 ```
 
@@ -291,27 +352,34 @@ kpt alpha rpkg propose -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868
 mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 proposed
 ```
 
-Proposing the package changes the name of the `drafts/regional/v1` to `proposed/regional/v1`. There are no changes to the content of the branch.
+Proposing the package changes the name of the `drafts/regional/v1` to
+`proposed/regional/v1`. There are no changes to the content of the branch.
 
 ## Approve the package and trigger configsync
 
-Approving the package triggers `configsync`, which triggers creation of the new workload cluster using all the `PackageVariant` components specified in the `nephio-workload-cluster` kpt package.
+Approving the package triggers `configsync`, which triggers creation of the new
+workload cluster using all the `PackageVariant` components specified in the
+`nephio-workload-cluster` kpt package.
 
 ```
 kpt alpha rpkg approve -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868
 mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 approved
 ```
+
 The new cluster comes up after a number of minutes.
 
 # Transformations in workload cluster creation
 
-Approving the `regional` workload cluster package in the `mgmt` repo triggered configsync to apply the `PackageVariant` configurations in the `mgmt/regional` package. Let's examine those `PackageVariant` configurations one by one
+Approving the `regional` workload cluster package in the `mgmt` repository
+triggered configsync to apply the `PackageVariant` configurations in the
+`mgmt/regional` package. Let's examine those `PackageVariant` configurations one
+by one.
 
 ## pv-cluster.yaml: create the workload cluster
 
 ## pv-rootsync.yaml:
 
-## pv-repo.yaml: create the workload cluster repo
+## pv-repo.yaml: create the workload cluster repository
 
 
 ## pv-configsync.yaml:
@@ -322,7 +390,6 @@ Approving the `regional` workload cluster package in the `mgmt` repo triggered c
 ## pv-local-path-provisioner.yaml:
 
 ## pv-multus.yaml:
-
 
 ## pv-vlanindex.yaml:
 
