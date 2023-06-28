@@ -1,10 +1,7 @@
-# Nephio Documentation
+# Additional Resources
 This repository contains user-oriented documentation and tutorials. For
 developer documentation, see the
 [nephio](https://github.com/nephio-project/nephio) repository.
-
-This is a very early work-in-progress; right now it is just a starter page with
-links to other resources. In time we develop comprehensive documentation.
 
 ## Basic Resources
 * [Nephio site](https://nephio.org)
@@ -40,6 +37,7 @@ More tutorials are under discussion in
 * October 2022: KubeCon North America 2022 Detroit talk *Orchestrating Interconnected Apps Across Geographically Distributed Kubernetes Clusters* ([sched](https://sched.co/182H0), [video](https://youtu.be/ya1fUqAgvN8)).
 * November 2022: ONE Summit 2022 Nephio [playlist](https://www.youtube.com/playlist?list=PLiW9_IXAWtkuZDHYalEEjl0LdATSzf8Qd)
 * February 2023: Linux Foundation Networking - Developer and Testing Forum [Nephio Topics](https://wiki.lfnetworking.org/display/LN/2023-02+LFN+Developer+Event+Topics+February+13+-+16#id-202302LFNDeveloperEventTopicsFebruary1316-NephioTopics)
+* April 2023: KubeCon Europe 2023 Amsterdam talk *Collaboratively Building App Manifests at Scale in Complex Organizations* ([sched](https://sched.co/1HydY), [video](https://youtu.be/Ms9gSuC8I6E)).
 
 ## Meetings
 * [TSC Meeting Playlist](https://www.youtube.com/playlist?list=PLiW9_IXAWtks6qhQyXAulDsJQI3W-GIXm)
