@@ -2,43 +2,97 @@
 
 ## Introduction
 
-Welcome to the R1 release of Nephio.  Nephio’s mission is "to deliver carrier-grade, simple, open, Kubernetes-based cloud native intent automation and common automation templates that materially simplify the deployment and management of multi-vendor cloud infrastructure and network functions across large scale edge deployments." But what does that mean? With this release and the accompanying documentation, we hope to make that clear.
+Welcome to the R1 release of Nephio.  Nephio’s mission is "to deliver carrier
+-grade, simple, open, Kubernetes-based cloud native intent automation and
+common automation templates that materially simplify the deployment and
+management of multi-vendor cloud infrastructure and network functions across
+large scale edge deployments." But what does that mean? With this release and
+the accompanying documentation, we hope to make that clear.
 
-To do that, let's step back a little and consider the problem Nephio is trying to solve for a communications service provider (CSP). 
+The mission outlines the basic goals, and the [About Nephio page](https://nephio.org/about/)
+describes the high-level architecture of Nephio. It is important to understand
+in all of this that Nephio is about managing complex, inter-related workloads
+*at scale*. If we simply want to deploy a network function, existing methods
+like Helm charts and scripts are sufficient. Similarly, if we want to deploy
+some infrastructure, then using existing Infrastructure-as-Code tools can
+accomplish that. Configuring running network functions can already be done today
+with element managers. So, why do we need Nephio? The problems Nephio wants to
+solve solve start only once we try to operate at scale. "Scale" here does not
+simply mean "large number of sites". It can be across many different dimensions:
+number of sites, number of services, number of workloads, size of the
+individual workloads, number of machines needed to operate the workloads,
+complexity of the organization running the workloads, and other factors. The
+fact that our infrastructure, workloads, and the workload configurations are all
+interconnected dramatically increases the difficulty in managing these
+architectures at scale.
 
-**** Grab the blog here ****
+To address these challenges, Nephio follows a [few basic
+principles](https://cloud.google.com/blog/topics/telecommunications/network-automation-csps-linus-nephio-cloud-native)
+that experience has shown enable higher scaling with less management overhead:
+- *Intent-driven* to enable the user to specify "what they want" and let the
+  system figure out "how to make that happen".
+- *Distributed actuation* to increase reliability across widely distributed
+  fleets.
+- *Uniformity in systems* to reduce redundant tooling and processes, and
+  simplify operations.
 
+Additionally, Nephio leverages the "configuration as data" principle. This
+methodology means that the "intent" is captured in a machine-manageable format
+that we can treat as data, rather than code. In Nephio, we use the Kubernetes
+Resource Model (KRM) to capture intent. As Kubernetes itself is already an
+intent-driven system, this model is well suited to our needs.
 
-Nephio is about managing complex, inter-related workloads at scale. That *scale* can be across many different dimensions: number of sites, number of developers, number of workloads, size of the individual workloads, complexity of the organization, and other factors.
+To understand why we need to treat configuration as data, let's consider an
+example. In a given instance, a network function may have, say, 100 parameters
+that need to be decided upon. When we have 100 such network functions, across
+10,000 clusters, this results in 100,000,000 inputs we need to define and
+manage. Handling that sheer number of values, with interdependencies and a need
+for consistency management between them, requires *data management* techniques,
+not *code* management techniques. This is why existing methodologies begin to
+break down at scale, particular edge-level scale.
 
-To manage these challenges, Nephio follows a few basic principles
-Nephio is a Kubernetes-based intent-driven automation of network functions and the underlying infrastructure that supports those functions. It allows users to express high-level intent, and provides intelligent, declarative automation that can set up the cloud and edge infrastructure, render initial configurations for the network functions, and then deliver those configurations to the right clusters to get the network up and running.
+Consider as well that no single human will understand all of those values. Those
+values relate not only to workloads, but to the infrastructure we need to
+support those workloads. These are different areas of expertise, and different
+organizational boundaries of control. For example, you will need input from
+network planning (IP address, VLAN tags, ASNs, etc.), you will need input from
+compute infrastructure teams (types of hardware or VMs available, OS available),
+Kubernetes platform teams, security teams, network function experts, and many,
+many other individuals and teams. Each of those teams will have their own
+systems for tracking the values they control, and processes for allocating and
+distributing those values. This coordination between teams is a fundamental
+*organizational* problem with operating at scale. The existing tools and methods
+do not even attempt to address these parts of the problem; they *start* once all
+of the "input" decisions are made.
 
-### Why Now?
+The Nephio project believes the organizational challenge around figuring out
+these values is actually one of the primary limiting factors to achieving
+efficient management of large, complex systems at scale. This gets even harder
+when we realize we need to manage changes to these values over time, and
+understand how changes to some values implies the need to change other values.
+This challenge is currently left to ad hoc processes that differ across
+organizations. Nephio is working on how to structure the intent to make it
+manageable using data management techniques.
 
-Technologies like distributed cloud enable on-demand, API-driven access to the edge. Unfortunately, existing brittle, imperative, fire-and-forget orchestration methods struggle to take full advantage of the dynamic capabilities of these new infrastructure platforms. To succeed at this, Nephio uses new approaches that can handle the complexity of provisioning and managing a multi-vendor, multi-site deployment of interconnected network functions across on-demand distributed cloud.
+This release of Nephio focuses:
+- Demonstrating the core Nephio principles such as Configuration-as-Data and
+  leveraging the intent-driven, actively-reconciled nature of Kubernetes.
+- Infrastructure orchestration/automation using controllers based on
+  Cluster API. At this time only KIND cluster creation is supported.
+- Orchestration/automation of 5G core network functions deployment and
+  management. This release focuses on network functions from
+  [free5gc](https://free5gc.org/).
 
-The solution is intended to address the initial provisioning of the network functions and the underlying cloud infrastructure, and also provide Kubernetes-enabled reconciliation to ensure the network stays up through failures, scaling events, and changes to the distributed cloud. 
-
-Nephio leverages "configuration as data" principle and Kubernetes declarative, actively-reconciled methodology along with machine-manipulable configuration to tame the complexity of Network Functions deployment and life-cycle management..
-
-This release of Nephio focuses on:
-* Exhibiting the core Nephio principles such as Configuration as data and leveraging the intent driver, actively reconciled nature of kubernetes.
-*  Infrastructure orchestration/automation using controllers based on  cluster API. At this time only KIND cluster creation is supported.
-* Orchestration/automation of 5G core network functions deployment and management. This release focuses on network functions from free5gc. 
-
-## How
-
-From the very high-level, an intent-based system only does two things:
-- Enables the user to specify their intent ("I want...")
-- Ensures that the intent is realized at all times ("Make it so, and keep it that way")
-
-To address "specifying intent", we need a language to unambigously describe our intent. In Nephio, we have chosen the Kubernetes Resource Model (KRM) as our basic language for specifying intent. KRM models everything as a "resource", and every resource has some basic properties like a name and user-defined labels. Additionally, most resources include two fields specifically to help with managing intent: `Spec` and `Status`. The spec (short for "specification") describes the intent for that resource, whereas the status is the last known state of the resource. It is the job of the system to reconcile the difference between the two ("make it so").
+While the current release uses Cluster API, KIND, and free5gc for demonstration
+purposes, the exact same principles and even code can be used for managing other
+infrastructure and network functions. The *uniformity in systems* principle
+means that as long as something is managable via the Kubernetes Resource Model,
+it is manageable via Nephio.
 
 ## User Documentation
-* [Core Concepts](https://github.com/nephio-project/docs/blob/main/concepts.md)
+* [Core Concepts](https://github.com/nephio-project/docs/blob/main/user-guide/concepts.md)
 * [Demo Sandbox Environment Installation](https://github.com/nephio-project/docs/blob/main/install-guide/README.md)
-* [Quick Start Exercises](https://github.com/nephio-project/docs/blob/main/user-guide/README.md)
+* [Quick Start Exercises](https://github.com/nephio-project/docs/blob/main/user-guide/exercises.md)
 * [User Guide](https://github.com/nephio-project/docs/blob/main/user-guide/README.md)
 
 ## Other Documentation
