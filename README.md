@@ -2,16 +2,15 @@
 
 ## Introduction
 
-Welcome to the R1 release of Nephio.  Nephio’s mission is "to deliver carrier
+Welcome to the R1 release of Nephio.  Our mission is "to deliver carrier
 -grade, simple, open, Kubernetes-based cloud native intent automation and
 common automation templates that materially simplify the deployment and
 management of multi-vendor cloud infrastructure and network functions across
 large scale edge deployments." But what does that mean? With this release and
 the accompanying documentation, we hope to make that clear.
 
-The mission outlines the basic goals, and the [About Nephio page](https://nephio.org/about/)
-describes the high-level architecture of Nephio. It is important to understand
-in all of this that Nephio is about managing complex, inter-related workloads
+The mission outlines the basic goals and the [About Nephio page](https://nephio.org/about/)
+describes the high-level architecture of Nephio. It is important to understand that Nephio is about managing complex, inter-related workloads
 *at scale*. If we simply want to deploy a network function, existing methods
 like Helm charts and scripts are sufficient. Similarly, if we want to deploy
 some infrastructure, then using existing Infrastructure-as-Code tools can
