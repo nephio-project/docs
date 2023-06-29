@@ -60,7 +60,8 @@ gcloud compute ssh ubuntu@nephio-r1-e2e -- \
 
 ## Installing on a pre-provisioned VM
 
-This install has been verified on VMs running on Openstack, AWS, and Azure. 
+This install has been verified on VMs running on vSphere, Openstack, AWS, and
+Azure.
 
 ### VM Prerequisites
 
