@@ -3,15 +3,14 @@
 ## Reconcilers
 
 [Reconcilers](https://kubebyexample.com/learning-paths/operator-framework/operator-sdk-go/controller-reconcile-function)
-are used by Kubernetes to enforce the desired state of a CR.
+are used by Kubernetes to enforce the desired state of a Custom Resource (CR).
 
 ## The Nephio Reconciler Interface
 
-The nephio controller supports multiple reconcilers and allows reconcilers to be
-plugged in. To plug into the Nephio controller, a reconciler implements the
+The Nephio Controller supports multiple reconcilers and allows pluggable reconcilers. To plug into the Nephio controller, a reconciler implements the
 [nephio reconciler
 interface](https://github.com/nephio-project/nephio/tree/main/controllers/pkg/reconcilers/reconciler-interface).
-Reconcilers register with the nephio reconciler interface when they start up.
+Reconcilers register with the Nephio reconciler interface when they start up.
 
 The reconcilers below are currently supported in the nephio controller:
 
@@ -30,14 +29,14 @@ The reconcilers below are currently supported in the nephio controller:
 ## Enabling Reconcilers
 
 To enable a particular reconciler, you pass an environment variable to the
-nephio controller at startup. The environment variable is of the form
+Nephio Controller at startup. The environment variable is of the form
 `ENABLE-<RECONCILER>` where `<RECONCILER>` is the name of the reconciler to
-enable in upper case. Therefore, to enable the `bootstrap-packages` reconciler,
-pass the `ENABLE_BOOTSTRAPPACKAGES` to the nephio controller. reconcilers are
+be enabled in upper case. Therefore, to enable the `bootstrap-packages` reconciler,
+pass the `ENABLE_BOOTSTRAPPACKAGES` to the nephio controller. Reconcilers are
 disabled by default.
 
 <details>
-<summary>You can see what reconcilers are enabled on the nephio controller using
+<summary>You can see what reconcilers are enabled on the Nephio Controller using
 `kubectl`.</summary>
 
 ```
@@ -69,8 +68,8 @@ Containers:
 </details>
 
 To check that the reconcilers are actually deployed, you can examine the logs
-from the nephio controller. The log rolls over so you may need to redeploy the
-nephio controller to see what reconcilers are being deployed.
+from the Nephio Controller. The log rolls over so you may need to redeploy the
+Nephio Controller to see what reconcilers are being deployed.
 
 ```
  $ kubectl rollout restart deployment nephio-controller -n nephio-system
