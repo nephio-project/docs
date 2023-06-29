@@ -397,12 +397,19 @@ packagevariant.config.porch.kpt.dev/network created
 </details>
 
 The pre-defined PackageVariant package defines certain resources that exist for the entire topology.
-However, we will also need to configure the resource backend for our particular
+However, we also need to configure the resource backend for our particular
 topology. This will likely be automated in the future, but for now you can
 just directly apply the configuration we have created that matches this test
-topology.
+topology. Within this step also the credentials and information is provided
+to configure the network device, that aligns with the topology.
 
 ```bash
+kubectl apply -f test-infra/e2e/tests/003-secret.yaml
+
+export LEAF_IP=$(docker inspect net-free5gc-net-leaf -f '{{.NetworkSettings.Networks.kind.IPAddress}}')
+
+envsubst <"test-infra/e2e/tests/003-network-topo.tmpl" >"test-infra/e2e/tests/003-network-topo.yaml"
+
 kubectl apply -f test-infra/e2e/tests/003-network-topo.yaml
 ```
 
