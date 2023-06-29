@@ -1,33 +1,33 @@
 Exploring the Nephio Sandbox
 ============================
 
-You've installed the Nephio sandbox on your VM
-[using the installation instructions](https://github.com/nephio-project/test-infra/blob/main/e2e/provision/README.md). The installation has done a really good job of installing a pretty complex software stack without any fuss. Let's take a look around.
+You have installed the Nephio sandbox on your VM
+[using the installation instructions](https://github.com/nephio-project/test-infra/blob/main/e2e/provision/README.md). The installation has done a good job of installing a complex software stack without any fuss. Let's take a look around.
 
-![Software installed by the Nephio Sandbox installation](ExploreSandbox-diagrams/ManagementCluster.png)
+![Software Installed by the Nephio Sandbox Installation](ExploreSandbox-diagrams/ManagementCluster.png)
 
-# Components installed on the VM itself
+# Components Installed on the VM Itself
 
-The following components are installed on the VM itself. These components are installed directly on the VM by the ansible install scripts.
+The following components are installed on the VM itself. These components are installed directly on the VM by the Ansible install scripts.
 
 | Component | Purpose                                                                                  |
 | --------- | ---------------------------------------------------------------------------------------- |
-| docker    | Docker is used to host kubernetes clusters created by kind                               |
+| docker    | Uused to host Kubernetes clusters created by KinD                                        |
 | kind      | Used to create clusters in docker                                                        |
-| kubectl   | Used to control clusters created by kind                                                 |
+| kubectl   | Used to control clusters created by KinD                                                 |
 | kpt       | Used to install packages (software and metadata) on k8s clusters                         |
-| cni       | Used to implement the k8s network model for the kind clusters                            |
-| gtp5g     | A linux module that supports the 3GPP GPRS tunneling protocol (required by free5gc NFs)  |
+| cni       | Used to implement the k8s network model for the KinD clusters                            |
+| gtp5g     | A Linux module that supports the 3GPP GPRS tunneling protocol (required by free5gc NFs)  |
 
-The ansible install scripts use kind to create the management cluster. Once the kind cluster is created, the install uses kpt packages to install the remainder of the software.
+The Ansible install scripts use kind to create the Management cluster. Once the Management KinD cluster is created, the install uses kpt packages to install the remainder of the software.
 
-# Components installed on the kind management cluster
+# Components Installed on the Management KinD cluster
 
-Everything is installed on the management kind cluster by ansible scripts using kpt packages.
+Everything is installed on the Management KinD cluster by Ansible scripts using kpt packages.
 
-The install unpacks each kpt package in the */tmp* directory. It then applies kpt functions to the packages, and applies the packages to the kind management cluster. This is important because we can check the status of the kpt packages in the cluster using the *kpt live status* command on the unpacked packages in the */tmp* directory.
+The install unpacks each kpt package in the */tmp* directory. It then applies the kpt functions to the packages and applies the packages to the Management KinD cluster. This allows the user to check the status of the kpt packages in the cluster using the *kpt live status* command on the unpacked packages in the */tmp* directory.
 
-The rendered kpt packages containing components are unpacked in the */tmp/kpt-pkg* directory. The rendered kpt packages that create the *mgmt* and *mgmt-staging* repos are unpacked in the */tmp/repository* directory and the rendered kpt package containing the rootsync configuration for the *mgmt* repository is unpacked in the */tmp/rootsync* directory. You can examine the contents of any rendered kpt packager by examining the contents of these directories.
+The rendered kpt packages containing components are unpacked in the */tmp/kpt-pkg* directory. The rendered kpt packages that create the *mgmt* and *mgmt-staging* repositories are unpacked in the */tmp/repository* directory. The rendered kpt package containing the rootsync configuration for the *mgmt* repository is unpacked in the */tmp/rootsync* directory. You can examine the contents of any rendered kpt packager by examining the contents of these directories.
 
 ```
 /tmp/kpt-pkg/                           /tmp/repository     /tmp/rootsync/
@@ -90,31 +90,31 @@ inventory-38069595/namespace//nephio-system is Current: Resource is current
 
 ## Base Components
 
-The following base components are installed on the kind management cluster. Base components are the infrastructure components that are needed for the Nephio sandbox, which Nephio uses out of the box. In real-world installations, alternative components that provide the same functionality may be used.
+The following base components are installed on the Management cluster. Base components are the infrastructure components that are needed for the Nephio sandbox, which Nephio uses out of the box. In real world installations, alternative components that provide the same functionality may be used.
 
 | Component    | Purpose                                                            |
 | ------------ | -------------------------------------------------------------------|
-| Metal LB     | Load balances requests to the cluster                              |
+| Metal LB     | Used to load balances requests to the cluster                      |
 | Cert Manager | Used for certificate management                                    |
 | Gitea        | Used to allow creation and management of local git repos by Nephio |
 | Postgres     | Used by Gitea to store repositories                                |
-| Cluster CAPI | Used deploy kind workload clusters                                 |
+| Cluster CAPI | Used deploy Workload clusters                                 |
 | IPAM         | A reference backend system to allocate and manage IP addresses     |
 | VLAN         | A reference backend system used to allocate and manage VLANs       |
 
 ## Specific Components
 
-The following specific components are installed on the kind management cluster. Specific components are Nephio components and components from
+The following specific components are installed on the Management cluster. The specific components are Nephio components and components from
 [Google Container Tools](https://github.com/GoogleContainerTools) that Nephio uses heavily and interacts closely with.
 
-| Component          | Purpose                                                                                                                                                           |
-| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Porch              | Google Container Tools Package Orchestration Server, provides an API that is used by Nephio to work with packages in git repos                                    |
-| Configsync         | Google Container Tools configuration synchronization, used by Nephio to deploy configurations from repos on the management cluster out to workload clusters       |
-| Nephio Controllers | The Nephio controllers, which implement the Nephio functionality to fetch, manipulate, and deploy NFs                                                             |
-| Nephio WebUI       | The Nephio web client                                                                                                                                             |
+| Component          | Purpose                                                                                                                                                      |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Porch              | Google Container Tools Package Orchestration Server, provides an API used by Nephio to work with packages in git repos                                       |
+| Configsync         | Google Container Tools Configuration Synchronization, used by Nephio to deploy configurations from repos from the Management cluster onto Workload clusters  |
+| Nephio Controllers | The Nephio controllers, which implement the Nephio functionality to fetch, manipulate, and deploy NFs                                                        |
+| Nephio WebUI       | The Nephio web client                                                                                                                                        |
 
-# Some useful commands
+# Some Useful Commands
 
 <details>
 <summary>Easily get the kubeconfig for a CAPI KinD cluster:</summary>
@@ -123,13 +123,13 @@ The following specific components are installed on the kind management cluster. 
 get_capi_kubeconfig regional
 ```
 
-will create a file `regional-kubeconfig` that you can use to connect to that
+will create a file `regional-kubeconfig` used to connect to that
 cluster.
 
 </details>
 
 <details>
-<summary>You can query docker to see the docker images running kind
+<summary>You can query docker to see the docker images running KinD
 clusters:</summary>
 
 ```bash
@@ -145,7 +145,7 @@ CONTAINER ID   IMAGE                  COMMAND                  CREATED      STAT
 </details>
 
 <details>
-<summary>Querying kind clusters running after the install produces output similar to:</summary>
+<summary>Querying running KinD clusters after the install produces output similar to:</summary>
 
 ```bash
 kind get clusters
