@@ -17,7 +17,7 @@
 
 ## Introduction
 
-This Installation guide will set up and run a Nephio demonstration
+This Installation Guide will set up and run a Nephio demonstration
 environment. This environment is a single VM that will be used in the exercises
 to simulate a topology with a Nephio Management cluster, a Regional Workload
 cluster, and two Edge Workload clusters.
