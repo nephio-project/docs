@@ -17,17 +17,17 @@
 
 ## Introduction
 
-This installation guide will get you up and running with a Nephio demonstration
+This Installation guide will set up and run a Nephio demonstration
 environment. This environment is a single VM that will be used in the exercises
-to simulate a topology with a Nephio management cluster, a regional workload
-cluster, and two edge workload clusters.
+to simulate a topology with a Nephio Management cluster, a Regional Workload
+cluster, and two Edge Workload clusters.
 
 
 ## Installing on GCE
 
 ### GCE Prerequisites
 
-You need a account in GCP and `gcloud` available on your local environment.
+You will need a account in GCP and `gcloud` installed on your local environment.
 
 ### Create a Virtual Machine on GCE
 
@@ -40,7 +40,7 @@ gcloud compute instances create --machine-type e2-standard-8 \
                                     nephio-r1-e2e
 ```
 
-### Follow installation on GCE
+### Follow the installation on GCE
 
 If you want to watch the progress of the installation, give it about 30
 seconds to reach a network accessible state, and then ssh in and tail the
@@ -72,9 +72,9 @@ Order or create a VM with the following specification:
 - 8 cores
 - 32 GB memory
 - 200 GB disk size
-- default user with sudo passwordless permissions
+- Default user with sudo passwordless permissions
 
-**Configure a route for Kubernetes**
+**Configure a Route for Kubernetes**
 
 In some installations, the IP range used by Kubernetes in the sandbox can clash with the
 IP address used by your VPN. In such cases, the VM will become unreachable during the
@@ -98,7 +98,7 @@ EOF'
 sudo netplan apply
 ```
 
-### Kick off installation on VM
+### Kick Off an Installation on VM
 
 Log onto your VM and run the following command:
 
@@ -120,7 +120,7 @@ The following environment variables can be used to configure the installation:
 | RUN_E2E                | false or true    | false         | Specifies whether end to end tests should be executed or not |
 | NEPHIO_REPO            | URL              | https://github.com/nephio-project/test-infra.git |URL of the repository to be used for installation |
 
-### Follow installation on VM
+### Follow the Installation on VM
 
 Monitor the installation on your terminal.
 
@@ -128,8 +128,8 @@ Log onto your VM using ssh on another terminal and use commands *docker* and *ku
 
 ## Access to the User Interfaces
 
-Once it's done, ssh in and port forward the port to the UI (7007) and to
-Gitea's HTTP interface, if you want to have that (3000):
+Once it is completed, ssh in and port forward the port to the UI (7007) and to
+Gitea's HTTP interface, if desired (3000):
 
 Googlers (you also need to run `gcert`):
 
@@ -164,9 +164,9 @@ You can now navigate to:
 browse the Nephio Web UI
 - [http://localhost:3000/nephio](http://localhost:3000/nephio) to browse the Gitea UI
 
-## Open terminal
+## Open Terminal
 
-You probably want a second ssh window open to run `kubectl` commands, etc.,
+You will probably want a second ssh window open to run `kubectl` commands, etc.,
 without the port forwarding (which would fail if you try to open a second ssh
 connection with that setting).
 
