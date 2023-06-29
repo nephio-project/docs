@@ -283,21 +283,21 @@ The diagram below depicts deployment at the high level.
 * Topology Controller
 
 ## Management Cluster Details
-* role
+* Role
 * Infrastructure components (Porch, ConfigSync)
 * Components
 * Specializes
 * Injectors
-* controllers
-* controller manager
+* Controllers
+* Controller Manager
 * IPAM and VLAN Backend
-* choreography
+* Choreography
 * Web UI
 
 ## Workload Cluster Details
 * Infrastructure components (ConfigSync)
 * Operators
-* controllers
+* Controllers
 
 ## Instantiation of Clusters using Nephio
 * Using Web UI
@@ -306,25 +306,25 @@ The diagram below depicts deployment at the high level.
 ## Core free5gc Deployment
 * CRDs
 * Packages
-* deployment methods (CLI, UI)
-* SMF/UPF/AMF deployment
+* Deployment Methods (CLI, UI)
+* SMF/UPF/AMF Deployment
 
 ## Deployment of Other Free5gc NFs
 * deployment
 * Packages
-* limitations
-* manual procedure needed
+* Limitations
+* Manual Procedure Needed
 
 ## Validation of Free5gc Deployment
-* sessions established
-* pods running
-* pings
-* End-to-end Call
+* Sessions Established
+* Pods Running
+* Pings
+* End-to-End Call
 
 ## Troubleshooting and Workarounds
 
 On the demo VM, the `test-infra/e2e/provision/hacks` directory contains some
-workaround scripts. Also see the Release Notes [known
+workaround scripts. Also, please see the Release Notes [known
 issues](https://github.com/nephio-project/docs/tree/main/release-notes#known-issues-and-workarounds).
 
 ## Next Steps
