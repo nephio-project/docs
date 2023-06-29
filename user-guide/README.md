@@ -4,7 +4,7 @@
 
 Nephio is a Kubernetes-based intent-driven automation of network functions and
 the underlying infrastructure that supports those functions. It allows users to
-express high-level intent, and provides intelligent, declarative automation that
+express high-level intent, provides intelligent, declarative automation that
 can set up the cloud and edge infrastructure, renders initial configurations for
 the network functions, and then delivers those configurations to the right
 clusters to get the network up and running.
@@ -35,23 +35,23 @@ Nephio breaks down the larger problem into two primary areas:
 Utilizing Kubernetes as the automation control plane at each layer of the stack
 simplifies the overall automation and enables declarative management with active
 reconciliation for the entire stack. We can broadly think of three layers in the
-stack, as shown
+stack, as shown below.
 * Cloud infrastructure
 * Workload (network function) resources
-* Workload (network function) configuration.
+* Workload (network function) configuration
 Nephio is establishing open, extensible Kubernetes Custom Resource Definition
 (CRD) models for each layer of the stack, in conformance to the 3GPP & O-RAN
 standards.
 
 ![nephio-overview.png](nephio-overview.png)
 
-## Overview of underlying technologies
+## Overview of Underlying Technologies
 
 ### Custom Resources and Controllers
 
 A Custom Resource Definition (CRD) is an extension mechanism for adding custom
 data types to Kubernetes. The CRDs are the schemas - analogous to table
-definitions in a relational database for example. The instances of those -
+definitions in a relational database, for example. The instances of those -
 analogous to rows in a RDBMS - are called Custom Resources or CRs. People often
 accidentally say "CRDs" when they mean "CRs", so be sure to ask for
 clarification if the context doesn't make it clear which is meant.
@@ -226,7 +226,7 @@ Basic web UI to view and manage Package Variants and Package variant sets.
 
 ## Deployment model
 
-For the purposes of Nephio deployment we can categorize clusters into two varieties:
+For the purposes of Nephio deployment, we can categorize clusters into two varieties:
 - Management cluster: This is where the majority of Nephio components are
   installed. It is dedicated to manage the deployment and lifecycle management
   of network functions that will be deployed on workload clusters.
@@ -237,13 +237,13 @@ The diagram below depicts deployment at the high level.
 
 ![nephio-deployment.png](nephio-deployment.png)
 
-### Management cluster components
+### Management Cluster Components
 
 #### Infrastructure Components
 * Porch
 * ConfigSync
 
-#### Nephio controllers
+#### Nephio Controllers
 * Nephio Controller Operator
 * Vlan and IPAM Controller
 * Cluster API Infrastructure controller
@@ -255,7 +255,7 @@ The diagram below depicts deployment at the high level.
 * NAD - NetworkAttachmentDefinition
 * DNN - DataNetwork
 
-#### UI components
+#### UI Components
 * Nephio Web UI
 
 #### CRDs
@@ -263,12 +263,12 @@ The diagram below depicts deployment at the high level.
  * SMF
  * AMF
 
-### Workload cluster components
+### Workload Cluster Components
 
 #### Infrastructure Components
 * ConfigSync
 
-#### Nephio controllers
+#### Nephio Controllers
 * Watcher agent
 
 #### Workloads
@@ -277,12 +277,12 @@ The diagram below depicts deployment at the high level.
 
 ## General Workflow
 
-## NB interfaces
+## NB Interfaces
 * CRDs
 * PVS
 * Topology Controller
 
-## Management cluster details
+## Management Cluster Details
 * role
 * Infrastructure components (Porch, ConfigSync)
 * Components
@@ -294,34 +294,34 @@ The diagram below depicts deployment at the high level.
 * choreography
 * Web UI
 
-## Workload cluster details
+## Workload Cluster Details
 * Infrastructure components (ConfigSync)
 * Operators
 * controllers
 
-## Instantiation of clusters using Nephio
+## Instantiation of Clusters using Nephio
 * Using Web UI
 * Using CLI
 
-## Core free5gc deployment
+## Core free5gc Deployment
 * CRDs
 * Packages
 * deployment methods (CLI, UI)
 * SMF/UPF/AMF deployment
 
-## Deployment of other Free5gc NFs
+## Deployment of Other Free5gc NFs
 * deployment
 * Packages
 * limitations
 * manual procedure needed
 
-## Validation of Free5gc deployment
+## Validation of Free5gc Deployment
 * sessions established
 * pods running
 * pings
 * End-to-end Call
 
-## Troubleshooting and workarounds
+## Troubleshooting and Workarounds
 
 On the demo VM, the `test-infra/e2e/provision/hacks` directory contains some
 workaround scripts. Also see the Release Notes [known
