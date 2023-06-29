@@ -376,7 +376,7 @@ by one.
 
 In the text below, let's assume we are creating a workload cluster called `lambda`.
 
-## pv-cluster.yaml: create the workload cluster
+## pv-cluster.yaml: creates the Workload cluster
 
 In the text below, let's assume we are creating a workload cluster called `lambda`.
 
