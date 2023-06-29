@@ -710,6 +710,10 @@ be able to reach the other sites.
 
 ## Step 9: Changing the Capacities of the UPF and SMF NFs
 
+In this step, you will change the capacity requirements for the UPF and SMF, and
+see how the operator reconfigures the Kubernetes resources used by the network
+functions.
+
 ## Footnotes
 [^capikubeconfig]: The install process sets up a shortcut for this. You can get
     retrieve a cluster's kubeconfig with `get_capi_kubeconfig <clustername>`.
