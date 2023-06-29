@@ -45,7 +45,6 @@ standards.
 
 ![nephio-overview.png](nephio-overview.png)
 
-
 ## Overview of underlying technologies
 
 ### Custom Resources and Controllers
@@ -196,6 +195,8 @@ propagated via controlled automation down the tree.
 ### API
 
 CRDs provided for UPF, SMF and AMF 5g core services
+Specialization CRDs provided for integrating with IP address and VLAN allocation
+backends.
 
 ### Web UI
 
