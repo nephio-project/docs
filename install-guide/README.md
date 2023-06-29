@@ -13,6 +13,7 @@
   - [Follow installation on VM](#follow-installation-on-vm)
 - [Access to the User Interfaces](#access-to-the-user-interfaces)
 - [Open terminal](#open-terminal)
+- [Next Steps](#next-steps)
 
 ## Introduction
 
@@ -185,3 +186,9 @@ Others on VMs:
 ```bash
 ssh <user>@<vm-address>
 ```
+
+## Next Steps
+
+* Step through the [exercises](https://github.com/nephio-project/docs/blob/main/user-guide/exercises.md)
+* Learn more about the [Nephio demo sandbox](https://github.com/nephio-project/docs/blob/main/install-guide/explore-sandbox.md)
+* Dig into the [user guide](https://github.com/nephio-project/docs/blob/main/user-guide/README.md)

@@ -249,7 +249,6 @@ The diagram below depicts deployment at the high level.
 * Cluster API Infrastructure controller
 * Status Aggregator
 
-
 #### Specializers and Injectors (KRM Functions)
 * VLAN
 * IPAM
@@ -323,3 +322,14 @@ The diagram below depicts deployment at the high level.
 * End-to-end Call
 
 ## Troubleshooting and workarounds
+
+On the demo VM, the `test-infra/e2e/provision/hacks` directory contains some
+workaround scripts. Also see the Release Notes [known
+issues](https://github.com/nephio-project/docs/tree/main/release-notes#known-issues-and-workarounds).
+
+## Next Steps
+
+* Learn more about the Nephio
+  [controllers](https://github.com/nephio-project/docs/blob/main/user-guide/controllers.md)
+* Learn more about the how packages are
+  [transformed](https://github.com/nephio-project/docs/blob/main/install-guide/package-transformations.md)

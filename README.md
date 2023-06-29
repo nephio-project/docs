@@ -91,6 +91,7 @@ means that as long as something is managable via the Kubernetes Resource Model,
 it is manageable via Nephio.
 
 ## User Documentation
+* [Release Notes](https://github.com/nephio-project/docs/blob/main/release-notes/README.md)
 * [Demo Sandbox Environment Installation](https://github.com/nephio-project/docs/blob/main/install-guide/README.md)
 * [Quick Start Exercises](https://github.com/nephio-project/docs/blob/main/user-guide/exercises.md)
 * [User Guide](https://github.com/nephio-project/docs/blob/main/user-guide/README.md)

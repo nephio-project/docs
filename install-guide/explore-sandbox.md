@@ -117,12 +117,28 @@ The following specific components are installed on the kind management cluster. 
 # Some useful commands
 
 <details>
-<summary>
-You can query docker to see the docker images running kind clusters:
-</summary>
+<summary>Easily get the kubeconfig for a CAPI KinD cluster:</summary>
+
+```bash
+get_capi_kubeconfig regional
+```
+
+will create a file `regional-kubeconfig` that you can use to connect to that
+cluster.
+
+</details>
+
+<details>
+<summary>You can query docker to see the docker images running kind
+clusters:</summary>
+
+```bash
+docker ps
+```
+
+The output is similar to:
 
 ```console
-$ docker ps
 CONTAINER ID   IMAGE                  COMMAND                  CREATED      STATUS      PORTS                       NAMES
 350b4a7e29f8   kindest/node:v1.27.1   "/usr/local/bin/entr…"   4 days ago   Up 4 days   127.0.0.1:44695->6443/tcp   kind-control-plane
 ```
@@ -131,8 +147,13 @@ CONTAINER ID   IMAGE                  COMMAND                  CREATED      STAT
 <details>
 <summary>Querying kind clusters running after the install produces output similar to:</summary>
 
+```bash
+kind get clusters
 ```
-$ kind get clusters
+
+The output is similar to:
+
+```console
 kind
 ```
 </details>
@@ -140,8 +161,13 @@ kind
 <details>
 <summary>Querying the k8s pods running after the install produces output similar to:</summary>
 
+```bash
+kubectl get pods -A --field-selector=metadata.namespace!=kube-system
 ```
-$ kubectl get pods -A --field-selector=metadata.namespace!=kube-system
+
+The output is similar to:
+
+```console
 NAMESPACE                           NAME                                                            READY   STATUS    RESTARTS       AGE
 backend-system                      resource-backend-controller-6c7cc59945-sv59w                    2/2     Running   6 (105m ago)   41h
 capd-system                         capd-controller-manager-c479754b7-dwmps                         1/1     Running   6 (105m ago)   41h
@@ -175,8 +201,31 @@ resource-group-system               resource-group-controller-manager-6c9d56d88-
 <details>
 <summary>Querying the repositories that exist after the install produces output similar to:</summary>
 
+```bash
+kubectl get repositories
 ```
-$ kubectl get repositories
+
+The output is similar to:
+
+```console
+NAME                      TYPE   CONTENT   DEPLOYMENT   READY   ADDRESS
+free5gc-packages          git    Package   false        True    https://github.com/nephio-project/free5gc-packages.git
+mgmt                      git    Package   true         True    http://172.18.0.200:3000/nephio/mgmt.git
+mgmt-staging              git    Package   false        True    http://172.18.0.200:3000/nephio/mgmt-staging.git
+nephio-example-packages   git    Package   false        True    https://github.com/nephio-project/nephio-example-packages.git
+```
+</details>
+
+<details>
+<summary>exist after the install produces output similar to:</summary>
+
+```
+kubectl get repositories
+```
+
+The output is similar to:
+
+```console
 NAME                      TYPE   CONTENT   DEPLOYMENT   READY   ADDRESS
 free5gc-packages          git    Package   false        True    https://github.com/nephio-project/free5gc-packages.git
 mgmt                      git    Package   true         True    http://172.18.0.200:3000/nephio/mgmt.git
