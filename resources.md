@@ -4,20 +4,20 @@ developer documentation, see the
 [nephio](https://github.com/nephio-project/nephio) repository.
 
 ## Basic Resources
-* [Nephio site](https://nephio.org)
+* [Nephio Website](https://nephio.org)
 * [Nephio Wiki](https://wiki.nephio.org)
 * [Slack Workspace](https://nephio.slack.com)
 
 ## Blog Posts
 * [Linux Foundation Press Release](https://www.linuxfoundation.org/press/press-release/the-linux-foundation-and-google-cloud-launch-nephio-to-enable-and-simplify-cloud-native-automation-of-telecom-network-functions)
 * [Google Cloud Blog Post Announcement](https://cloud.google.com/blog/topics/telecommunications/automating-cloud-native-telecommunication-networks)
-* [Achieving cloud-native network automation at a global scale with Nephio](https://cloud.google.com/blog/topics/telecommunications/network-automation-csps-linus-nephio-cloud-native) outlines three basic principles Nephio follows:
+* [Achieving Cloud-Native Network Automation At A Global Scale With Nephio](https://cloud.google.com/blog/topics/telecommunications/network-automation-csps-linus-nephio-cloud-native) outlines three basic principles Nephio follows:
     * **Intent-driven**: Nephio uses Kubernetes Resource Model (KRM) for intent
     * **Distributed actuation**: Nephio uses gitops and independent Kubernetes clusters at the edge
     * **Uniformity in systems**: Nephio uses Kubernetes-based management for
    infrastructure, functions, and function configuration ("Kubernetes Everywhere")
-* [On the road to public cloud 5G networks](https://nephio.org/on-the-road-to-public-cloud-5g-networks/) provides context and challenges for CSPs, function vendors, and cloud providers in bringing 5G networks to public cloud.
-* [Join us in evolving the usability of GitOps](https://cloud.google.com/blog/products/containers-kubernetes/lets-improve-gitops-usability) discusses some of the underlying configuration management techniques and technologies in Nephio.
+* [On The Toad To Public Cloud 5G Networks](https://nephio.org/on-the-road-to-public-cloud-5g-networks/) provides context and challenges for CSPs, function vendors, and cloud providers in bringing 5G networks to public cloud.
+* [Join Us In Evolving The Usability Of GitOps](https://cloud.google.com/blog/products/containers-kubernetes/lets-improve-gitops-usability) discusses some of the underlying configuration management techniques and technologies in Nephio.
 
 ## Tutorials and Workshops
 
@@ -46,7 +46,7 @@ More tutorials are under discussion in
 * [SIG Release Meeting playlist](https://www.youtube.com/playlist?list=PLiW9_IXAWtks9Ys4Zs6wPRNEuQYAnWcg1)
 
 ## Other Resources
-* The [glossary](glossary.md) defines common terminology used in the Nephio
+* The [Glossary](glossary.md) defines common terminology used in the Nephio
   project.
 * The [Nephio Learning Resources page](learning.md) lists some learning resources that are useful for the Nephio community
 * The [Abbreviation Decoder page](abbreviations.md) explains common abbreviations used in the project.
