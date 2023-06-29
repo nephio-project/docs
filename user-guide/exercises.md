@@ -3,12 +3,12 @@
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [Create regional cluster](#step-1-create-regional-cluster)
-- [Check Regional cluster installation](#step-2-check-regional-cluster-installation)
-- [Deploy two edge clusters](#step-3-deploy-two-edge-clusters)
+- [Create the Regional cluster](#step-1-create-regional-cluster)
+- [Check the Regional cluster installation](#step-2-check-regional-cluster-installation)
+- [Deploy two Edge clusters](#step-3-deploy-two-edge-clusters)
 - [Deploy Free5GC control plane functions](#step-4-deploy-free5Gc-control-plane-functions)
-- [Deploy Free5GC operator in the workload clusters](#step-5-deploy-free5GC-operator-in-the-workload-clusters)
-- [Check Free5GC operator deployment](#step-6-check-free5GC-operator-deployment)
+- [Deploy Free5GC Pperator in the Workload clusters](#step-5-deploy-free5GC-operator-in-the-workload-clusters)
+- [Check Free5GC Operator deployment](#step-6-check-free5GC-operator-deployment)
 - [Deploy AMF, SMF and UPF](#step-7-deploy-amf-smf-and-upf)
 
 ## Introduction
@@ -17,44 +17,44 @@ Be sure you have followed the [installation
 guide](https://github.com/nephio-project/docs/blob/main/install-guide/README.md)
 before trying these exercises.
 
-These exercises will take you from a system with only the Nephio management
-cluster set up, to a deployment with:
-- A regional cluster
-- Two edge clusters
+These exercises will take you from a system with only the Nephio Management
+cluster setup to a deployment with:
+- A Regional cluster
+- Two Edge clusters
 - Repositories for each cluster, registered with Nephio, and with Config Sync
   set up to pull from those repositories.
 - Inter-cluster networking between those clusters
 - A complete free5gc deployment including:
-  - AUSF, NRF, NSSF, PCF, UDM, UDR running on the regional cluster and
+  - AUSF, NRF, NSSF, PCF, UDM, UDR running on the Regional cluster and
     communicating via the Kubernetes default network
-  - SMF, AMF running on the regional cluster, and attached to the secondary
+  - SMF, AMF running on the Regional cluster and attached to the secondary
     Multus networks as needed
-  - UPF running on the edge clusters, and attached to the secondary Multus
+  - UPF running on the Edge clusters and attached to the secondary Multus
     networks as needed
   - The free5gc WebUI and MongoDB as supporting services
 - A registered subscriber in the free5gc core
-- UERANSIM running on the edge01 cluster and simulating a gNB and the subscriber
+- UERANSIM running on the edge01 cluster and simulating a gNB and the subscriber's
   UE
 
-Additionally, you use Nephio to change the capacity requirement for a UPF and an
-SMF, and see how the free5gc operator translates that into increased memory and
+Additionally, you can use Nephio to change the capacity requirement for the UPF and
+SMF NFs and see how the free5gc operator translates that into increased memory and
 CPU requirements for the underlying workload.
 
 To perform these exercises, you will need:
-- Access to the demo VM environment you installed; you should login as the
+- Access to the installed demo VM environment and can login as the
   `ubuntu` user to have access to the necessary files.
-- Access to the Nephio UI, as described in the installation guide
+- Access to the Nephio UI as described in the installation guide
 
-Access to Gitea, which we use in the demo environment as our Git provider, is
+Access to Gitea, used in the demo environment as the Git provider, is
 optional. Later in the exercises, we will also access the free5gc Web UI.
 
-## Step 1: Create regional cluster
+## Step 1: Create the Regional cluster
 
-Our e2e topology consists of one regional cluster, and two edge clusters.
-Let's start by deploying the regional cluster. In this case, you will use
+Our e2e topology consists of one Regional cluster, and two Edge clusters.
+Let's start by deploying the Regional cluster. In this case, you will use
 manual kpt commands to deploy a single cluster. First, check to make sure
 that both the mgmt and mgmt-staging repositories are in the Ready state.
-The mgmt repository is used to manage the contents of the management
+The mgmt repository is used to manage the contents of the Management
 cluster via Nephio; the mgmt-staging repository is just used internally
 during the cluster bootstrapping process.
 
@@ -78,8 +78,8 @@ nephio-example-packages   git    Package   false        True    https://github.c
 
 Since those are Ready, you can deploy a package from the
 nephio-example-packages repository into the mgmt repository. To do this, you
-retrieve the Package Revision name using `kpt alpha rpkg get`, and then clone
-that specific Package Revision via the `kpt alpha rpkg clone` command,
+retrieve the Package Revision name using `kpt alpha rpkg get`, clone
+that specific Package Revision via the `kpt alpha rpkg clone` command, then
 propose and approve the resulting package revision. You want to use the latest
 revision of the nephio-workload-cluster package, which you can get with the
 command below (your latest revision may be different):
@@ -120,18 +120,18 @@ mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 created
 ```
 </details>
 
-You want to make sure that our new regional cluster is labeled as regional.
-Since you are using the CLI, you need to pull the package out, modify it, and
+Next, you will want to ensure that the new Regional cluster is labeled as regional.
+Since you are using the CLI, you will need to pull the package out, modify it, and
 then push the updates back to the Draft revision. You will use `kpt` and the
 `set-labels` function to do this.
 
-To pull the package to a local directory, you use the `rpkg pull` command:
+To pull the package to a local directory, use the `rpkg pull` command:
 
 ```bash
 kpt alpha rpkg pull -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 regional
 ```
 
-The package is now in the `regional` directory. So, you can execute the
+The package is now in the `regional` directory. So you can execute the
 `set-labels` function against the package imperatively, using `kpt fn eval`:
 
 ```bash
@@ -151,7 +151,7 @@ kpt fn eval --image gcr.io/kpt-fn/set-labels:v0.2.0 regional -- "nephio.org/site
 
 If you wanted to, you could have used the `--save` option to add the
 `set-labels` call to the package pipeline. This would mean that function gets
-called whenever the server saves the package; if you added new resources
+called whenever the server saves the package. If you added new resources
 later, they would also get labeled.
 
 In any case, you now can push the package with the labels applied back to the
@@ -196,11 +196,11 @@ mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 approved
 ```
 </details>
 
-ConfigSync running in the management cluster will now pull out this new
-package, creating all the resources necessary to provision a Kind cluster and
+ConfigSync running in the Management cluster will now pull out this new
+package, create all the resources necessary to provision a KinD cluster, and
 register it with Nephio. This will take about five minutes or so.
 
-## Step 2: Check Regional cluster installation
+## Step 2: Check the Regional cluster installation
 
 You can check if the cluster has been added to the management cluster:
 
@@ -217,9 +217,8 @@ regional   Provisioned   52m     v1.26.3
 ```
 </details>
 
-To access the API server of that cluster as well, you
-need to get the `kubeconfig` file for it. To retrieve the file, you
-pull it from the Kubernetes Secret, and decode the Base64
+To access the API server of that cluster, you
+need to retrieve the `kubeconfig` file by pulling it from the Kubernetes Secret and decode the Base64
 encoding[^getcapikubeconfig]:
 
 ```bash
@@ -227,7 +226,7 @@ kubectl get secret regional-kubeconfig -o jsonpath='{.data.value}' | base64 -d >
 export KUBECONFIG=$HOME/.kube/config:$HOME/.kube/regional-kubeconfig
 ```
 
-You can then use it to access the workload cluster directly:
+You can then use it to access the Workload cluster directly:
 
 ```bash
 kubectl get ns --context regional-admin@regional
@@ -247,7 +246,7 @@ kube-system                    Active   3h39m
 ```
 </details>
 
-You should also check that the Kind cluster came up fully with `kubectl get
+You should also check that the KinD cluster has come up fully with `kubectl get
 machinesets`. You should see READY and AVAILABLE replicas.
 
 ```bash
@@ -263,9 +262,9 @@ regional-md-0-zhw2j-58d497c498xkz96z   regional   1          1       1          
 ```
 </details>
 
-## Step 3: Deploy two edge clusters
+## Step 3: Deploy two Edge clusters
 
-Next, you can deploy a fleet of two edge clusters by applying the
+Next, you can deploy two Edge clusters by applying the
 PackageVariantSet that can be found in the `tests` directory:
 
 ```bash
@@ -280,17 +279,17 @@ packagevariantset.config.porch.kpt.dev/edge-clusters created
 ```
 </details>
 
-This is equivalent to doing the same `kpt` commands you did for the regional
+This is equivalent to doing the same `kpt` commands used earlier for the Regional
 cluster, except that it uses the PackageVariantSet controller, which is
-running in the Nephio management cluster to do them automatically. It will
+running in the Nephio Management cluster. It will
 clone the package for each entry in the field `packageNames` in the
 PackageVariantSet. You can observe the progress by looking at the UI, or by
 using `kubectl` to monitor the various package variants, package revisions,
-and kind clusters that get created.
+and KinD clusters.
 
-To access the API server of these clusters, you
+To access the API server of these clusters, you will
 need to get the `kubeconfig` file. To retrieve the file, you
-pull it from the Kubernetes Secret, and decode the Base64 encoding:
+pull it from the Kubernetes Secret and decode the Base64 encoding:
 
 ```bash
 kubectl get secret edge01-kubeconfig -o jsonpath='{.data.value}' | base64 -d > $HOME/.kube/edge01-kubeconfig
@@ -298,10 +297,8 @@ kubectl get secret edge02-kubeconfig -o jsonpath='{.data.value}' | base64 -d > $
 export KUBECONFIG=$HOME/.kube/config:$HOME/.kube/regional-kubeconfig:$HOME/.kube/edge01-kubeconfig:$HOME/.kube/edge02-kubeconfig
 ```
 
-Once the edge clusters are ready it's necessary to inter-connect them. This time
-we are going to use the [containerlab tool](https://containerlab.dev/) for that
-operation. Eventually inter-cluster networking will be automated as well, but it
-is not yet in this release.
+Once the Edge clusters are ready, it is necessary to connect them. For now 
+we are using the [containerlab tool](https://containerlab.dev/). Eventually, the inter-cluster networking will be automated as well.  
 
 ```bash
 workers=""
@@ -340,9 +337,9 @@ INFO[0277] Adding containerlab host entries to /etc/hosts file
 ```
 </details>
 
-We also need to configure the nodes for the VLANs we will be using. Again, this
+We will also need to configure the nodes for the VLANs. Again, this
 will be automated in a future release that addresses node setup and
-inter-cluster networking. But for now, you must run a script that creates them
+inter-cluster networking. For now, you must run a script that creates them
 in each of the worker nodes.
 
 ```bash
@@ -375,15 +372,15 @@ docker exec "regional-md-0-6hqq6-79bf858cd5xcxzl8-6x9d7" ip link set up eth1.4
 </details>
 
 
-Finally, we want to configure the resource backend to know about these clusters.
+Finally, we want to configure the resource backend to be aware of these clusters.
 The resource backend is an IP address and VLAN index management system. It is
-included for demonstration purposes, to show how Nephio package specialization
+included for demonstration purposes to show how Nephio package specialization
 can interact with external systems to fully configure packages. But it needs to
 be configured to match our topology.
 
-First, we apply a package that defines the high-level networks to which our
-workloads will attach. Part of the Nephio package specialization pipeline will
-determine the exact VLAN tags and IP addresses for those attachments, based on
+First, we will apply a package to define the high-level networks for attaching our
+workloads. The Nephio package specialization pipeline will
+determine the exact VLAN tags and IP addresses for those attachments based on
 the specific clusters. There is a pre-defined PackageVariant in the tests
 directory for this:
 
@@ -399,8 +396,8 @@ packagevariant.config.porch.kpt.dev/network created
 ```
 </details>
 
-That package defines certain resources that exist for the entire topology.
-However, we also need to configure the resource backend for our particular
+The pre-defined PackageVariant package defines certain resources that exist for the entire topology.
+However, we will also need to configure the resource backend for our particular
 topology. This will likely be automated in the future, but for now you can
 just directly apply the configuration we have created that matches this test
 topology.
@@ -417,13 +414,13 @@ rawtopology.topo.nephio.org/nephio created
 ```
 </details>
 
-## Step 4: Deploy Free5GC control plane functions
+## Step 4: Deploy Free5GC Control Plane Functions
 
-While the edge clusters are deploying (which will take 5-10 minutes), you can
+While the Edge clusters are deploying (which will take 5-10 minutes), you can
 install the free5gc functions other than SMF, AMF, and UPF. For this,
-you use the regional cluster. Since these are all installed with a single
+you will use the Regional cluster. Since these are all installed with a single
 package, you can use the UI to pick the `free5gc-cp` package from the
-`free5gc-packages` repository, and clone it to the `regional` repository (you
+`free5gc-packages` repository and clone it to the `regional` repository (you
 could have also used the CLI).
 
 ![Install free5gc - Step 1](free5gc-cp-1.png)
@@ -518,12 +515,12 @@ statefulset.apps/mongodb   1/1     3m31s
 ```
 </details>
 
-## Step 5: Deploy Free5GC operator in the workload clusters
+## Step 5: Deploy Free5GC Operator in the Workload clusters
 
-Now you need to deploy the free5gc operator across all of the workload
+Now you will need to deploy the free5gc operator across all of the Workload
 clusters (regional and edge). To do this, you use another PackageVariantSet.
-This one uses an objectSelector, and selects the WorkloadCluster resources
-that were added to the management cluster when you deployed the
+This one uses an objectSelector to select the WorkloadCluster resources
+previously added to the Management cluster when you had deployed the
 nephio-workload-cluster packages (manually as well as via
 PackageVariantSet).
 
@@ -539,9 +536,9 @@ packagevariantset.config.porch.kpt.dev/free5gc-operator created
 ```
 </details>
 
-## Step 6: Check Free5GC operator deployment
+## Step 6: Check Free5GC Operator Deployment
 
-Within five minutes of applying that, you should see `free5gc` namespaces on
+Within five minutes of applying the free5gc Operator YAML file, you should see `free5gc` namespaces on
 your regional and edge clusters:
 
 ```bash
@@ -583,12 +580,12 @@ replicaset.apps/free5gc-operator-controller-controller-58df9975f4   1         1 
 ```
 </details>
 
-## Step 7: Deploy AMF, SMF and UPF
+## Step 7: Deploy the AMF, SMF and UPF NFs
 
-Finally, you can deploy individual network functions which the operator will
-instantiate. For now, you will use individual PackageVariants targeting the regional
-cluster for each of the AMF and SMF, and a PackageVariantSet targeting the
-edge clusters for the UPFs. In the future, you could put all of these
+Finally, you can deploy the individual network functions which the operator will
+instantiate. For now, you will use individual PackageVariants targeting the Regional
+cluster for each of the AMF and SMF NFs and a PackageVariantSet targeting the
+Edge clusters for the UPF NFs. In the future, you could put all of these
 resources into yet-another-package - a "topology" package - and deploy them all as a
 unit. Or you can use a topology controller to create them. But for now, let's do each
 manually.
@@ -599,7 +596,7 @@ kubectl apply -f test-infra/e2e/tests/006-regional-free5gc-amf.yaml
 kubectl apply -f test-infra/e2e/tests/006-regional-free5gc-smf.yaml
 ```
 
-Free5gc requires that the SMF and AMF be explicitly configured with information
+Free5gc requires that the SMF and AMF NFs be explicitly configured with information
 about each UPF. Therefore, the AMF and SMF packages will remain in an "unready"
 state until the UPF packages have all been published.
 
@@ -609,9 +606,9 @@ The UERANSIM package can be deployed to the edge01 cluster, where it will
 simulate a gNodeB and UE. Just like our other packages, UERANSIM needs to be
 configured to attach to the correct networks and use the correct IP address.
 Thus, we use our standard specialization techniques and pipeline to deploy
-UERANSIM, just like other network functions.
+UERANSIM, just like the other network functions.
 
-However, before we do that, let's register the UE with free5gc as a subscriber.
+However, before we do that, let us register the UE with free5gc as a subscriber.
 You will use the free5gc Web UI to do this. To access it, you need to open
 another port forwarding session. Assuming you have the `regional-kubeconfig`
 file you created earlier in your home directory, you need to establish another
@@ -640,7 +637,7 @@ kubectl apply -f test-infra/e2e/tests/007-edge01-ueransim.yaml
 ```
 
 You can check to see if the simulated UE is up and running by checking the
-ueransim deployment. First, you can use the `get_capi_kubeconfig` shortcut to
+UERANSIM deployment. First, you can use the `get_capi_kubeconfig` shortcut to
 retrieve the kubeconfig for the edge01 cluster, and then query that cluster for
 the UERANSIM pods.
 
@@ -660,7 +657,7 @@ ueransimue-edge01-56fccbc4b6-h42k7    1/1     Running   0          81m
 
 </details>
 
-Let's see if we can simulate the UE making pinging out to our DNN.
+Let's see if we can simulate the UE pinging out to our DNN.
 
 ```bash
 UE_POD=$(kubectl --kubeconfig edge01-kubeconfig get pods -n ueransim -l app=ueransim -l component=ue -o jsonpath='{.items[0].metadata.name}')
@@ -685,9 +682,9 @@ rtt min/avg/max/mdev = 0.043/0.046/0.050/0.002 ms
 </details>
 
 Note that our DNN does not actually provide access to the internet, so you won't
-be able to reach other sites.
+be able to reach the other sites.
 
-## Step 9: Changing UPF and SMF capacity
+## Step 9: Changing the Capacities of the UPF and SMF NFs
 
 ## Footnotes
 [^capikubeconfig]: The install process sets up a shortcut for this. You can get
