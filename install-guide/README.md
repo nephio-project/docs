@@ -40,7 +40,7 @@ gcloud compute instances create --machine-type e2-standard-8 \
                                     nephio-r1-e2e
 ```
 
-### Follow the installation on GCE
+### Follow the Installation on GCE
 
 If you want to watch the progress of the installation, give it about 30
 seconds to reach a network accessible state, and then ssh in and tail the
@@ -59,7 +59,7 @@ gcloud compute ssh ubuntu@nephio-r1-e2e -- \
                 sudo journalctl -u google-startup-scripts.service --follow
 ```
 
-## Installing on a pre-provisioned VM
+## Installing on a Pre-Provisioned VM
 
 This install has been verified on VMs running on vSphere, Openstack, AWS, and
 Azure.
