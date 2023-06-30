@@ -404,11 +404,7 @@ topology. Within this step also the credentials and information is provided
 to configure the network device, that aligns with the topology.
 
 ```bash
-kubectl apply -f test-infra/e2e/tests/003-secret.yaml
-
-export LEAF_IP=$(docker inspect net-free5gc-net-leaf -f '{{.NetworkSettings.Networks.kind.IPAddress}}')
-
-envsubst <"test-infra/e2e/tests/003-network-topo.tmpl" >"test-infra/e2e/tests/003-network-topo.yaml"
+./e2e/provision/hacks/network-topo.sh
 
 kubectl apply -f test-infra/e2e/tests/003-network-topo.yaml
 ```
