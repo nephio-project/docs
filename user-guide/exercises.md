@@ -404,7 +404,7 @@ topology. Within this step also the credentials and information is provided
 to configure the network device, that aligns with the topology.
 
 ```bash
-./e2e/provision/hacks/network-topo.sh
+./test-infra/e2e/provision/hacks/network-topo.sh
 
 kubectl apply -f test-infra/e2e/tests/003-network-topo.yaml
 ```
