@@ -25,13 +25,13 @@ In the [nephio/free5gc repository](https://github.com/nephio-project/free5gc) th
 
 # The structure of the repository
 
-1. Operator
+1. [Operator](https://github.com/nephio-project/free5gc/tree/main/operator)
     * Binding metrics and healthcheck ports
     * Registering UPF SMF AMF deployments
     * Reconciler and Setup (Creating Controllers)
 
 
-2. Controllers
+2. [Controllers](https://github.com/nephio-project/free5gc/tree/main/controllers)
     * **Reconciler**: The XXFDeploymentReconciler struct is responsible for reconciling the state of the XXFDeployment resource in the Kubernetes cluster. It implements the *Reconcile* function, which is called by the Controller Runtime framework when changes occur to the XXFDeployment resource. The *Reconcile* function performs various operations such as creating or updating the **ConfigMap** and **Service** resources associated with the XXFDeployment.
     Overall, the XXFDeploymentReconciler struct acts as the controller for the XXFDeployment resource, ensuring that the cluster state aligns with the desired state specified by the user.
 
@@ -51,9 +51,10 @@ In the [nephio/free5gc repository](https://github.com/nephio-project/free5gc) th
 
     * **Status**: It holds the logic to get the status of the deployment and displaying it as "Available," "Progressing," and "ReplicaFailure".The function returns the *NFDeploymentStatus* object and a boolean value indicating whether the status has been updated or not.
 
-3. **Config**
-There are [Kustomization](https://github.com/kubernetes-sigs/kustomize) file for a Kubernetes application, specifying various configuration options and resources for the application. 
+3. [Config](https://github.com/nephio-project/free5gc/tree/main/config)
 
+    There are [Kustomization](https://github.com/kubernetes-sigs/kustomize) file for a Kubernetes application, specifying various configuration options and resources for the application.
+    
     In the */default* foldere there are:
 * *Namespace*: Defines the namespace (free5gc) where all resources will be deployed.
 * *Name Prefix*: Specifies a prefix (free5gc-operator-) that will be prepended to the names of all resources.
