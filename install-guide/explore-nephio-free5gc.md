@@ -52,6 +52,15 @@ In the [nephio/free5gc repository](https://github.com/nephio-project/free5gc) th
     * **Status**: It holds the logic to get the status of the deployment and displaying it as "Available," "Progressing," and "ReplicaFailure".The function returns the *NFDeploymentStatus* object and a boolean value indicating whether the status has been updated or not.
 
 3. **Config**
-    * CRD: In the */base* folder there are CRDs for the workload network functions. They define the schema for the "XXFDeployment" resource under the "workload.nephio.org" group. Also, there are YAML config files for teaching [kustomize](https://github.com/kubernetes-sigs/kustomize) how to substitute *name* and *namespace* reference in CRD.
-    * Default: TBD
-    * Operator: TBD
+There are [Kustomization](https://github.com/kubernetes-sigs/kustomize) file for a Kubernetes application, specifying various configuration options and resources for the application. 
+
+    In the */default* foldere there are:
+* *Namespace*: Defines the namespace (free5gc) where all resources will be deployed.
+* *Name Prefix*: Specifies a prefix (free5gc-operator-) that will be prepended to the names of all resources.
+* *Common Labels*: Allows adding labels to all resources and selectors. Currently commented out.
+* *Bases*: Specifies the directories (../crd, ../rbac, ../operator) containing the base resources for the application.
+    In the *crd/base* folder there are CRDs for the workload network functions. They define the schema for the "XXFDeployment" resource under the "workload.nephio.org" group. Also, there are YAML config files for teaching kustomize how to substitute *name* and *namespace* reference in CRD.
+* *Patches Strategic Merge*: Specifies the patches that should be applied to the base resources.
+    Currently includes a patch file named *manager_auth_proxy_patch.yaml*, which adds authentication protection to the /metrics endpoint.
+* *Vars*: Defines variables that can be used for variable substitution.
+    
