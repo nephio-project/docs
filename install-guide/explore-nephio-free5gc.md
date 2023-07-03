@@ -25,7 +25,7 @@ In the [nephio/free5gc repository](https://github.com/nephio-project/free5gc) th
 
 # The structure of the repository
 
-1. [Operator](https://github.com/nephio-project/free5gc/tree/main/operator)
+1. [Operator](https://github.com/nephio-project/free5gc/tree/main/free5gc-operator)
     * Binding metrics and healthcheck ports
     * Registering UPF SMF AMF deployments
     * Reconciler and Setup (Creating Controllers)
@@ -54,7 +54,7 @@ In the [nephio/free5gc repository](https://github.com/nephio-project/free5gc) th
 3. [Config](https://github.com/nephio-project/free5gc/tree/main/config)
 
     There are [Kustomization](https://github.com/kubernetes-sigs/kustomize) file for a Kubernetes application, specifying various configuration options and resources for the application.
-    
+
     In the */default* foldere there are:
 * *Namespace*: Defines the namespace (free5gc) where all resources will be deployed.
 * *Name Prefix*: Specifies a prefix (free5gc-operator-) that will be prepended to the names of all resources.
