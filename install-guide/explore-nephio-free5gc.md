@@ -55,7 +55,7 @@ In the [nephio/free5gc repository](https://github.com/nephio-project/free5gc) th
 
     There are [Kustomization](https://github.com/kubernetes-sigs/kustomize) file for a Kubernetes application, specifying various configuration options and resources for the application.
 
-    In the */default* foldere there are:
+    In the */default* folder there are:
 * *Namespace*: Defines the namespace (free5gc) where all resources will be deployed.
 * *Name Prefix*: Specifies a prefix (free5gc-operator-) that will be prepended to the names of all resources.
 * *Common Labels*: Allows adding labels to all resources and selectors. Currently commented out.
