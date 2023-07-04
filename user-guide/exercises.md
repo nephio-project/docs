@@ -396,6 +396,20 @@ packagevariant.config.porch.kpt.dev/network created
 ```
 </details>
 
+Then we will create appropriate `Secret` to make sure that Nephio can authenticate to the external backend.
+
+```bash
+kubectl apply -f test-infra/e2e/tests/003-secret.yaml
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+secret/srl.nokia.com created
+```
+</details>
+
 The pre-defined PackageVariant package defines certain resources that exist for the entire topology.
 However, we also need to configure the resource backend for our particular
 topology. This will likely be automated in the future, but for now you can
