@@ -306,7 +306,7 @@ for context in $(kubectl config get-contexts --no-headers --output name | sort);
     workers+=$(kubectl get nodes -l node-role.kubernetes.io/control-plane!= -o jsonpath='{range .items[*]}"{.metadata.name}",{"\n"}{end}' --context "$context")
 done
 echo "{\"workers\":[${workers::-1}]}" | tee /tmp/vars.json
-sudo containerlab deploy --topo test-infra/e2e/tests/002-topo.gotmpl --vars /tmp/vars.json --skip-post-deploy
+sudo containerlab deploy --topo test-infra/e2e/tests/002-topo.gotmpl --vars /tmp/vars.json
 ```
 
 <details>
