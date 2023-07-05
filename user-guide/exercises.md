@@ -306,7 +306,7 @@ for context in $(kubectl config get-contexts --no-headers --output name | sort);
     workers+=$(kubectl get nodes -l node-role.kubernetes.io/control-plane!= -o jsonpath='{range .items[*]}"{.metadata.name}",{"\n"}{end}' --context "$context")
 done
 echo "{\"workers\":[${workers::-1}]}" | tee /tmp/vars.json
-sudo containerlab deploy --topo test-infra/e2e/tests/002-topo.gotmpl --vars /tmp/vars.json --skip-post-deploy
+sudo containerlab deploy --topo test-infra/e2e/tests/002-topo.gotmpl --vars /tmp/vars.json
 ```
 
 <details>
@@ -393,6 +393,20 @@ kubectl apply -f test-infra/e2e/tests/003-network.yaml
 
 ```console
 packagevariant.config.porch.kpt.dev/network created
+```
+</details>
+
+Then we will create appropriate `Secret` to make sure that Nephio can authenticate to the external backend.
+
+```bash
+kubectl apply -f test-infra/e2e/tests/003-secret.yaml
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+secret/srl.nokia.com created
 ```
 </details>
 
@@ -615,8 +629,15 @@ However, before we do that, let us register the UE with free5gc as a subscriber.
 You will use the free5gc Web UI to do this. To access it, you need to open
 another port forwarding session. Assuming you have the `regional-kubeconfig`
 file you created earlier in your home directory, you need to establish another
-ssh session from your workstation to the VM, port forwarding port 5000. Use the
-same form of the command you did for other sessions. For example, for the
+ssh session from your workstation to the VM, port forwarding port 5000. 
+
+Before moving on to the new terminal, let's copy `regional-kubeconfig` to the home directory:
+
+```bash
+cp $HOME/.kube/regional-kubeconfig .
+```
+
+Then, use the same form of the command you did for other sessions. For example, for the
 generic Ubuntu VM, the command would be:
 
 ```bash
