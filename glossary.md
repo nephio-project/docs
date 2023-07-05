@@ -162,7 +162,7 @@ However, it has been renamed to [specializer](#specializer).
 There is still the concept of an injector, but it is limited to the
 PackageVariant and PackageVariantSet controllers. This process allows the author
 of the PackageVariant(Set) to configure the controller to pull in a resource
-from the management cluster, and copy it into the pacakge. This allows us to
+from the management cluster, and copy it into the package. This allows us to
 combine upstream ([DRY](#dry)) configuration with cluster-specific configuration
 based upon the target cluster.
 

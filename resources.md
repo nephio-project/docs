@@ -4,7 +4,7 @@ developer documentation, see the
 [nephio](https://github.com/nephio-project/nephio) repository.
 
 ## Basic Resources
-* [Nephio Website](https://nephio.org)
+* [Nephio Site](https://nephio.org)
 * [Nephio Wiki](https://wiki.nephio.org)
 * [Slack Workspace](https://nephio.slack.com)
 

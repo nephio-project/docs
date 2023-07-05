@@ -218,7 +218,7 @@ regional   Provisioned   52m     v1.26.3
 </details>
 
 To access the API server of that cluster, you
-need to retrieve the `kubeconfig` file by pulling it from the Kubernetes Secret and decode the Base64
+need to retrieve the `kubeconfig` file by pulling it from the Kubernetes Secret and decode the base64
 encoding[^getcapikubeconfig]:
 
 ```bash
@@ -289,7 +289,7 @@ and KinD clusters.
 
 To access the API server of these clusters, you will
 need to get the `kubeconfig` file. To retrieve the file, you
-pull it from the Kubernetes Secret and decode the Base64 encoding:
+pull it from the Kubernetes Secret and decode the base64 encoding:
 
 ```bash
 kubectl get secret edge01-kubeconfig -o jsonpath='{.data.value}' | base64 -d > $HOME/.kube/edge01-kubeconfig
@@ -297,8 +297,9 @@ kubectl get secret edge02-kubeconfig -o jsonpath='{.data.value}' | base64 -d > $
 export KUBECONFIG=$HOME/.kube/config:$HOME/.kube/regional-kubeconfig:$HOME/.kube/edge01-kubeconfig:$HOME/.kube/edge02-kubeconfig
 ```
 
-Once the Edge clusters are ready, it is necessary to connect them. For now 
-we are using the [containerlab tool](https://containerlab.dev/). Eventually, the inter-cluster networking will be automated as well.  
+Once the Edge clusters are ready, it is necessary to connect them. For now we
+are using the [containerlab tool](https://containerlab.dev/). Eventually, the
+inter-cluster networking will be automated as well.
 
 ```bash
 workers=""
@@ -381,7 +382,7 @@ be configured to match our topology.
 First, we will apply a package to define the high-level networks for attaching our
 workloads. The Nephio package specialization pipeline will
 determine the exact VLAN tags and IP addresses for those attachments based on
-the specific clusters. There is a pre-defined PackageVariant in the tests
+the specific clusters. There is a predefined PackageVariant in the tests
 directory for this:
 
 ```bash
@@ -410,7 +411,7 @@ secret/srl.nokia.com created
 ```
 </details>
 
-The pre-defined PackageVariant package defines certain resources that exist for the entire topology.
+The predefined PackageVariant package defines certain resources that exist for the entire topology.
 However, we also need to configure the resource backend for our particular
 topology. This will likely be automated in the future, but for now you can
 just directly apply the configuration we have created that matches this test
@@ -629,7 +630,7 @@ However, before we do that, let us register the UE with free5gc as a subscriber.
 You will use the free5gc Web UI to do this. To access it, you need to open
 another port forwarding session. Assuming you have the `regional-kubeconfig`
 file you created earlier in your home directory, you need to establish another
-ssh session from your workstation to the VM, port forwarding port 5000. 
+ssh session from your workstation to the VM, port forwarding port 5000.
 
 Before moving on to the new terminal, let's copy `regional-kubeconfig` to the home directory:
 
@@ -652,7 +653,7 @@ You should now be able to navigate to
 The test subscriber is the same as the standard free5gc default subscriber.
 Thus, you can follow the
 [instructions](https://free5gc.org/guide/New-Subscriber-via-webconsole/) on the
-free5gc web site, but start at Step 4.
+free5gc site, but start at Step 4.
 
 Once the subscriber is registered, we can deploy UERANSIM:
 

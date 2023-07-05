@@ -118,7 +118,7 @@ The following environment variables can be used to configure the installation:
 | NEPHIO_DEBUG           | false or true    | false         | Controls debug output from the install                 |
 | NEPHIO_HOME            | path             | /home/$NEPHIO_USER | The directory to check out the install scripts into |
 | NEPHIO_DEPLOYMENT_TYPE | r1 or one-summit | r1            | Controls the type of installation to be carried out    |
-| RUN_E2E                | false or true    | false         | Specifies whether end to end tests should be executed or not |
+| RUN_E2E                | false or true    | false         | Specifies whether end-to-end tests should be executed or not |
 | NEPHIO_REPO            | URL              | https://github.com/nephio-project/test-infra.git |URL of the repository to be used for installation |
 | NEPHIO_BRANCH          | branch or tag    | main          | Tag or branch name to use in NEPHIO_REPO |
 
