@@ -36,7 +36,7 @@ gcloud compute instances create --machine-type e2-standard-8 \
                                     --boot-disk-size 200GB \
                                     --image-family=ubuntu-2004-lts \
                                     --image-project=ubuntu-os-cloud \
-                                    --metadata=startup-script-url=https://raw.githubusercontent.com/nephio-project/test-infra/main/e2e/provision/init.sh \
+                                    --metadata=startup-script-url=https://raw.githubusercontent.com/nephio-project/test-infra/v1.0.0/e2e/provision/init.sh,nephio-test-infra-branch=v1.0.0 \
                                     nephio-r1-e2e
 ```
 
@@ -103,9 +103,10 @@ sudo netplan apply
 Log onto your VM and run the following command:
 
 ```bash
-wget -O - https://raw.githubusercontent.com/nephio-project/test-infra/main/e2e/provision/init.sh |  \
+wget -O - https://raw.githubusercontent.com/nephio-project/test-infra/v1.0.0/e2e/provision/init.sh |  \
 sudo NEPHIO_DEBUG=false   \
-     NEPHIO_USER=ubuntu  \
+     NEPHIO_BRANCH=v1.0.0 \
+     NEPHIO_USER=ubuntu   \
      bash
 ```
 
@@ -117,8 +118,9 @@ The following environment variables can be used to configure the installation:
 | NEPHIO_DEBUG           | false or true    | false         | Controls debug output from the install                 |
 | NEPHIO_HOME            | path             | /home/$NEPHIO_USER | The directory to check out the install scripts into |
 | NEPHIO_DEPLOYMENT_TYPE | r1 or one-summit | r1            | Controls the type of installation to be carried out    |
-| RUN_E2E                | false or true    | false         | Specifies whether end to end tests should be executed or not |
+| RUN_E2E                | false or true    | false         | Specifies whether end-to-end tests should be executed or not |
 | NEPHIO_REPO            | URL              | https://github.com/nephio-project/test-infra.git |URL of the repository to be used for installation |
+| NEPHIO_BRANCH          | branch or tag    | main          | Tag or branch name to use in NEPHIO_REPO |
 
 ### Follow the Installation on VM
 

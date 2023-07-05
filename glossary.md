@@ -35,7 +35,7 @@ See [Injector](#injector).
 This term comes from Kubernetes where [controller](https://kubernetes.io/docs/reference/glossary/?fundamental=true#term-controller) is defined as a control loop that watches the intended and actual state of the cluster, and attempts to make changes as needed to make the actual state match the intended state. More specifically, this typically refers to software that processes Kubernetes Resources residing in the Kubernetes API server, and either transforms them into new resources, or calls to other APIs that change the state of some entity external to the API server. For example, `kubelet` itself is a controller that processes Pod resources to create and manage containers on a Node.
 
 *See also*: [Operator](#operator), [Injector](#injector), [KRM
-function](#krm-function)
+function](#krm-function), [Specializer](#specializer)
 
 ## Controller Manager
 This term comes from Kubernetes and refers to an executable that bundles many
@@ -157,29 +157,14 @@ See [Injector](#injector).
 ## Injector
 We introduced this term during the Nephio [ONE Summit 2022
 Workshop](https://github.com/nephio-project/one-summit-22-workshop#packages).
-This refers to a software component that runs in the Nephio Management cluster,
-and could be considered a type of [controller](#controller). However, it
-specifically watches for `PackageRevision` resources in a Draft state, and
-checks for the [conditions](#conditions) on those resources. When it finds
-unsatisfied conditions of the type it handles, the injector will
-[mutate](#mutation) (modify) the Draft package by adding (or *injecting*) new or
-changed resources.
+However, it has been renamed to [specializer](#specializer).
 
-For example, the IPAM injector monitors package revision drafts for unresolved
-IP address requests. When it sees one, it takes information from the request and
-uses it to allocate an IP address from the IP address management system. It
-writes the result back into the draft package, where a KRM function can process
-the result and copy ([propagate](#value-propagation)) it to the correct
-resources in the package.
-
-An *injector* need not be an entirely separate process. The PackageDeployment
-controller will also perform injection after cloning an upstream package to a
-downstream repository. In this case, it looks for resources in the upstream
-package that are annotated with a `automation.nephio.org/config-injection:
-"true"` annotation, and uses that to find resources in the management cluster,
-and copy the `spec` of those resources into the downstream package. This allows
-us to combine upstream ([DRY](#dry)) configuration with cluster-specific
-configuration based upon the target cluster.
+There is still the concept of an injector, but it is limited to the
+PackageVariant and PackageVariantSet controllers. This process allows the author
+of the PackageVariant(Set) to configure the controller to pull in a resource
+from the management cluster, and copy it into the package. This allows us to
+combine upstream ([DRY](#dry)) configuration with cluster-specific configuration
+based upon the target cluster.
 
 ## kpt
 [Kpt](https://kpt.dev) is an open source tool for managing bundles of Kubernetes
@@ -233,7 +218,7 @@ files, but it could also be JSON or some other format.
 
 ## Mutation
 The act of changing the configuration. There are different processes that can be
-usd for mutation, including controllers, injectors, KRM functions, web hooks,
+usd for mutation, including controllers, specializers, KRM functions, web hooks,
 and manual in-place edits.
 
 *See also*: [Validation](#validation)
@@ -290,6 +275,22 @@ although we also use it to refer to the external representation of that object
 (for example text in a YAML file).
 
 Also see [REST](https://en.wikipedia.org/wiki/Representational_state_transfer).
+
+## Specializer
+This refers to a software component that runs in the Nephio Management cluster,
+and could be considered a type of [controller](#controller). However, it
+specifically watches for `PackageRevision` resources in a Draft state, and
+checks for the [conditions](#conditions) on those resources. When it finds
+unsatisfied conditions of the type it handles, the specializer will
+[mutate](#mutation) (modify) the Draft package by adding or
+changing resources.
+
+For example, the IPAM specializer monitors package revision drafts for unresolved
+IP address claims. When it sees one, it takes information from the claim and
+uses it to allocate an IP address from the IP address management system. It
+writes the result back into the draft package, where a KRM function can process
+the result and copy ([propagate](#value-propagation)) it to the correct
+resources in the package.
 
 ## Validation
 The act of verifying that the configuration is syntactical correct, and that it

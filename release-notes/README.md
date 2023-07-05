@@ -85,8 +85,13 @@ Basic web UI to view and manage the packages and resources within them.
 * When deploying the sandbox environment on an Ubuntu VM running on OpenStack,
   the deployment may fail. Reinstalling the packages will get around this issue.
 * Occasionally packages may take a long time to be approved by the auto-approval
-  controller.
+  controller. If they seem stuck, restarting Porch and the Nephio controllers
+  may help:
+  ```bash
+  kubectl -n porch-system rollout restart deploy porch-server
+  kubectl -n nephio-system rollout restart deploy nephio-controller
+  ```
 * Occasional calls to `kpt alpha rpkg copy` may fail with a message like
   `Error: Internal error occurred: error applying patch: conflict: fragment line
   does not match src line`. Try again in a little while, this may clear up on
-  its own.
+  its own. Restarting Porch may also help.
