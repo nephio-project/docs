@@ -288,7 +288,7 @@ During the clone operation, the command above performs the following operations:
    - In all `PackageVariant` files, the `metadata.name` and
      `spec.downstream.package` field before the '-' is replaced with that field
      value. In this way, the downstream package names for all the packages to be
-     pulled from the `mgmt-staging` reposistory for the workload cluster are
+     pulled from the `mgmt-staging` repository for the workload cluster are
      specified.
    - In all `PackageVariant` files, the `spec.injectors.WorkloadCluster.name`
      field is replaced with the workload cluster name. This gives us the handle
@@ -424,7 +424,7 @@ During creation of the package variant kpt package, the following transformation
 
    b. The following `PackageVariant` changes are made to the `lambda-cluster` package:
       1. The field `info.readinessGates.conditionType` is added to the `Kptfile` with the value `config.injection.WorkloadCluster.workload-cluster`.
-      2. An extra `pipeline.mutators` entry is inserted in the `Kptfile`. This mutator is the mutator specified in the `pv-cluster.yaml` package variant specification, which specifies that the annotation `nephio.org/cluster-name: lambda` should be set on teh resources in the package:
+      2. An extra `pipeline.mutators` entry is inserted in the `Kptfile`. This mutator is the mutator specified in the `pv-cluster.yaml` package variant specification, which specifies that the annotation `nephio.org/cluster-name: lambda` should be set on the resources in the package:
 
       ```
         pipeline:

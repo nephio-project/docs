@@ -11,7 +11,7 @@
 
 ## Networking
 
-The Vagrant networking will not work on Windowso to allow access to the Nephio Web UI and Gitea Web UI due the [Hyper-V limitation](https://developer.hashicorp.com/vagrant/docs/providers/hyperv/limitations#limited-networking). 
+The Vagrant networking will not work on Windows to allow access to the Nephio Web UI and Gitea Web UI due the [Hyper-V limitation](https://developer.hashicorp.com/vagrant/docs/providers/hyperv/limitations#limited-networking). 
 Meanwhile, for [VirtualBox](https://developer.hashicorp.com/vagrant/docs/providers/virtualbox/networking#virtualbox-nic-type) (used here), we can create an internal network by adding the following line to the Vagrant.configure: 
 
 `config.vm.network "private_network", ip: "192.168.50.4", virtualbox__intnet: true`

@@ -57,7 +57,7 @@ Basic web UI to view and manage the packages and resources within them.
 * For infrastructure automation, only creation of KIND clusters is
   supported.
 * Inter-cluster networking is not dynamic so as more clusters are
-  deployed, some manual tweakings will be needed for inter-cluster communications.
+  deployed, some manual tweaking will be needed for inter-cluster communications.
 * Provisioning of VLAN interfaces on nodes is manual at this time.
 * Feedback of workload deployments from workload clusters to the Management
   cluster is limited. You may need to connect directly to the Workload cluster
