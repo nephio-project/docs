@@ -205,9 +205,12 @@ register it with Nephio. This will take about five minutes or so.
 You can check if the cluster has been added to the management cluster:
 
 ```bash
-kubectl get clusters
+kubectl get cl
 ```
-
+or
+```bash
+kubectl get clusters.cluster.x-k8s.io
+```
 <details>
 <summary>The output is similar to:</summary>
 
