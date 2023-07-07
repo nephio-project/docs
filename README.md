@@ -86,7 +86,7 @@ This release of Nephio focuses:
 While the current release uses Cluster API, KIND, and free5gc for demonstration
 purposes, the exact same principles and even code can be used for managing other
 infrastructure and network functions. The *uniformity in systems* principle
-means that as long as something is managable via the Kubernetes Resource Model,
+means that as long as something is manageable via the Kubernetes Resource Model,
 it is manageable via Nephio.
 
 ## User Documentation
