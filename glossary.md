@@ -218,8 +218,8 @@ files, but it could also be JSON or some other format.
 
 ## Mutation
 The act of changing the configuration. There are different processes that can be
-usd for mutation, including controllers, specializers, KRM functions, web hooks,
-and manual in-place edits.
+used for mutation, including controllers, specializers, KRM functions, web
+hooks, and manual in-place edits.
 
 *See also*: [Validation](#validation)
 
