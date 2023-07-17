@@ -3,13 +3,15 @@
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [Create the Regional cluster](#step-1-create-regional-cluster)
-- [Check the Regional cluster installation](#step-2-check-regional-cluster-installation)
+- [Create the Regional cluster](#step-1-create-the-regional-cluster)
+- [Check the Regional cluster installation](#step-2-check-the-regional-cluster-installation)
 - [Deploy two Edge clusters](#step-3-deploy-two-edge-clusters)
 - [Deploy Free5GC control plane functions](#step-4-deploy-free5Gc-control-plane-functions)
-- [Deploy Free5GC Pperator in the Workload clusters](#step-5-deploy-free5GC-operator-in-the-workload-clusters)
+- [Deploy Free5GC Operator in the Workload clusters](#step-5-deploy-free5GC-operator-in-the-workload-clusters)
 - [Check Free5GC Operator deployment](#step-6-check-free5GC-operator-deployment)
-- [Deploy AMF, SMF and UPF](#step-7-deploy-amf-smf-and-upf)
+- [Deploy AMF, SMF and UPF](#step-7-deploy-the-amf-smf-and-upf-nfs)
+- [Deploy UERANSIM](#step-8-deploy-UERANSIM)
+- [Change the Capacities of the UPF and SMF NFs](#step-9-change-the-capacities-of-the-upf-and-smf-nfs)
 
 ## Introduction
 
@@ -712,7 +714,7 @@ rtt min/avg/max/mdev = 0.043/0.046/0.050/0.002 ms
 Note that our DNN does not actually provide access to the internet, so you won't
 be able to reach the other sites.
 
-## Step 9: Changing the Capacities of the UPF and SMF NFs
+## Step 9: Change the Capacities of the UPF and SMF NFs
 
 In this step, you will change the capacity requirements for the UPF and SMF, and
 see how the operator reconfigures the Kubernetes resources used by the network
