@@ -54,7 +54,7 @@ To perform these exercises, you will need:
 - Access to the Nephio UI as described in the installation guide
 
 Access to Gitea, used in the demo environment as the Git provider, is
-optional. Later in the exercises, we will also access the free5gc Web UI.
+optional. Later in the exercises, you will also access the free5gc Web UI.
 
 ## Step 1: Create the Regional cluster
 
@@ -308,7 +308,7 @@ kubectl get secret edge02-kubeconfig -o jsonpath='{.data.value}' | base64 -d > $
 export KUBECONFIG=$HOME/.kube/config:$HOME/.kube/regional-kubeconfig:$HOME/.kube/edge01-kubeconfig:$HOME/.kube/edge02-kubeconfig
 ```
 
-Once the Edge clusters are ready, it is necessary to connect them. For now we
+Once the Edge clusters are ready, it is necessary to connect them. For now you
 are using the [containerlab tool](https://containerlab.dev/). Eventually, the
 inter-cluster networking will be automated as well.
 
@@ -349,7 +349,7 @@ INFO[0277] Adding containerlab host entries to /etc/hosts file
 ```
 </details>
 
-We will also need to configure the nodes for the VLANs. Again, this
+You will also need to configure the nodes for the VLANs. Again, this
 will be automated in a future release that addresses node setup and
 inter-cluster networking. For now, you must run a script that creates them
 in each of the worker nodes.
@@ -384,13 +384,13 @@ docker exec "regional-md-0-6hqq6-79bf858cd5xcxzl8-6x9d7" ip link set up eth1.4
 </details>
 
 
-Finally, we want to configure the resource backend to be aware of these clusters.
+Finally, you want to configure the resource backend to be aware of these clusters.
 The resource backend is an IP address and VLAN index management system. It is
 included for demonstration purposes to show how Nephio package specialization
 can interact with external systems to fully configure packages. But it needs to
 be configured to match our topology.
 
-First, we will apply a package to define the high-level networks for attaching our
+First, you will apply a package to define the high-level networks for attaching our
 workloads. The Nephio package specialization pipeline will
 determine the exact VLAN tags and IP addresses for those attachments based on
 the specific clusters. There is a predefined PackageVariant in the tests
@@ -408,7 +408,7 @@ packagevariant.config.porch.kpt.dev/network created
 ```
 </details>
 
-Then we will create appropriate `Secret` to make sure that Nephio can authenticate to the external backend.
+Then you will create appropriate `Secret` to make sure that Nephio can authenticate to the external backend.
 
 ```bash
 kubectl apply -f test-infra/e2e/tests/003-secret.yaml
@@ -423,9 +423,9 @@ secret/srl.nokia.com created
 </details>
 
 The predefined PackageVariant package defines certain resources that exist for the entire topology.
-However, we also need to configure the resource backend for our particular
+However, you also need to configure the resource backend for our particular
 topology. This will likely be automated in the future, but for now you can
-just directly apply the configuration we have created that matches this test
+just directly apply the configuration you have created that matches this test
 topology. Within this step also the credentials and information is provided
 to configure the network device, that aligns with the topology.
 
@@ -783,10 +783,10 @@ kubectl -n free5gc-cp logs $SMF_POD --context regional-admin@regional
 The UERANSIM package can be deployed to the edge01 cluster, where it will
 simulate a gNodeB and UE. Just like our other packages, UERANSIM needs to be
 configured to attach to the correct networks and use the correct IP address.
-Thus, we use our standard specialization techniques and pipeline to deploy
+Thus, you use our standard specialization techniques and pipeline to deploy
 UERANSIM, just like the other network functions.
 
-However, before we do that, let us register the UE with free5gc as a subscriber.
+However, before you do that, let us register the UE with free5gc as a subscriber.
 You will use the free5gc Web UI to do this. To access it, you need to open
 another port forwarding session. Assuming you have the `regional-kubeconfig`
 file you created earlier in your home directory, you need to establish another
@@ -815,7 +815,7 @@ Thus, you can follow the
 [instructions](https://free5gc.org/guide/New-Subscriber-via-webconsole/) on the
 free5gc site, but start at Step 4.
 
-Once the subscriber is registered, we can deploy UERANSIM:
+Once the subscriber is registered, you can deploy UERANSIM:
 
 ```bash
 kubectl apply -f test-infra/e2e/tests/007-edge01-ueransim.yaml
@@ -842,7 +842,7 @@ ueransimue-edge01-56fccbc4b6-h42k7    1/1     Running   0          81m
 
 </details>
 
-Let's see if we can simulate the UE pinging out to our DNN.
+Let's see if you can simulate the UE pinging out to our DNN.
 
 ```bash
 UE_POD=$(kubectl --kubeconfig edge01-kubeconfig get pods -n ueransim -l app=ueransim -l component=ue -o jsonpath='{.items[0].metadata.name}')
