@@ -38,6 +38,12 @@ cluster setup to a deployment with:
 - UERANSIM running on the edge01 cluster and simulating a gNB and the subscriber's
   UE
 
+The network configuration is illustrated in the following figure:
+
+![nephio-r1-5g-network.png](nephio-r1-5g-network.png)
+
+Note that for simplicity, only one edge cluster is represented.
+
 Additionally, you can use Nephio to change the capacity requirement for the UPF and
 SMF NFs and see how the free5gc operator translates that into increased memory and
 CPU requirements for the underlying workload.
