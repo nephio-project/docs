@@ -3,13 +3,15 @@
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [Create the Regional cluster](#step-1-create-regional-cluster)
-- [Check the Regional cluster installation](#step-2-check-regional-cluster-installation)
+- [Create the Regional cluster](#step-1-create-the-regional-cluster)
+- [Check the Regional cluster installation](#step-2-check-the-regional-cluster-installation)
 - [Deploy two Edge clusters](#step-3-deploy-two-edge-clusters)
 - [Deploy Free5GC control plane functions](#step-4-deploy-free5Gc-control-plane-functions)
-- [Deploy Free5GC Pperator in the Workload clusters](#step-5-deploy-free5GC-operator-in-the-workload-clusters)
+- [Deploy Free5GC Operator in the Workload clusters](#step-5-deploy-free5GC-operator-in-the-workload-clusters)
 - [Check Free5GC Operator deployment](#step-6-check-free5GC-operator-deployment)
-- [Deploy AMF, SMF and UPF](#step-7-deploy-amf-smf-and-upf)
+- [Deploy AMF, SMF and UPF](#step-7-deploy-the-amf-smf-and-upf-nfs)
+- [Deploy UERANSIM](#step-8-deploy-UERANSIM)
+- [Change the Capacities of the UPF and SMF NFs](#step-9-change-the-capacities-of-the-upf-and-smf-nfs)
 
 ## Introduction
 
@@ -36,6 +38,12 @@ cluster setup to a deployment with:
 - UERANSIM running on the edge01 cluster and simulating a gNB and the subscriber's
   UE
 
+The network configuration is illustrated in the following figure:
+
+![nephio-r1-5g-network.png](nephio-r1-5g-network.png)
+
+Note that for simplicity, only one edge cluster is represented.
+
 Additionally, you can use Nephio to change the capacity requirement for the UPF and
 SMF NFs and see how the free5gc operator translates that into increased memory and
 CPU requirements for the underlying workload.
@@ -46,7 +54,7 @@ To perform these exercises, you will need:
 - Access to the Nephio UI as described in the installation guide
 
 Access to Gitea, used in the demo environment as the Git provider, is
-optional. Later in the exercises, we will also access the free5gc Web UI.
+optional. Later in the exercises, you will also access the free5gc Web UI.
 
 ## Step 1: Create the Regional cluster
 
@@ -300,7 +308,7 @@ kubectl get secret edge02-kubeconfig -o jsonpath='{.data.value}' | base64 -d > $
 export KUBECONFIG=$HOME/.kube/config:$HOME/.kube/regional-kubeconfig:$HOME/.kube/edge01-kubeconfig:$HOME/.kube/edge02-kubeconfig
 ```
 
-Once the Edge clusters are ready, it is necessary to connect them. For now we
+Once the Edge clusters are ready, it is necessary to connect them. For now you
 are using the [containerlab tool](https://containerlab.dev/). Eventually, the
 inter-cluster networking will be automated as well.
 
@@ -341,7 +349,7 @@ INFO[0277] Adding containerlab host entries to /etc/hosts file
 ```
 </details>
 
-We will also need to configure the nodes for the VLANs. Again, this
+You will also need to configure the nodes for the VLANs. Again, this
 will be automated in a future release that addresses node setup and
 inter-cluster networking. For now, you must run a script that creates them
 in each of the worker nodes.
@@ -376,13 +384,13 @@ docker exec "regional-md-0-6hqq6-79bf858cd5xcxzl8-6x9d7" ip link set up eth1.4
 </details>
 
 
-Finally, we want to configure the resource backend to be aware of these clusters.
+Finally, you want to configure the resource backend to be aware of these clusters.
 The resource backend is an IP address and VLAN index management system. It is
 included for demonstration purposes to show how Nephio package specialization
 can interact with external systems to fully configure packages. But it needs to
 be configured to match our topology.
 
-First, we will apply a package to define the high-level networks for attaching our
+First, you will apply a package to define the high-level networks for attaching our
 workloads. The Nephio package specialization pipeline will
 determine the exact VLAN tags and IP addresses for those attachments based on
 the specific clusters. There is a predefined PackageVariant in the tests
@@ -400,7 +408,7 @@ packagevariant.config.porch.kpt.dev/network created
 ```
 </details>
 
-Then we will create appropriate `Secret` to make sure that Nephio can authenticate to the external backend.
+Then you will create appropriate `Secret` to make sure that Nephio can authenticate to the external backend.
 
 ```bash
 kubectl apply -f test-infra/e2e/tests/003-secret.yaml
@@ -415,9 +423,9 @@ secret/srl.nokia.com created
 </details>
 
 The predefined PackageVariant package defines certain resources that exist for the entire topology.
-However, we also need to configure the resource backend for our particular
+However, you also need to configure the resource backend for our particular
 topology. This will likely be automated in the future, but for now you can
-just directly apply the configuration we have created that matches this test
+just directly apply the configuration you have created that matches this test
 topology. Within this step also the credentials and information is provided
 to configure the network device, that aligns with the topology.
 
@@ -621,15 +629,164 @@ Free5gc requires that the SMF and AMF NFs be explicitly configured with informat
 about each UPF. Therefore, the AMF and SMF packages will remain in an "unready"
 state until the UPF packages have all been published.
 
+### Check UPF deployment
+
+You can check the UPF logs in edge01 cluster:
+
+```bash
+UPF1_POD=$(kubectl get pods -n free5gc-upf -l name=upf-edge01 --context edge01-admin@edge01 -o jsonpath='{.items[0].metadata.name}')
+kubectl -n free5gc-upf logs $UPF1_POD --context edge01-admin@edge01
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+2023-07-15T09:05:51Z [INFO][UPF][Main] UPF version:
+	free5GC version: v3.2.1
+	build time:      2023-06-09T16:41:08Z
+	commit hash:     4972fffb
+	commit time:     2022-06-29T05:46:33Z
+	go version:      go1.20.5 linux/amd64
+2023-07-15T09:05:51Z [INFO][UPF][Cfg] Read config from [/free5gc/config/upfcfg.yaml]
+2023-07-15T09:05:51Z [INFO][UPF][Cfg] ==================================================
+2023-07-15T09:05:51Z [INFO][UPF][Cfg] (*factory.Config)(0xc0003c25f0)({
+	Version: (string) (len=5) "1.0.3",
+	Description: (string) (len=17) "UPF configuration",
+	Pfcp: (*factory.Pfcp)(0xc0003d2fc0)({
+		Addr: (string) (len=11) "172.1.1.254",
+		NodeID: (string) (len=11) "172.1.1.254",
+		RetransTimeout: (time.Duration) 1s,
+		MaxRetrans: (uint8) 3
+	}),
+	Gtpu: (*factory.Gtpu)(0xc0003d3170)({
+		Forwarder: (string) (len=5) "gtp5g",
+		IfList: ([]factory.IfInfo) (len=1 cap=1) {
+			(factory.IfInfo) {
+				Addr: (string) (len=11) "172.3.0.254",
+				Type: (string) (len=2) "N3",
+				Name: (string) "",
+				IfName: (string) ""
+			}
+		}
+	}),
+	DnnList: ([]factory.DnnList) (len=1 cap=1) {
+		(factory.DnnList) {
+			Dnn: (string) (len=8) "internet",
+			Cidr: (string) (len=11) "10.1.0.0/24",
+			NatIfName: (string) (len=2) "n6"
+		}
+	},
+	Logger: (*factory.Logger)(0xc000378be0)({
+		Enable: (bool) true,
+		Level: (string) (len=4) "info",
+		ReportCaller: (bool) false
+	})
+})
+2023-07-15T09:05:51Z [INFO][UPF][Cfg] ==================================================
+2023-07-15T09:05:51Z [INFO][UPF][Main] Log level is set to [info] level
+2023-07-15T09:05:51Z [INFO][UPF][Main] starting Gtpu Forwarder [gtp5g]
+2023-07-15T09:05:51Z [INFO][UPF][Main] GTP Address: "172.3.0.254:2152"
+2023-07-15T09:05:51Z [INFO][UPF][Buff] buff server started
+2023-07-15T09:05:51Z [INFO][UPF][Pfcp][172.1.1.254:8805] starting pfcp server
+2023-07-15T09:05:51Z [INFO][UPF][Pfcp][172.1.1.254:8805] pfcp server started
+2023-07-15T09:05:51Z [INFO][UPF][Main] UPF started
+2023-07-15T09:10:45Z [INFO][UPF][Pfcp][172.1.1.254:8805] handleAssociationSetupRequest
+2023-07-15T09:10:45Z [INFO][UPF][Pfcp][172.1.1.254:8805][rNodeID:172.1.0.254] New node
+```
+</details>
+
+### Check AMF deployment
+
+You can check the AMF logs:
+
+```bash
+AMF_POD=$(kubectl get pods -n free5gc-cp -l name=amf-regional --context regional-admin@regional -o jsonpath='{.items[0].metadata.name}')
+kubectl -n free5gc-cp logs $AMF_POD --context regional-admin@regional
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+2023-07-15T09:08:55Z [INFO][AMF][CFG] config version [1.0.3]
+2023-07-15T09:08:55Z [INFO][AMF][Init] AMF Log level is set to [info] level
+2023-07-15T09:08:55Z [INFO][LIB][NAS] set log level : info
+2023-07-15T09:08:55Z [INFO][LIB][NAS] set report call : false
+2023-07-15T09:08:55Z [INFO][LIB][NGAP] set log level : info
+2023-07-15T09:08:55Z [INFO][LIB][NGAP] set report call : false
+2023-07-15T09:08:55Z [INFO][LIB][FSM] set log level : info
+2023-07-15T09:08:55Z [INFO][LIB][FSM] set report call : false
+2023-07-15T09:08:55Z [INFO][LIB][Aper] set log level : info
+2023-07-15T09:08:55Z [INFO][LIB][Aper] set report call : false
+2023-07-15T09:08:55Z [INFO][AMF][App] amf
+2023-07-15T09:08:55Z [INFO][AMF][App] AMF version:
+	free5GC version: v3.2.1
+	build time:      2023-06-09T16:40:22Z
+	commit hash:     a3bd5358
+	commit time:     2022-05-01T14:58:26Z
+	go version:      go1.20.5 linux/amd64
+2023-07-15T09:08:55Z [INFO][AMF][Init] Server started
+2023-07-15T09:08:55Z [INFO][AMF][Util] amfconfig Info: Version[1.0.3] Description[AMF initial local configuration]
+2023-07-15T09:08:55Z [INFO][AMF][NGAP] Listen on 172.2.2.254:38412
+```
+</details>
+
+### Check SMF deployment
+
+You can check the SMF logs:
+
+```bash
+SMF_POD=$(kubectl get pods -n free5gc-cp -l name=smf-regional --context regional-admin@regional -o jsonpath='{.items[0].metadata.name}')
+kubectl -n free5gc-cp logs $SMF_POD --context regional-admin@regional
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+2023-07-15T09:10:45Z [INFO][SMF][CFG] SMF config version [1.0.2]
+2023-07-15T09:10:45Z [INFO][SMF][CFG] UE-Routing config version [1.0.1]
+2023-07-15T09:10:45Z [INFO][SMF][Init] SMF Log level is set to [debug] level
+2023-07-15T09:10:45Z [INFO][LIB][NAS] set log level : info
+2023-07-15T09:10:45Z [INFO][LIB][NAS] set report call : false
+2023-07-15T09:10:45Z [INFO][LIB][NGAP] set log level : info
+2023-07-15T09:10:45Z [INFO][LIB][NGAP] set report call : false
+2023-07-15T09:10:45Z [INFO][LIB][Aper] set log level : info
+2023-07-15T09:10:45Z [INFO][LIB][Aper] set report call : false
+2023-07-15T09:10:45Z [INFO][LIB][PFCP] set log level : info
+2023-07-15T09:10:45Z [INFO][LIB][PFCP] set report call : false
+2023-07-15T09:10:45Z [INFO][SMF][App] smf
+2023-07-15T09:10:45Z [INFO][SMF][App] SMF version:
+	free5GC version: v3.2.1
+	build time:      2023-06-09T16:40:53Z
+	commit hash:     de70bf6c
+	commit time:     2022-06-28T04:52:40Z
+	go version:      go1.20.5 linux/amd64
+2023-07-15T09:10:45Z [INFO][SMF][CTX] smfconfig Info: Version[1.0.2] Description[SMF configuration]
+2023-07-15T09:10:45Z [INFO][SMF][CTX] Endpoints: [172.3.0.254]
+2023-07-15T09:10:45Z [INFO][SMF][CTX] Endpoints: [172.3.1.254]
+2023-07-15T09:10:45Z [INFO][SMF][Init] Server started
+2023-07-15T09:10:45Z [INFO][SMF][Init] SMF Registration to NRF {7011c946-4ca4-45ff-bac6-32116bd93934 SMF REGISTERED 0 0xc0001da168 0xc0001da198 [] []   [smf-regional] [] <nil> [] [] <nil> 0 0 0 area1 <nil> <nil> <nil> <nil> 0xc0000b81c0 <nil> <nil> <nil> <nil> <nil> map[] <nil> false 0xc0001da060 false false []}
+2023-07-15T09:10:45Z [INFO][SMF][PFCP] Listen on 172.1.0.254:8805
+2023-07-15T09:10:45Z [INFO][SMF][App] Sending PFCP Association Request to UPF[172.1.1.254]
+2023-07-15T09:10:45Z [INFO][LIB][PFCP] Remove Request Transaction [1]
+2023-07-15T09:10:45Z [INFO][SMF][App] Received PFCP Association Setup Accepted Response from UPF[172.1.1.254]
+2023-07-15T09:10:45Z [INFO][SMF][App] Sending PFCP Association Request to UPF[172.1.2.254]
+2023-07-15T09:10:45Z [INFO][LIB][PFCP] Remove Request Transaction [2]
+2023-07-15T09:10:45Z [INFO][SMF][App] Received PFCP Association Setup Accepted Response from UPF[172.1.2.254]
+```
+</details>
+
 ## Step 8: Deploy UERANSIM
 
 The UERANSIM package can be deployed to the edge01 cluster, where it will
 simulate a gNodeB and UE. Just like our other packages, UERANSIM needs to be
 configured to attach to the correct networks and use the correct IP address.
-Thus, we use our standard specialization techniques and pipeline to deploy
+Thus, you use our standard specialization techniques and pipeline to deploy
 UERANSIM, just like the other network functions.
 
-However, before we do that, let us register the UE with free5gc as a subscriber.
+However, before you do that, let us register the UE with free5gc as a subscriber.
 You will use the free5gc Web UI to do this. To access it, you need to open
 another port forwarding session. Assuming you have the `regional-kubeconfig`
 file you created earlier in your home directory, you need to establish another
@@ -658,7 +815,7 @@ Thus, you can follow the
 [instructions](https://free5gc.org/guide/New-Subscriber-via-webconsole/) on the
 free5gc site, but start at Step 4.
 
-Once the subscriber is registered, we can deploy UERANSIM:
+Once the subscriber is registered, you can deploy UERANSIM:
 
 ```bash
 kubectl apply -f test-infra/e2e/tests/007-edge01-ueransim.yaml
@@ -685,7 +842,7 @@ ueransimue-edge01-56fccbc4b6-h42k7    1/1     Running   0          81m
 
 </details>
 
-Let's see if we can simulate the UE pinging out to our DNN.
+Let's see if you can simulate the UE pinging out to our DNN.
 
 ```bash
 UE_POD=$(kubectl --kubeconfig edge01-kubeconfig get pods -n ueransim -l app=ueransim -l component=ue -o jsonpath='{.items[0].metadata.name}')
@@ -712,7 +869,7 @@ rtt min/avg/max/mdev = 0.043/0.046/0.050/0.002 ms
 Note that our DNN does not actually provide access to the internet, so you won't
 be able to reach the other sites.
 
-## Step 9: Changing the Capacities of the UPF and SMF NFs
+## Step 9: Change the Capacities of the UPF and SMF NFs
 
 In this step, you will change the capacity requirements for the UPF and SMF, and
 see how the operator reconfigures the Kubernetes resources used by the network
