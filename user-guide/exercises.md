@@ -623,6 +623,155 @@ Free5gc requires that the SMF and AMF NFs be explicitly configured with informat
 about each UPF. Therefore, the AMF and SMF packages will remain in an "unready"
 state until the UPF packages have all been published.
 
+### Check UPF deployment
+
+You can check the UPF logs in edge01 cluster:
+
+```bash
+UPF1_POD=$(kubectl get pods -n free5gc-upf -l name=upf-edge01 --context edge01-admin@edge01 -o jsonpath='{.items[0].metadata.name}')
+kubectl -n free5gc-upf logs $UPF1_POD --context edge01-admin@edge01
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+2023-07-15T09:05:51Z [INFO][UPF][Main] UPF version:
+	free5GC version: v3.2.1
+	build time:      2023-06-09T16:41:08Z
+	commit hash:     4972fffb
+	commit time:     2022-06-29T05:46:33Z
+	go version:      go1.20.5 linux/amd64
+2023-07-15T09:05:51Z [INFO][UPF][Cfg] Read config from [/free5gc/config/upfcfg.yaml]
+2023-07-15T09:05:51Z [INFO][UPF][Cfg] ==================================================
+2023-07-15T09:05:51Z [INFO][UPF][Cfg] (*factory.Config)(0xc0003c25f0)({
+	Version: (string) (len=5) "1.0.3",
+	Description: (string) (len=17) "UPF configuration",
+	Pfcp: (*factory.Pfcp)(0xc0003d2fc0)({
+		Addr: (string) (len=11) "172.1.1.254",
+		NodeID: (string) (len=11) "172.1.1.254",
+		RetransTimeout: (time.Duration) 1s,
+		MaxRetrans: (uint8) 3
+	}),
+	Gtpu: (*factory.Gtpu)(0xc0003d3170)({
+		Forwarder: (string) (len=5) "gtp5g",
+		IfList: ([]factory.IfInfo) (len=1 cap=1) {
+			(factory.IfInfo) {
+				Addr: (string) (len=11) "172.3.0.254",
+				Type: (string) (len=2) "N3",
+				Name: (string) "",
+				IfName: (string) ""
+			}
+		}
+	}),
+	DnnList: ([]factory.DnnList) (len=1 cap=1) {
+		(factory.DnnList) {
+			Dnn: (string) (len=8) "internet",
+			Cidr: (string) (len=11) "10.1.0.0/24",
+			NatIfName: (string) (len=2) "n6"
+		}
+	},
+	Logger: (*factory.Logger)(0xc000378be0)({
+		Enable: (bool) true,
+		Level: (string) (len=4) "info",
+		ReportCaller: (bool) false
+	})
+})
+2023-07-15T09:05:51Z [INFO][UPF][Cfg] ==================================================
+2023-07-15T09:05:51Z [INFO][UPF][Main] Log level is set to [info] level
+2023-07-15T09:05:51Z [INFO][UPF][Main] starting Gtpu Forwarder [gtp5g]
+2023-07-15T09:05:51Z [INFO][UPF][Main] GTP Address: "172.3.0.254:2152"
+2023-07-15T09:05:51Z [INFO][UPF][Buff] buff server started
+2023-07-15T09:05:51Z [INFO][UPF][Pfcp][172.1.1.254:8805] starting pfcp server
+2023-07-15T09:05:51Z [INFO][UPF][Pfcp][172.1.1.254:8805] pfcp server started
+2023-07-15T09:05:51Z [INFO][UPF][Main] UPF started
+2023-07-15T09:10:45Z [INFO][UPF][Pfcp][172.1.1.254:8805] handleAssociationSetupRequest
+2023-07-15T09:10:45Z [INFO][UPF][Pfcp][172.1.1.254:8805][rNodeID:172.1.0.254] New node
+```
+</details>
+
+### Check AMF deployment
+
+You can check the AMF logs:
+
+```bash
+AMF_POD=$(kubectl get pods -n free5gc-cp -l name=amf-regional --context regional-admin@regional -o jsonpath='{.items[0].metadata.name}')
+kubectl -n free5gc-cp logs $AMF_POD --context regional-admin@regional
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+2023-07-15T09:08:55Z [INFO][AMF][CFG] config version [1.0.3]
+2023-07-15T09:08:55Z [INFO][AMF][Init] AMF Log level is set to [info] level
+2023-07-15T09:08:55Z [INFO][LIB][NAS] set log level : info
+2023-07-15T09:08:55Z [INFO][LIB][NAS] set report call : false
+2023-07-15T09:08:55Z [INFO][LIB][NGAP] set log level : info
+2023-07-15T09:08:55Z [INFO][LIB][NGAP] set report call : false
+2023-07-15T09:08:55Z [INFO][LIB][FSM] set log level : info
+2023-07-15T09:08:55Z [INFO][LIB][FSM] set report call : false
+2023-07-15T09:08:55Z [INFO][LIB][Aper] set log level : info
+2023-07-15T09:08:55Z [INFO][LIB][Aper] set report call : false
+2023-07-15T09:08:55Z [INFO][AMF][App] amf
+2023-07-15T09:08:55Z [INFO][AMF][App] AMF version:
+	free5GC version: v3.2.1
+	build time:      2023-06-09T16:40:22Z
+	commit hash:     a3bd5358
+	commit time:     2022-05-01T14:58:26Z
+	go version:      go1.20.5 linux/amd64
+2023-07-15T09:08:55Z [INFO][AMF][Init] Server started
+2023-07-15T09:08:55Z [INFO][AMF][Util] amfconfig Info: Version[1.0.3] Description[AMF initial local configuration]
+2023-07-15T09:08:55Z [INFO][AMF][NGAP] Listen on 172.2.2.254:38412
+```
+</details>
+
+### Check SMF deployment
+
+You can check the SMF logs:
+
+```bash
+SMF_POD=$(kubectl get pods -n free5gc-cp -l name=smf-regional --context regional-admin@regional -o jsonpath='{.items[0].metadata.name}')
+kubectl -n free5gc-cp logs $SMF_POD --context regional-admin@regional
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+2023-07-15T09:10:45Z [INFO][SMF][CFG] SMF config version [1.0.2]
+2023-07-15T09:10:45Z [INFO][SMF][CFG] UE-Routing config version [1.0.1]
+2023-07-15T09:10:45Z [INFO][SMF][Init] SMF Log level is set to [debug] level
+2023-07-15T09:10:45Z [INFO][LIB][NAS] set log level : info
+2023-07-15T09:10:45Z [INFO][LIB][NAS] set report call : false
+2023-07-15T09:10:45Z [INFO][LIB][NGAP] set log level : info
+2023-07-15T09:10:45Z [INFO][LIB][NGAP] set report call : false
+2023-07-15T09:10:45Z [INFO][LIB][Aper] set log level : info
+2023-07-15T09:10:45Z [INFO][LIB][Aper] set report call : false
+2023-07-15T09:10:45Z [INFO][LIB][PFCP] set log level : info
+2023-07-15T09:10:45Z [INFO][LIB][PFCP] set report call : false
+2023-07-15T09:10:45Z [INFO][SMF][App] smf
+2023-07-15T09:10:45Z [INFO][SMF][App] SMF version:
+	free5GC version: v3.2.1
+	build time:      2023-06-09T16:40:53Z
+	commit hash:     de70bf6c
+	commit time:     2022-06-28T04:52:40Z
+	go version:      go1.20.5 linux/amd64
+2023-07-15T09:10:45Z [INFO][SMF][CTX] smfconfig Info: Version[1.0.2] Description[SMF configuration]
+2023-07-15T09:10:45Z [INFO][SMF][CTX] Endpoints: [172.3.0.254]
+2023-07-15T09:10:45Z [INFO][SMF][CTX] Endpoints: [172.3.1.254]
+2023-07-15T09:10:45Z [INFO][SMF][Init] Server started
+2023-07-15T09:10:45Z [INFO][SMF][Init] SMF Registration to NRF {7011c946-4ca4-45ff-bac6-32116bd93934 SMF REGISTERED 0 0xc0001da168 0xc0001da198 [] []   [smf-regional] [] <nil> [] [] <nil> 0 0 0 area1 <nil> <nil> <nil> <nil> 0xc0000b81c0 <nil> <nil> <nil> <nil> <nil> map[] <nil> false 0xc0001da060 false false []}
+2023-07-15T09:10:45Z [INFO][SMF][PFCP] Listen on 172.1.0.254:8805
+2023-07-15T09:10:45Z [INFO][SMF][App] Sending PFCP Association Request to UPF[172.1.1.254]
+2023-07-15T09:10:45Z [INFO][LIB][PFCP] Remove Request Transaction [1]
+2023-07-15T09:10:45Z [INFO][SMF][App] Received PFCP Association Setup Accepted Response from UPF[172.1.1.254]
+2023-07-15T09:10:45Z [INFO][SMF][App] Sending PFCP Association Request to UPF[172.1.2.254]
+2023-07-15T09:10:45Z [INFO][LIB][PFCP] Remove Request Transaction [2]
+2023-07-15T09:10:45Z [INFO][SMF][App] Received PFCP Association Setup Accepted Response from UPF[172.1.2.254]
+```
+</details>
+
 ## Step 8: Deploy UERANSIM
 
 The UERANSIM package can be deployed to the edge01 cluster, where it will
