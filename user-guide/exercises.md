@@ -308,6 +308,13 @@ kubectl get secret edge02-kubeconfig -o jsonpath='{.data.value}' | base64 -d > $
 export KUBECONFIG=$HOME/.kube/config:$HOME/.kube/regional-kubeconfig:$HOME/.kube/edge01-kubeconfig:$HOME/.kube/edge02-kubeconfig
 ```
 
+To retain the KUBECONFIG environment variable permanently across sessions for the
+user, add it to the `~/.bash_profile` and source the `~/.bash_profile` file
+```bash
+echo "export KUBECONFIG=$HOME/.kube/config:$HOME/.kube/regional-kubeconfig:$HOME/.kube/edge01-kubeconfig:$HOME/.kube/edge02-kubeconfig" >> ~/.bash_profile
+source ~/.bash_profile
+```
+
 Once the Edge clusters are ready, it is necessary to connect them. For now you
 are using the [containerlab tool](https://containerlab.dev/). Eventually, the
 inter-cluster networking will be automated as well.
