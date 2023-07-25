@@ -151,9 +151,9 @@ kpt fn eval --image gcr.io/kpt-fn/set-labels:v0.2.0 regional -- "nephio.org/site
 
 ```console
 [RUNNING] "gcr.io/kpt-fn/set-labels:v0.2.0"
-[PASS] "gcr.io/kpt-fn/set-labels:v0.2.0" in 5.5s
-    Results:
-    [info]: set 7 labels in total
+[PASS] "gcr.io/kpt-fn/set-labels:v0.2.0" in 3.7s
+  Results:
+    [info]: set 18 labels in total
 ```
 </details>
 
@@ -332,27 +332,29 @@ sudo containerlab deploy --topo test-infra/e2e/tests/002-topo.gotmpl --vars /tmp
 <summary>The output is similar to:</summary>
 
 ```console
-{"workers":["edge01-md-0-5xpjv-d578b7b8bxwph6d-6sv2n","edge02-md-0-fvpvh-99498794cxhfzsn-q5xvl","regional-md-0-p6zbf-586d7b54d8xw6b5x-qv77v"]}
+{"workers":["edge01-md-0-nqjqm-b89c57dc5x8bxqk-l4bm9","edge02-md-0-m2t95-7f9f97c885x8cq64-9nf9r","regional-md-0-68wr8-9664894cxqdhph-bp59q"]}
 INFO[0000] Containerlab v0.41.2 started
 INFO[0000] Parsing & checking topology file: 002-topo.gotmpl
 INFO[0000] Could not read docker config: open /root/.docker/config.json: no such file or directory
-INFO[0000] Pulling ghcr.io/nokia/srlinux:latest Docker image
-INFO[0266] Done pulling ghcr.io/nokia/srlinux:latest
-INFO[0266] Creating lab directory: /tmp/test-infra/e2e/clab-free5gc-net
-INFO[0268] Creating docker network: Name="clab", IPv4Subnet="172.20.20.0/24", IPv6Subnet="2001:172:20:20::/64", MTU="1500"
-INFO[0271] Creating container: "N6"
-INFO[0276] Creating virtual wire: N6:e1-1 <--> edge02-md-0-fvpvh-99498794cxhfzsn-q5xvl:eth1
-INFO[0276] Creating virtual wire: N6:e1-2 <--> regional-md-0-p6zbf-586d7b54d8xw6b5x-qv77v:eth1
-INFO[0276] Creating virtual wire: N6:e1-0 <--> edge01-md-0-5xpjv-d578b7b8bxwph6d-6sv2n:eth1
-INFO[0277] Adding containerlab host entries to /etc/hosts file
-+---+--------------------------------------------+--------------+-----------------------+---------------+---------+----------------+--------------------------+
-| # |                    Name                    | Container ID |         Image         |     Kind      |  State  |  IPv4 Address  |       IPv6 Address       |
-+---+--------------------------------------------+--------------+-----------------------+---------------+---------+----------------+--------------------------+
-| 1 | edge01-md-0-5xpjv-d578b7b8bxwph6d-6sv2n    | 44e78769fc1e | kindest/node:v1.26.3  | ext-container | running | 172.18.0.11/16 | fc00:f853:ccd:e793::b/64 |
-| 2 | edge02-md-0-fvpvh-99498794cxhfzsn-q5xvl    | 38eb76c0323b | kindest/node:v1.26.3  | ext-container | running | 172.18.0.8/16  | fc00:f853:ccd:e793::8/64 |
-| 3 | regional-md-0-p6zbf-586d7b54d8xw6b5x-qv77v | 142a4f0cff7e | kindest/node:v1.26.3  | ext-container | running | 172.18.0.5/16  | fc00:f853:ccd:e793::5/64 |
-| 4 | net-free5gc-net-N6                         | 1581d603e174 | ghcr.io/nokia/srlinux | srl           | running | 172.20.20.2/24 | 2001:172:20:20::2/64     |
-+---+--------------------------------------------+--------------+-----------------------+---------------+---------+----------------+--------------------------+
+INFO[0000] Pulling ghcr.io/nokia/srlinux:22.11.2-116 Docker image
+INFO[0056] Done pulling ghcr.io/nokia/srlinux:22.11.2-116
+INFO[0056] Creating lab directory: /home/ubuntu/clab-free5gc-net
+INFO[0056] Creating container: "leaf"
+INFO[0058] Creating virtual wire: leaf:e1-2 <--> edge02-md-0-m2t95-7f9f97c885x8cq64-9nf9r:eth1
+INFO[0058] Creating virtual wire: leaf:e1-3 <--> regional-md-0-68wr8-9664894cxqdhph-bp59q:eth1
+INFO[0058] Creating virtual wire: leaf:e1-1 <--> edge01-md-0-nqjqm-b89c57dc5x8bxqk-l4bm9:eth1
+INFO[0058] Running postdeploy actions for Nokia SR Linux 'leaf' node
+INFO[0076] Adding containerlab host entries to /etc/hosts file
+INFO[0076] 🎉 New containerlab version 0.42.0 is available! Release notes: https://containerlab.dev/rn/0.42/
+Run 'containerlab version upgrade' to upgrade or go check other installation options at https://containerlab.dev/install/
++---+------------------------------------------+--------------+-----------------------------------+---------------+---------+----------------+--------------------------+
+| # |                   Name                   | Container ID |               Image               |     Kind      |  State  |  IPv4 Address  |       IPv6 Address       |
++---+------------------------------------------+--------------+-----------------------------------+---------------+---------+----------------+--------------------------+
+| 1 | edge01-md-0-nqjqm-b89c57dc5x8bxqk-l4bm9  | f2fc7ace220b | kindest/node:v1.26.3              | ext-container | running | 172.18.0.10/16 | fc00:f853:ccd:e793::a/64 |
+| 2 | edge02-md-0-m2t95-7f9f97c885x8cq64-9nf9r | 22b81815901e | kindest/node:v1.26.3              | ext-container | running | 172.18.0.11/16 | fc00:f853:ccd:e793::b/64 |
+| 3 | regional-md-0-68wr8-9664894cxqdhph-bp59q | 20dfc8f0be2a | kindest/node:v1.26.3              | ext-container | running | 172.18.0.5/16  | fc00:f853:ccd:e793::5/64 |
+| 4 | net-free5gc-net-leaf                     | 1c21153a1acb | ghcr.io/nokia/srlinux:22.11.2-116 | srl           | running | 172.18.0.12/16 | fc00:f853:ccd:e793::c/64 |
++---+------------------------------------------+--------------+-----------------------------------+---------------+---------+----------------+--------------------------+
 ```
 </details>
 
