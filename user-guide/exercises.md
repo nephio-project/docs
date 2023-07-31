@@ -290,6 +290,23 @@ packagevariantset.config.porch.kpt.dev/edge-clusters created
 ```
 </details>
 
+You should also check that the KinD cluster has come up fully with `kubectl get
+machinesets`. You should see READY and AVAILABLE replicas.
+
+```bash
+kubectl get machinesets
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+NAME                                   CLUSTER    REPLICAS   READY   AVAILABLE   AGE    VERSION
+edge01-md-0-p5vwv-98cb4b55cx58l8l      edge01     1          1       1           114m   v1.26.3
+edge02-md-0-4nfpb-797dc6ddd7x8fc56     edge02     1          1       1           114m   v1.26.3
+```
+</details>
+
 This is equivalent to doing the same `kpt` commands used earlier for the Regional
 cluster, except that it uses the PackageVariantSet controller, which is
 running in the Nephio Management cluster. It will
@@ -320,12 +337,7 @@ are using the [containerlab tool](https://containerlab.dev/). Eventually, the
 inter-cluster networking will be automated as well.
 
 ```bash
-workers=""
-for context in $(kubectl config get-contexts --no-headers --output name | sort); do
-    workers+=$(kubectl get nodes -l node-role.kubernetes.io/control-plane!= -o jsonpath='{range .items[*]}"{.metadata.name}",{"\n"}{end}' --context "$context")
-done
-echo "{\"workers\":[${workers::-1}]}" | tee /tmp/vars.json
-sudo containerlab deploy --topo test-infra/e2e/tests/002-topo.gotmpl --vars /tmp/vars.json
+./test-infra/e2e/provision/hacks/inter-connect_workers.sh
 ```
 
 <details>
@@ -855,22 +867,22 @@ Let's see if you can simulate the UE pinging out to our DNN.
 
 ```bash
 UE_POD=$(kubectl --kubeconfig edge01-kubeconfig get pods -n ueransim -l app=ueransim -l component=ue -o jsonpath='{.items[0].metadata.name}')
-kubectl --kubeconfig edge01-kubeconfig -n ueransim exec -it $UE_POD -- /bin/bash -c "ping -I uesimtun0 1.1.1.1"
+kubectl --kubeconfig edge01-kubeconfig -n ueransim exec -it $UE_POD -- /bin/bash -c "ping -I uesimtun0 172.0.0.1"
 ```
 
 <details>
 <summary>The output is similar to:</summary>
 
 ```console
-PING 1.1.1.1 (1.1.1.1) from 1.1.1.1 uesimtun0: 56(84) bytes of data.
-64 bytes from 1.1.1.1: icmp_seq=1 ttl=64 time=0.050 ms
-64 bytes from 1.1.1.1: icmp_seq=2 ttl=64 time=0.044 ms
-64 bytes from 1.1.1.1: icmp_seq=3 ttl=64 time=0.047 ms
-64 bytes from 1.1.1.1: icmp_seq=4 ttl=64 time=0.043 ms
+PING 172.0.0.1 (172.0.0.1) from 10.1.0.2 uesimtun0: 56(84) bytes of data.
+64 bytes from 172.0.0.1: icmp_seq=1 ttl=63 time=7.01 ms
+64 bytes from 172.0.0.1: icmp_seq=2 ttl=63 time=6.28 ms
+64 bytes from 172.0.0.1: icmp_seq=3 ttl=63 time=8.89 ms
+64 bytes from 172.0.0.1: icmp_seq=4 ttl=63 time=8.15 ms
 ^C
---- 1.1.1.1 ping statistics ---
-4 packets transmitted, 4 received, 0% packet loss, time 3061ms
-rtt min/avg/max/mdev = 0.043/0.046/0.050/0.002 ms
+--- 172.0.0.1 ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3003ms
+rtt min/avg/max/mdev = 6.280/7.586/8.896/1.011 ms
 ```
 
 </details>
