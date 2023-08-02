@@ -36,7 +36,7 @@ gcloud compute instances create --machine-type e2-standard-8 \
                                     --boot-disk-size 200GB \
                                     --image-family=ubuntu-2004-lts \
                                     --image-project=ubuntu-os-cloud \
-                                    --metadata=startup-script-url=https://raw.githubusercontent.com/nephio-project/test-infra/v1.0.1-beta.1/e2e/provision/init.sh,nephio-test-infra-branch=v1.0.1-beta.1 \
+                                    --metadata=startup-script-url=https://raw.githubusercontent.com/nephio-project/test-infra/v1.0.1/e2e/provision/init.sh,nephio-test-infra-branch=v1.0.1 \
                                     nephio-r1-e2e
 ```
 
@@ -103,9 +103,9 @@ sudo netplan apply
 Log onto your VM and run the following command:
 
 ```bash
-wget -O - https://raw.githubusercontent.com/nephio-project/test-infra/v1.0.1-beta.1/e2e/provision/init.sh |  \
+wget -O - https://raw.githubusercontent.com/nephio-project/test-infra/v1.0.1/e2e/provision/init.sh |  \
 sudo NEPHIO_DEBUG=false   \
-     NEPHIO_BRANCH=v1.0.1-beta.1 \
+     NEPHIO_BRANCH=v1.0.1 \
      NEPHIO_USER=ubuntu   \
      bash
 ```

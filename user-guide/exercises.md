@@ -109,7 +109,8 @@ nephio-example-packages-c78ecc6bedc8bf68185f28a998718eed8432dc3b   nephio-worklo
 nephio-example-packages-46b923a6bbd09c2ab7aa86c9853a96cbd38d1ed7   nephio-workload-cluster   v5              v5         false    Published   nephio-example-packages
 nephio-example-packages-17bffe318ac068f5f9ef22d44f08053e948a3683   nephio-workload-cluster   v6              v6         false    Published   nephio-example-packages
 nephio-example-packages-0fbaccf6c5e75a3eff7976a523bb4f42bb0118ce   nephio-workload-cluster   v7              v7         false    Published   nephio-example-packages
-nephio-example-packages-7895e28d847c0296a204007ed577cd2a4222d1ea   nephio-workload-cluster   v8              v8         true     Published   nephio-example-packages
+nephio-example-packages-7895e28d847c0296a204007ed577cd2a4222d1ea   nephio-workload-cluster   v8              v8         false    Published   nephio-example-packages
+nephio-example-packages-48cea934a3bd876b775099ab59e7c12456888ffd   nephio-workload-cluster   v9              v9         true     Published   nephio-example-packages
 ```
 </details>
 
@@ -117,7 +118,7 @@ Then, use the NAME from that in the `clone` operation, and the resulting
 PackageRevision name to perform the `propose` and `approve` operations:
 
 ```bash
-kpt alpha rpkg clone -n default nephio-example-packages-7895e28d847c0296a204007ed577cd2a4222d1ea --repository mgmt regional
+kpt alpha rpkg clone -n default nephio-example-packages-48cea934a3bd876b775099ab59e7c12456888ffd --repository mgmt regional
 ```
 
 <details>
