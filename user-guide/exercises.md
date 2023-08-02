@@ -230,7 +230,7 @@ regional   Provisioned   52m     v1.26.3
 
 To access the API server of that cluster, you
 need to retrieve the `kubeconfig` file by pulling it from the Kubernetes Secret and decode the base64
-encoding[^getcapikubeconfig]:
+encoding:
 
 ```bash
 kubectl get secret regional-kubeconfig -o jsonpath='{.data.value}' | base64 -d > $HOME/.kube/regional-kubeconfig
@@ -896,8 +896,5 @@ In this step, you will change the capacity requirements for the UPF and SMF, and
 see how the operator reconfigures the Kubernetes resources used by the network
 functions.
 
-## Footnotes
-[^capikubeconfig]: The install process sets up a shortcut for this. You can get
-    retrieve a cluster's kubeconfig with `get_capi_kubeconfig <clustername>`.
-    For example, `get_capi_kubeconfig regional` will create a file
-    `regional-kubeconfig` in your home directory.
+The capacity requirements are captured in a custom resource within the deployed
+package.
