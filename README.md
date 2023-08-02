@@ -1,21 +1,39 @@
 # Nephio R1
 
-## Introduction
+Welcome to the R1 release of Nephio. Please use the documenation links below to
+learn more about Nephio R1, or checkout our [Learning Nephio with
+R1](https://wiki.nephio.org/display/HOME/Learning+with+Nephio+R1) series, which
+includes a [demo video](https://youtu.be/mFl71sy2Pdc) and short articles about
+different aspects of R1.
 
-Welcome to the R1 release of Nephio.  Our mission is "to deliver carrier
--grade, simple, open, Kubernetes-based cloud native intent automation and
-common automation templates that materially simplify the deployment and
-management of multi-vendor cloud infrastructure and network functions across
-large scale edge deployments." But what does that mean? With this release and
-the accompanying documentation, we hope to make that clear.
+## User Documentation
+* [Release Notes](https://github.com/nephio-project/docs/blob/main/release-notes/README.md)
+* [Demo Sandbox Environment Installation](https://github.com/nephio-project/docs/blob/main/install-guide/README.md)
+* [Quick Start Exercises](https://github.com/nephio-project/docs/blob/main/user-guide/exercises.md)
+* [User Guide](https://github.com/nephio-project/docs/blob/main/user-guide/README.md)
 
-The mission outlines the basic goals and the [About Nephio page](https://nephio.org/about/)
-describes the high-level architecture of Nephio. It is important to understand that Nephio is about managing complex, inter-related workloads
-*at scale*. If we simply want to deploy a network function, existing methods
-like Helm charts and scripts are sufficient. Similarly, if we want to deploy
-some infrastructure, then using existing Infrastructure-as-Code tools can
-accomplish that. Configuring running network functions can already be done today
-with element managers.
+## Other Documentation
+
+* [Developer Documentation](https://github.com/nephio-project/nephio)
+* [Project Resources](https://github.com/nephio-project/docs/blob/main/resources.md)
+
+## About Nephio R1
+
+Our mission is "to deliver carrier-grade, simple, open, Kubernetes-based cloud
+native intent automation and common automation templates that materially
+simplify the deployment and management of multi-vendor cloud infrastructure and
+network functions across large scale edge deployments." But what does that mean?
+With this release and the accompanying documentation, we hope to make that
+clear.
+
+The mission outlines the basic goals and the [About Nephio
+page](https://nephio.org/about/) describes the high-level architecture of
+Nephio. It is important to understand that Nephio is about managing complex,
+inter-related workloads *at scale*. If we simply want to deploy a network
+function, existing methods like Helm charts and scripts are sufficient.
+Similarly, if we want to deploy some infrastructure, then using existing
+Infrastructure-as-Code tools can accomplish that. Configuring running network
+functions can already be done today with element managers.
 
 So, why do we need Nephio? The problems Nephio wants to solve start only
 once we try to operate at scale. "Scale" here does not simply mean "large number
@@ -88,14 +106,3 @@ purposes, the exact same principles and even code can be used for managing other
 infrastructure and network functions. The *uniformity in systems* principle
 means that as long as something is manageable via the Kubernetes Resource Model,
 it is manageable via Nephio.
-
-## User Documentation
-* [Release Notes](https://github.com/nephio-project/docs/blob/main/release-notes/README.md)
-* [Demo Sandbox Environment Installation](https://github.com/nephio-project/docs/blob/main/install-guide/README.md)
-* [Quick Start Exercises](https://github.com/nephio-project/docs/blob/main/user-guide/exercises.md)
-* [User Guide](https://github.com/nephio-project/docs/blob/main/user-guide/README.md)
-
-## Other Documentation
-
-* [Developer Documentation](https://github.com/nephio-project/nephio)
-* [Project Resources](https://github.com/nephio-project/docs/blob/main/resources.md)
