@@ -46,14 +46,6 @@ If you want to watch the progress of the installation, give it about 30
 seconds to reach a network accessible state, and then ssh in and tail the
 startup script execution:
 
-Googlers (you also need to run `gcert`):
-```bash
-gcloud compute ssh ubuntu@nephio-r1-e2e -- \
-                -o ProxyCommand='corp-ssh-helper %h %p' \
-                sudo journalctl -u google-startup-scripts.service --follow
-```
-
-Everyone else:
 ```bash
 gcloud compute ssh ubuntu@nephio-r1-e2e -- \
                 sudo journalctl -u google-startup-scripts.service --follow
@@ -133,17 +125,7 @@ Log onto your VM using ssh on another terminal and use commands *docker* and *ku
 Once it is completed, ssh in and port forward the port to the UI (7007) and to
 Gitea's HTTP interface, if desired (3000):
 
-Googlers (you also need to run `gcert`):
-
-```bash
-gcloud compute ssh ubuntu@nephio-r1-e2e -- \
-                -o ProxyCommand='corp-ssh-helper %h %p' \
-                -L 7007:localhost:7007 \
-                -L 3000:172.18.0.200:3000 \
-                kubectl port-forward --namespace=nephio-webui svc/nephio-webui 7007
-```
-
-Others using GCE:
+Using GCE:
 
 ```bash
 gcloud compute ssh ubuntu@nephio-r1-e2e -- \
@@ -152,7 +134,7 @@ gcloud compute ssh ubuntu@nephio-r1-e2e -- \
                 kubectl port-forward --namespace=nephio-webui svc/nephio-webui 7007
 ```
 
-Others on VMs:
+Using a VM:
 
 ```bash
 ssh <user>@<vm-address> \
@@ -172,18 +154,13 @@ You will probably want a second ssh window open to run `kubectl` commands, etc.,
 without the port forwarding (which would fail if you try to open a second ssh
 connection with that setting).
 
-Googlers:
-
-```bash
-gcloud compute ssh ubuntu@nephio-r1-e2e -- -o ProxyCommand='corp-ssh-helper %h %p'
-```
-
-Others on GCE:
+Using GCE:
 
 ```bash
 gcloud compute ssh ubuntu@nephio-r1-e2e
 ```
-Others on VMs:
+
+Using a VM:
 
 ```bash
 ssh <user>@<vm-address>
