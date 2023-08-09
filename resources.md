@@ -16,7 +16,7 @@ developer documentation, see the
     * **Distributed actuation**: Nephio uses gitops and independent Kubernetes clusters at the edge
     * **Uniformity in systems**: Nephio uses Kubernetes-based management for
    infrastructure, functions, and function configuration ("Kubernetes Everywhere")
-* [On The Toad To Public Cloud 5G Networks](https://nephio.org/on-the-road-to-public-cloud-5g-networks/) provides context and challenges for CSPs, function vendors, and cloud providers in bringing 5G networks to public cloud.
+* [On The Road To Public Cloud 5G Networks](https://nephio.org/on-the-road-to-public-cloud-5g-networks/) provides context and challenges for CSPs, function vendors, and cloud providers in bringing 5G networks to public cloud.
 * [Join Us In Evolving The Usability Of GitOps](https://cloud.google.com/blog/products/containers-kubernetes/lets-improve-gitops-usability) discusses some of the underlying configuration management techniques and technologies in Nephio.
 
 ## Tutorials and Workshops
