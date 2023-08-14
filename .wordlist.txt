@@ -190,7 +190,7 @@ hostIP
 Howto
 hqq
 href
-https
+HTTPS
 HydY
 hyperv
 hyRuO
@@ -316,7 +316,7 @@ PLiW
 plmnSupportList
 pluggable
 pluralsight
-png
+PNG
 pocs
 podIP
 Postgres
@@ -349,7 +349,7 @@ redhat
 renderConfigurationTemplate
 ReplicaFailure
 replicaset
-repo
+repository
 repos
 req
 resourcegroup
