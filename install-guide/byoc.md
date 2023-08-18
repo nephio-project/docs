@@ -5,6 +5,8 @@
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
 - [Required Components](#required-components)
+- [Optional Components](#optional-components)
+- [Dependencies](#dependencies)
 
 ## Introduction
 
@@ -101,6 +103,24 @@ kpt pkg get --for-deployment https://github.com/nephio-project/nephio-packages.g
 
 Before we apply it to the cluster, however, we should configure it.
 
+By default, it expects the webui to be reached via `http://localhost:7007`. If
+you plan to expose the webui via a load balancer service instead, then you need
+to configure the hostname, port, and service.
+
+To set the hostname and port, we can just edit the files with `sed`. Just
+execute the following command to update the resources in the package, replacing
+`HOSTNAME` and `PORT` with your values:
+
+```bash
+sed -i -e 's/localhost:/HOSTNAME:/g' -e 's/7007/PORT/g' nephio-webui/*.yaml
+```
+
+If you want to expose the UI via a load balancer service:
+
+```bash
+kpt fn eval nephio-webui --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-kind Service -- 'by-path=spec.type' 'put-value=LoadBalancer'
+```
+
 In the default configuration, the Nephio WebUI *is wide open with no
 authentication*. The webui itself authenticates to the cluster using a static
 service account, which is bound to the cluster admin role. Any user accessing
@@ -113,7 +133,7 @@ LoadBalancer service).
 
 Configuring authentication for the WebUI is very specific to the particular
 cluster environment. Guides for different environments are below:
-- [GKE](webui-auth-gke.md)
+- [Google OAuth](webui-auth-gcp.md)
 
 Once that configuration is updated, you can proceed with the installation:
 ```bash
@@ -178,12 +198,14 @@ repositories while Gitea is used for the workload cluster repositories.
 
 A non-exhaustive list of options:
 
-| Provider        | Workloads | Provisioning |
-| --------------- | --------- | ------------ |
-| GitHub          | Yes       | No           |
-| Gitea           | Yes       | Yes          |
-| GitLab          | Yes       | No           |
-| Google Cloud Source Repositories | Yes       | Yes, with KCC |
+| Provider                                                        | Workloads | Provisioning  |
+| --------------------------------------------------------------- | --------- | ------------- |
+| [GitHub](https://github.com)                                    | Yes       | No            |
+| [Gitea](https://about.gitea.com/)                               | Yes       | Yes           |
+| [GitLab](https://about.gitlab.com/)                             | Yes       | No            |
+| [Google CSR](https://cloud.google.com/source-repositories/docs) | Yes       | Yes, with KCC |
+
+See the [Porch user guide](https://kpt.dev/guides/porch-user-guide?id=repository-registration) to see how to register repositories in Nephio.
 
 ### GitOps Tool
 
