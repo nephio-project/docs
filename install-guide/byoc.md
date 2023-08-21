@@ -145,11 +145,14 @@ cluster environment. Guides for different environments are below:
 - [Google OAuth or OIDC](webui-auth-gcp.md)
 - [OIDC with Okta](webui-auth-okta.md)
 
-Once that configuration is updated, you can proceed with the installation:
+Once that configuration is updated, you can proceed with the installation (note,
+this uses `inventory-policy=adopt`, since in the previous steps we may have
+created the namespace already).
+
 ```bash
 kpt fn render nephio-webui
 kpt live init nephio-webui
-kpt live apply nephio-webui --reconcile-timeout=15m --output=table
+kpt live apply nephio-webui --reconcile-timeout=15m --output=table --inventory-policy=adopt
 ```
 
 ### Nephio Stock Repositories

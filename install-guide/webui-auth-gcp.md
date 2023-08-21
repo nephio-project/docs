@@ -39,6 +39,7 @@ cluster. This can be done via Secrets Manager or Vault integrations, or you can
 manully provision the secret (replacing the placeholders here):
 
 ```bash
+kubectl create ns nephio-webui
 kubectl create secret generic -n nephio-webui nephio-google-oauth-client --from-literal=client-id=CLIENT_ID_PLACEHOLDER --from-literal=client-secret=CLIENT_SECRET_PLACEHOLDER
 ```
 
@@ -49,7 +50,7 @@ authentication with different services. Edit the `set-auth.yaml` file to set the
 `authProvider` field to `google` or run this command:
 
 ```bash
-kpt fn eval --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name set-auth -- 'by-path=authProvider' 'put-value=google'
+kpt fn eval nephio-webui --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name set-auth -- 'by-path=authProvider' 'put-value=google'
 ```
 ## Enable OIDC with Google
 
@@ -59,6 +60,6 @@ authentication with different services. Edit the `set-auth.yaml` file to set the
 these commands:
 
 ```bash
-kpt fn eval --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name set-auth -- 'by-path=authProvider' 'put-value=oidc'
-kpt fn eval --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name set-auth -- 'by-path=oidcTokenProvider' 'put-value=google'
+kpt fn eval nephio-webui --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name set-auth -- 'by-path=authProvider' 'put-value=oidc'
+kpt fn eval nephio-webui --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name set-auth -- 'by-path=oidcTokenProvider' 'put-value=google'
 ```

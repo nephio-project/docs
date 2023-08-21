@@ -45,6 +45,7 @@ This can be done via a secrets manager or by manully provision the secret
 (replacing the placeholders here):
 
 ```bash
+kubectl create ns nephio-webui
 kubectl create secret generic -n nephio-webui nephio-okta-oauth-client \
    --from-literal=client-id=CLIENT_ID \
    --from-literal=client-secret=CLIENT_SECRET \
@@ -61,6 +62,6 @@ authentication with different services. Edit the `set-auth.yaml` file to set the
 these commands:
 
 ```bash
-kpt fn eval --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name set-auth -- 'by-path=authProvider' 'put-value=oidc'
-kpt fn eval --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name set-auth -- 'by-path=oidcTokenProvider' 'put-value=okta'
+kpt fn eval nephio-webui --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name set-auth -- 'by-path=authProvider' 'put-value=oidc'
+kpt fn eval nephio-webui --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name set-auth -- 'by-path=oidcTokenProvider' 'put-value=okta'
 ```
