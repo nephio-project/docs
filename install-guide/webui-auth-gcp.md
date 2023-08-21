@@ -1,11 +1,9 @@
-# Google OAuth 2.0
-
-**Work-in-Progress**
+# Google OAuth 2.0 or OIDC
 
 These instructions explain how to set up the Nephio WebUI to use Google OAuth
-2.0 for authentication. When used with the Web UI running in a GKE cluster, the
-users authorization roles will be automatically syncrhonized based upon their
-IAM roles in GCP.
+2.0 for authentication, or using OIDC backed by Google authentication. When used
+with the Web UI running in a GKE cluster, the users authorization roles will be
+automatically syncrhonized based upon their IAM roles in GCP.
 
 If you are not exposing the webui on a load balancer IP address, but are instead
 using `kubectl port-forward`, you should use `localhost` and `7007` for the
@@ -48,8 +46,19 @@ kubectl create secret generic -n nephio-webui nephio-google-oauth-client --from-
 
 The webui package has a function that will configure the package for
 authentication with different services. Edit the `set-auth.yaml` file to set the
-`enabled` field for the Google service, or run this command:
+`authProvider` field to `google` or run this command:
 
 ```bash
-kpt fn eval --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name set-auth -- 'by-path=services.google.enabled' 'put-value=true'
+kpt fn eval --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name set-auth -- 'by-path=authProvider' 'put-value=google'
+```
+## Enable OIDC with Google
+
+The webui package has a function that will configure the package for
+authentication with different services. Edit the `set-auth.yaml` file to set the
+`authProvider` field to `oidc` and the `oidcTokenProvider` to `google`, or run
+these commands:
+
+```bash
+kpt fn eval --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name set-auth -- 'by-path=authProvider' 'put-value=oidc'
+kpt fn eval --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name set-auth -- 'by-path=oidcTokenProvider' 'put-value=google'
 ```
