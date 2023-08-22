@@ -11,8 +11,13 @@
 
 ## Networking
 
-The Vagrant networking will not work on Windows to allow access to the Nephio Web UI and Gitea Web UI due the [Hyper-V limitation](https://developer.hashicorp.com/vagrant/docs/providers/hyperv/limitations#limited-networking). 
-Meanwhile, for [VirtualBox](https://developer.hashicorp.com/vagrant/docs/providers/virtualbox/networking#virtualbox-nic-type) (used here), we can create an internal network by adding the following line to the Vagrant.configure: 
+The Vagrant networking will not work on Windows to allow access to the Nephio
+Web UI and Gitea Web UI due the [Hyper-V
+limitation](https://developer.hashicorp.com/vagrant/docs/providers/hyperv/limitations#limited-networking).
+Meanwhile, for
+[VirtualBox](https://developer.hashicorp.com/vagrant/docs/providers/virtualbox/networking#virtualbox-nic-type)
+(used here), we can create an internal network by adding the following line to
+the Vagrant.configure:
 
 `config.vm.network "private_network", ip: "192.168.50.4", virtualbox__intnet: true`
 
@@ -28,10 +33,13 @@ But the easiest way is to force the port-forwarding as shown before:
 
 ## Notes
 
-**Warning**: For low-end machines (less then 8T32GB), you will need to modify the Vagrant file. This is not recommended!
+**Warning**: For low-end machines (less then 8T32GB), you will need to modify
+the Vagrant file. This is not recommended!
 
-- In the Vagrant file "./Vagrantfile", there are *CPUS & RAM* parameters in `config.vm.provider`, it's possible to override them at runtime:
+- In the Vagrant file "./Vagrantfile", there are *CPUS & RAM* parameters in
+  `config.vm.provider`, it's possible to override them at runtime:
+  - On Linux, or the Git Bash on Windows we can use a one-liner command `CPUS=16
+  MEMORY=32768 vagrant up`
 
-  -On Linux, or the Git Bash on Windows we can use a one-liner command `CPUS=16 MEMORY=32768 vagrant up`
-
-- In the Ansible "./playbooks/roles/bootstrap/tasks/prechecks.yml" file, there are the checks for *CPUS & RAM*
+- In the Ansible "./playbooks/roles/bootstrap/tasks/prechecks.yml" file, there
+  are the checks for *CPUS & RAM*
