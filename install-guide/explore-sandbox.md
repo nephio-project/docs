@@ -1,8 +1,10 @@
 Exploring the Nephio Sandbox
 ============================
 
-You have installed the Nephio sandbox on your VM
-[using the installation instructions](https://github.com/nephio-project/test-infra/blob/main/e2e/provision/README.md). The installation has done a good job of installing a complex software stack without any fuss. Let's take a look around.
+You have installed the Nephio sandbox on your VM [using the installation
+instructions](https://github.com/nephio-project/test-infra/blob/main/e2e/provision/README.md).
+The installation has done a good job of installing a complex software stack
+without any fuss. Let's take a look around.
 
 ![Software Installed by the Nephio Sandbox Installation](ExploreSandbox-diagrams/ManagementCluster.png)
 
@@ -19,15 +21,28 @@ The following components are installed on the VM itself. These components are in
 | cni       | Used to implement the k8s network model for the KinD clusters                            |
 | gtp5g     | A Linux module that supports the 3GPP GPRS tunneling protocol (required by free5gc NFs)  |
 
-The Ansible install scripts use kind to create the Management cluster. Once the Management KinD cluster is created, the install uses kpt packages to install the remainder of the software.
+The Ansible install scripts use kind to create the Management cluster. Once the
+Management KinD cluster is created, the install uses kpt packages to install the
+remainder of the software.
 
 # Components Installed on the Management KinD cluster
 
-Everything is installed on the Management KinD cluster by Ansible scripts using kpt packages.
+Everything is installed on the Management KinD cluster by Ansible scripts using
+kpt packages.
 
-The install unpacks each kpt package in the */tmp* directory. It then applies the kpt functions to the packages and applies the packages to the Management KinD cluster. This allows the user to check the status of the kpt packages in the cluster using the *kpt live status* command on the unpacked packages in the */tmp* directory.
+The install unpacks each kpt package in the */tmp* directory. It then applies
+the kpt functions to the packages and applies the packages to the Management
+KinD cluster. This allows the user to check the status of the kpt packages in
+the cluster using the *kpt live status* command on the unpacked packages in the
+*/tmp* directory.
 
-The rendered kpt packages containing components are unpacked in the */tmp/kpt-pkg* directory. The rendered kpt packages that create the *mgmt* and *mgmt-staging* repositories are unpacked in the */tmp/repository* directory. The rendered kpt package containing the rootsync configuration for the *mgmt* repository is unpacked in the */tmp/rootsync* directory. You can examine the contents of any rendered kpt packager by examining the contents of these directories.
+The rendered kpt packages containing components are unpacked in the
+*/tmp/kpt-pkg* directory. The rendered kpt packages that create the *mgmt* and
+*mgmt-staging* repositories are unpacked in the */tmp/repository* directory. The
+rendered kpt package containing the rootsync configuration for the *mgmt*
+repository is unpacked in the */tmp/rootsync* directory. You can examine the
+contents of any rendered kpt packager by examining the contents of these
+directories.
 
 ```
 /tmp/kpt-pkg/                           /tmp/repository     /tmp/rootsync/
@@ -90,7 +105,10 @@ inventory-38069595/namespace//nephio-system is Current: Resource is current
 
 ## Base Components
 
-The following base components are installed on the Management cluster. Base components are the infrastructure components that are needed for the Nephio sandbox, which Nephio uses out of the box. In real world installations, alternative components that provide the same functionality may be used.
+The following base components are installed on the Management cluster. Base
+components are the infrastructure components that are needed for the Nephio
+sandbox, which Nephio uses out of the box. In real world installations,
+alternative components that provide the same functionality may be used.
 
 | Component    | Purpose                                                            |
 | ------------ | -------------------------------------------------------------------|
@@ -104,8 +122,10 @@ The following base components are installed on the Management cluster. Base comp
 
 ## Specific Components
 
-The following specific components are installed on the Management cluster. The specific components are Nephio components and components from
-[Google Container Tools](https://github.com/GoogleContainerTools) that Nephio uses heavily and interacts closely with.
+The following specific components are installed on the Management cluster. The
+specific components are Nephio components and components from [Google Container
+Tools](https://github.com/GoogleContainerTools) that Nephio uses heavily and
+interacts closely with.
 
 | Component          | Purpose                                                                                                                                                      |
 | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------|
