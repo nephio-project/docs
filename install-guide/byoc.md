@@ -20,6 +20,10 @@ You will need:
  - a cluster with Internet access (any non-EOL Kubernetes version is fine)
  - `kubectl` installed on your workstation
  - `kpt` installed on your workstation (version v1.0.0-beta.43 or later)
+ - Sudo-less `docker`, `podman`, or `nerdctl`. If using `podman` or `nerdctl`,
+   you must set the
+   [`KPT_FN_RUNTIME`](https://kpt.dev/reference/cli/fn/render/?id=environment-variables)
+   environment variable.
  - Default `kubectl` context pointing to the cluster
  - Cluster administrator privileges (in particular you will need to be able to
    create namespaces and other cluster-scoped resources).
