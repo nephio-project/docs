@@ -4,9 +4,10 @@
 
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
+- [Required Dependencies](#required-dependencies)
+- [Optional Dependencies](#optional-dependencies)
 - [Required Components](#required-components)
 - [Optional Components](#optional-components)
-- [Dependencies](#dependencies)
 
 ## Introduction
 
@@ -27,6 +28,93 @@ You will need:
  - Default `kubectl` context pointing to the cluster
  - Cluster administrator privileges (in particular you will need to be able to
    create namespaces and other cluster-scoped resources).
+
+## Required Dependencies
+
+First we will install some required dependencies. Some of these, like the
+resource-backend, will move out of the "required" category in later releases.
+
+### Network Config Operator
+
+This component is a controller for applying configuration to routers and
+switches.
+
+```bash
+kpt pkg get --for-deployment https://github.com/nephio-project/nephio-example-packages.git/network-config@v1.0.1
+kpt fn render network-config
+kpt live init network-config
+kpt live apply network-config --reconcile-timeout=15m --output=table
+```
+
+### Resource Backend
+
+The resource backend provides IP and VLAN allocation. If you have an alternative
+solution for this, you may not use this directly. But the CRDs delivered as part
+of this package will be needed to integrate with any similar solution.
+
+```bash
+kpt pkg get --for-deployment https://github.com/nephio-project/nephio-example-packages.git/resource-backend@v1.0.1
+kpt fn render resource-backend
+kpt live init resource-backend
+kpt live apply resource-backend --reconcile-timeout=15m --output=table
+```
+
+## Optional Dependencies
+
+Before starting the installation, it may be helpful to identify the various
+services with which you will integrate Nephio. You will need to make some
+selections for each of these.
+
+### Git Providers
+
+Nephio can support multiple Git providers for the repositories that contain
+packages. In R1, only Gitea repositories can be provisioned directly by Nephio;
+other Git providers will require manual provisioning of new repositories. But
+most Git providers can be supported (via standard Git protocols) as repositories
+for packages for read and write. It is also perfectly fine to use multiple
+providers; in the R1 demo environment, GitHub is used for upstream external
+repositories while Gitea is used for the workload cluster repositories.
+
+A non-exhaustive list of options:
+
+| Provider                                                        | Workloads | Provisioning  |
+| --------------------------------------------------------------- | --------- | ------------- |
+| [GitHub](https://github.com)                                    | Yes       | No            |
+| [Gitea](https://about.gitea.com/)                               | Yes       | Yes           |
+| [GitLab](https://about.gitlab.com/)                             | Yes       | No            |
+| [Google CSR](https://cloud.google.com/source-repositories/docs) | Yes       | Yes, with KCC |
+
+See the [Porch user guide](https://kpt.dev/guides/porch-user-guide?id=repository-registration) to see how to register repositories in Nephio.
+
+### GitOps Tool
+
+As configured in the R1 reference implementation, Nephio relies on ConfigSync.
+However, it is possible to configure it to use a different GitOps tool, such as
+Flux or ArgoCD to apply packages to the clusters.
+
+### Cluster Provisioner
+
+R1 uses Cluster API, but other options may be used such as Crossplane, Google
+KCC, or AWS Controllers for Kubernetes. You can provision more than one.
+
+| Provider                    | Notes                                                                                   |
+| --------------------------- | --------------------------------------------------------------------------------------- |
+| [Cluster API](capi.md)      | Kubernetes project cluster provisioner for a variety of cluster providers.              |
+| [KCC](kcc.md)               | Google's Kubernetes Config Connector for GKE clusters and other GCP resources.          |
+| [Crossplane](crossplane.md) | API composition framework with cluster and other infrastructure providers.              |
+
+### Load Balancer
+
+The R1 demo environment uses MetalLB, but if you are running in a cloud, you
+probably do not need anything special here. However, depending on your choice of
+GitOps tool and Git provider, some of the packages may need customization to
+provision or use a well-known load balancer IP.
+
+### Gateway or Ingress
+
+If you wish to avoid running `kubectl port-forward`, the use of Kubernetes
+Ingress or Gateway is recommended.
+
 
 ## Required Components
 
@@ -171,80 +259,3 @@ kpt fn render nephio-stock-repos
 kpt live init nephio-stock-repos
 kpt live apply nephio-stock-repos --reconcile-timeout=15m --output=table
 ```
-
-### Network Config Operator
-
-This component is a controller for applying configuration to routers and
-switches.
-
-```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/nephio-example-packages.git/network-config@v1.0.1
-kpt fn render network-config
-kpt live init network-config
-kpt live apply network-config --reconcile-timeout=15m --output=table
-```
-
-### Resource Backend
-
-The resource backend provides IP and VLAN allocation. If you have an alternative
-solution for this, you do not need to provision the resource backend.
-
-```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/nephio-example-packages.git/resource-backend@v1.0.1
-kpt fn render resource-backend
-kpt live init resource-backend
-kpt live apply resource-backend --reconcile-timeout=15m --output=table
-```
-
-
-## Dependencies
-
-Before starting the installation, it may be helpful to identify the various
-services with which you will integrate Nephio. You will need to make some
-selections for each of these.
-
-### Git Providers
-
-Nephio can support multiple Git providers for the repositories that contain
-packages. In R1, only Gitea repositories can be provisioned directly by Nephio;
-other Git providers will require manual provisioning of new repositories. But
-most Git providers can be supported (via standard Git protocols) as repositories
-for packages for read and write. It is also perfectly fine to use multiple
-providers; in the R1 demo environment, GitHub is used for upstream external
-repositories while Gitea is used for the workload cluster repositories.
-
-A non-exhaustive list of options:
-
-| Provider                                                        | Workloads | Provisioning  |
-| --------------------------------------------------------------- | --------- | ------------- |
-| [GitHub](https://github.com)                                    | Yes       | No            |
-| [Gitea](https://about.gitea.com/)                               | Yes       | Yes           |
-| [GitLab](https://about.gitlab.com/)                             | Yes       | No            |
-| [Google CSR](https://cloud.google.com/source-repositories/docs) | Yes       | Yes, with KCC |
-
-See the [Porch user guide](https://kpt.dev/guides/porch-user-guide?id=repository-registration) to see how to register repositories in Nephio.
-
-### GitOps Tool
-
-As configured in the R1 reference implementation, Nephio relies on ConfigSync.
-However, it is possible to configure it to use a different GitOps tool, such as
-Flux or ArgoCD to apply packages to the clusters.
-
-### Cluster Provisioner
-
-R1 uses Cluster API, but other options may be used such as Crossplane, Google
-KCC, or AWS Controllers for Kubernetes. You can provision more than one.
-
-| Provider                    | Notes                                                                                   |
-| --------------------------- | --------------------------------------------------------------------------------------- |
-| [Cluster API](capi.md)      | Kubernetes project cluster provisioner for a variety of cluster providers.              |
-| [KCC](kcc.md)               | Google's Kubernetes Config Connector for GKE clusters and other GCP resources.          |
-| [Crossplane](crossplane.md) | API composition framework with cluster and other infrastructure providers.              |
-
-### Load Balancer
-
-The R1 demo environment uses MetalLB, but if you are running in a cloud, you
-probably do not need anything special here. However, depending on your choice of
-GitOps tool and Git provider, some of the packages may need customization to
-provision or use a well-known load balancer IP.
-
