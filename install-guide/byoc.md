@@ -4,9 +4,8 @@
 
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
-- [Common Dependencies](#common-dependencies)
-- [Environments](#environments)
-- [Choices](#choices)
+- [Opinionated Installations](#opinionated-installations)
+- [A La Carte Installation](#a-la-carte-installation)
 
 ## Introduction
 
@@ -21,18 +20,28 @@ Instead, several guides showing opinionated installations are available.
 Regardless of the specific choices you make, the you will need the following
 prerequisites. This is in addition to any prerequisites that are specific to
 your environment and choices.
- - a cluster with Internet access (any non-EOL Kubernetes version is fine)
+ - a Linux workstation with Internet access
  - `kubectl` installed on your workstation
- - `kpt` installed on your workstation (version v1.0.0-beta.43 or later)
+ - `kpt` [installed](https://kpt.dev/installation/kpt-cli) on your workstation
+   (version v1.0.0-beta.43 or later)
  - Sudo-less `docker`, `podman`, or `nerdctl`. If using `podman` or `nerdctl`,
    you must set the
-   [`KPT_FN_RUNTIME`](https://kpt.dev/reference/cli/fn/render/?id=environment-variables)
-   environment variable.
- - Default `kubectl` context pointing to the cluster
- - Cluster administrator privileges (in particular you will need to be able to
-   create namespaces and other cluster-scoped resources).
+[`KPT_FN_RUNTIME`](https://kpt.dev/reference/cli/fn/render/?id=environment-variables)
+environment variable.
 
-Create a directory to hold our local package instances with the various
+As part of all installations, you will create or utilize an existing Kubernetes
+management cluster. The management cluster must have Internet access, and must
+be a non-EOL Kubernetes version. Additionally:
+ - Your default `kubectl` context should point to the cluster
+ - You will need cluster administrator privileges (in particular you will need
+   to be able to create namespaces and other cluster-scoped resources).
+
+You will use `kpt` for most of the installation packages in these instructions,
+though you could also use `kubectl` directly to apply the resources, once they
+are configured.
+
+After installing the prerequisites, create a local directory on your
+workstation to hold the local package instances for installing the various
 components:
 
 ```bash
@@ -40,54 +49,26 @@ mkdir nephio-install
 cd nephio-install
 ```
 
-You will use `kpt` for most of the installation packages in these instructions,
-though you could also use `kubectl` directly to apply the resources, once they
-are ready.
+The instructions for setting up the opinionated instllations will assume you
+have installed the prerequisites and created the `nephio-install` directory.
 
-## Common Dependencies
+## Opinionated Installations
 
-First you will install some required dependencies that are the same across all
-environments. Some of these, like the resource-backend, will move out of the
-"required" category in later releases.  Even if you do not use these directly
-in your installation, the CRDs that come along with them are necessary.
-
-### Network Config Operator
-
-This component is a controller for applying configuration to routers and
-switches. 
-
-```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/nephio-example-packages.git/network-config@v1.0.1
-kpt fn render network-config
-kpt live init network-config
-kpt live apply network-config --reconcile-timeout=15m --output=table
-```
-
-### Resource Backend
-
-The resource backend provides IP and VLAN allocation.
-
-```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/nephio-example-packages.git/resource-backend@v1.0.1
-kpt fn render resource-backend
-kpt live init resource-backend
-kpt live apply resource-backend --reconcile-timeout=15m --output=table
-```
-
-## Environments
-
-Instructions are provided for several different environments. Choose your
-environment below to complete your installation. Following this section are
-descriptions of the various options, if you wish to assemble your own set of
-components.
+Instructions are provided for several different opinionated installations in
+the table below. Following this section are descriptions of the various
+options, if you wish to assemble your own set of components.
 
 | Environment | Description                                                |
 | ----------- | ---------------------------------------------------------- |
-| [Sandbox](sandbox.md) | Instructions for setting up the demo sandbox "the hard way" - without using the included provisioning script. This creates a complete Nephio-in-a-VM, just like the R1 demo sandbox. These instructions cover both Ubuntu and Fedora. |
-| [Google Cloud Platform](gcp.md) | Instructions for setting up a Nephio installation running in GCP. A GKE cluster is used as the management cluster, with Anthos Config Controller for GCP infrastructure provisioning, Gitea as the Git provider, and Web UI authentication and authorization via Google OAuth 2.0 |
-| [OpenShift](openshift.md) | Instructions for setting up a Nephio installation in an OpenShift cluster, with Cluster API as the cluster provisioner, Gitea as the Git provider and Web UI authentication backed by Open Shift OIDC. |
+| [Sandbox](sandbox.md) | The demo sandbox environment, set up "the hard way" - without using the included provisioning script. This creates a complete Nephio-in-a-VM, just like the R1 demo sandbox. These instructions cover both Ubuntu and Fedora. |
+| [Google Cloud Platform](gcp.md) | Nephio running in GCP. A GKE cluster is used as the management cluster, with Anthos Config Controller for GCP infrastructure provisioning, Gitea as the Git provider, and Web UI authentication and authorization via Google OAuth 2.0 |
+| [OpenShift](openshift.md) | Nephio running in OpenShift, with Cluster API as the cluster provisioner, Gitea as the Git provider and Web UI authentication backed by Open Shift OIDC. |
 
-## Choices
+## A La Carte Installation
+
+If you wish to create a completely "a la carte" installation rather than using
+a documented opinionated environment, this section will help you understand the
+choices you need to make among various dependencies and components.
 
 ### Git Providers
 
@@ -138,52 +119,14 @@ KCC, or AWS Controllers for Kubernetes. You can provision more than one.
 The R1 demo environment uses MetalLB, but if you are running in a cloud, you
 probably do not need anything special here. However, depending on your choice of
 GitOps tool and Git provider, some of the packages may need customization to
-provision or use a well-known load balancer IP.
+provision or use a well-known load balancer IP or DNS name.
 
 ### Gateway or Ingress
 
 If you wish to avoid running `kubectl port-forward`, the use of Kubernetes
 Ingress or Gateway is recommended.
 
-## Optional Components
-
-### Nephio WebUI
-
-To install the WebUI, we simply install a different kpt package.
-First, we pull the package locally:
-
-```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/nephio-packages.git/nephio-webui@v1.0.1
-```
-
-Before we apply it to the cluster, however, we should configure it.
-
-By default, it expects the webui to be reached via `http://localhost:7007`. If
-you plan to expose the webui via a load balancer service instead, then you need
-to configure the scheme, hostname, port, and service. Note that if you wish to
-use HTTPS, you should set the `scheme` to `https`, but you will need to
-terminate the TLS at the load balancer as the container currently only supports
-HTTP.
-
-This information is captured in the application ConfigMap for the webui, which
-is generated by a KRM function. We can change the values in
-`nephio-webui/gen-configmap.yaml` just using a text editor (change the
-`hostname` and `port` values under `params:`), and those will take effect later
-when we run `kpt fn render`. As an alternative to a text editor, you can run
-these commands:
-
-```bash
-kpt fn eval nephio-webui --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-kind GenConfigMap -- 'by-path=params.scheme' 'put-value=SCHEME'
-kpt fn eval nephio-webui --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-kind GenConfigMap -- 'by-path=params.hostname' 'put-value=HOSTNAME'
-kpt fn eval nephio-webui --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-kind GenConfigMap -- 'by-path=params.port' 'put-value=PORT'
-```
-
-If you want to expose the UI via a load balancer service, you can manually
-change the Service `type` to `LoadBalancer`, or run:
-
-```bash
-kpt fn eval nephio-webui --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-kind Service -- 'by-path=spec.type' 'put-value=LoadBalancer'
-```
+### Nephio WebUI Authentication and Authorization
 
 In the default configuration, the Nephio WebUI *is wide open with no
 authentication*. The webui itself authenticates to the cluster using a static
@@ -193,32 +136,19 @@ the webui is *acting as a cluster admin*.
 This configuration is designed for *testing and development only*. You must not
 use this configuration in any other situation, and even for testing and
 development it must not be exposed on the Internet (for example, via a
-LoadBalancer service).
+LoadBalancer service, Ingress, or Route).
 
-Configuring authentication for the WebUI is very specific to the particular
-cluster environment. Guides for different environments are below:
+The WebUI currently supports the following options:
 - [Google OAuth or OIDC](webui-auth-gcp.md)
 - [OIDC with Okta](webui-auth-okta.md)
 
-Once that configuration is updated, you can proceed with the installation (note,
-this uses `inventory-policy=adopt`, since in the previous steps we may have
-created the namespace already).
-
-```bash
-kpt fn render nephio-webui
-kpt live init nephio-webui
-kpt live apply nephio-webui --reconcile-timeout=15m --output=table --inventory-policy=adopt
-```
-
 ### Nephio Stock Repositories
 
-The repositories with the Nephio packages used in the exercises are available to
-be installed via a package for convenience. This will install Repository
-resources pointing directly to the GitHub repositories, with read-only access.
+It is recommended that you create a repository specific to your installation
+environment. The packages in this repository can be derivatives of the various
+Nephio packages that are part of the demonstration environment. This allows
+exiting PackageVariant and PacakgeVariantSet resources to work as expected,
+simply by changing the Git repository pointed to by the Repository resource.
 
-```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/nephio-example-packages.git/nephio-stock-repos@v1.0.1
-kpt fn render nephio-stock-repos
-kpt live init nephio-stock-repos
-kpt live apply nephio-stock-repos --reconcile-timeout=15m --output=table
-```
+You may want to create a package containing those Repository resources, much as
+is done for the sandbox environment.
