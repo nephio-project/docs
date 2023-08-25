@@ -1,4 +1,4 @@
-# Managing GCP Infrastructure with Nephio
+# GCP Nephio Installation
 
 We can manage GCP infrastructure, including GKE clusters and many other GCP
 resources using Kubernetes Config Connector, an open source project from Google.

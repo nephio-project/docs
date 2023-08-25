@@ -1,23 +1,27 @@
-# Demonstration Environment Installation
+# Nephio Installation Overview
 
 ## Table of Contents
 
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
-- [Required Dependencies](#required-dependencies)
-- [Optional Dependencies](#optional-dependencies)
+- [Required Dependencies](#common-required-dependencies)
+- [Optional Dependencies](#other-dependencies)
 - [Required Components](#required-components)
 - [Optional Components](#optional-components)
 
 ## Introduction
 
-This Installation Guide will set up a Nephio instance on an existing Kubernetes
-cluster. It will include installation of core Nephio components, as well as
-discussion and examples of external components on which Nephio relies.
+There are many ways to assemble a Nephio installation. This Installation Guide
+describes the common pieces across environments, and describes the choices that
+need to be made to create a "Bring Your Own Cluster" Nephio installation.
+Because there are so many combinations, a comprehensive guide is not practical.
+Instead, several guides showing opinionated installations are available.
 
 ## Prerequisites
 
-You will need:
+Regardless of the specific choices you make, the you will need the following
+prerequisites. This is in addition to any prerequisites that are specific to
+your environment and choices.
  - a cluster with Internet access (any non-EOL Kubernetes version is fine)
  - `kubectl` installed on your workstation
  - `kpt` installed on your workstation (version v1.0.0-beta.43 or later)
@@ -29,7 +33,7 @@ You will need:
  - Cluster administrator privileges (in particular you will need to be able to
    create namespaces and other cluster-scoped resources).
 
-## Required Dependencies
+## Common Required Dependencies
 
 First we will install some required dependencies. Some of these, like the
 resource-backend, will move out of the "required" category in later releases.
@@ -59,11 +63,7 @@ kpt live init resource-backend
 kpt live apply resource-backend --reconcile-timeout=15m --output=table
 ```
 
-## Optional Dependencies
-
-Before starting the installation, it may be helpful to identify the various
-services with which you will integrate Nephio. You will need to make some
-selections for each of these.
+## Other Dependencies
 
 ### Git Providers
 
@@ -84,7 +84,9 @@ A non-exhaustive list of options:
 | [GitLab](https://about.gitlab.com/)                             | Yes       | No            |
 | [Google CSR](https://cloud.google.com/source-repositories/docs) | Yes       | Yes, with KCC |
 
-See the [Porch user guide](https://kpt.dev/guides/porch-user-guide?id=repository-registration) to see how to register repositories in Nephio.
+See the [Porch user
+guide](https://kpt.dev/guides/porch-user-guide?id=repository-registration) to
+see how to register repositories in Nephio.
 
 ### GitOps Tool
 
@@ -115,8 +117,7 @@ provision or use a well-known load balancer IP.
 If you wish to avoid running `kubectl port-forward`, the use of Kubernetes
 Ingress or Gateway is recommended.
 
-
-## Required Components
+## Common Required Components
 
 We will use `kpt` to install the base Nephio components. There are two essential
 components: Porch, and Nephio Controllers.
