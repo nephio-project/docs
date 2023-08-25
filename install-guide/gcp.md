@@ -1,5 +1,7 @@
 # GCP Nephio Installation
 
+*Work-in-Progress*
+
 In this guide, you will set up Nephio with:
 - **Management Cluster**: GKE Standard with auto scaling enabled
 - **Cluster Provisioner**: Kubernetes Config Connector (KCC), hosted as a
