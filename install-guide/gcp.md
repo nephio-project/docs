@@ -26,6 +26,13 @@ Controller, we are using a *separate* cluster from our Nephio management cluster
 for managing GCP infrastructure. Thus, we need a repository just for our Config
 Controller.
 
+```
+ kpt pkg get --for-deployment https://github.com/nephio-project/nephio-example-packages.git/gitea@v1.0.1
+ kpt fn render gitea/
+ kpt live init gitea/
+ kpt live apply gitea/ --reconcile-timeout 15m --output=table
+```
+
 If you are using Gitea and the repository provisioning controller, you can
 create a `gcp-infra` repository. You will need to configure access from your
 Config Controller (which runs as a private GKE cluster attached to your VPC) to

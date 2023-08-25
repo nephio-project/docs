@@ -4,10 +4,9 @@
 
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
-- [Required Dependencies](#common-required-dependencies)
-- [Optional Dependencies](#other-dependencies)
-- [Required Components](#required-components)
-- [Optional Components](#optional-components)
+- [Common Dependencies](#common-dependencies)
+- [Environments](#environments)
+- [Choices](#choices)
 
 ## Introduction
 
@@ -33,15 +32,29 @@ your environment and choices.
  - Cluster administrator privileges (in particular you will need to be able to
    create namespaces and other cluster-scoped resources).
 
-## Common Required Dependencies
+Create a directory to hold our local package instances with the various
+components:
 
-First we will install some required dependencies. Some of these, like the
-resource-backend, will move out of the "required" category in later releases.
+```bash
+mkdir nephio-install
+cd nephio-install
+```
+
+You will use `kpt` for most of the installation packages in these instructions,
+though you could also use `kubectl` directly to apply the resources, once they
+are ready.
+
+## Common Dependencies
+
+First you will install some required dependencies that are the same across all
+environments. Some of these, like the resource-backend, will move out of the
+"required" category in later releases.  Even if you do not use these directly
+in your installation, the CRDs that come along with them are necessary.
 
 ### Network Config Operator
 
 This component is a controller for applying configuration to routers and
-switches.
+switches. 
 
 ```bash
 kpt pkg get --for-deployment https://github.com/nephio-project/nephio-example-packages.git/network-config@v1.0.1
@@ -52,9 +65,7 @@ kpt live apply network-config --reconcile-timeout=15m --output=table
 
 ### Resource Backend
 
-The resource backend provides IP and VLAN allocation. If you have an alternative
-solution for this, you may not use this directly. But the CRDs delivered as part
-of this package will be needed to integrate with any similar solution.
+The resource backend provides IP and VLAN allocation.
 
 ```bash
 kpt pkg get --for-deployment https://github.com/nephio-project/nephio-example-packages.git/resource-backend@v1.0.1
@@ -63,7 +74,20 @@ kpt live init resource-backend
 kpt live apply resource-backend --reconcile-timeout=15m --output=table
 ```
 
-## Other Dependencies
+## Environments
+
+Instructions are provided for several different environments. Choose your
+environment below to complete your installation. Following this section are
+descriptions of the various options, if you wish to assemble your own set of
+components.
+
+| Environment | Description                                                |
+| ----------- | ---------------------------------------------------------- |
+| [Sandbox](sandbox.md) | Instructions for setting up the demo sandbox "the hard way" - without using the included provisioning script. This creates a complete Nephio-in-a-VM, just like the R1 demo sandbox. These instructions cover both Ubuntu and Fedora. |
+| [Google Cloud Platform](gcp.md) | Instructions for setting up a Nephio installation running in GCP. A GKE cluster is used as the management cluster, with Anthos Config Controller for GCP infrastructure provisioning, Gitea as the Git provider, and Web UI authentication and authorization via Google OAuth 2.0 |
+| [OpenShift](openshift.md) | Instructions for setting up a Nephio installation in an OpenShift cluster, with Cluster API as the cluster provisioner, Gitea as the Git provider and Web UI authentication backed by Open Shift OIDC. |
+
+## Choices
 
 ### Git Providers
 
@@ -87,6 +111,10 @@ A non-exhaustive list of options:
 See the [Porch user
 guide](https://kpt.dev/guides/porch-user-guide?id=repository-registration) to
 see how to register repositories in Nephio.
+
+In R1, we must install Gitea, even if you are using another provider. However,
+there are slight differences per environment, so that intallation will be
+documented in the specific environment instructions.
 
 ### GitOps Tool
 
@@ -116,72 +144,6 @@ provision or use a well-known load balancer IP.
 
 If you wish to avoid running `kubectl port-forward`, the use of Kubernetes
 Ingress or Gateway is recommended.
-
-## Common Required Components
-
-We will use `kpt` to install the base Nephio components. There are two essential
-components: Porch, and Nephio Controllers.
-
-### Porch
-
-First, we will install the Porch components. This "Package Orchestration"
-component provides the Kubernetes APIs for Repositories, PackageRevisions,
-PackageVariants, and PackageVariantSets. Nephio relies on it to inventory,
-clone, and mutate packages. It also provides the API layer that shields the
-Nephio components from direct interaction with the Git storage layer.
-
-Create a directory to hold our local package instances with the various
-components:
-
-```bash
-mkdir nephio-install
-cd nephio-install
-```
-
-Next fetch the package using `kpt`, and run any `kpt` functions, and then apply
-the package:
-
-```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/nephio-example-packages.git/porch-dev@v1.0.1
-kpt fn render porch-dev
-kpt live init porch-dev
-kpt live apply porch-dev --reconcile-timeout=15m --output=table
-```
-
-### Nephio Controllers
-
-The Nephio Controllers provide implementations of the Nephio-specific APIs. This
-includes the code that implements the various package specialization features -
-such as integration with IPAM and VLAN allocation, and NAD generation - as well
-as controllers that can provision repositories and bootstrap new clusters into
-Nephio.
-
-To install the Nephio Controllers, repeat the `kpt` steps, but for that package:
-
-```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/nephio-example-packages.git/nephio-controllers@v1.0.1
-kpt fn render nephio-controllers
-kpt live init nephio-controllers
-kpt live apply nephio-controllers --reconcile-timeout=15m --output=table
-```
-
-### Management Cluster GitOps Tool
-
-In the R1 demo environment, a GitOps tool (ConfigSync) is installed to allow
-GitOps-based application of packages to the management cluster itself. This is
-not strictly needed if all you want to do is provision network functions, but it
-is used extensively in the cluster provisioning workflows.
-
-Different GitOps tools may be used, but these intructions only cover ConfigSync.
-To install it on the management cluster, we again follow the same process.
-Later, we will configure it to point to the `mgmt` repository:
-
-```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/nephio-example-packages.git/configsync@v1.0.1
-kpt fn render configsync
-kpt live init configsync
-kpt live apply configsync --reconcile-timeout=15m --output=table
-```
 
 ## Optional Components
 
