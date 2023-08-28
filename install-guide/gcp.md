@@ -71,6 +71,7 @@ gcloud config set account $ACCOUNT
 ```console
 Updated property [core/account].
 ```
+</details>
 
 Now, create a project for your Nephio resources. The instructions here work in
 the simplest environments. However, your organization may have specific
@@ -129,6 +130,7 @@ gcloud services enable krmapihosting.googleapis.com \
 ```console
 Operation "operations/acat.p2-1067498212994-c1aeadbe-3593-48a4-b4a9-e765e18a3009" finished successfully.
 ```
+</details>
 
 Your project should now be ready to proceed with the installation.
 
