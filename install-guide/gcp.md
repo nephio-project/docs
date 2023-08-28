@@ -57,6 +57,7 @@ gcloud config configurations create nephio
 Created [nephio].
 Activated [nephio].
 ```
+</details>
 
 Next, set the configuration to use your account.
 
