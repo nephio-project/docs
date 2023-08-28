@@ -10,7 +10,7 @@ installation, the CRDs that come along with them are necessary.
 ### Network Config Operator
 
 This component is a controller for applying configuration to routers and
-switches. 
+switches.
 
 ```bash
 kpt pkg get --for-deployment https://github.com/nephio-project/nephio-example-packages.git/network-config@v1.0.1
