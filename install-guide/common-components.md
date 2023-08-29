@@ -1,5 +1,7 @@
 # Installing Required Components
 
+*Work-in-Progress*
+
 After installing the environment-specific dependencies, you can install the
 base Nephio components. There are two essential components: Porch, and Nephio
 Controllers.
