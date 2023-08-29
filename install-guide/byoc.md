@@ -17,7 +17,7 @@ Instead, several guides showing opinionated installations are available.
 
 ## Prerequisites
 
-Regardless of the specific choices you make, the you will need the following
+Regardless of the specific choices you make, you will need the following
 prerequisites. This is in addition to any prerequisites that are specific to
 your environment and choices.
  - a Linux workstation with Internet access
