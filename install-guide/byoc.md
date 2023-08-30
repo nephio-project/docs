@@ -21,7 +21,7 @@ Regardless of the specific choices you make, you will need the following
 prerequisites. This is in addition to any prerequisites that are specific to
 your environment and choices.
  - a Linux workstation with Internet access
- - `kubectl` installed on your workstation
+ - `kubectl` [installed ](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)on your workstation
  - `kpt` [installed](https://kpt.dev/installation/kpt-cli) on your workstation
    (version v1.0.0-beta.43 or later)
  - Sudo-less `docker`, `podman`, or `nerdctl`. If using `podman` or `nerdctl`,
