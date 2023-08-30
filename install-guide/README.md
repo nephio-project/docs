@@ -171,3 +171,4 @@ ssh <user>@<vm-address>
 * Step through the [exercises](https://github.com/nephio-project/docs/blob/main/user-guide/exercises.md)
 * Learn more about the [Nephio demo sandbox](https://github.com/nephio-project/docs/blob/main/install-guide/explore-sandbox.md)
 * Dig into the [user guide](https://github.com/nephio-project/docs/blob/main/user-guide/README.md)
+* Create a [Bring-Your-Own-Cluster](byoc.md) Nephio Installation
