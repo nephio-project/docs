@@ -128,7 +128,7 @@ gcloud services enable krmapihosting.googleapis.com \
 <summary>The output is similar to:</summary>
 
 ```console
-Operation "operations/acat.p2-1067498212994-c1aeadbe-3593-48a4-b4a9-e765e18a3009" finished successfully.
+Operation "operations/acat.p2-NNNNNNNNNNNNN-c1aeadbe-3593-48a4-b4a9-e765e18a3009" finished successfully.
 ```
 </details>
 
@@ -157,6 +157,15 @@ gcloud container clusters create nephio --zone us-central1-c \
 <summary>The output is similar to:</summary>
 
 ```console
+Default change: VPC-native is the default mode during cluster creation for versions greater than 1.21.0-gke.1500. To create advanced routes based clusters, please pass the `--no-enable-ip-alias` flag
+Default change: During creation of nodepools or autoscaling configuration changes for cluster versions greater than 1.24.1-gke.800 a default location policy is applied. For Spot and PVM it defaults to ANY, and for all other VM kinds a BALANCED policy is used. To change the default values use the `--location-policy` flag.
+Note: Your Pod address range (`--cluster-ipv4-cidr`) can accommodate at most 1008 node(s).
+Creating cluster nephio in us-central1-c... Cluster is being health-checked (master is healthy)...done.
+Created [https://container.googleapis.com/v1/projects/your-nephio-project-id/zones/us-central1-c/clusters/nephio].
+To inspect the contents of your cluster, go to: https://console.cloud.google.com/kubernetes/workload_/gcloud/us-central1-c/nephio?project=your-nephio-project-id
+kubeconfig entry generated for nephio.
+NAME    LOCATION       MASTER_VERSION  MASTER_IP      MACHINE_TYPE  NODE_VERSION    NUM_NODES  STATUS
+nephio  us-central1-c  1.27.3-gke.100  34.xx.xxx.xxx  e2-medium     1.27.3-gke.100  3          RUNNING
 ```
 </details>
 
@@ -173,7 +182,6 @@ kubectl config get-contexts
 
 ```console
 CURRENT   NAME                                              CLUSTER                                           AUTHINFO                                          NAMESPACE
-          gke_some-project_us-central1-c_cluster-1          gke_some-project_us-central1-c_cluster-1          gke_some-project_us-central1-c_cluster-1
 *         gke_your-nephio-project-id_us-central1-c_nephio   gke_your-nephio-project-id_us-central1-c_nephio   gke_your-nephio-project-id_us-central1-c_nephio
 ```
 </details>
@@ -196,7 +204,7 @@ While you may use other Git providers as well, Gitea is required in the R1
 setup. To install Gitea, use `kpt`. From your `nephio-install` directory, run:
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/nephio-example-packages.git/gitea@v1.0.1
+kpt pkg get --for-deployment https://github.com/johnbelamaric/nephio-gcp-packages.git/gitea@v1.0.1
 ```
 
 We need to make a few changes. The R1 Gitea package is designed for the sandbox
@@ -207,11 +215,39 @@ environment with Metal LB. Let's change that to:
 - Use Gateway API to expose the Gitea Web UI to the Internet for
   consumption by our workstation
 
-
 ```bash
 kpt fn render gitea/
 kpt live init gitea/
 kpt live apply gitea/ --reconcile-timeout 15m --output=table
+```
+
+## Common Dependencies
+
+There are a few dependencies that are common across most installations, and do
+not require any installation-specific setup. You should install these next, as
+described in the [common dependencies documentation](common-dependencies.md).
+
+## Common Components
+
+With the necessary dependencies now installed, you can now install the essential
+Nephio components. This is documented in the [common components
+documentation](common-components.md).
+
+## GCP Package Repositories
+
+A repository of GCP-installation specific packages must be registered with
+Nephio. This repository contains packages derived from the standard Nephio
+packages, but with GCP-specific modifications, as well as packages that are used
+to integrate with specific GCP functionality.
+
+You can register this package as a read-only external repository by applying the
+`gcp-repository` package:
+
+```bash
+kpt pkg get --for-deployment https://github.com/johnbelamaric/nephio-gcp-packages.git/gcp-repository@v1.0.1
+kpt fn render gcp-repository
+kpt live init gcp-repository
+kpt live apply gcp-repository --reconcile-timeout=15m --output=table
 ```
 
 ## Provisioning Config Controller
@@ -234,24 +270,160 @@ gcloud anthos config controller create nephio-cc \
     --full-management
 ```
 
-### Connecting Config Controller To Nephio
+Note that Config Controller clusters are always regional and are not available
+in all regions. See the link above for a list of available regions. The Config
+Controller creation may take up to fifteen minutes.
 
-In R1, the `mgmt` repository is used to manage workloads in the Nephio
-management cluster. Since Cluster API runs in that same cluster in our sandbox
-setup, this is repository is sufficient to create clusters. When using Config
-Controller, we are using a *separate* cluster from our Nephio management cluster
-for managing GCP infrastructure. Thus, we need a repository just for our Config
-Controller.
+<details>
+<summary>The output is similar to:</summary>
 
+```console
+Create request issued for: [nephio-cc]
+Waiting for operation [projects/your-nephio-project-id/locations/us-central1/operations/operation-1693351134043-6041808d31cac-44c9513a-128be132] to complete...done.
+Created instance [nephio-cc].
+Fetching cluster endpoint and auth data.
+kubeconfig entry generated for krmapihost-nephio-cc.
 ```
- kpt pkg get --for-deployment https://github.com/nephio-project/nephio-example-packages.git/gitea@v1.0.1
- kpt fn render gitea/
- kpt live init gitea/
- kpt live apply gitea/ --reconcile-timeout 15m --output=table
+</details>
+
+After completing, your `kubectl` context will be pointing to the Config
+Controller cluster:
+
+```bash
+kubectl config get-contexts
 ```
 
-If you are using Gitea and the repository provisioning controller, you can
-create a `gcp-infra` repository. You will need to configure access from your
-Config Controller (which runs as a private GKE cluster attached to your VPC) to
-the Gitea instance running in the Nephio management cluster. The details of this
-will vary based upon your project and VPC structure.
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+CURRENT   NAME                                                          CLUSTER                                                  AUTHINFO                                                 NAMESPACE
+          gke_your-nephio-project-id_us-central1-c_nephio               gke_your-nephio-project-id_us-central1-c_nephio               gke_your-nephio-project-id_us-central1-c_nephio
+*         gke_your-nephio-project-id_us-central1_krmapihost-nephio-cc   gke_your-nephio-project-id_us-central1_krmapihost-nephio-cc   gke_your-nephio-project-id_us-central1_krmapihost-nephio-cc
+```
+
+</details>
+
+If not, you should retrieve the credentials with:
+
+```bash
+gcloud anthos config controller get-credentials nephio-cc --location us-central1
+```
+
+There is one more step - granting privileges to the CC cluster to manage GCP
+resources in this project. With `kubectl` pointing at the CC cluster, retrieve
+the service account email address used by CC:
+
+```bash
+export SA_EMAIL="$(kubectl get ConfigConnectorContext -n config-control \
+    -o jsonpath='{.items[0].spec.googleServiceAccount}' 2> /dev/null)"
+echo $SA_EMAIL
+```
+
+<details>
+<summary>The output is similar to:</summary>
+```console
+service-NNNNNNNNNNNN@gcp-sa-yakima.iam.gserviceaccount.com
+```
+</details>
+
+And then grant that service account `roles/editor`, which allows full management
+access to the project, except for IAM:
+
+```bash
+gcloud projects add-iam-policy-binding $PROJECT \
+    --member "serviceAccount:${SA_EMAIL}" \
+    --role roles/editor \
+    --project $PROJECT
+```
+
+<details>
+<summary>The output is similar to:</summary>
+```console
+Updated IAM policy for project [your-nephio-project-id].
+bindings:
+- members:
+  - serviceAccount:NNNNNNNNNNNNN@cloudbuild.gserviceaccount.com
+  role: roles/cloudbuild.builds.builder
+- members:
+  - serviceAccount:service-NNNNNNNNNNNNN@gcp-sa-cloudbuild.iam.gserviceaccount.com
+  role: roles/cloudbuild.serviceAgent
+- members:
+  - serviceAccount:service-NNNNNNNNNNNNN@compute-system.iam.gserviceaccount.com
+  role: roles/compute.serviceAgent
+- members:
+  - group:admins@example.com
+  role: roles/compute.storageAdmin
+- members:
+  - serviceAccount:service-NNNNNNNNNNNNN@container-engine-robot.iam.gserviceaccount.com
+  role: roles/container.serviceAgent
+- members:
+  - serviceAccount:service-NNNNNNNNNNNNN@containerregistry.iam.gserviceaccount.com
+  role: roles/containerregistry.ServiceAgent
+- members:
+  - serviceAccount:NNNNNNNNNNNNN-compute@developer.gserviceaccount.com
+  - serviceAccount:NNNNNNNNNNNNN@cloudservices.gserviceaccount.com
+  - serviceAccount:service-NNNNNNNNNNNNN@gcp-sa-yakima.iam.gserviceaccount.com
+  role: roles/editor
+- members:
+  - serviceAccount:service-NNNNNNNNNNNNN@gcp-sa-krmapihosting.iam.gserviceaccount.com
+  role: roles/krmapihosting.serviceAgent
+- members:
+  - serviceAccount:service-NNNNNNNNNNNNN@gcp-sa-yakima.iam.gserviceaccount.com
+  - user:your-gcp-account@example.com
+  role: roles/owner
+- members:
+  - serviceAccount:config-sync-sa@your-nephio-project-id.iam.gserviceaccount.com
+  role: roles/source.reader
+etag: BwYEGPcbq9U=
+version: 1
+```
+</details>
+
+You should now switch your `kubectl` context back to the Nephio management
+cluster:
+
+```bash
+kubectl config use-context "gke_${PROJECT}_us-central1-c_nephio"
+```
+
+## Finishing the GCP Installation
+
+Since you now have the core Nephio pieces up and running, you can use Nephio
+itself to complete the installation. The remaining pieces needed are all in a
+single package,
+[gcp-components](http://github.com/johnbelamaric/nephio-gcp-packages/tree/v1.0.1/gcp-components),
+which you can apply to the management repository using a PackageVariant
+resource (be sure your `kubectl` context points to the Nephio management
+cluster):
+
+```bash
+kubectl apply -f - <<EOF
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: PackageVariant
+metadata:
+  name: gcp-components
+spec:
+  upstream:
+    repo: nephio-gcp-packages
+    package: gcp-components
+    revision: v1.0.1
+  downstream:
+    repo: mgmt
+    package: gcp-components
+  annotations:
+    approval.nephio.org/policy: initial
+EOF
+```
+
+This package contains additional `PackageVariant` resources that deploy all the
+remaining GCP Nephio packages including:
+- Creation of a `gcp-infra` respository
+- The Nephio WebUI, configured to use Google Cloud OAuth 2.0
+- A GCP-specific controller for syncing clusters, fleets, and fleet scopes
+
+There is one thing left to do: connect Config Controller to the `gcp-infra`
+repository. To do that:
+
+```bash
+```

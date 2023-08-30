@@ -1,7 +1,5 @@
 # Common Dependencies
 
-*Work-in-Progress*
-
 This guide describes how to install some required dependencies that are the
 same across all environments.
 

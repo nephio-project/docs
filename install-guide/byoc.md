@@ -147,7 +147,7 @@ The WebUI currently supports the following options:
 It is recommended that you create a repository specific to your installation
 environment. The packages in this repository can be derivatives of the various
 Nephio packages that are part of the demonstration environment. This allows
-exiting PackageVariant and PacakgeVariantSet resources to work as expected,
+exiting PackageVariant and PackageVariantSet resources to work as expected,
 simply by changing the Git repository pointed to by the Repository resource.
 
 You may want to create a package containing those Repository resources, much as
