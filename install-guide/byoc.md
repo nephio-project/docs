@@ -94,7 +94,7 @@ guide](https://kpt.dev/guides/porch-user-guide?id=repository-registration) to
 see how to register repositories in Nephio.
 
 In R1, we must install Gitea, even if you are using another provider. However,
-there are slight differences per environment, so that intallation will be
+there are slight differences per environment, so that installation will be
 documented in the specific environment instructions.
 
 ### GitOps Tool
