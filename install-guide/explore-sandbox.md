@@ -14,7 +14,7 @@ The following components are installed on the VM itself. These components are in
 
 | Component | Purpose                                                                                  |
 | --------- | ---------------------------------------------------------------------------------------- |
-| docker    | Uused to host Kubernetes clusters created by KinD                                        |
+| docker    | Used to host Kubernetes clusters created by KinD                                        |
 | kind      | Used to create clusters in docker                                                        |
 | kubectl   | Used to control clusters created by KinD                                                 |
 | kpt       | Used to install packages (software and metadata) on k8s clusters                         |
@@ -116,7 +116,7 @@ alternative components that provide the same functionality may be used.
 | Cert Manager | Used for certificate management                                    |
 | Gitea        | Used to allow creation and management of local git repos by Nephio |
 | Postgres     | Used by Gitea to store repositories                                |
-| Cluster CAPI | Used deploy Workload clusters                                 |
+| Cluster API  | Used to deploy Workload clusters                                 |
 | IPAM         | A reference backend system to allocate and manage IP addresses     |
 | VLAN         | A reference backend system used to allocate and manage VLANs       |
 
@@ -130,7 +130,7 @@ interacts closely with.
 | Component          | Purpose                                                                                                                                                      |
 | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Porch              | Google Container Tools Package Orchestration Server, provides an API used by Nephio to work with packages in git repos                                       |
-| Configsync         | Google Container Tools Configuration Synchronization, used by Nephio to deploy configurations from repos from the Management cluster onto Workload clusters  |
+| ConfigSync         | Google Container Tools Configuration Synchronization, used by Nephio to deploy configurations from repos from the Management cluster onto Workload clusters  |
 | Nephio Controllers | The Nephio controllers, which implement the Nephio functionality to fetch, manipulate, and deploy NFs                                                        |
 | Nephio WebUI       | The Nephio web client                                                                                                                                        |
 
@@ -222,24 +222,6 @@ resource-group-system               resource-group-controller-manager-6c9d56d88-
 <summary>Querying the repositories that exist after the install produces output similar to:</summary>
 
 ```bash
-kubectl get repositories
-```
-
-The output is similar to:
-
-```console
-NAME                      TYPE   CONTENT   DEPLOYMENT   READY   ADDRESS
-free5gc-packages          git    Package   false        True    https://github.com/nephio-project/free5gc-packages.git
-mgmt                      git    Package   true         True    http://172.18.0.200:3000/nephio/mgmt.git
-mgmt-staging              git    Package   false        True    http://172.18.0.200:3000/nephio/mgmt-staging.git
-nephio-example-packages   git    Package   false        True    https://github.com/nephio-project/nephio-example-packages.git
-```
-</details>
-
-<details>
-<summary>exist after the install produces output similar to:</summary>
-
-```
 kubectl get repositories
 ```
 
