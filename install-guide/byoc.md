@@ -49,7 +49,7 @@ mkdir nephio-install
 cd nephio-install
 ```
 
-The instructions for setting up the opinionated instllations will assume you
+The instructions for setting up the opinionated installations will assume you
 have installed the prerequisites and created the `nephio-install` directory.
 
 ## Opinionated Installations
