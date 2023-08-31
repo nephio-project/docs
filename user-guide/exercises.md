@@ -898,48 +898,49 @@ see how the operator reconfigures the Kubernetes resources used by the network
 functions.
 
 The capacity requirements are captured in a custom resource (capacity.yaml) within the deployed
-package. We can edit this value manually, or use the web interface. Both options result in 
-First, we will vertically scale the UPF manually.
+package. You can edit this value with the CLI, or use the web interface. Both options lead to the same result, but using the web interface is faster. 
+First, you will vertically scale the UPF using the CLI.
 
-To create a new package revision, we need to start by retrieving the package Variant downstream target name.
+To create a new package revision, you need to start by retrieving the PackageVariant downstream target name.
 
-```
+```bash
 kubectl config use kind-kind
 kubectl get packagevariant edge-free5gc-upf-edge01-free5gc-upf -o jsonpath='{.status.downstreamTargets[0].name}'
 
 ```
 <details>
 <summary>The output is similar to:</summary>
-```
+```console
 edge01-e827e1b4d5ea1d76d1514de20d1ee27bf884c72e
 ```
 </details>
-This way we retrieve the downstream target name of the package. You can also retrieve this information by using the `kubectl describe` command on the UPF packageVariant.
+This way you retrieve the downstream target name of the package. You can also retrieve this information by using the `kubectl describe` command on the UPF PackageVariant.
 
 Next create a new package revision from the existing UPF package.
 
-```
+```bash
 kpt alpha rpkg copy -n default edge01-e827e1b4d5ea1d76d1514de20d1ee27bf884c72e --workspace upf-scale-package 
 ```
 <details>
 <summary>The output is similar to:</summary>
-```
+```console
 edge01-40c616e5d87053350473d3ffa1387a9a534f8f42 created
 ```
 </details>
 The output contains the package revision of our newly cloned upf package.
-Pull the package to a local directory of your choice (in the example we use /tmp/upf-scale-package). 
-```
+Pull the package to a local directory of your choice (in the example you can use /tmp/upf-scale-package). 
+
+```bash
 kpt alpha rpkg pull -n default edge01-40c616e5d87053350473d3ffa1387a9a534f8f42 /tmp/upf-scale-package
 ```
-We can inspect the contents of the package in the chosen directory. The UPF configuration is located in the capacity.yaml file.
+You can inspect the contents of the package in the chosen directory. The UPF configuration is located in the capacity.yaml file.
 
-```
+```bash
 cat /tmp/upf-scale-package/capacity.yaml 
 ```
 <details>
 <summary>The output is similar to:</summary>
-```
+```console
 apiVersion: req.nephio.org/v1alpha1
 kind: Capacity
 metadata: # kpt-merge: /dataplane
@@ -957,14 +958,13 @@ spec:
 
 The contents of the package will be mutated using kpt functions to adjust the UPF configuration, however you can also manually edit the file.
 Apply the kpt functions to the contents of the kpt package with a new value for the throughputs of your choice.
-```
-new_capacity_value=10
-kpt fn eval --image gcr.io/kpt-fn/search-replace:v0.2.0 /tmp/upf-scale-package -- by-path='spec.maxUplinkThroughput' by-file-path='**/capacity.yaml' put-value=$new_capacity_value
-kpt fn eval --image gcr.io/kpt-fn/search-replace:v0.2.0 /tmp/upf-scale-package -- by-path='spec.maxDownlinkThroughput' by-file-path='**/capacity.yaml' put-value=$new_capacity_value
+```bash
+kpt fn eval --image gcr.io/kpt-fn/search-replace:v0.2.0 /tmp/upf-scale-package -- by-path='spec.maxUplinkThroughput' by-file-path='**/capacity.yaml' put-value=10
+kpt fn eval --image gcr.io/kpt-fn/search-replace:v0.2.0 /tmp/upf-scale-package -- by-path='spec.maxDownlinkThroughput' by-file-path='**/capacity.yaml' put-value=10
 ```
 <details>
 <summary>The output is similar to:</summary>
-```
+```console
 [RUNNING] "gcr.io/kpt-fn/search-replace:v0.2.0"
 [PASS] "gcr.io/kpt-fn/search-replace:v0.2.0" in 6.3s
   Results:
@@ -973,13 +973,13 @@ kpt fn eval --image gcr.io/kpt-fn/search-replace:v0.2.0 /tmp/upf-scale-package -
 </details>
 
 Observe the changes to the UPF configuration using the kpt pkg diff command.
-```
+```bash
 kpt pkg diff /tmp/upf-scale-package | grep linkThroughput
 ``` 
 
 <details>
 <summary>The output is similar to:</summary>
-```
+```console
 From https://github.com/nephio-project/free5gc-packages
  * tag               pkg-example-upf-bp/v3 -> FETCH_HEAD
 Adding package "pkg-example-upf-bp".
@@ -992,27 +992,27 @@ Adding package "pkg-example-upf-bp".
 
 Next, progress through the package lifecycle stages by pushing the changes to the package to its repository, proposing the changes and approving them.
 
-```
+```bash
 kpt alpha rpkg push -n default edge01-40c616e5d87053350473d3ffa1387a9a534f8f42 /tmp/upf-scale-package
 kpt alpha rpkg propose -n default edge01-40c616e5d87053350473d3ffa1387a9a534f8f42
 kpt alpha rpkg approve -n default edge01-40c616e5d87053350473d3ffa1387a9a534f8f42
 ```
 <details>
 <summary>The output is similar to:</summary>
-```
+```console
 edge01-40c616e5d87053350473d3ffa1387a9a534f8f42 proposed
 edge01-40c616e5d87053350473d3ffa1387a9a534f8f42 approved
 ```
 </details>
 
-We can check the current lifecycle stage of a package using the `kpt alpha rpkg get`` command.
-```
+You can check the current lifecycle stage of a package using the `kpt alpha rpkg get` command.
+```bash
 kpt alpha rpkg get
 ```
 
 <details>
 <summary>The output is similar to:</summary>
-```
+```console
 NAME                                                               PACKAGE                              WORKSPACENAME          REVISION   LATEST   LIFECYCLE   REPOSITORY
 edge01-e72d245b864db0fd234d9b4ead2f96edcf6bb3e4                    free5gc-operator                     packagevariant-1       main       false    Published   edge01
 edge01-7c9bf9f43768ecd2b45a8be84698763cdd2593b6                    free5gc-operator                     packagevariant-1       v1         true     Published   edge01
