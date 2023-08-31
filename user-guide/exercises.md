@@ -1020,4 +1020,18 @@ edge01-40c616e5d87053350473d3ffa1387a9a534f8f42                    free5gc-upf  
 ```
 </details>
 
-After the package is approved, the results can be observed in Nephio Web UI.
+Additionally you can check the Gitea edge01 repository (accessible at http://localhost:3000/nephio/edge01) for new commits to see how Porch interacts with packages stored in Git repositories.
+
+![Commits in Gitea made by porch](gitea-porch.png)
+
+After the package is approved, the results can be observed in Nephio Web UI. Head over to http://localhost:7007/config-as-data ([port forwarding](https://github.com/nephio-project/docs/blob/main/install-guide/README.md#access-to-the-user-interfaces/) must be running).
+
+![Commits in Gitea made by porch](UPF-Capacity.png)
+
+![Commits in Gitea made by porch](UPF-Capacity-2.png)
+
+![Commits in Gitea made by porch](UPF-Capacity-3.png)
+
+![Commits in Gitea made by porch](UPF-Capacity-4.png)
+
+Inside the package, you can see that the throughput values for UPF have been modifed, reflecting the changes you made with the CLI.
