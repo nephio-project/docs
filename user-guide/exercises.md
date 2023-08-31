@@ -1026,12 +1026,38 @@ Additionally you can check the Gitea edge01 repository (accessible at http://loc
 
 After the package is approved, the results can be observed in Nephio Web UI. Head over to http://localhost:7007/config-as-data ([port forwarding](https://github.com/nephio-project/docs/blob/main/install-guide/README.md#access-to-the-user-interfaces/) must be running).
 
-![Commits in Gitea made by porch](UPF-Capacity.png)
+![Deployments in Nephio UI](UPF-Capacity.png)
 
-![Commits in Gitea made by porch](UPF-Capacity-2.png)
+![UPF Deployment](UPF-Capacity-2.png)
 
-![Commits in Gitea made by porch](UPF-Capacity-3.png)
+![Inspecting Capacity.yaml file](UPF-Capacity-3.png)
 
-![Commits in Gitea made by porch](UPF-Capacity-4.png)
+![Throughput values](UPF-Capacity-4.png)
 
 Inside the package, you can see that the throughput values for UPF have been modifed, reflecting the changes you made with the CLI.
+
+You can also scale NFs vertically using the Nephio Web UI. For practice you can scale the UPF on the second edge cluster. Once again, navigate to the Web UI and choose the `edge02` repository in the Deployments section.
+
+![Edge02 Deployments](UPF-Capacity-5.png)
+
+Select the `free5gc-upf` deployment, and then `View draft revision`.
+
+![UPF Deployment in edge02](UPF-Capacity-6.png)
+
+![First revision](UPF-Capacity-7.png)
+
+Edit the draft revision, and modify the `Capacity.yaml` file.
+
+![Edit the revision](UPF-Capacity-8.png)
+
+![Capacity.yaml file](UPF-Capacity-9.png)
+
+![Throughput inside the file](UPF-Capacity-10.png)
+
+![Propose the draft package](UPF-Capacity-11.png)
+
+After saving the changes to the file, propose the draft package and approve it.
+
+![New revision](UPF-Capacity-12.png)
+
+After a few minutes, the revision for the UPF deployment will change, and the changes will be reflected in the `edge-02` cluster.
