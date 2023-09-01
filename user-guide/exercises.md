@@ -979,6 +979,7 @@ kpt pkg diff /tmp/upf-scale-package | grep linkThroughput
 
 <details>
 <summary>The output is similar to:</summary>
+
 ```console
 From https://github.com/nephio-project/free5gc-packages
  * tag               pkg-example-upf-bp/v3 -> FETCH_HEAD
@@ -999,6 +1000,7 @@ kpt alpha rpkg approve -n default edge01-40c616e5d87053350473d3ffa1387a9a534f8f4
 ```
 <details>
 <summary>The output is similar to:</summary>
+
 ```console
 edge01-40c616e5d87053350473d3ffa1387a9a534f8f42 proposed
 edge01-40c616e5d87053350473d3ffa1387a9a534f8f42 approved
@@ -1012,6 +1014,7 @@ kpt alpha rpkg get
 
 <details>
 <summary>The output is similar to:</summary>
+
 ```console
 NAME                                                               PACKAGE                              WORKSPACENAME          REVISION   LATEST   LIFECYCLE   REPOSITORY
 edge01-e72d245b864db0fd234d9b4ead2f96edcf6bb3e4                    free5gc-operator                     packagevariant-1       main       false    Published   edge01
