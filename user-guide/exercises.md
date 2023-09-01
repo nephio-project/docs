@@ -910,6 +910,7 @@ kubectl get packagevariant edge-free5gc-upf-edge01-free5gc-upf -o jsonpath='{.st
 ```
 <details>
 <summary>The output is similar to:</summary>
+
 ```console
 edge01-e827e1b4d5ea1d76d1514de20d1ee27bf884c72e
 ```
@@ -923,6 +924,7 @@ kpt alpha rpkg copy -n default edge01-e827e1b4d5ea1d76d1514de20d1ee27bf884c72e -
 ```
 <details>
 <summary>The output is similar to:</summary>
+
 ```console
 edge01-40c616e5d87053350473d3ffa1387a9a534f8f42 created
 ```
@@ -940,6 +942,7 @@ cat /tmp/upf-scale-package/capacity.yaml
 ```
 <details>
 <summary>The output is similar to:</summary>
+
 ```console
 apiVersion: req.nephio.org/v1alpha1
 kind: Capacity
@@ -964,6 +967,7 @@ kpt fn eval --image gcr.io/kpt-fn/search-replace:v0.2.0 /tmp/upf-scale-package -
 ```
 <details>
 <summary>The output is similar to:</summary>
+
 ```console
 [RUNNING] "gcr.io/kpt-fn/search-replace:v0.2.0"
 [PASS] "gcr.io/kpt-fn/search-replace:v0.2.0" in 6.3s
