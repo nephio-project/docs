@@ -418,7 +418,7 @@ EOF
 
 This package contains additional `PackageVariant` resources that deploy all the
 remaining GCP Nephio packages including:
-- Creation of a `gcp-infra` respository
+- Creation of a `gcp-infra` repository
 - The Nephio WebUI, configured to use Google Cloud OAuth 2.0
 - A GCP-specific controller for syncing clusters, fleets, and fleet scopes
 
