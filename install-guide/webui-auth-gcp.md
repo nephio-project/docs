@@ -3,7 +3,7 @@
 These instructions explain how to set up the Nephio WebUI to use Google OAuth
 2.0 for authentication, or using OIDC backed by Google authentication. When used
 with the Web UI running in a GKE cluster, the users authorization roles will be
-automatically syncrhonized based upon their IAM roles in GCP.
+automatically synchronized based upon their IAM roles in GCP.
 
 If you are not exposing the webui on a load balancer IP address, but are instead
 using `kubectl port-forward`, you should use `localhost` and `7007` for the
@@ -36,7 +36,7 @@ against the GCP identity service. To create your client ID and secret:
 
 The client ID and client secret need to be added as a Kubernetes secret to your
 cluster. This can be done via Secrets Manager or Vault integrations, or you can
-manully provision the secret (replacing the placeholders here):
+manually provision the secret (replacing the placeholders here):
 
 ```bash
 kubectl create ns nephio-webui

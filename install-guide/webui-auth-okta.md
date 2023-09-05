@@ -41,7 +41,7 @@ In the secret, use these keys:
 | auth-server-id | The authorization server ID for the Application (optional)  |
 | idp            | The identity provider for the application, e.g. 0oaulob4BFVa4zQvt0g3 (optional) |
 
-This can be done via a secrets manager or by manully provision the secret
+This can be done via a secrets manager or by manually provision the secret
 (replacing the placeholders here):
 
 ```bash
