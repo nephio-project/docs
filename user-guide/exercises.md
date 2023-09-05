@@ -897,5 +897,174 @@ In this step, you will change the capacity requirements for the UPF and SMF, and
 see how the operator reconfigures the Kubernetes resources used by the network
 functions.
 
-The capacity requirements are captured in a custom resource within the deployed
-package.
+The capacity requirements are captured in a custom resource (capacity.yaml) within the deployed
+package. You can edit this value with the CLI, or use the web interface. Both options lead to the same result, but using the web interface is faster. 
+First, you will vertically scale the UPF using the CLI.
+
+To create a new package revision, you need to start by retrieving the PackageVariant downstream target name.
+
+```bash
+kubectl config use kind-kind
+kubectl get packagevariant edge-free5gc-upf-edge01-free5gc-upf -o jsonpath='{.status.downstreamTargets[0].name}'
+
+```
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+edge01-e827e1b4d5ea1d76d1514de20d1ee27bf884c72e
+```
+</details>
+This way you retrieve the downstream target name of the package. You can also retrieve this information by using the `kubectl describe` command on the UPF PackageVariant.
+
+Next create a new package revision from the existing UPF package.
+
+```bash
+kpt alpha rpkg copy -n default edge01-e827e1b4d5ea1d76d1514de20d1ee27bf884c72e --workspace upf-scale-package 
+```
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+edge01-40c616e5d87053350473d3ffa1387a9a534f8f42 created
+```
+</details>
+The output contains the package revision of our newly cloned upf package.
+Pull the package to a local directory of your choice (in the example you can use /tmp/upf-scale-package). 
+
+```bash
+kpt alpha rpkg pull -n default edge01-40c616e5d87053350473d3ffa1387a9a534f8f42 /tmp/upf-scale-package
+```
+You can inspect the contents of the package in the chosen directory. The UPF configuration is located in the capacity.yaml file.
+
+```bash
+cat /tmp/upf-scale-package/capacity.yaml 
+```
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+apiVersion: req.nephio.org/v1alpha1
+kind: Capacity
+metadata: # kpt-merge: /dataplane
+  name: dataplane
+  annotations:
+    config.kubernetes.io/local-config: "true"
+    specializer.nephio.org/owner: workload.nephio.org/v1alpha1.UPFDeployment.upf-edge01
+    specializer.nephio.org/namespace: free5gc-upf
+    internal.kpt.dev/upstream-identifier: 'req.nephio.org|Capacity|default|dataplane'
+spec:
+  maxUplinkThroughput: 5G
+  maxDownlinkThroughput: 5G
+```
+</details>
+
+The contents of the package will be mutated using kpt functions to adjust the UPF configuration, however you can also manually edit the file.
+Apply the kpt functions to the contents of the kpt package with a new value for the throughputs of your choice.
+```bash
+kpt fn eval --image gcr.io/kpt-fn/search-replace:v0.2.0 /tmp/upf-scale-package -- by-path='spec.maxUplinkThroughput' by-file-path='**/capacity.yaml' put-value=10
+kpt fn eval --image gcr.io/kpt-fn/search-replace:v0.2.0 /tmp/upf-scale-package -- by-path='spec.maxDownlinkThroughput' by-file-path='**/capacity.yaml' put-value=10
+```
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+[RUNNING] "gcr.io/kpt-fn/search-replace:v0.2.0"
+[PASS] "gcr.io/kpt-fn/search-replace:v0.2.0" in 6.3s
+  Results:
+    [info] spec.maxUplinkThroughput: Mutated field value to "10"
+```
+</details>
+
+Observe the changes to the UPF configuration using the kpt pkg diff command.
+```bash
+kpt pkg diff /tmp/upf-scale-package | grep linkThroughput
+``` 
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+From https://github.com/nephio-project/free5gc-packages
+ * tag               pkg-example-upf-bp/v3 -> FETCH_HEAD
+Adding package "pkg-example-upf-bp".
+<   maxUplinkThroughput: 10G
+<   maxDownlinkThroughput: 10
+>   maxUplinkThroughput: 5G
+>   maxDownlinkThroughput: 5G
+```
+</details>
+
+Next, progress through the package lifecycle stages by pushing the changes to the package to its repository, proposing the changes and approving them.
+
+```bash
+kpt alpha rpkg push -n default edge01-40c616e5d87053350473d3ffa1387a9a534f8f42 /tmp/upf-scale-package
+kpt alpha rpkg propose -n default edge01-40c616e5d87053350473d3ffa1387a9a534f8f42
+kpt alpha rpkg approve -n default edge01-40c616e5d87053350473d3ffa1387a9a534f8f42
+```
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+edge01-40c616e5d87053350473d3ffa1387a9a534f8f42 proposed
+edge01-40c616e5d87053350473d3ffa1387a9a534f8f42 approved
+```
+</details>
+
+You can check the current lifecycle stage of a package using the `kpt alpha rpkg get` command.
+```bash
+kpt alpha rpkg get
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+NAME                                                               PACKAGE                              WORKSPACENAME          REVISION   LATEST   LIFECYCLE   REPOSITORY
+edge01-e72d245b864db0fd234d9b4ead2f96edcf6bb3e4                    free5gc-operator                     packagevariant-1       main       false    Published   edge01
+edge01-7c9bf9f43768ecd2b45a8be84698763cdd2593b6                    free5gc-operator                     packagevariant-1       v1         true     Published   edge01
+edge01-40c616e5d87053350473d3ffa1387a9a534f8f42                    free5gc-upf                          upf-scale-package      v2         true     Published   edge01
+```
+</details>
+
+Additionally you can check the Gitea edge01 repository (accessible at http://localhost:3000/nephio/edge01) for new commits to see how Porch interacts with packages stored in Git repositories.
+
+![Commits in Gitea made by porch](gitea-porch.png)
+
+After the package is approved, the results can be observed in Nephio Web UI. Head over to http://localhost:7007/config-as-data ([port forwarding](https://github.com/nephio-project/docs/blob/main/install-guide/README.md#access-to-the-user-interfaces/) must be running).
+
+![Deployments in Nephio UI](UPF-Capacity.png)
+
+![UPF Deployment](UPF-Capacity-2.png)
+
+![Inspecting Capacity.yaml file](UPF-Capacity-3.png)
+
+![Throughput values](UPF-Capacity-4.png)
+
+Inside the package, you can see that the throughput values for UPF have been modifed, reflecting the changes you made with the CLI.
+
+You can also scale NFs vertically using the Nephio Web UI. For practice you can scale the UPF on the second edge cluster. Once again, navigate to the Web UI and choose the `edge02` repository in the Deployments section.
+
+![Edge02 Deployments](UPF-Capacity-5.png)
+
+Select the `free5gc-upf` deployment, and then `View draft revision`.
+
+![UPF Deployment in edge02](UPF-Capacity-6.png)
+
+![First revision](UPF-Capacity-7.png)
+
+Edit the draft revision, and modify the `Capacity.yaml` file.
+
+![Edit the revision](UPF-Capacity-8.png)
+
+![Capacity.yaml file](UPF-Capacity-9.png)
+
+![Throughput inside the file](UPF-Capacity-10.png)
+
+![Propose the draft package](UPF-Capacity-11.png)
+
+After saving the changes to the file, propose the draft package and approve it.
+
+![New revision](UPF-Capacity-12.png)
+
+After a few minutes, the revision for the UPF deployment will change, and the changes will be reflected in the `edge-02` cluster.
