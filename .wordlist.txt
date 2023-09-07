@@ -23,6 +23,7 @@ apiextensions
 apis
 apiVersion
 ArgoCD
+args
 ASNs
 ausf
 auth
@@ -96,7 +97,9 @@ configsync
 configurationTemplateValues
 containerd
 containerlab
+containerPath
 containerregistry
+coreDNS
 cp
 CPUS
 cq
@@ -170,11 +173,13 @@ EOL
 esigohA
 estration
 etag
+etcd
 eth
 ethernets
 eurecom
 eval
 ExploreSandbox
+extraMounts
 fae
 Fanout
 fb
@@ -243,6 +248,7 @@ hoc
 HorizontalPodAutoscaling
 hostIP
 hostname
+hostPath
 Howto
 hqq
 href
@@ -292,6 +298,7 @@ krmapihost
 krmapihosting
 kube
 kubeadm
+kubeadmin
 kubebuilder
 kubebyexample
 KubeCon
@@ -305,6 +312,7 @@ LdATSzf
 LFN
 LFNDeveloperEventTopicsFebruary
 lfnetworking
+Libvirt
 lifecycle
 linkThroughput
 linuxfoundation
@@ -541,6 +549,7 @@ Util
 utils
 Vagrantfile
 VCPU
+vCPUs
 virtualbox
 vlan
 vlanindex
