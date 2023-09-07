@@ -1041,7 +1041,7 @@ After the package is approved, the results can be observed in Nephio Web UI. Hea
 
 ![Throughput values](UPF-Capacity-4.png)
 
-Inside the package, you can see that the throughput values for UPF have been modifed, reflecting the changes you made with the CLI.
+Inside the package, you can see that the throughput values for UPF have been modified, reflecting the changes you made with the CLI.
 
 You can also scale NFs vertically using the Nephio Web UI. For practice you can scale the UPF on the second edge cluster. Once again, navigate to the Web UI and choose the `edge02` repository in the Deployments section.
 

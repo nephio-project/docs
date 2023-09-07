@@ -65,6 +65,7 @@ capi
 carte
 cbd
 ccd
+cdd
 cea
 Cfg
 cidr
@@ -122,10 +123,12 @@ dabd
 DataNetwork
 datanetworknames
 datanetworks
+dataplane
 dcd
 dce
 dcedc
 dcfb
+dd
 ddd
 dde
 declaratively
@@ -138,17 +141,21 @@ dfd
 Dnn
 DnnList
 DNS
+downstreamTargets
 dropdown
 dv
 dwmps
 dXix
+ead
 eadd
 ealenn
 eb
 eca
 ecc
+ecd
 ece
 edb
+edcf
 ee
 eed
 ef
@@ -182,6 +189,7 @@ fcf
 fdb
 fdec
 fdf
+ffa
 ffc
 ffcd
 ffd
@@ -298,6 +306,7 @@ LFN
 LFNDeveloperEventTopicsFebruary
 lfnetworking
 lifecycle
+linkThroughput
 linuxfoundation
 lml
 loadbalancer
@@ -313,7 +322,9 @@ Makefile
 ManagementCluster
 masterInterface
 matysiaq
+maxDownlinkThroughput
 MaxRetrans
+maxUplinkThroughput
 mdev
 mEf
 metallb
@@ -494,6 +505,7 @@ telecom
 templated
 tf
 tfb
+throughputs
 tk
 TLS
 tmp
@@ -519,6 +531,7 @@ Undeploys
 updateStrategy
 upf
 upfcfg
+UPFDeployment
 upfdeployments
 upstreamlock
 userid
