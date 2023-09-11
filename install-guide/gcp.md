@@ -9,17 +9,21 @@ In this guide, you will set up Nephio with:
 - **Workload Clusters**: GKE, optionally with the Network Function Optimization
   feature enabled
 - **Gitops Tool**: ConfigSync
-- **Git Provider**: Gitea running in the Nephio management cluster will be the
-  git provider for cluster deployment repositories. Some external repositories
-  will be on GitHub.
+- **Git Provider**: Google Cloud Source Repositories will be the git provider
+  for cluster deployment repositories. Some external repositories will be on
+  GitHub. Gitea will be running because R1 currently has a hard requirement that
+  it exists; however, it is not used.
 - **Web UI Auth**: Google OAuth 2.0
 - **Ingress/Load Balancer**: Gateway API will be used to provide access to the
-  Nephio and Gitea Web UIs from you workstation.
+  Nephio Web UI from you workstation.
 
 Additionally, this guide makes the following simplifying choices:
 - All resources (Nephio management cluster, Config Controller, and workload
   clusters) will be in the same GCP project.
 - All clusters attached to the default VPC as their primary VPC.
+
+It is certainly possible to set up Nephio without these assumptions - that is
+left as an exercise for the reader.
 
 ## Prerequisites
 
@@ -35,14 +39,18 @@ To make the instructions (and possibly your life) simpler, you can create a
 `gcloud` configuration and a project for Nephio.
 
 In the commands below, two environment variables are used. You can set them to
-appropriate values for you.
+appropriate values for you. Set `LOCATION` to a region to create a regional
+Nephio management cluster, or to a zone to create a zonal cluster. Regional
+clusters have increased availability but higher resource demands.
 
 ```bash
 PROJECT=your-nephio-project-id
 ACCOUNT=your-gcp-account@example.com
+REGION=us-central1
+LOCATION=$REGION
 ```
 
-First, create the configuration. You can view and switch between gcloud
+First, create the configuration. You can view and switch between `gcloud`
 configurations with `gcloud config configurations list` and `gcloud config
 configurations activate`.
 
@@ -75,7 +83,7 @@ Updated property [core/account].
 
 Now, create a project for your Nephio resources. The instructions here work in
 the simplest environments. However, your organization may have specific
-processes and method for creating projects see the GCP [project creation
+processes and method for creating projects. See the GCP [project creation
 documentation](https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project)
 or consult with the GCP administrators in your organization.
 
@@ -90,7 +98,7 @@ gcloud projects create $PROJECT
 Create in progress for [https://cloudresourcemanager.googleapis.com/v1/projects/your-nephio-project-id].
 Waiting for [operations/cp.6666041359205885403] to finish...done.
 Enabling service [cloudapis.googleapis.com] on project [your-nephio-project-id]...
-Operation "operations/acat.p2-971752707070-f5dd29ea-a6c1-424d-ad15-5d563f7c68d1" finished successfully.
+Operation "operations/acat.p2-NNNNNNNNNNNNNN-f5dd29ea-a6c1-424d-ad15-5d563f7c68d1" finished successfully.
 ```
 </details>
 
@@ -121,7 +129,10 @@ Next, enable the GCP services you will need:
 gcloud services enable krmapihosting.googleapis.com \
     container.googleapis.com  \
     cloudresourcemanager.googleapis.com \
-    serviceusage.googleapis.com
+    serviceusage.googleapis.com \
+    iam.googleapis.com \
+    gkehub.googleapis.com \
+    anthosconfigmanagement.googleapis.com
 ```
 
 <details>
@@ -132,123 +143,109 @@ Operation "operations/acat.p2-NNNNNNNNNNNNN-c1aeadbe-3593-48a4-b4a9-e765e18a3009
 ```
 </details>
 
+Next, we are going to create a service account for ConfigSync on the workload
+clusters to use to read their repositories. The authentication will happen via
+Workload Identity, so we will also configure the service account to allow that.
+
+It is also possible to use Config Controller to create separate service accounts
+for each cluster, but for simplicity we will use a single one for all clusters.
+
+```bash
+gcloud iam service-accounts create nephio-config-sync \
+    --description="Source reader SA for ConfigSync" \
+    --display-name="nephio-config-sync"
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+Created service account [nephio-config-sync].
+```
+</details>
+
+```bash
+gcloud projects add-iam-policy-binding ${PROJECT} \
+   --member "serviceAccount:nephio-config-sync@${PROJECT}.iam.gserviceaccount.com" \
+   --role roles/source.reader
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+Updated IAM policy for project [your-nephio-project-id].
+bindings:
+- members:
+  - serviceAccount:service-NNNNNNNNNNNNN@gcp-sa-anthosconfigmanagement.iam.gserviceaccount.com
+  role: roles/anthosconfigmanagement.serviceAgent
+- members:
+  - serviceAccount:NNNNNNNNNNNNN@cloudbuild.gserviceaccount.com
+  role: roles/cloudbuild.builds.builder
+- members:
+  - serviceAccount:service-NNNNNNNNNNNNN@gcp-sa-cloudbuild.iam.gserviceaccount.com
+  role: roles/cloudbuild.serviceAgent
+- members:
+  - serviceAccount:service-NNNNNNNNNNNNN@compute-system.iam.gserviceaccount.com
+  role: roles/compute.serviceAgent
+- members:
+  - group:admins@example.com
+  role: roles/compute.storageAdmin
+- members:
+  - serviceAccount:service-NNNNNNNNNNNNN@container-engine-robot.iam.gserviceaccount.com
+  role: roles/container.serviceAgent
+- members:
+  - serviceAccount:service-NNNNNNNNNNNNN@containerregistry.iam.gserviceaccount.com
+  role: roles/containerregistry.ServiceAgent
+- members:
+  - serviceAccount:NNNNNNNNNNNNN-compute@developer.gserviceaccount.com
+  - serviceAccount:NNNNNNNNNNNNN@cloudservices.gserviceaccount.com
+  - serviceAccount:service-NNNNNNNNNNNNN@gcp-sa-yakima.iam.gserviceaccount.com
+  role: roles/editor
+- members:
+  - serviceAccount:service-NNNNNNNNNNNNN@gcp-sa-gkehub.iam.gserviceaccount.com
+  role: roles/gkehub.serviceAgent
+- members:
+  - serviceAccount:service-NNNNNNNNNNNNN@gcp-sa-krmapihosting.iam.gserviceaccount.com
+  role: roles/krmapihosting.serviceAgent
+- members:
+  - serviceAccount:service-NNNNNNNNNNNNN@gcp-sa-mcmetering.iam.gserviceaccount.com
+  role: roles/multiclustermetering.serviceAgent
+- members:
+  - serviceAccount:service-NNNNNNNNNNNNN@gcp-sa-yakima.iam.gserviceaccount.com
+  - user:your-gcp-account@example.com
+  role: roles/owner
+- members:
+  - serviceAccount:nephio-config-sync@your-nephio-project-id.iam.gserviceaccount.com
+  role: roles/source.reader
+etag: BwYE4Sxmm5A=
+version: 1
+```
+</details>
+
+```bash
+gcloud iam service-accounts add-iam-policy-binding \
+   --role roles/iam.workloadIdentityUser \
+   --member "serviceAccount:${PROJECT}.svc.id.goog[config-management-system/root-reconciler]" \
+   nephio-config-sync@${PROJECT}.iam.gserviceaccount.com
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+Updated IAM policy for serviceAccount [nephio-config-sync@your-nephio-project-id.iam.gserviceaccount.com].
+bindings:
+- members:
+  - serviceAccount:your-nephio-project-id.svc.id.goog[config-management-system/root-reconciler]
+  role: roles/iam.workloadIdentityUser
+etag: BwYE4TKYQSk=
+version: 1
+```
+</details>
+```
+
 Your project should now be ready to proceed with the installation.
-
-## Provisioning Your Management Cluster
-
-You can now create your management cluster. The command below sets up a GKE
-cluster with a single auto-scaling node pool. This will be used for the Nephio
-management workloads, and so there are no specific network function related node
-configurations needed. The cluster is a zonal cluster in the `us-central1-c`
-zone. Regional clusters are recommended for high availability, so you may wish
-to consider using a regional cluster instead. You may also use a different zone,
-if you wish.
-
-```
-gcloud container clusters create nephio --zone us-central1-c \
-  --enable-autoscaling --min-nodes 3 --max-nodes 10 \
-  --workload-pool ${PROJECT}.svc.id.goog \
-  --enable-managed-prometheus \
-  --gateway-api=standard \
-  --addons HorizontalPodAutoscaling,HttpLoadBalancing,GcePersistentDiskCsiDriver
-```
-
-<details>
-<summary>The output is similar to:</summary>
-
-```console
-Default change: VPC-native is the default mode during cluster creation for versions greater than 1.21.0-gke.1500. To create advanced routes based clusters, please pass the `--no-enable-ip-alias` flag
-Default change: During creation of nodepools or autoscaling configuration changes for cluster versions greater than 1.24.1-gke.800 a default location policy is applied. For Spot and PVM it defaults to ANY, and for all other VM kinds a BALANCED policy is used. To change the default values use the `--location-policy` flag.
-Note: Your Pod address range (`--cluster-ipv4-cidr`) can accommodate at most 1008 node(s).
-Creating cluster nephio in us-central1-c... Cluster is being health-checked (master is healthy)...done.
-Created [https://container.googleapis.com/v1/projects/your-nephio-project-id/zones/us-central1-c/clusters/nephio].
-To inspect the contents of your cluster, go to: https://console.cloud.google.com/kubernetes/workload_/gcloud/us-central1-c/nephio?project=your-nephio-project-id
-kubeconfig entry generated for nephio.
-NAME    LOCATION       MASTER_VERSION  MASTER_IP      MACHINE_TYPE  NODE_VERSION    NUM_NODES  STATUS
-nephio  us-central1-c  1.27.3-gke.100  34.xx.xxx.xxx  e2-medium     1.27.3-gke.100  3          RUNNING
-```
-</details>
-
-Once the management cluster is up and running, `gcloud` will create an
-associated `kubectl` context and make it the current context. To double-check
-this:
-
-```bash
-kubectl config get-contexts
-```
-
-<details>
-<summary>The output is similar to:</summary>
-
-```console
-CURRENT   NAME                                              CLUSTER                                           AUTHINFO                                          NAMESPACE
-*         gke_your-nephio-project-id_us-central1-c_nephio   gke_your-nephio-project-id_us-central1-c_nephio   gke_your-nephio-project-id_us-central1-c_nephio
-```
-</details>
-
-If the context is present but not current, use:
-
-```bash
-kubectl config use-context "gke_${PROJECT}_us-central1-c_nephio"
-```
-
-If the context is not present, use:
-
-```bash
-gcloud container clusters get-credentials --zone us-central1-c nephio
-```
-
-## Gitea Installation
-
-While you may use other Git providers as well, Gitea is required in the R1
-setup. To install Gitea, use `kpt`. From your `nephio-install` directory, run:
-
-```bash
-kpt pkg get --for-deployment https://github.com/johnbelamaric/nephio-gcp-packages.git/gitea@v1.0.1
-```
-
-We need to make a few changes. The R1 Gitea package is designed for the sandbox
-environment with Metal LB. Let's change that to:
-- Use Secrets Manager to manage the Gitea secrets
-- Use an internal load balancer for the Gitea git Service so that it is
-  accessible in our VPC
-- Use Gateway API to expose the Gitea Web UI to the Internet for
-  consumption by our workstation
-
-```bash
-kpt fn render gitea/
-kpt live init gitea/
-kpt live apply gitea/ --reconcile-timeout 15m --output=table
-```
-
-## Common Dependencies
-
-There are a few dependencies that are common across most installations, and do
-not require any installation-specific setup. You should install these next, as
-described in the [common dependencies documentation](common-dependencies.md).
-
-## Common Components
-
-With the necessary dependencies now installed, you can now install the essential
-Nephio components. This is documented in the [common components
-documentation](common-components.md).
-
-## GCP Package Repositories
-
-A repository of GCP-installation specific packages must be registered with
-Nephio. This repository contains packages derived from the standard Nephio
-packages, but with GCP-specific modifications, as well as packages that are used
-to integrate with specific GCP functionality.
-
-You can register this package as a read-only external repository by applying the
-`gcp-repository` package:
-
-```bash
-kpt pkg get --for-deployment https://github.com/johnbelamaric/nephio-gcp-packages.git/gcp-repository@v1.0.1
-kpt fn render gcp-repository
-kpt live init gcp-repository
-kpt live apply gcp-repository --reconcile-timeout=15m --output=table
-```
 
 ## Provisioning Config Controller
 
@@ -258,6 +255,10 @@ The easiest way to run it, though, is by using the hosted version running in
 [Anthos Config
 Controller](https://cloud.google.com/anthos-config-management/docs/concepts/config-controller-overview).
 
+We will use it to provision our Nephio management cluster and related
+infrastructure, as well as connect it to Nephio for provisioning of GCP
+infrastructure by Nephio itself.
+
 You can use the commands below, or for additional details, see the instructions
 to [create a Config Controller
 instance](https://cloud.google.com/anthos-config-management/docs/how-to/config-controller-setup)
@@ -266,7 +267,7 @@ will do that later in these instructions, once we have the Gitea repo created.
 
 ```bash
 gcloud anthos config controller create nephio-cc \
-    --location=us-central1 \
+    --location=$REGION \
     --full-management
 ```
 
@@ -298,7 +299,6 @@ kubectl config get-contexts
 
 ```console
 CURRENT   NAME                                                          CLUSTER                                                  AUTHINFO                                                 NAMESPACE
-          gke_your-nephio-project-id_us-central1-c_nephio               gke_your-nephio-project-id_us-central1-c_nephio               gke_your-nephio-project-id_us-central1-c_nephio
 *         gke_your-nephio-project-id_us-central1_krmapihost-nephio-cc   gke_your-nephio-project-id_us-central1_krmapihost-nephio-cc   gke_your-nephio-project-id_us-central1_krmapihost-nephio-cc
 ```
 
@@ -307,7 +307,7 @@ CURRENT   NAME                                                          CLUSTER 
 If not, you should retrieve the credentials with:
 
 ```bash
-gcloud anthos config controller get-credentials nephio-cc --location us-central1
+gcloud anthos config controller get-credentials nephio-cc --location $REGION
 ```
 
 There is one more step - granting privileges to the CC cluster to manage GCP
@@ -322,9 +322,11 @@ echo $SA_EMAIL
 
 <details>
 <summary>The output is similar to:</summary>
+
 ```console
 service-NNNNNNNNNNNN@gcp-sa-yakima.iam.gserviceaccount.com
 ```
+
 </details>
 
 And then grant that service account `roles/editor`, which allows full management
@@ -339,6 +341,7 @@ gcloud projects add-iam-policy-binding $PROJECT \
 
 <details>
 <summary>The output is similar to:</summary>
+
 ```console
 Updated IAM policy for project [your-nephio-project-id].
 bindings:
@@ -378,52 +381,633 @@ bindings:
 etag: BwYEGPcbq9U=
 version: 1
 ```
+
 </details>
 
-You should now switch your `kubectl` context back to the Nephio management
-cluster:
+## Setting Up GitOps for Config Controller
+
+Next, you will set up a repository to store our GCP configurations, and
+ConfigSync to apply those configurations to Config Controller.
+
+First, create a repository:
 
 ```bash
-kubectl config use-context "gke_${PROJECT}_us-central1-c_nephio"
+gcloud source repos create config-control
 ```
 
-## Finishing the GCP Installation
+<details>
+<summary>The output is similar to:</summary>
 
-Since you now have the core Nephio pieces up and running, you can use Nephio
-itself to complete the installation. The remaining pieces needed are all in a
-single package,
-[gcp-components](http://github.com/johnbelamaric/nephio-gcp-packages/tree/v1.0.1/gcp-components),
-which you can apply to the management repository using a PackageVariant
-resource (be sure your `kubectl` context points to the Nephio management
-cluster):
+```console
+Created [config-control].
+WARNING: You may be billed for this repository. See https://cloud.google.com/source-repositories/docs/pricing for details.
+```
+
+</details>
+
+Next, clone that repository locally. You will use this clone shortly.
 
 ```bash
-kubectl apply -f - <<EOF
-apiVersion: config.porch.kpt.dev/v1alpha1
-kind: PackageVariant
-metadata:
-  name: gcp-components
-spec:
-  upstream:
-    repo: nephio-gcp-packages
-    package: gcp-components
-    revision: v1.0.1
-  downstream:
-    repo: mgmt
-    package: gcp-components
-  annotations:
-    approval.nephio.org/policy: initial
-EOF
+gcloud source repos clone config-control
 ```
 
-This package contains additional `PackageVariant` resources that deploy all the
-remaining GCP Nephio packages including:
-- Creation of a `gcp-infra` repository
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+Cloning into '/home/your-username/nephio-install/config-control'...
+warning: You appear to have cloned an empty repository.
+Project [your-nephio-project-id] repository [config-control] was cloned to [/home/your-username/nephio-install/config-control].
+```
+
+</details>
+
+Before you start adding things to that repository, set up Config Sync to pull
+configurations from there by creating a RootSync in Config Controller. There is
+a package available to help properly configure the RootSync:
+
+```bash
+kpt pkg get --for-deployment https://github.com/johnbelamaric/blueprints-nephio-gcp.git/cc-rootsync@main
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+Package "cc-rootsync":
+Fetching https://github.com/johnbelamaric/blueprints-nephio-gcp@main
+From https://github.com/johnbelamaric/blueprints-nephio-gcp
+ * branch            main       -> FETCH_HEAD
+ + 8519ba9...65bb71f main       -> origin/main  (forced update)
+Adding package "cc-rootsync".
+
+Fetched 1 package(s).
+
+Customizing package for deployment.
+[RUNNING] "builtins/gen-pkg-context"
+[PASS] "builtins/gen-pkg-context" in 0s
+  Results:
+    [info]: generated package context
+
+Customized package for deployment.
+```
+
+</details>
+
+You need to add your project ID to your clone of the package. You
+can manually edit the `gcp-context.yaml` or run the following command:
+
+```bash
+kpt fn eval cc-rootsync --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name gcp-context -- 'by-path=data.project-id' "put-value=${PROJECT}"
+```
+
+</details>
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+[RUNNING] "gcr.io/kpt-fn/search-replace:v0.2.0" on 1 resource(s)
+[PASS] "gcr.io/kpt-fn/search-replace:v0.2.0" in 600ms
+  Results:
+    [info] data.project-id: Mutated field value to "your-nephio-project-id"
+```
+
+</details>
+
+Then, render the package to make sure that the project ID is put in all the
+right places:
+
+```bash
+kpt fn render cc-rootsync/
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+Package "cc-rootsync":
+[RUNNING] "gcr.io/kpt-fn/apply-replacements:v0.1.1"
+[PASS] "gcr.io/kpt-fn/apply-replacements:v0.1.1" in 600ms
+[RUNNING] "gcr.io/kpt-fn/apply-setters:v0.2.0"
+[PASS] "gcr.io/kpt-fn/apply-setters:v0.2.0" in 500ms
+  Results:
+    [info] spec.git.repo: set field value to "https://source.developers.google.com/p/your-nephio-project-id/r/config-control"
+    [info] spec.git.gcpServiceAccountEmail: set field value to "nephio-config-sync@your-nephio-project-id.iam.gserviceaccount.com"
+
+Successfully executed 2 function(s) in 1 package(s).
+```
+
+</details>
+
+In the sandbox exercises, you may have used `kpt live apply` to apply the
+package at this point. In this case, there are restrictions in Config Controller
+that interfere with the operation of `kpt live`. So, instead, you can just
+directly apply the RootSync resources with `kubectl`:
+
+```bash
+kubectl apply -f cc-rootsync/rootsync.yaml
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+rootsync.configsync.gke.io/root-sync created
+```
+
+</details>
+
+Config Sync will now synchronize that repository to your Config Controller.
+
+## Provisioning Your Management Cluster
+
+You will use CC to provision the Nephio management cluster and associated
+resources, by way of the `config-control` repository. The
+[cluster-gke-standard-autoscaling](https://github.com/johnbelamaric/blueprints-nephio-gcp/tree/main/cluster-gke-standard-autoscaling)
+package uses CC to create a cluster and a cloud source repository, add the
+cluster to a fleet, and install and configure ConfigSync on the cluster to point
+to the new repository.  This is similar to what the `nephio-workload-cluster`
+package does in the Sandbox exercises, except that it uses GCP services to
+create the repository and bootstrap ConfigSync, rather than Nephio controllers.
+
+First, pull the cluster package into your clone of the `config-control`
+repository:
+
+```bash
+cd config-control
+kpt pkg get --for-deployment https://github.com/johnbelamaric/blueprints-nephio-gcp.git/cluster-gke-standard-autoscaling@main nephio
+```
+
+Before we start making changes to the package, it can be helpful to create a
+*local* git commit (do not push to the repository until the package is fully
+configured). This is not mandatory.
+
+```bash
+git add nephio
+git commit -m "Initial clone of cluster-gke-standard-autoscaling package"
+```
+
+Next, configure the package for your environment. Specifically, you need to add
+your project ID and location to your clone of the package. You can manually edit
+the `gcp-context.yaml` or run the following commands:
+
+```bash
+kpt fn eval nephio --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name gcp-context -- 'by-path=data.project-id' "put-value=${PROJECT}"
+kpt fn eval nephio --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name gcp-context -- 'by-path=data.location' "put-value=${LOCATION}"
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+[RUNNING] "gcr.io/kpt-fn/search-replace:v0.2.0" on 1 resource(s)
+[PASS] "gcr.io/kpt-fn/search-replace:v0.2.0" in 600ms
+  Results:
+    [info] data.project-id: Mutated field value to "your-nephio-project-id"
+```
+
+and
+
+```console
+[RUNNING] "gcr.io/kpt-fn/search-replace:v0.2.0" on 1 resource(s)
+[PASS] "gcr.io/kpt-fn/search-replace:v0.2.0" in 600ms
+  Results:
+    [info] data.location: Matched field value "us-central1"
+```
+</details>
+
+Propagate those changes throughout the package by running the function pipeline:
+
+```bash
+kpt fn render nephio
+```
+
+If you did the earlier commit, you can run `git diff` to see all the changes
+made by the functions. If everything looks correct, you now commit the changes
+and push them to the upstream Git repository. From there, Config Sync will apply
+the package to the Config Controller (we do not use `kpt live apply`, instead we
+rely on Config Sync running in the Config Controller):
+
+```bash
+git add .
+git commit -m "Fully configured Nephio management cluster package"
+git push
+```
+
+To check the status, use the console:
+
+![Console Packages](gcp-console-package.png)
+
+Alternatively, you can use `kubectl` to view the status of the `root-sync`:
+
+```bash
+kubectl describe rootsync -n config-management-system root-sync
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+Name:         root-sync
+Namespace:    config-management-system
+Labels:       <none>
+Annotations:  internal.kpt.dev/upstream-identifier: configsync.gke.io|RootSync|config-management-system|root-sync
+API Version:  configsync.gke.io/v1beta1
+Kind:         RootSync
+Metadata:
+  Creation Timestamp:  2023-09-11T16:31:50Z
+  Generation:          1
+  Resource Version:    14042489
+  UID:                 b9263ba3-7d38-4be6-ac16-894a29f61bf8
+Spec:
+  Git:
+    Auth:                       gcpserviceaccount
+    Branch:                     main
+    Dir:                        /
+    Gcp Service Account Email:  nephio-config-sync@your-nephio-project-id.iam.gserviceaccount.com
+    Repo:                       https://source.developers.google.com/p/your-nephio-project-id/r/config-control
+  Source Format:                unstructured
+  Source Type:                  git
+Status:
+  Conditions:
+    Last Transition Time:  2023-09-11T16:32:31Z
+    Last Update Time:      2023-09-11T16:32:31Z
+    Status:                False
+    Type:                  Reconciling
+    Commit:                583f9496783695bc94f8a6afc787cc012731e98e
+    Error Summary:
+    Last Transition Time:  2023-09-11T17:32:12Z
+    Last Update Time:      2023-09-11T17:32:12Z
+    Message:               Sync Completed
+    Reason:                Sync
+    Status:                False
+    Type:                  Syncing
+  Last Synced Commit:      583f9496783695bc94f8a6afc787cc012731e98e
+  Observed Generation:     1
+  Reconciler:              root-reconciler
+  Rendering:
+    Commit:  583f9496783695bc94f8a6afc787cc012731e98e
+    Error Summary:
+    Git Status:
+      Branch:     main
+      Dir:        .
+      Repo:       https://source.developers.google.com/p/your-nephio-project-id/r/config-control
+      Revision:   HEAD
+    Last Update:  2023-09-11T16:32:38Z
+    Message:      Rendering skipped
+  Source:
+    Commit:  583f9496783695bc94f8a6afc787cc012731e98e
+    Error Summary:
+    Git Status:
+      Branch:     main
+      Dir:        .
+      Repo:       https://source.developers.google.com/p/your-nephio-project-id/r/config-control
+      Revision:   HEAD
+    Last Update:  2023-09-11T17:32:10Z
+  Sync:
+    Commit:  583f9496783695bc94f8a6afc787cc012731e98e
+    Error Summary:
+    Git Status:
+      Branch:     main
+      Dir:        .
+      Repo:       https://source.developers.google.com/p/your-nephio-project-id/r/config-control
+      Revision:   HEAD
+    Last Update:  2023-09-11T17:32:12Z
+Events:           <none>
+```
+
+</details>
+
+You can check if the management cluster is up an running:
+
+```bash
+gcloud container clusters list
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+NAME                  LOCATION     MASTER_VERSION  MASTER_IP     MACHINE_TYPE  NODE_VERSION    NUM_NODES  STATUS
+krmapihost-nephio-cc  us-central1  1.27.3-gke.100  35.xxx.xx.xx  e2-medium     1.27.3-gke.100  3          RUNNING
+nephio                us-central1  1.27.3-gke.100  34.xxx.xx.xx  e2-medium     1.27.3-gke.100  3          RUNNING
+```
+
+</details>
+
+Once the management cluster is `RUNNING`, retrieve the credentials and
+store them as a `kubectl` context:
+
+```bash
+gcloud container clusters get-credentials --location $LOCATION nephio
+```
+
+This will also set it to the current context, which you can verify with:
+
+```bash
+kubectl config get-contexts
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+CURRENT   NAME                                                          CLUSTER                                                       AUTHINFO                                                      NAMESPACE
+*         gke_your-nephio-project-id_us-central1_nephio                 gke_your-nephio-project-id_us-central1_nephio                 gke_your-nephio-project-id_us-central1_nephio
+          gke_your-nephio-project-id_us-central1_krmapihost-nephio-cc   gke_your-nephio-project-id_us-central1_krmapihost-nephio-cc   gke_your-nephio-project-id_us-central1_krmapihost-nephio-cc
+```
+</details>
+
+If the context is not current, use this command to make it current:
+
+```bash
+kubectl config use-context "gke_${PROJECT}_${LOCATION}_nephio"
+```
+
+As a final step, return to the `nephio-install` directory as your current
+working directory:
+
+```bash
+cd ..
+```
+
+## Installing the Nephio Components
+
+You will use GitOps to install the Nephio components in the management cluster.
+As part of the previous management cluster provisioning, a repository was
+created for managing the Nephio cluster with GitOps. To verify:
+
+```bash
+gcloud source repos list
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+REPO_NAME        PROJECT_ID         URL
+config-control   your-nephio-project-id  https://source.developers.google.com/p/your-nephio-project-id/r/config-control
+nephio           your-nephio-project-id  https://source.developers.google.com/p/your-nephio-project-id/r/nephio
+```
+
+</details>
+
+Ensure your current working directory is `nephio-install`, and then clone the
+`nephio` repository locally:
+
+```bash
+gcloud source repos clone nephio
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+Cloning into '/home/your-username/nephio-install/nephio'...
+warning: You appear to have cloned an empty repository.
+Project [your-nephio-project-id] repository [nephio] was cloned to [/home/your-username/nephio-install/nephio].
+```
+
+</details>
+
+Navigate to that directory, and pull out the `nephio-mgmt` package, which
+contains all the necessary Nephio components:
+- Porch
+- Nephio Controllers
+- Gitea
+- Network Config Operator
+- Resource Backend
 - The Nephio WebUI, configured to use Google Cloud OAuth 2.0
 - A GCP-specific controller for syncing clusters, fleets, and fleet scopes
 
-There is one thing left to do: connect Config Controller to the `gcp-infra`
-repository. To do that:
+```bash
+cd nephio
+kpt pkg get --for-deployment https://github.com/johnbelamaric/blueprints-nephio-gcp.git/nephio-mgmt@main
+```
+
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+Package "nephio-mgmt":
+Fetching https://github.com/johnbelamaric/blueprints-nephio-gcp@main
+From https://github.com/johnbelamaric/blueprints-nephio-gcp
+ * branch            main       -> FETCH_HEAD
+ + 65bb71f...fd422eb main       -> origin/main  (forced update)
+Adding package "nephio-mgmt".
+
+Fetched 1 package(s).
+
+Customizing package for deployment.
+[RUNNING] "builtins/gen-pkg-context"
+[PASS] "builtins/gen-pkg-context" in 500ms
+  Results:
+    [info]: generated package context
+    [info]: generated package context
+    [info]: generated package context
+    [info]: generated package context
+    ...(9 line(s) truncated, use '--truncate-output=false' to disable)
+
+Customized package for deployment.
+```
+
+</details>
 
 ```bash
+git add nephio-mgmt/
+git commit -m "Initial checking of nephio-mgmt"
 ```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+[main (root-commit) 78af570] Initial checking of nephio-mgmt
+ 133 files changed, 9161 insertions(+)
+ create mode 100644 nephio-mgmt/Kptfile
+ create mode 100644 nephio-mgmt/README.md
+ create mode 100644 nephio-mgmt/gitea/Kptfile
+ create mode 100644 nephio-mgmt/gitea/README.md
+ create mode 100644 nephio-mgmt/gitea/deployment-memcached.yaml
+ create mode 100644 nephio-mgmt/gitea/package-context.yaml
+ create mode 100644 nephio-mgmt/gitea/secret-gitea-init.yaml
+ create mode 100644 nephio-mgmt/gitea/secret-gitea-inline-config.yaml
+ create mode 100644 nephio-mgmt/gitea/secret-gitea.yaml
+ create mode 100644 nephio-mgmt/gitea/service-gitea.yaml
+ create mode 100644 nephio-mgmt/gitea/service-memcached.yaml
+ create mode 100644 nephio-mgmt/gitea/service-postgresql-hl.yaml
+ create mode 100644 nephio-mgmt/gitea/service-postgresql.yaml
+ create mode 100644 nephio-mgmt/gitea/statefulset-gitea.yaml
+ create mode 100644 nephio-mgmt/gitea/statefulset-postgres.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/Kptfile
+ create mode 100644 nephio-mgmt/nephio-controllers/README.md
+ create mode 100644 nephio-mgmt/nephio-controllers/app/Kptfile
+ create mode 100644 nephio-mgmt/nephio-controllers/app/README.md
+ create mode 100644 nephio-mgmt/nephio-controllers/app/controller/clusterrole-approval.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/app/controller/clusterrole-bootstrap.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/app/controller/clusterrole-controller.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/app/controller/clusterrole-network.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/app/controller/clusterrole-porch.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/app/controller/clusterrole-repository.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/app/controller/clusterrole-token.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/app/controller/clusterrolebinding-approval.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/app/controller/clusterrolebinding-bootstrap.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/app/controller/clusterrolebinding-controller.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/app/controller/clusterrolebinding-network.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/app/controller/clusterrolebinding-porch.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/app/controller/clusterrolebinding-repository.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/app/controller/clusterrolebinding-token.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/app/controller/deployment-controller.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/app/controller/deployment-token-controller.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/app/controller/role-leader-election.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/app/controller/rolebinding-leader-election.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/app/controller/serviceaccount-controller.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/app/package-context.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/crd/Kptfile
+ create mode 100644 nephio-mgmt/nephio-controllers/crd/README.md
+ create mode 100644 nephio-mgmt/nephio-controllers/crd/bases/config.nephio.org_networks.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/crd/bases/infra.nephio.org_clustercontexts.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/crd/bases/infra.nephio.org_networkconfigs.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/crd/bases/infra.nephio.org_networks.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/crd/bases/infra.nephio.org_repositories.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/crd/bases/infra.nephio.org_tokens.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/crd/bases/infra.nephio.org_workloadclusters.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/crd/bases/req.nephio.org_capacities.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/crd/bases/req.nephio.org_datanetworknames.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/crd/bases/req.nephio.org_datanetworks.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/crd/bases/req.nephio.org_interfaces.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/crd/bases/workload.nephio.org_amfdeployments.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/crd/bases/workload.nephio.org_smfdeployments.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/crd/bases/workload.nephio.org_upfdeployments.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/crd/package-context.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/namespace.yaml
+ create mode 100644 nephio-mgmt/nephio-controllers/package-context.yaml
+ create mode 100644 nephio-mgmt/nephio-stock-repos/Kptfile
+ create mode 100644 nephio-mgmt/nephio-stock-repos/README.md
+ create mode 100644 nephio-mgmt/nephio-stock-repos/package-context.yaml
+ create mode 100644 nephio-mgmt/nephio-stock-repos/repo-blueprints-nephio-gcp.yaml
+ create mode 100644 nephio-mgmt/nephio-stock-repos/repo-free5gc-packages.yaml
+ create mode 100644 nephio-mgmt/nephio-stock-repos/repo-nephio-example-packages.yaml
+ create mode 100644 nephio-mgmt/network-config/Kptfile
+ create mode 100644 nephio-mgmt/network-config/README.md
+ create mode 100644 nephio-mgmt/network-config/app/Kptfile
+ create mode 100644 nephio-mgmt/network-config/app/README.md
+ create mode 100644 nephio-mgmt/network-config/app/controller/clusterrole-controller.yaml
+ create mode 100644 nephio-mgmt/network-config/app/controller/clusterrole-network.yaml
+ create mode 100644 nephio-mgmt/network-config/app/controller/clusterrole-target.yaml
+ create mode 100644 nephio-mgmt/network-config/app/controller/clusterrolebinding-controller.yaml
+ create mode 100644 nephio-mgmt/network-config/app/controller/clusterrolebinding-network.yaml
+ create mode 100644 nephio-mgmt/network-config/app/controller/clusterrolebinding-target.yaml
+ create mode 100644 nephio-mgmt/network-config/app/controller/deployment-controller.yaml
+ create mode 100644 nephio-mgmt/network-config/app/controller/role-leader-election.yaml
+ create mode 100644 nephio-mgmt/network-config/app/controller/rolebinding-leader-election.yaml
+ create mode 100644 nephio-mgmt/network-config/app/controller/serviceaccount-controller.yaml
+ create mode 100644 nephio-mgmt/network-config/app/package-context.yaml
+ create mode 100644 nephio-mgmt/network-config/crd/Kptfile
+ create mode 100644 nephio-mgmt/network-config/crd/README.md
+ create mode 100644 nephio-mgmt/network-config/crd/package-context.yaml
+ create mode 100644 nephio-mgmt/network-config/namespace.yaml
+ create mode 100644 nephio-mgmt/network-config/package-context.yaml
+ create mode 100644 nephio-mgmt/package-context.yaml
+ create mode 100644 nephio-mgmt/porch-dev/0-packagerevs.yaml
+ create mode 100644 nephio-mgmt/porch-dev/0-packagevariants.yaml
+ create mode 100644 nephio-mgmt/porch-dev/0-packagevariantsets.yaml
+ create mode 100644 nephio-mgmt/porch-dev/0-repositories.yaml
+ create mode 100644 nephio-mgmt/porch-dev/1-namespace.yaml
+ create mode 100644 nephio-mgmt/porch-dev/2-function-runner.yaml
+ create mode 100644 nephio-mgmt/porch-dev/3-porch-server.yaml
+ create mode 100644 nephio-mgmt/porch-dev/4-apiservice.yaml
+ create mode 100644 nephio-mgmt/porch-dev/5-rbac.yaml
+ create mode 100644 nephio-mgmt/porch-dev/6-rbac-bind.yaml
+ create mode 100644 nephio-mgmt/porch-dev/7-auth-reader.yaml
+ create mode 100644 nephio-mgmt/porch-dev/8-auth-delegator.yaml
+ create mode 100644 nephio-mgmt/porch-dev/9-controllers.yaml
+ create mode 100644 nephio-mgmt/porch-dev/9-porch-controller-clusterrole.yaml
+ create mode 100644 nephio-mgmt/porch-dev/9-porch-controller-packagevariants-clusterrole.yaml
+ create mode 100644 nephio-mgmt/porch-dev/9-porch-controller-packagevariants-clusterrolebinding.yaml
+ create mode 100644 nephio-mgmt/porch-dev/9-porch-controller-packagevariantsets-clusterrole.yaml
+ create mode 100644 nephio-mgmt/porch-dev/9-porch-controller-packagevariantsets-clusterrolebinding.yaml
+ create mode 100644 nephio-mgmt/porch-dev/Kptfile
+ create mode 100644 nephio-mgmt/porch-dev/package-context.yaml
+ create mode 100644 nephio-mgmt/resource-backend/Kptfile
+ create mode 100644 nephio-mgmt/resource-backend/README.md
+ create mode 100644 nephio-mgmt/resource-backend/app/Kptfile
+ create mode 100644 nephio-mgmt/resource-backend/app/README.md
+ create mode 100644 nephio-mgmt/resource-backend/app/controller/clusterrole-controller.yaml
+ create mode 100644 nephio-mgmt/resource-backend/app/controller/clusterrolebinding-controller.yaml
+ create mode 100644 nephio-mgmt/resource-backend/app/controller/deployment-controller.yaml
+ create mode 100644 nephio-mgmt/resource-backend/app/controller/grpc/service-grpc.yaml
+ create mode 100644 nephio-mgmt/resource-backend/app/controller/role-leader-election.yaml
+ create mode 100644 nephio-mgmt/resource-backend/app/controller/rolebinding-leader-election.yaml
+ create mode 100644 nephio-mgmt/resource-backend/app/controller/serviceaccount-controller.yaml
+ create mode 100644 nephio-mgmt/resource-backend/app/package-context.yaml
+ create mode 100644 nephio-mgmt/resource-backend/crd/Kptfile
+ create mode 100644 nephio-mgmt/resource-backend/crd/README.md
+ create mode 100644 nephio-mgmt/resource-backend/crd/bases/inv.nephio.org_endpoints.yaml
+ create mode 100644 nephio-mgmt/resource-backend/crd/bases/inv.nephio.org_links.yaml
+ create mode 100644 nephio-mgmt/resource-backend/crd/bases/inv.nephio.org_nodes.yaml
+ create mode 100644 nephio-mgmt/resource-backend/crd/bases/inv.nephio.org_targets.yaml
+ create mode 100644 nephio-mgmt/resource-backend/crd/bases/ipam.resource.nephio.org_ipclaims.yaml
+ create mode 100644 nephio-mgmt/resource-backend/crd/bases/ipam.resource.nephio.org_ipprefixes.yaml
+ create mode 100644 nephio-mgmt/resource-backend/crd/bases/ipam.resource.nephio.org_networkinstances.yaml
+ create mode 100644 nephio-mgmt/resource-backend/crd/bases/topo.nephio.org_rawtopologies.yaml
+ create mode 100644 nephio-mgmt/resource-backend/crd/bases/vlan.resource.nephio.org_vlanclaims.yaml
+ create mode 100644 nephio-mgmt/resource-backend/crd/bases/vlan.resource.nephio.org_vlanindices.yaml
+ create mode 100644 nephio-mgmt/resource-backend/crd/bases/vlan.resource.nephio.org_vlans.yaml
+ create mode 100644 nephio-mgmt/resource-backend/crd/package-context.yaml
+ create mode 100644 nephio-mgmt/resource-backend/namespace.yaml
+ create mode 100644 nephio-mgmt/resource-backend/package-context.yaml
+```
+
+</details>
+
+```bash
+kpt fn render nephio-mgmt/
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+Package "nephio-mgmt/gitea": 
+Package "nephio-mgmt/nephio-controllers/app": 
+Package "nephio-mgmt/nephio-controllers/crd": 
+Package "nephio-mgmt/nephio-controllers": 
+Package "nephio-mgmt/nephio-stock-repos": 
+Package "nephio-mgmt/network-config/app": 
+Package "nephio-mgmt/network-config/crd": 
+Package "nephio-mgmt/network-config": 
+Package "nephio-mgmt/porch-dev": 
+Package "nephio-mgmt/resource-backend/app": 
+Package "nephio-mgmt/resource-backend/crd": 
+Package "nephio-mgmt/resource-backend": 
+Package "nephio-mgmt": 
+Successfully executed 0 function(s) in 13 package(s).
+```
+
+</details>
+
+```bash
+git push
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+Enumerating objects: 150, done.
+Counting objects: 100% (150/150), done.
+Delta compression using up to 24 threads
+Compressing objects: 100% (147/147), done.
+Writing objects: 100% (150/150), 63.24 KiB | 2.43 MiB/s, done.
+Total 150 (delta 86), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (86/86)
+remote: Waiting for private key checker: 129/129 objects left
+To https://source.developers.google.com/p/your-nephio-project-id/r/nephio
+ * [new branch]      main -> main
+```
+
+</details>
+
