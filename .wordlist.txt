@@ -23,6 +23,7 @@ apiextensions
 apis
 apiVersion
 ArgoCD
+args
 ASNs
 ausf
 auth
@@ -65,6 +66,7 @@ capi
 carte
 cbd
 ccd
+cdd
 cea
 Cfg
 cidr
@@ -95,7 +97,9 @@ configsync
 configurationTemplateValues
 containerd
 containerlab
+containerPath
 containerregistry
+coreDNS
 cp
 CPUS
 cq
@@ -122,10 +126,12 @@ dabd
 DataNetwork
 datanetworknames
 datanetworks
+dataplane
 dcd
 dce
 dcedc
 dcfb
+dd
 ddd
 dde
 declaratively
@@ -138,17 +144,21 @@ dfd
 Dnn
 DnnList
 DNS
+downstreamTargets
 dropdown
 dv
 dwmps
 dXix
+ead
 eadd
 ealenn
 eb
 eca
 ecc
+ecd
 ece
 edb
+edcf
 ee
 eed
 ef
@@ -163,11 +173,13 @@ EOL
 esigohA
 estration
 etag
+etcd
 eth
 ethernets
 eurecom
 eval
 ExploreSandbox
+extraMounts
 fae
 Fanout
 fb
@@ -182,6 +194,7 @@ fcf
 fdb
 fdec
 fdf
+ffa
 ffc
 ffcd
 ffd
@@ -235,6 +248,7 @@ hoc
 HorizontalPodAutoscaling
 hostIP
 hostname
+hostPath
 Howto
 hqq
 href
@@ -284,6 +298,7 @@ krmapihost
 krmapihosting
 kube
 kubeadm
+kubeadmin
 kubebuilder
 kubebyexample
 KubeCon
@@ -297,7 +312,9 @@ LdATSzf
 LFN
 LFNDeveloperEventTopicsFebruary
 lfnetworking
+Libvirt
 lifecycle
+linkThroughput
 linuxfoundation
 lml
 loadbalancer
@@ -313,7 +330,9 @@ Makefile
 ManagementCluster
 masterInterface
 matysiaq
+maxDownlinkThroughput
 MaxRetrans
+maxUplinkThroughput
 mdev
 mEf
 metallb
@@ -494,6 +513,7 @@ telecom
 templated
 tf
 tfb
+throughputs
 tk
 TLS
 tmp
@@ -519,6 +539,7 @@ Undeploys
 updateStrategy
 upf
 upfcfg
+UPFDeployment
 upfdeployments
 upstreamlock
 userid
@@ -528,6 +549,7 @@ Util
 utils
 Vagrantfile
 VCPU
+vCPUs
 virtualbox
 vlan
 vlanindex
