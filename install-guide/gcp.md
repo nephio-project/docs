@@ -143,12 +143,16 @@ Operation "operations/acat.p2-NNNNNNNNNNNNN-c1aeadbe-3593-48a4-b4a9-e765e18a3009
 ```
 </details>
 
-Next, we are going to create a service account for ConfigSync on the workload
-clusters to use to read their repositories. The authentication will happen via
-Workload Identity, so we will also configure the service account to allow that.
+Next, we are going to create service accounts for ConfigSync and Porch on the
+workload clusters to use to access their repositories. The authentication will
+happen via Workload Identity, so we will also configure the service accounts to
+allow that.
 
 It is also possible to use Config Controller to create separate service accounts
-for each cluster, but for simplicity we will use a single one for all clusters.
+for each cluster, but for simplicity we will use a single one for all clusters,
+for each workload (Config Sync and Porch).
+
+Create the Config Sync SA:
 
 ```bash
 gcloud iam service-accounts create nephio-config-sync \
@@ -163,6 +167,24 @@ gcloud iam service-accounts create nephio-config-sync \
 Created service account [nephio-config-sync].
 ```
 </details>
+
+Create the Porch SA:
+
+```bash
+gcloud iam service-accounts create nephio-porch \
+    --description="Source reader/writer SA for Porch" \
+    --display-name="nephio-porch"
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+Created service account [nephio-porch].
+```
+</details>
+
+Grant repository read privileges to the Config Sync SA:
 
 ```bash
 gcloud projects add-iam-policy-binding ${PROJECT} \
@@ -223,6 +245,16 @@ version: 1
 ```
 </details>
 
+Grant repository read/write access to the Porch SA:
+
+```bash
+gcloud projects add-iam-policy-binding ${PROJECT} \
+   --member "serviceAccount:nephio-porch@${PROJECT}.iam.gserviceaccount.com" \
+   --role roles/source.writer
+```
+
+Enable the Kubernetes service account to authenticate as Config Sync SA using workload identity:
+
 ```bash
 gcloud iam service-accounts add-iam-policy-binding \
    --role roles/iam.workloadIdentityUser \
@@ -243,6 +275,15 @@ etag: BwYE4TKYQSk=
 version: 1
 ```
 </details>
+```
+
+Enable the Kubernetes service account to authenticate as Porch SA using workload identity:
+
+```bash
+gcloud iam service-accounts add-iam-policy-binding \
+   --role roles/iam.workloadIdentityUser \
+   --member "serviceAccount:${PROJECT}.svc.id.goog[porch-system/porch-server]" \
+   nephio-porch@${PROJECT}.iam.gserviceaccount.com
 ```
 
 Your project should now be ready to proceed with the installation.
@@ -786,7 +827,6 @@ cd nephio
 kpt pkg get --for-deployment https://github.com/johnbelamaric/blueprints-nephio-gcp.git/nephio-mgmt@main
 ```
 
-
 <details>
 <summary>The output is similar to:</summary>
 
@@ -963,6 +1003,44 @@ git commit -m "Initial checking of nephio-mgmt"
 
 </details>
 
+Prior to committing and pushing (and therfore deploying) the package, we need to
+manually setup the secret for the WebUI. See [Google OAuth 2.0 or
+OIDC](webui-auth-gcp.md) for details on how to set up OAuth. The `nephio-webui`
+subpackage in `nephio-mgmt` is set up for Google OAuth 2.0; you can follow the
+instructions in the linked document if you prefer OIDC.
+
+Once, you have created the namespace and secret, set the GCP project ID:
+
+```bash
+kpt fn eval nephio-mgmt --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name gcp-context -- 'by-path=data.project-id' "put-value=${PROJECT}"
+kpt fn eval nephio-mgmt --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name gcp-context -- 'by-path=data.location' "put-value=${LOCATION}"
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+[RUNNING] "gcr.io/kpt-fn/search-replace:v0.2.0" on 1 resource(s)
+[PASS] "gcr.io/kpt-fn/search-replace:v0.2.0" in 600ms
+  Results:
+    [info] data.project-id: Mutated field value to "your-nephio-project-id"
+    [info] data.project-id: Mutated field value to "your-nephio-project-id"
+```
+
+and
+
+```console
+[RUNNING] "gcr.io/kpt-fn/search-replace:v0.2.0" on 2 resource(s)
+[PASS] "gcr.io/kpt-fn/search-replace:v0.2.0" in 600ms
+  Results:
+    [info] data.location: Mutated field value to "us-central1"
+    [info] data.location: Mutated field value to "us-central1"
+```
+
+</details>
+
+Render the package:
+
 ```bash
 kpt fn render nephio-mgmt/
 ```
@@ -971,43 +1049,64 @@ kpt fn render nephio-mgmt/
 <summary>The output is similar to:</summary>
 
 ```console
-Package "nephio-mgmt/gitea": 
-Package "nephio-mgmt/nephio-controllers/app": 
-Package "nephio-mgmt/nephio-controllers/crd": 
-Package "nephio-mgmt/nephio-controllers": 
-Package "nephio-mgmt/nephio-stock-repos": 
-Package "nephio-mgmt/network-config/app": 
-Package "nephio-mgmt/network-config/crd": 
-Package "nephio-mgmt/network-config": 
-Package "nephio-mgmt/porch-dev": 
-Package "nephio-mgmt/resource-backend/app": 
-Package "nephio-mgmt/resource-backend/crd": 
-Package "nephio-mgmt/resource-backend": 
-Package "nephio-mgmt": 
-Successfully executed 0 function(s) in 13 package(s).
+Package "nephio-mgmt/gitea":
+Package "nephio-mgmt/nephio-controllers/app":
+Package "nephio-mgmt/nephio-controllers/crd":
+Package "nephio-mgmt/nephio-controllers":
+Package "nephio-mgmt/nephio-stock-repos":
+Package "nephio-mgmt/network-config/app":
+Package "nephio-mgmt/network-config/crd":
+Package "nephio-mgmt/network-config":
+Package "nephio-mgmt/porch-dev":
+[RUNNING] "gcr.io/kpt-fn/apply-replacements:v0.1.1"
+[PASS] "gcr.io/kpt-fn/apply-replacements:v0.1.1" in 800ms
+[RUNNING] "gcr.io/kpt-fn/apply-setters:v0.2.0"
+[PASS] "gcr.io/kpt-fn/apply-setters:v0.2.0" in 600ms
+  Results:
+    [info] spec.git.repo: set field value to "https://source.developers.google.com/p/your-nephio-project-id/r/nephio"
+    [info] spec.git.gcpServiceAccountEmail: set field value to "nephio-porch@your-nephio-project-id.iam.gserviceaccount.com"
+    [info] metadata.annotations.iam.gke.io/gcp-service-account: set field value to "nephio-porch@your-nephio-project-id.iam.gserviceaccount.com"
+
+Package "nephio-mgmt/resource-backend/app":
+Package "nephio-mgmt/resource-backend/crd":
+Package "nephio-mgmt/resource-backend":
+Package "nephio-mgmt":
+Successfully executed 2 function(s) in 13 package(s).
 ```
 
 </details>
 
+Commit the rendered package, and push the changes to the repository so Config
+Sync can pick them up and apply them.
+
+
 ```bash
+git add .
+git commit -m "Fully configured Nephio component package"
 git push
+```
+
+You should also tag the package, to make it manageable with Nephio/Porch for any
+future edits:
+
+```bash
+git tag nephio-mgmt/v1
+git push --tags
 ```
 
 <details>
 <summary>The output is similar to:</summary>
 
 ```console
-Enumerating objects: 150, done.
-Counting objects: 100% (150/150), done.
-Delta compression using up to 24 threads
-Compressing objects: 100% (147/147), done.
-Writing objects: 100% (150/150), 63.24 KiB | 2.43 MiB/s, done.
-Total 150 (delta 86), reused 0 (delta 0), pack-reused 0
-remote: Resolving deltas: 100% (86/86)
-remote: Waiting for private key checker: 129/129 objects left
-To https://source.developers.google.com/p/your-nephio-project-id/r/nephio
- * [new branch]      main -> main
+Total 0 (delta 0), reused 0 (delta 0), pack-reused 0
+To https://source.developers.google.com/p/your-nephio-project-id/nephio
+ * [new tag]         nephio-mgmt/v1 -> nephio-mgmt/v1
 ```
 
 </details>
 
+## Accessing Nephio
+
+Accessing Nephio with `kubectl` or `kpt` can be done from your workstation, so
+long as you use the context for the Nephio management cluster. To access the
+WebUI.
