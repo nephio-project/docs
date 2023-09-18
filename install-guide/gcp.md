@@ -8,7 +8,7 @@ In this guide, you will set up Nephio with:
   managed service via Anthos Config Controller (CC).
 - **Workload Clusters**: GKE, optionally with the Network Function Optimization
   feature enabled
-- **Gitops Tool**: ConfigSync
+- **Gitops Tool**: Config Sync
 - **Git Provider**: Google Cloud Source Repositories will be the git provider
   for cluster deployment repositories. Some external repositories will be on
   GitHub. Gitea will be running because R1 currently has a hard requirement that
@@ -21,6 +21,7 @@ Additionally, this guide makes the following simplifying choices:
 - All resources (Nephio management cluster, Config Controller, and workload
   clusters) will be in the same GCP project.
 - All clusters attached to the default VPC as their primary VPC.
+- All clusters will be created in the same region or zone.
 
 It is certainly possible to set up Nephio without these assumptions - that is
 left as an exercise for the reader.
@@ -32,22 +33,41 @@ In addition to the general prerequisites, you will need:
   enable APIs in those projects, and create the necessary resources.
 - [Google Cloud CLI](https://cloud.google.com/sdk/docs) (`gcloud`) installed and
   set up on your workstation.
+- git installed on your workstation.
 
 ## Setup Your Environment
 
 To make the instructions (and possibly your life) simpler, you can create a
 `gcloud` configuration and a project for Nephio.
 
-In the commands below, two environment variables are used. You can set them to
+In the commands below, several environment variables are used. You can set them to
 appropriate values for you. Set `LOCATION` to a region to create a regional
 Nephio management cluster, or to a zone to create a zonal cluster. Regional
 clusters have increased availability but higher resource demands.
+
+- `PROJECT` is an existing project ID, or the ID to use for a new project.
+- `ACCOUNT` should be your Google account mentioned in the prerequisites.
+- `REGION` is the region for your Config Controller. See [this link] for the
+  list of supported regions.
+- `LOCATION` is the location (region or zone) for your Nephio management cluster
+  as well as any workload clusters you create. Setting this will not limit you
+  to this location, but it will be what is used in this guide. Note that Config
+  Controller is always regional.
+- `WEBUIFQDN` is the fully qualified domain name you would like to use for the
+  web UI.
+- `MANAGED_ZONE` is the GCP name for the zone where you will put the DNS entry
+  for `WEBUIFQDN`. Note that it is not the domain name, but rather the managed
+  zone name used in GCP - for example, `my-zone-name`, not `myzone.example.com`.
+
+Set the environment variables:
 
 ```bash
 PROJECT=your-nephio-project-id
 ACCOUNT=your-gcp-account@example.com
 REGION=us-central1
 LOCATION=$REGION
+WEBUIFQDN=nephio.example.com
+MANAGED_ZONE=your-managed-zone-name
 ```
 
 First, create the configuration. You can view and switch between `gcloud`
@@ -143,7 +163,7 @@ Operation "operations/acat.p2-NNNNNNNNNNNNN-c1aeadbe-3593-48a4-b4a9-e765e18a3009
 ```
 </details>
 
-Next, we are going to create service accounts for ConfigSync and Porch on the
+Next, we are going to create service accounts for Config Sync and Porch on the
 workload clusters to use to access their repositories. The authentication will
 happen via Workload Identity, so we will also configure the service accounts to
 allow that.
@@ -156,7 +176,7 @@ Create the Config Sync SA:
 
 ```bash
 gcloud iam service-accounts create nephio-config-sync \
-    --description="Source reader SA for ConfigSync" \
+    --description="Source reader SA for Config Sync" \
     --display-name="nephio-config-sync"
 ```
 
@@ -182,6 +202,7 @@ gcloud iam service-accounts create nephio-porch \
 ```console
 Created service account [nephio-porch].
 ```
+
 </details>
 
 Grant repository read privileges to the Config Sync SA:
@@ -243,6 +264,7 @@ bindings:
 etag: BwYE4Sxmm5A=
 version: 1
 ```
+
 </details>
 
 Grant repository read/write access to the Porch SA:
@@ -274,8 +296,8 @@ bindings:
 etag: BwYE4TKYQSk=
 version: 1
 ```
+
 </details>
-```
 
 Enable the Kubernetes service account to authenticate as Porch SA using workload identity:
 
@@ -303,8 +325,8 @@ infrastructure by Nephio itself.
 You can use the commands below, or for additional details, see the instructions
 to [create a Config Controller
 instance](https://cloud.google.com/anthos-config-management/docs/how-to/config-controller-setup)
-in your project. If you follow that guide, do not configure ConfigSync yet; you
-will do that later in these instructions, once we have the Gitea repo created.
+in your project. If you follow that guide, do not configure Config Sync yet; you
+will do that later in these instructions, after we create the repository.
 
 ```bash
 gcloud anthos config controller create nephio-cc \
@@ -326,6 +348,7 @@ Created instance [nephio-cc].
 Fetching cluster endpoint and auth data.
 kubeconfig entry generated for krmapihost-nephio-cc.
 ```
+
 </details>
 
 After completing, your `kubectl` context will be pointing to the Config
@@ -370,8 +393,8 @@ service-NNNNNNNNNNNN@gcp-sa-yakima.iam.gserviceaccount.com
 
 </details>
 
-And then grant that service account `roles/editor`, which allows full management
-access to the project, except for IAM:
+Grant that service account `roles/editor`, which allows full management access
+to the project, except for IAM:
 
 ```bash
 gcloud projects add-iam-policy-binding $PROJECT \
@@ -425,10 +448,14 @@ version: 1
 
 </details>
 
+Granting IAM priviliges is not necessary for this setup, but if you did want to
+use separate service accounts per workload cluster, you would need to grant
+those priviliges as well (`roles/owner` for example).
+
 ## Setting Up GitOps for Config Controller
 
 Next, you will set up a repository to store our GCP configurations, and
-ConfigSync to apply those configurations to Config Controller.
+Config Sync to apply those configurations to Config Controller.
 
 First, create a repository:
 
@@ -567,10 +594,10 @@ You will use CC to provision the Nephio management cluster and associated
 resources, by way of the `config-control` repository. The
 [cluster-gke-standard-autoscaling](https://github.com/johnbelamaric/blueprints-nephio-gcp/tree/main/cluster-gke-standard-autoscaling)
 package uses CC to create a cluster and a cloud source repository, add the
-cluster to a fleet, and install and configure ConfigSync on the cluster to point
+cluster to a fleet, and install and configure Config Sync on the cluster to point
 to the new repository.  This is similar to what the `nephio-workload-cluster`
 package does in the Sandbox exercises, except that it uses GCP services to
-create the repository and bootstrap ConfigSync, rather than Nephio controllers.
+create the repository and bootstrap Config Sync, rather than Nephio controllers.
 
 First, pull the cluster package into your clone of the `config-control`
 repository:
@@ -787,7 +814,7 @@ gcloud source repos list
 <summary>The output is similar to:</summary>
 
 ```console
-REPO_NAME        PROJECT_ID         URL
+REPO_NAME        PROJECT_ID              URL
 config-control   your-nephio-project-id  https://source.developers.google.com/p/your-nephio-project-id/r/config-control
 nephio           your-nephio-project-id  https://source.developers.google.com/p/your-nephio-project-id/r/nephio
 ```
@@ -813,14 +840,16 @@ Project [your-nephio-project-id] repository [nephio] was cloned to [/home/your-u
 </details>
 
 Navigate to that directory, and pull out the `nephio-mgmt` package, which
-contains all the necessary Nephio components:
+contains all the necessary Nephio components as subpackages:
 - Porch
 - Nephio Controllers
 - Gitea
 - Network Config Operator
 - Resource Backend
-- The Nephio WebUI, configured to use Google Cloud OAuth 2.0
-- A GCP-specific controller for syncing clusters, fleets, and fleet scopes
+- The Nephio WebUI, configured to use Google Cloud OAuth 2.0 (not yet;
+  work-in-progress)
+- A GCP-specific controller for syncing clusters, fleets, and fleet scopes (not
+  yet; work-in-progress)
 
 ```bash
 cd nephio
@@ -854,6 +883,9 @@ Customized package for deployment.
 ```
 
 </details>
+
+Create a local commit, but do not push it to the upstream repository yet. As
+before, this is just to allow `git diff` to easily identify the you make later.
 
 ```bash
 git add nephio-mgmt/
@@ -1003,24 +1035,26 @@ git commit -m "Initial checking of nephio-mgmt"
 
 </details>
 
-Prior to committing and pushing (and therfore deploying) the package, we need to
-manually setup the secret for the WebUI. See [Google OAuth 2.0 or
-OIDC](webui-auth-gcp.md) for details on how to set up OAuth. The `nephio-webui`
-subpackage in `nephio-mgmt` is set up for Google OAuth 2.0; you can follow the
-instructions in the linked document if you prefer OIDC.
+Prior to deploying the package, we need to manually setup the secret for the
+WebUI. See [Google OAuth 2.0 or OIDC](webui-auth-gcp.md) for details on how to
+set up OAuth. The `nephio-webui` subpackage in `nephio-mgmt` is set up for
+Google OAuth 2.0; you can follow the instructions in the linked document if you
+prefer OIDC.
 
-Once, you have created the namespace and secret, set the GCP project ID:
+Once, you have created the namespace and secret, set the GCP project ID and
+location in the package:
 
 ```bash
 kpt fn eval nephio-mgmt --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name gcp-context -- 'by-path=data.project-id' "put-value=${PROJECT}"
 kpt fn eval nephio-mgmt --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name gcp-context -- 'by-path=data.location' "put-value=${LOCATION}"
+kpt fn eval nephio-mgmt --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name gen-app-config -- 'by-path=params.hostname' "put-value=${WEBUIFQDN}"
 ```
 
 <details>
 <summary>The output is similar to:</summary>
 
 ```console
-[RUNNING] "gcr.io/kpt-fn/search-replace:v0.2.0" on 1 resource(s)
+[RUNNING] "gcr.io/kpt-fn/search-replace:v0.2.0" on 2 resource(s)
 [PASS] "gcr.io/kpt-fn/search-replace:v0.2.0" in 600ms
   Results:
     [info] data.project-id: Mutated field value to "your-nephio-project-id"
@@ -1037,6 +1071,14 @@ and
     [info] data.location: Mutated field value to "us-central1"
 ```
 
+and
+
+```console
+[RUNNING] "gcr.io/kpt-fn/search-replace:v0.2.0" on 1 resource(s)
+[PASS] "gcr.io/kpt-fn/search-replace:v0.2.0" in 1.1s
+  Results:
+    [info] params.hostname: Mutated field value to "nephio.example.com"
+```
 </details>
 
 Render the package:
@@ -1049,29 +1091,38 @@ kpt fn render nephio-mgmt/
 <summary>The output is similar to:</summary>
 
 ```console
-Package "nephio-mgmt/gitea":
-Package "nephio-mgmt/nephio-controllers/app":
-Package "nephio-mgmt/nephio-controllers/crd":
-Package "nephio-mgmt/nephio-controllers":
-Package "nephio-mgmt/nephio-stock-repos":
-Package "nephio-mgmt/network-config/app":
-Package "nephio-mgmt/network-config/crd":
-Package "nephio-mgmt/network-config":
-Package "nephio-mgmt/porch-dev":
+Package "nephio-mgmt/cert-manager": 
+Package "nephio-mgmt/gitea": 
+Package "nephio-mgmt/nephio-controllers/app": 
+Package "nephio-mgmt/nephio-controllers/crd": 
+Package "nephio-mgmt/nephio-controllers": 
+Package "nephio-mgmt/nephio-stock-repos": 
+Package "nephio-mgmt/nephio-webui": 
 [RUNNING] "gcr.io/kpt-fn/apply-replacements:v0.1.1"
-[PASS] "gcr.io/kpt-fn/apply-replacements:v0.1.1" in 800ms
+[PASS] "gcr.io/kpt-fn/apply-replacements:v0.1.1" in 700ms
+[RUNNING] "gcr.io/kpt-fn/starlark:v0.5.0"
+[PASS] "gcr.io/kpt-fn/starlark:v0.5.0" in 600ms
+[RUNNING] "docker.io/nephio/gen-configmap-fn:2023-09-14-01"
+[PASS] "docker.io/nephio/gen-configmap-fn:2023-09-14-01" in 500ms
+
+Package "nephio-mgmt/network-config/app": 
+Package "nephio-mgmt/network-config/crd": 
+Package "nephio-mgmt/network-config": 
+Package "nephio-mgmt/porch-dev": 
+[RUNNING] "gcr.io/kpt-fn/apply-replacements:v0.1.1"
+[PASS] "gcr.io/kpt-fn/apply-replacements:v0.1.1" in 700ms
 [RUNNING] "gcr.io/kpt-fn/apply-setters:v0.2.0"
 [PASS] "gcr.io/kpt-fn/apply-setters:v0.2.0" in 600ms
   Results:
+    [info] spec.git.repo: set field value to "https://source.developers.google.com/p/your-nephio-project-id/r/config-control"
     [info] spec.git.repo: set field value to "https://source.developers.google.com/p/your-nephio-project-id/r/nephio"
-    [info] spec.git.gcpServiceAccountEmail: set field value to "nephio-porch@your-nephio-project-id.iam.gserviceaccount.com"
     [info] metadata.annotations.iam.gke.io/gcp-service-account: set field value to "nephio-porch@your-nephio-project-id.iam.gserviceaccount.com"
 
-Package "nephio-mgmt/resource-backend/app":
-Package "nephio-mgmt/resource-backend/crd":
-Package "nephio-mgmt/resource-backend":
-Package "nephio-mgmt":
-Successfully executed 2 function(s) in 13 package(s).
+Package "nephio-mgmt/resource-backend/app": 
+Package "nephio-mgmt/resource-backend/crd": 
+Package "nephio-mgmt/resource-backend": 
+Package "nephio-mgmt": 
+Successfully executed 5 function(s) in 15 package(s).
 ```
 
 </details>
@@ -1108,5 +1159,121 @@ To https://source.developers.google.com/p/your-nephio-project-id/nephio
 ## Accessing Nephio
 
 Accessing Nephio with `kubectl` or `kpt` can be done from your workstation, so
-long as you use the context for the Nephio management cluster. To access the
-WebUI.
+long as you use the context for the Nephio management cluster.
+
+To access the WebUI, you need to create a DNS entry pointing to the load
+balancer IP serving the Ingress resources. The Ingress included in the Web UI
+package will use Cert Manager to automatically generate a self-signed
+certificate for the `WEBUIFQDN` value.
+
+Find the IP address using this command:
+
+```bash
+INGRESS_IP=$(kubectl -n nephio-webui get ingress nephio-webui -o jsonpath="{.status.loadBalancer.ingress[0].ip}")
+echo $INGRESS_IP
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+1.2.3.4
+```
+
+</details>
+
+You will need to add this as an `A` record for the name you used in `WEBUIFQDN`.
+If you are using Google Cloud DNS for that zone, first find the managed zone
+name:
+
+```bash
+gcloud dns managed-zones list
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+NAME                                   DNS_NAME                       DESCRIPTION                                                                                                                                         VISIBILITY
+gke-krmapihost-nephio-cc-6e7c24f5-dns  cluster.local.                 Private zone for GKE cluster "krmapihost-nephio-cc" with cluster suffix "cluster.local." in project "your-nephio-project-id" with scope "CLUSTER_SCOPE"  private
+your-managed-zone-name                 example.com.                                                                                                                                                      public
+
+```
+
+</details>
+
+In this case, you would use `your-managed-zone-name`, which is the name for the
+`example.com.` zone.
+
+Start a transaction to add a record set:
+
+```bash
+gcloud dns record-sets transaction start --zone=$MANAGED_ZONE
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+Transaction started [transaction.yaml].
+```
+
+</details>
+
+Add the specific IP address as an A record, with the fully-qualified domain name
+of the site:
+
+```bash
+gcloud dns record-sets transaction add $INGRESS_IP \
+   --name=$WEBUIFQDN \
+   --ttl=300 \
+   --type=A \
+   --zone=$MANAGED_ZONE
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+Record addition appended to transaction at [transaction.yaml].
+```
+
+</details>
+
+Execute the transaction to store the record. Depending on your DNS
+configuration, it may take some time to be resolvable.
+
+```bash
+gcloud dns record-sets transaction execute --zone=$MANAGED_ZONE
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+Executed transaction [transaction.yaml] for managed-zone [your-managed-zone-name].
+Created [https://dns.googleapis.com/dns/v1/projects/your-nephio-project-id/managedZones/your-managed-zone-name/changes/1].
+ID  START_TIME                STATUS
+1   2023-09-15T19:38:36.601Z  pending
+```
+
+</details>
+
+You can now access the site via your browser, and will be asked to login as
+shown below:
+
+![Nephio Login Screen](nephio-login.png)
+
+
+## Next Steps
+
+Note that the exercises using free5gc rely on Multus and on the gtp5g kernel
+module, neither of which are installed on GKE nodes. Therefore, the free5gc
+workloads cannot be run on this installation. You will need to alter the
+exercises to use workloads that do not rely on that functionality in order
+to expermiment with Nephio features.
+
+A separate set of GKE-specific exercises is under consideration.
+
+* Step through the [exercises](https://github.com/nephio-project/docs/blob/main/user-guide/exercises.md)
+* Dig into the [user guide](https://github.com/nephio-project/docs/blob/main/user-guide/README.md)
