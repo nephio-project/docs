@@ -192,7 +192,7 @@ Create the Porch SA:
 
 ```bash
 gcloud iam service-accounts create nephio-porch \
-    --description="Source reader/writer SA for Porch" \
+    --description="Service account for Porch" \
     --display-name="nephio-porch"
 ```
 
@@ -275,6 +275,16 @@ gcloud projects add-iam-policy-binding ${PROJECT} \
    --role roles/source.writer
 ```
 
+The Porch SA will also be used for synchronizing GKE Fleet information to the
+Nephio cluster, for use in our deployments. For this, it needs the
+`roles/gkehub.viewer` role:
+
+```bash
+gcloud projects add-iam-policy-binding ${PROJECT} \
+   --member "serviceAccount:nephio-porch@${PROJECT}.iam.gserviceaccount.com" \
+   --role roles/gkehub.viewer
+```
+
 Enable the Kubernetes service account to authenticate as Config Sync SA using workload identity:
 
 ```bash
@@ -299,12 +309,23 @@ version: 1
 
 </details>
 
-Enable the Kubernetes service account to authenticate as Porch SA using workload identity:
+Enable the Porch server Kubernetes service account (KSA) to authenticate as
+Porch SA using workload identity:
 
 ```bash
 gcloud iam service-accounts add-iam-policy-binding \
    --role roles/iam.workloadIdentityUser \
    --member "serviceAccount:${PROJECT}.svc.id.goog[porch-system/porch-server]" \
+   nephio-porch@${PROJECT}.iam.gserviceaccount.com
+```
+
+The Porch controllers also need access, so also allow that KSA to act as the
+Google service account:
+
+```bash
+gcloud iam service-accounts add-iam-policy-binding \
+   --role roles/iam.workloadIdentityUser \
+   --member "serviceAccount:${PROJECT}.svc.id.goog[porch-system/porch-controllers]" \
    nephio-porch@${PROJECT}.iam.gserviceaccount.com
 ```
 
@@ -1265,6 +1286,130 @@ shown below:
 ![Nephio Login Screen](nephio-login.png)
 
 
+## Some Exercises
+
+As a an exercise to get started, you can create edge clusters by using `kubectl`
+to apply the following following PackageVariantSet to your management cluster:
+
+```yaml
+apiVersion: config.porch.kpt.dev/v1alpha2
+kind: PackageVariantSet
+metadata:
+  name: edge-clusters
+spec:
+  upstream:
+    repo: blueprints-nephio-gcp
+    package: nephio-workload-cluster-gke
+    revision: main
+  targets:
+  - repositories:
+    - name: nephio
+      packageNames:
+      - edge01
+      - edge02
+      - edge03
+    template:
+      annotations:
+        approval.nephio.org/policy: initial
+      injectors:
+      - kind: ConfigMap
+        name: gcp-context
+      pipeline:
+        mutators:
+        - image: gcr.io/kpt-fn/set-labels:v0.2.0
+          configMap:
+            nephio.org/site-type: edge
+            nephio.org/region: us-central1
+```
+
+This uses the GCP context (project and location) that was added to the cluster
+when you created the management cluster to create the GKE edge clusters, their
+Google Cloud Source Repositories, and attach them to Nephio.
+
+As a follow up exercise, you could try creating GCP context ConfigMap entries
+for different locations, and use a PackageVariantSet to create per-location
+edge clusters based on a label selector against those.
+
+First, create GCP context ConfigMap for each zone:
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    nephio.org/site-type: zonal
+    nephio.org/region: us-west1
+    nephio.org/zone: us-west1-a
+  name: gcp-context-us-west1-a
+data:
+  location: us-west1-a
+  project-id: your-nephio-project-id
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    nephio.org/site-type: zonal
+    nephio.org/region: us-west1
+    nephio.org/zone: us-west1-b
+  name: gcp-context-us-west1-b
+data:
+  location: us-west1-b
+  project-id: your-nephio-project-id
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    nephio.org/site-type: zonal
+    nephio.org/region: us-west1
+    nephio.org/zone: us-west1-c
+  name: gcp-context-us-west1-c
+data:
+  location: us-west1-c
+  project-id: your-nephio-project-id
+```
+
+Then, create a PackageVariantSet that selects based upon those:
+
+```yaml
+apiVersion: config.porch.kpt.dev/v1alpha2
+kind: PackageVariantSet
+metadata:
+  name: uswest1-zonal-clusters
+spec:
+  upstream:
+    repo: blueprints-nephio-gcp
+    package: nephio-workload-cluster-gke
+    revision: main
+  targets:
+  - objectSelector:
+      apiVersion: v1
+      kind: ConfigMap
+      matchLabels:
+        nephio.org/site-type: zonal
+        nephio.org/region: us-west1
+    template:
+      downstream:
+        repo: nephio
+        packageExpr: "'zonal-gke-' + target.labels['nephio.org/zone']"
+      annotations:
+        approval.nephio.org/policy: initial
+      injectors:
+      - kind: ConfigMap
+        nameExpr: target.name
+      pipeline:
+        mutators:
+        - image: gcr.io/kpt-fn/set-labels:v0.2.0
+          configMap:
+            nephio.org/site-type: zonal
+          configMapExprs:
+          - key: nephio.org/region
+            valueExpr: target.labels["nephio.org/region"]
+          - key: nephio.org/zone
+            valueExpr: target.labels["nephio.org/zone"]
+```
+
 ## Next Steps
 
 Note that the exercises using free5gc rely on Multus and on the gtp5g kernel
@@ -1272,8 +1417,6 @@ module, neither of which are installed on GKE nodes. Therefore, the free5gc
 workloads cannot be run on this installation. You will need to alter the
 exercises to use workloads that do not rely on that functionality in order
 to expermiment with Nephio features.
-
-A separate set of GKE-specific exercises is under consideration.
 
 * Step through the [exercises](https://github.com/nephio-project/docs/blob/main/user-guide/exercises.md)
 * Dig into the [user guide](https://github.com/nephio-project/docs/blob/main/user-guide/README.md)
