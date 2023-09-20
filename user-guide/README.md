@@ -43,7 +43,7 @@ Nephio is establishing open, extensible Kubernetes Custom Resource Definition
 (CRD) models for each layer of the stack, in conformance to the 3GPP & O-RAN
 standards.
 
-![nephio-overview.png](nephio-overview.png)
+![nephio-overview.png](img/nephio-overview.png)
 
 ## Overview of Underlying Technologies
 
@@ -181,14 +181,14 @@ A package may have a single upstream parent, and many downstream descendants.
 The Kptfiles in these packages are used to maintain the relationships, capturing
 ancestry relationships like those shown below.
 
-![package-ancestry.png](package-ancestry.png)
+![package-ancestry.png](img/package-ancestry.png)
 
 By tracking these relationships, changes at the original source can be
 propagated via controlled automation down the tree.
 
 ### Package Configuration Journey
 
-![package-lifecycle.png](package-lifecycle.png)
+![package-lifecycle.png](img/package-lifecycle.png)
 
 ## R1 scope
 
@@ -235,7 +235,7 @@ For the purposes of Nephio deployment, we can categorize clusters into two varie
 
 The diagram below depicts deployment at the high level.
 
-![nephio-deployment.png](nephio-deployment.png)
+![nephio-deployment.png](img/nephio-deployment.png)
 
 ### Management Cluster Components
 
@@ -331,5 +331,7 @@ issues](https://github.com/nephio-project/docs/tree/main/release-notes#known-iss
 
 * Learn more about the Nephio
   [controllers](https://github.com/nephio-project/docs/blob/main/user-guide/controllers.md)
-* Learn more about the how packages are
+* Learn more about how packages are transformed
   [transformed](https://github.com/nephio-project/docs/blob/main/install-guide/package-transformations.md)
+* Learn more about deploying helm charts in Nephio
+  [helm](https://github.com/nephio-project/docs/blob/main/install-guide/docs/helm/README.md)
