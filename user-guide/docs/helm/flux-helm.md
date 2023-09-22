@@ -1,6 +1,6 @@
 # Deploying helm charts in Nephio using Flux CD
 
-[Flux CD](https://fluxcd.io/flux/use-cases/helm/) provides a set of kubernetes controllers to enable a GitOps driven deployment of helm charts, using relevant the flux Custom Resources.
+[Flux CD](https://fluxcd.io/flux/use-cases/helm/) provides a set of Kubernetes controllers to enable a GitOps driven deployment of helm charts.
 
 In this example, we deploy the flux [helm](https://fluxcd.io/flux/components/helm/) and [source](https://fluxcd.io/flux/components/source/) controllers via a kpt package to the target workload cluster.
 
