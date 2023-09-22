@@ -331,7 +331,5 @@ issues](https://github.com/nephio-project/docs/tree/main/release-notes#known-iss
 
 * Learn more about the Nephio
   [controllers](https://github.com/nephio-project/docs/blob/main/user-guide/controllers.md)
-* Learn more about how packages are transformed
-  [transformed](https://github.com/nephio-project/docs/blob/main/install-guide/package-transformations.md)
-* Learn more about deploying helm charts in Nephio
-  [helm](https://github.com/nephio-project/docs/blob/main/install-guide/docs/helm/README.md)
+* Learn more about how packages are [transformed](https://github.com/nephio-project/docs/blob/main/install-guide/package-transformations.md)
+* Learn more about [deploying helm charts](https://github.com/nephio-project/docs/blob/main/user-guide/docs/helm/README.md) in Nephio
