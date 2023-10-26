@@ -10,6 +10,7 @@
 
 * [The Kubernetes Documentation](https://kubernetes.io/): The Kubernetes documentation is well laid out, comprehensive and very readable. It is the definitive source for information on Kubernetes.
 * [Kubebuilder: Learning the Fundamental Kubernetes Concepts](https://kubebuilder.io/): Users of Kubernetes will develop a deeper understanding of Kubernetes through learning the fundamental concepts behind how APIs are designed and implemented. This book will teach readers how to develop their own Kubernetes APIs and the principles from which the core Kubernetes APIs are designed.
+* [Kubernetes Developer Guides](https://github.com/kubernetes/community/tree/master/contributors/devel#the-process-of-developing-and-contributing-code-to-the-kubernetes-project): The process of developing and contributing code to the Kubernetes project.
 
 ## Kubernetes Operators
 
