@@ -15,8 +15,8 @@ different aspects of R1.
 ## Other Documentation
 
 * [Developer Documentation](https://github.com/nephio-project/nephio)
-* [Developer Guide](https://github.com/nephio-project/nephio)
-* [Project Resources](https://github.com/nephio-project/docs/blob/main/developer-guide/README.md)
+* [Developer Guide](https://github.com/nephio-project/docs/blob/main/developer-guide/README.md)
+* [Project Resources](https://github.com/nephio-project/docs/blob/main/resources.md)
 
 ## About Nephio R1
 
