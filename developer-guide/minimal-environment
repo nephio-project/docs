@@ -2,7 +2,7 @@
 Minimal Environment install for development
 ===========================================
 
-The following environment install works on a Macbook Pro M1 to get the nephio-operators running in vscode talking to a local kind   cluster running in Docker. Note that depending on what aprt of Nephio you are working on, you may wish to install less or more of the components below. It should work on other environments with appropriate tweaking.
+The following environment install works on a Macbook Pro M1 to get the nephio-operators running in vscode talking to a local kind   cluster running in Docker. Note that depending on what part of Nephio you are working on, you may wish to install less or more of the components below. It should work on other environments with appropriate tweaking.
 
 # Install Docker, kind, and kpt packages
 
@@ -36,13 +36,9 @@ popd >/dev/null || exit
 
 ## Installation steps:
 
-1. Install Docker using the appropriate method for you system.
+1. [Install Docker](https://docs.docker.com/engine/install/) using the appropriate method for you system.
 
-2. Install kind using the appropriate method for you system (homebrew on mac)
-
-```sh
-brew install kind
-```
+2. [Install kind](https://kind.sigs.k8s.io/docs/user/quick-start/#installation) using the appropriate method for you system (homebrew on mac)
 
 3. Create the management cluster
 
@@ -97,7 +93,7 @@ ls nephio-controllers/crd/bases/*.yaml | xargs -n1 kubectl apply -f
 
 # Connect to Gitea on your browser
 
-COnnecting to Gitea allows you to see the actions that Nephio takes on Gitea.
+Connecting to Gitea allows you to see the actions that Nephio takes on Gitea.
 
 1. Port forward the Gitea port to your localhost
 
