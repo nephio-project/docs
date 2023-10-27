@@ -104,14 +104,11 @@ namespace: "{{ gitea.k8s.namespace }}"
       enabled: false
 
 
-  4. Change the check specitifaction values in  
-  *test-infra\e2e\provision\playbooks\roles\bootstrap\defaults\main.yml*
-   
-    host_min_vcpu: 4 
-    host_min_cpu_ram: 8
-
-  5. Run the installation script in
-  *test-infra\e2e\provision\install_sandbox.sh*
+  4. Override the check specitifaction values and run the installation script in
+  *test-infra\e2e\provision\install_sandbox.sh* by
+```
+NEPHIO_HOST_MIN_VCPU=4 NEPHIO_HOST_MIN_CPU_RAM=8 ./install_sandbox.sh
+```
 
 ## Manual Installation of the managment cluster using kpt
 TDB (manual install of kpt, porch, configsync, nephio-webui, capi, metallb)
