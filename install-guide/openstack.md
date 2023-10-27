@@ -101,7 +101,8 @@ namespace: "{{ gitea.k8s.namespace }}"
   *test-infra\e2e\provision\playbooks\roles\bootstrap\defaults\main.yml*
    
     kind:
-    enabled: false
+      enabled: false
+
 
   4. Change the check specitifaction values in  
   *test-infra\e2e\provision\playbooks\roles\bootstrap\defaults\main.yml*
