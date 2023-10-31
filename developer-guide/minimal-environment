@@ -38,7 +38,7 @@ popd >/dev/null || exit
 
 1. [Install Docker](https://docs.docker.com/engine/install/) using the appropriate method for you system.
 
-2. [Install kind](https://kind.sigs.k8s.io/docs/user/quick-start/#installation) using the appropriate method for you system (homebrew on mac)
+2. [Install kind](https://kind.sigs.k8s.io/docs/user/quick-start/#installation) using the appropriate method for your system (homebrew on mac)
 
 3. Create the management cluster
 
