@@ -40,13 +40,15 @@ popd >/dev/null || exit
 
 2. [Install kind](https://kind.sigs.k8s.io/docs/user/quick-start/#installation) using the appropriate method for your system (homebrew on mac)
 
-3. Create the management cluster
+3. [Install kpt cli](https://kpt.dev/installation/kpt-cli) using the appropriate method for your system (e.g. homebrew on mac)
+
+4. Create the management cluster
 
 ```sh
 kind create cluster -n mgmt
 ```
 
-4. Install gitea
+5. Install gitea
 
 ```sh
 kpt pkg get https://github.com/nephio-project/nephio-example-packages/tree/main/gitea gitea
@@ -54,13 +56,13 @@ kpt live init gitea
 kpt live apply gitea
 ```
 
-5. Make gitea visible on host machine
+6. Make gitea visible on host machine
 
 ```sh
 kubectl port-forward -n gitea svc/gitea 3000:3000
 ```
 
-6. Install Porch
+7. Install Porch
 
 ```sh
 kpt pkg get https://github.com/nephio-project/nephio-example-packages/tree/main/porch-dev porch-dev
@@ -68,7 +70,7 @@ kpt live init porch-dev
 kpt live apply porch-dev
 ```
 
-7. Install configsync
+8. Install configsync
 
 ```sh
 kpt pkg get https://github.com/nephio-project/nephio-example-packages/tree/main/configsync configsync
@@ -76,7 +78,7 @@ kpt live init configsync
 kpt live apply configsync
 ```
 
-8. Install the resource backend
+9. Install the resource backend
 
 ```sh
 kpt pkg get https://github.com/nephio-project/nephio-example-packages/tree/main/resource-backend resource-backend
@@ -84,7 +86,7 @@ kpt live init resource-backend
 kpt live apply resource-backend
 ```
 
-9. Load the Nephio CRDs
+10. Load the Nephio CRDs
 
 ```sh
 kpt pkg get https://github.com/nephio-project/nephio-example-packages/tree/main/nephio-controllers nephio-controllers
