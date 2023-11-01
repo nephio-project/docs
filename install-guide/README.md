@@ -104,15 +104,17 @@ sudo NEPHIO_DEBUG=false   \
 
 The following environment variables can be used to configure the installation:
 
-| Variable               | Values           | Default Value | Description                                            |
-| ---------------------- | ---------------- | ------------- | ------------------------------------------------------ |
+| Variable               | Values           | Default Value | Description                                                                  |
+|------------------------|------------------| ------------- |------------------------------------------------------------------------------|
 | NEPHIO_USER            | userid           | ubuntu        | The user to install the sandbox on (must have sudo passwordless permissions) |
-| NEPHIO_DEBUG           | false or true    | false         | Controls debug output from the install                 |
-| NEPHIO_HOME            | path             | /home/$NEPHIO_USER | The directory to check out the install scripts into |
-| NEPHIO_DEPLOYMENT_TYPE | r1 or one-summit | r1            | Controls the type of installation to be carried out    |
-| RUN_E2E                | false or true    | false         | Specifies whether end-to-end tests should be executed or not |
-| NEPHIO_REPO            | URL              | https://github.com/nephio-project/test-infra.git |URL of the repository to be used for installation |
-| NEPHIO_BRANCH          | branch or tag    | main          | Tag or branch name to use in NEPHIO_REPO |
+| NEPHIO_DEBUG           | false or true    | false         | Controls debug output from the install                                       |
+| NEPHIO_HOME            | path             | /home/$NEPHIO_USER | The directory to check out the install scripts into                          |
+| NEPHIO_DEPLOYMENT_TYPE | r1 or one-summit | r1            | Controls the type of installation to be carried out                          |
+| RUN_E2E                | false or true    | false         | Specifies whether end-to-end tests should be executed or not                 |
+| DOCKERHUB_USERNAME     | alpha-num string |               | Specifies the dockerhub username                                             |
+ | DOCKERHUB_TOKEN       | alpha-num string |               | Specifies the password or token                                              |
+| NEPHIO_REPO            | URL              | https://github.com/nephio-project/test-infra.git | URL of the repository to be used for installation                            |
+| NEPHIO_BRANCH          | branch or tag    | main          | Tag or branch name to use in NEPHIO_REPO                                     |
 
 ### Follow the Installation on VM
 
