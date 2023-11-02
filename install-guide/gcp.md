@@ -5,17 +5,15 @@
 In this guide, you will set up Nephio with:
 - **Management Cluster**: GKE Standard with auto scaling enabled
 - **Cluster Provisioner**: Kubernetes Config Connector (KCC), hosted as a
-  managed service via Anthos Config Controller (CC).
-- **Workload Clusters**: GKE, optionally with the Network Function Optimization
-  feature enabled
+  managed service via Config Controller (CC).
+- **Workload Clusters**: GKE
 - **Gitops Tool**: Config Sync
 - **Git Provider**: Google Cloud Source Repositories will be the git provider
   for cluster deployment repositories. Some external repositories will be on
-  GitHub. Gitea will be running because R1 currently has a hard requirement that
-  it exists; however, it is not used.
+  GitHub.
 - **Web UI Auth**: Google OAuth 2.0
-- **Ingress/Load Balancer**: Gateway API will be used to provide access to the
-  Nephio Web UI from you workstation.
+- **Ingress/Load Balancer**: Ingress with a GKE-specific FrontEndConfig to
+  provide http-to-https redirection will be used to access the Nephio Web UI.
 
 Additionally, this guide makes the following simplifying choices:
 - All resources (Nephio management cluster, Config Controller, and workload
@@ -516,7 +514,7 @@ configurations from there by creating a RootSync in Config Controller. There is
 a package available to help properly configure the RootSync:
 
 ```bash
-kpt pkg get --for-deployment https://github.com/johnbelamaric/blueprints-nephio-gcp.git/cc-rootsync@main
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/distros/gcp/cc-rootsync@main
 ```
 
 <details>
@@ -524,11 +522,11 @@ kpt pkg get --for-deployment https://github.com/johnbelamaric/blueprints-nephio-
 
 ```console
 Package "cc-rootsync":
-Fetching https://github.com/johnbelamaric/blueprints-nephio-gcp@main
-From https://github.com/johnbelamaric/blueprints-nephio-gcp
+Fetching https://github.com/nephio-project/catalog@main
+From https://github.com/nephio-project/catalog
  * branch            main       -> FETCH_HEAD
  + 8519ba9...65bb71f main       -> origin/main  (forced update)
-Adding package "cc-rootsync".
+Adding package "distros/gcp/cc-rootsync".
 
 Fetched 1 package(s).
 
@@ -613,7 +611,7 @@ Config Sync will now synchronize that repository to your Config Controller.
 
 You will use CC to provision the Nephio management cluster and associated
 resources, by way of the `config-control` repository. The
-[cluster-gke-standard-autoscaling](https://github.com/johnbelamaric/blueprints-nephio-gcp/tree/main/cluster-gke-standard-autoscaling)
+[cc-cluster-gke-std-csr-cs](https://github.com/nephio-project/catalog/tree/main/infra/gcp/cc-cluster-gke-std-csr-cs)
 package uses CC to create a cluster and a cloud source repository, add the
 cluster to a fleet, and install and configure Config Sync on the cluster to point
 to the new repository.  This is similar to what the `nephio-workload-cluster`
@@ -625,7 +623,7 @@ repository:
 
 ```bash
 cd config-control
-kpt pkg get --for-deployment https://github.com/johnbelamaric/blueprints-nephio-gcp.git/cluster-gke-standard-autoscaling@main nephio
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/infra/gcp/cc-cluster-gke-std-csr-cs@main nephio
 ```
 
 Before we start making changes to the package, it can be helpful to create a
@@ -634,7 +632,7 @@ configured). This is not mandatory.
 
 ```bash
 git add nephio
-git commit -m "Initial clone of cluster-gke-standard-autoscaling package"
+git commit -m "Initial clone of GKE package"
 ```
 
 Next, configure the package for your environment. Specifically, you need to add
@@ -874,7 +872,7 @@ contains all the necessary Nephio components as subpackages:
 
 ```bash
 cd nephio
-kpt pkg get --for-deployment https://github.com/johnbelamaric/blueprints-nephio-gcp.git/nephio-mgmt@main
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/distros/gcp/nephio-mgmt@main
 ```
 
 <details>
@@ -882,11 +880,11 @@ kpt pkg get --for-deployment https://github.com/johnbelamaric/blueprints-nephio-
 
 ```console
 Package "nephio-mgmt":
-Fetching https://github.com/johnbelamaric/blueprints-nephio-gcp@main
-From https://github.com/johnbelamaric/blueprints-nephio-gcp
+Fetching https://github.com/nephio-project/catalog@main
+From https://github.com/nephio-project/catalog
  * branch            main       -> FETCH_HEAD
  + 65bb71f...fd422eb main       -> origin/main  (forced update)
-Adding package "nephio-mgmt".
+Adding package "distros/gcp/nephio-mgmt".
 
 Fetched 1 package(s).
 
@@ -921,19 +919,6 @@ git commit -m "Initial checking of nephio-mgmt"
  133 files changed, 9161 insertions(+)
  create mode 100644 nephio-mgmt/Kptfile
  create mode 100644 nephio-mgmt/README.md
- create mode 100644 nephio-mgmt/gitea/Kptfile
- create mode 100644 nephio-mgmt/gitea/README.md
- create mode 100644 nephio-mgmt/gitea/deployment-memcached.yaml
- create mode 100644 nephio-mgmt/gitea/package-context.yaml
- create mode 100644 nephio-mgmt/gitea/secret-gitea-init.yaml
- create mode 100644 nephio-mgmt/gitea/secret-gitea-inline-config.yaml
- create mode 100644 nephio-mgmt/gitea/secret-gitea.yaml
- create mode 100644 nephio-mgmt/gitea/service-gitea.yaml
- create mode 100644 nephio-mgmt/gitea/service-memcached.yaml
- create mode 100644 nephio-mgmt/gitea/service-postgresql-hl.yaml
- create mode 100644 nephio-mgmt/gitea/service-postgresql.yaml
- create mode 100644 nephio-mgmt/gitea/statefulset-gitea.yaml
- create mode 100644 nephio-mgmt/gitea/statefulset-postgres.yaml
  create mode 100644 nephio-mgmt/nephio-controllers/Kptfile
  create mode 100644 nephio-mgmt/nephio-controllers/README.md
  create mode 100644 nephio-mgmt/nephio-controllers/app/Kptfile
@@ -977,12 +962,6 @@ git commit -m "Initial checking of nephio-mgmt"
  create mode 100644 nephio-mgmt/nephio-controllers/crd/package-context.yaml
  create mode 100644 nephio-mgmt/nephio-controllers/namespace.yaml
  create mode 100644 nephio-mgmt/nephio-controllers/package-context.yaml
- create mode 100644 nephio-mgmt/nephio-stock-repos/Kptfile
- create mode 100644 nephio-mgmt/nephio-stock-repos/README.md
- create mode 100644 nephio-mgmt/nephio-stock-repos/package-context.yaml
- create mode 100644 nephio-mgmt/nephio-stock-repos/repo-blueprints-nephio-gcp.yaml
- create mode 100644 nephio-mgmt/nephio-stock-repos/repo-free5gc-packages.yaml
- create mode 100644 nephio-mgmt/nephio-stock-repos/repo-nephio-example-packages.yaml
  create mode 100644 nephio-mgmt/network-config/Kptfile
  create mode 100644 nephio-mgmt/network-config/README.md
  create mode 100644 nephio-mgmt/network-config/app/Kptfile
@@ -1004,26 +983,26 @@ git commit -m "Initial checking of nephio-mgmt"
  create mode 100644 nephio-mgmt/network-config/namespace.yaml
  create mode 100644 nephio-mgmt/network-config/package-context.yaml
  create mode 100644 nephio-mgmt/package-context.yaml
- create mode 100644 nephio-mgmt/porch-dev/0-packagerevs.yaml
- create mode 100644 nephio-mgmt/porch-dev/0-packagevariants.yaml
- create mode 100644 nephio-mgmt/porch-dev/0-packagevariantsets.yaml
- create mode 100644 nephio-mgmt/porch-dev/0-repositories.yaml
- create mode 100644 nephio-mgmt/porch-dev/1-namespace.yaml
- create mode 100644 nephio-mgmt/porch-dev/2-function-runner.yaml
- create mode 100644 nephio-mgmt/porch-dev/3-porch-server.yaml
- create mode 100644 nephio-mgmt/porch-dev/4-apiservice.yaml
- create mode 100644 nephio-mgmt/porch-dev/5-rbac.yaml
- create mode 100644 nephio-mgmt/porch-dev/6-rbac-bind.yaml
- create mode 100644 nephio-mgmt/porch-dev/7-auth-reader.yaml
- create mode 100644 nephio-mgmt/porch-dev/8-auth-delegator.yaml
- create mode 100644 nephio-mgmt/porch-dev/9-controllers.yaml
- create mode 100644 nephio-mgmt/porch-dev/9-porch-controller-clusterrole.yaml
- create mode 100644 nephio-mgmt/porch-dev/9-porch-controller-packagevariants-clusterrole.yaml
- create mode 100644 nephio-mgmt/porch-dev/9-porch-controller-packagevariants-clusterrolebinding.yaml
- create mode 100644 nephio-mgmt/porch-dev/9-porch-controller-packagevariantsets-clusterrole.yaml
- create mode 100644 nephio-mgmt/porch-dev/9-porch-controller-packagevariantsets-clusterrolebinding.yaml
- create mode 100644 nephio-mgmt/porch-dev/Kptfile
- create mode 100644 nephio-mgmt/porch-dev/package-context.yaml
+ create mode 100644 nephio-mgmt/porch/0-packagerevs.yaml
+ create mode 100644 nephio-mgmt/porch/0-packagevariants.yaml
+ create mode 100644 nephio-mgmt/porch/0-packagevariantsets.yaml
+ create mode 100644 nephio-mgmt/porch/0-repositories.yaml
+ create mode 100644 nephio-mgmt/porch/1-namespace.yaml
+ create mode 100644 nephio-mgmt/porch/2-function-runner.yaml
+ create mode 100644 nephio-mgmt/porch/3-porch-server.yaml
+ create mode 100644 nephio-mgmt/porch/4-apiservice.yaml
+ create mode 100644 nephio-mgmt/porch/5-rbac.yaml
+ create mode 100644 nephio-mgmt/porch/6-rbac-bind.yaml
+ create mode 100644 nephio-mgmt/porch/7-auth-reader.yaml
+ create mode 100644 nephio-mgmt/porch/8-auth-delegator.yaml
+ create mode 100644 nephio-mgmt/porch/9-controllers.yaml
+ create mode 100644 nephio-mgmt/porch/9-porch-controller-clusterrole.yaml
+ create mode 100644 nephio-mgmt/porch/9-porch-controller-packagevariants-clusterrole.yaml
+ create mode 100644 nephio-mgmt/porch/9-porch-controller-packagevariants-clusterrolebinding.yaml
+ create mode 100644 nephio-mgmt/porch/9-porch-controller-packagevariantsets-clusterrole.yaml
+ create mode 100644 nephio-mgmt/porch/9-porch-controller-packagevariantsets-clusterrolebinding.yaml
+ create mode 100644 nephio-mgmt/porch/Kptfile
+ create mode 100644 nephio-mgmt/porch/package-context.yaml
  create mode 100644 nephio-mgmt/resource-backend/Kptfile
  create mode 100644 nephio-mgmt/resource-backend/README.md
  create mode 100644 nephio-mgmt/resource-backend/app/Kptfile
@@ -1113,11 +1092,9 @@ kpt fn render nephio-mgmt/
 
 ```console
 Package "nephio-mgmt/cert-manager": 
-Package "nephio-mgmt/gitea": 
 Package "nephio-mgmt/nephio-controllers/app": 
 Package "nephio-mgmt/nephio-controllers/crd": 
 Package "nephio-mgmt/nephio-controllers": 
-Package "nephio-mgmt/nephio-stock-repos": 
 Package "nephio-mgmt/nephio-webui": 
 [RUNNING] "gcr.io/kpt-fn/apply-replacements:v0.1.1"
 [PASS] "gcr.io/kpt-fn/apply-replacements:v0.1.1" in 700ms
@@ -1129,7 +1106,7 @@ Package "nephio-mgmt/nephio-webui":
 Package "nephio-mgmt/network-config/app": 
 Package "nephio-mgmt/network-config/crd": 
 Package "nephio-mgmt/network-config": 
-Package "nephio-mgmt/porch-dev": 
+Package "nephio-mgmt/porch": 
 [RUNNING] "gcr.io/kpt-fn/apply-replacements:v0.1.1"
 [PASS] "gcr.io/kpt-fn/apply-replacements:v0.1.1" in 700ms
 [RUNNING] "gcr.io/kpt-fn/apply-setters:v0.2.0"
@@ -1143,7 +1120,7 @@ Package "nephio-mgmt/resource-backend/app":
 Package "nephio-mgmt/resource-backend/crd": 
 Package "nephio-mgmt/resource-backend": 
 Package "nephio-mgmt": 
-Successfully executed 5 function(s) in 15 package(s).
+Successfully executed 5 function(s) in 13 package(s).
 ```
 
 </details>
@@ -1298,7 +1275,7 @@ metadata:
   name: edge-clusters
 spec:
   upstream:
-    repo: blueprints-nephio-gcp
+    repo: blueprints-infra-gcp
     package: nephio-workload-cluster-gke
     revision: main
   targets:
@@ -1379,7 +1356,7 @@ metadata:
   name: uswest1-zonal-clusters
 spec:
   upstream:
-    repo: blueprints-nephio-gcp
+    repo: blueprints-infra-gcp
     package: nephio-workload-cluster-gke
     revision: main
   targets:
@@ -1409,6 +1386,12 @@ spec:
           - key: nephio.org/zone
             valueExpr: target.labels["nephio.org/zone"]
 ```
+
+## Future Considerations
+
+Updating this installation and integrating the exercises with GKE Network
+Function Optimization would be useful to demonstrate how to build out
+Nephio-based networks on GCP.
 
 ## Next Steps
 
