@@ -133,5 +133,5 @@ Set up a launch configuration in VS Code `launch.json` similar to the configurat
 }
 ```
 
-You can now launch the Nephio operators in VS Code using the launch configuration above.
+You can now launch the Nephio operators in VS Code using the launch configuration above. You can specify a list of the reconcilers you wish to run in the `--reconcilers` argument value or `*` to run all the reconcilers.
 
