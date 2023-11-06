@@ -1,6 +1,6 @@
 # Nephio R1
 
-Welcome to the R1 release of Nephio. Please use the documenation links below to
+Welcome to the R1 release of Nephio. Please use the documentation links below to
 learn more about Nephio R1, or checkout our [Learning Nephio with
 R1](https://wiki.nephio.org/display/HOME/Learning+with+Nephio+R1) series, which
 includes a [demo video](https://youtu.be/mFl71sy2Pdc) and short articles about
@@ -15,6 +15,7 @@ different aspects of R1.
 ## Other Documentation
 
 * [Developer Documentation](https://github.com/nephio-project/nephio)
+* [Developer Guide](https://github.com/nephio-project/docs/blob/main/developer-guide/README.md)
 * [Project Resources](https://github.com/nephio-project/docs/blob/main/resources.md)
 
 ## About Nephio R1

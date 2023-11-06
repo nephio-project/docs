@@ -48,7 +48,7 @@ GitOps-based application of packages to the management cluster itself. This is
 not strictly needed if all you want to do is provision network functions, but it
 is used extensively in the cluster provisioning workflows.
 
-Different GitOps tools may be used, but these intructions only cover ConfigSync.
+Different GitOps tools may be used, but these instructions only cover ConfigSync.
 To install it on the management cluster, we again follow the same process.
 Later, we will configure it to point to the `mgmt` repository:
 
