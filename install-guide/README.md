@@ -115,6 +115,7 @@ The following environment variables can be used to configure the installation:
  | DOCKERHUB_TOKEN       | alpha-num string |               | Specifies the password or token                                              |
 | NEPHIO_REPO            | URL              | https://github.com/nephio-project/test-infra.git | URL of the repository to be used for installation                            |
 | NEPHIO_BRANCH          | branch or tag    | main          | Tag or branch name to use in NEPHIO_REPO                                     |
+| DOCKER_REGISTRY_MIRRORS | list of URLs in JSON format |   | List of docker registry mirrors in JSON format, or empty for no mirrors to be set. Example value: ``["https://docker-registry-remote.mycompany.com", "https://docker-registry-remote2.mycompany.com"]`` |
 
 ### Follow the Installation on VM
 
