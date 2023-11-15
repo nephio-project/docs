@@ -1,7 +1,5 @@
 # GCP Nephio Installation
 
-*Work-in-Progress*
-
 In this guide, you will set up Nephio with:
 - **Management Cluster**: GKE Standard with auto scaling enabled
 - **Cluster Provisioner**: Kubernetes Config Connector (KCC), hosted as a
@@ -413,7 +411,7 @@ service-NNNNNNNNNNNN@gcp-sa-yakima.iam.gserviceaccount.com
 </details>
 
 Grant that service account `roles/editor`, which allows full management access
-to the project, except for IAM:
+to the project, except for IAM and a few other things:
 
 ```bash
 gcloud projects add-iam-policy-binding $PROJECT \
@@ -466,6 +464,17 @@ version: 1
 ```
 
 </details>
+
+The service account also needs to create Cloud Source Repositories which is not
+par of the `roles/editor`, role. So, add the `roles/source.admin` role as well:
+
+```bash
+gcloud projects add-iam-policy-binding $PROJECT \
+    --member "serviceAccount:${SA_EMAIL}" \
+    --role roles/source.admin \
+    --project $PROJECT
+```
+
 
 Granting IAM priviliges is not necessary for this setup, but if you did want to
 use separate service accounts per workload cluster, you would need to grant
@@ -684,7 +693,7 @@ git push
 
 To check the status, use the console:
 
-![Console Packages](gcp-console-package.png)
+![Console Packages](img/gcp/gcp-console-packages.png)
 
 Alternatively, you can use `kubectl` to view the status of the `root-sync`:
 
@@ -862,13 +871,10 @@ Navigate to that directory, and pull out the `nephio-mgmt` package, which
 contains all the necessary Nephio components as subpackages:
 - Porch
 - Nephio Controllers
-- Gitea
 - Network Config Operator
 - Resource Backend
-- The Nephio WebUI, configured to use Google Cloud OAuth 2.0 (not yet;
-  work-in-progress)
-- A GCP-specific controller for syncing clusters, fleets, and fleet scopes (not
-  yet; work-in-progress)
+- The Nephio WebUI, configured to use Google Cloud OAuth 2.0
+- A GCP-specific controller for syncing clusters, fleets, and fleet scopes
 
 ```bash
 cd nephio
@@ -1035,9 +1041,15 @@ git commit -m "Initial checking of nephio-mgmt"
 
 </details>
 
-Prior to deploying the package, we need to manually setup the secret for the
-WebUI. See [Google OAuth 2.0 or OIDC](webui-auth-gcp.md) for details on how to
-set up OAuth. The `nephio-webui` subpackage in `nephio-mgmt` is set up for
+**Prior to deploying the package, we need to manually setup the secret for the
+WebUI.**
+
+See [Google OAuth 2.0 or OIDC](webui-auth-gcp.md) for details on how to
+set up OAuth. In particular you need to [create the client ID](webui-auth-gcp.md#creating-an-oauth-20-client-id)
+and the [secret](install-guide/webui-auth-gcp.md#create-the-secret-in-the-cluster)
+manually.
+
+The `nephio-webui` subpackage in `nephio-mgmt` is already set up for
 Google OAuth 2.0; you can follow the instructions in the linked document if you
 prefer OIDC.
 
@@ -1260,7 +1272,7 @@ ID  START_TIME                STATUS
 You can now access the site via your browser, and will be asked to login as
 shown below:
 
-![Nephio Login Screen](nephio-login.png)
+![Nephio Login Screen](img/gcp/nephio-login.png)
 
 
 ## Some Exercises
