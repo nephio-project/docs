@@ -6,9 +6,10 @@ with the Web UI running in a GKE cluster, the users authorization roles will be
 automatically synchronized based upon their IAM roles in GCP.
 
 If you are not exposing the webui on a load balancer IP address, but are instead
-using `kubectl port-forward`, you should use `localhost` and `7007` for the
-`HOSTNAME` and `PORT`; otherwise, use the DNS name and port as it will be seen by
-your browser.
+using `kubectl port-forward`, you should use `http`, `localhost` and `7007` for
+the `SCHEME`, `HOSTNAME` and `PORT`; otherwise, use the scheme, DNS name and
+port as it will be seen by your browser. You can leave the port off if it is 443
+for HTTPS or 80 for HTTP.
 
 ## Creating an OAuth 2.0 Client ID
 
@@ -26,9 +27,9 @@ against the GCP identity service. To create your client ID and secret:
    - Add any users that will want access to the UI if using External user type
 6. Set **Application Type** to `Web Application` with these settings:
    - *Name*: Nephio Web UI (or any other name you wish)
-   - *Authorized JavaScript origins*: http://`HOSTNAME`:`PORT`
+   - *Authorized JavaScript origins*: `SCHEME`://`HOSTNAME`:`PORT`
    - *Authorized redirect URIs*:
-     http://`HOSTNAME`:`PORT`/api/auth/google/handler/frame
+     `SCHEME`://`HOSTNAME`:`PORT`/api/auth/google/handler/frame
 7. Click Create
 8. Copy the client ID and client secret displayed
 
