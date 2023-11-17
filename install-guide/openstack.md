@@ -3,7 +3,7 @@
 
 ## Prerequisites
 
-* Openstack Cluster Managment (master)
+* Openstack Cluster Management (master)
   * 4 VCPU 4 NODES
   * 8GB RAM
   * Kubernetes version 1.24+
@@ -93,25 +93,20 @@ definition:
         storage: 10Gi
 namespace: "{{ gitea.k8s.namespace }}"
 ```
-  2. Change context value from all the *test-infra\e2e\provision\playbooks* yaml files into your kubernetes context: `kubectl config get-contexts`
-    
-    context: kubernetes-admin@cluster.local 
-  
-  3. Disable kind installation in 
-  *test-infra\e2e\provision\playbooks\roles\bootstrap\defaults\main.yml*
+  2. Override these parameters:
+     1. Disable **kind** installation: kind.enabled=false
+     2. Override **context** value into your kubernetes context: `kubectl config get-contexts`
+     3. Override the CPU and RAM **minimum requirements** variables
    
-    kind:
-      enabled: false
-
-
-  4. Override the check specitifaction values and run the installation script in
-  *test-infra\e2e\provision\install_sandbox.sh* by
+  3. With all the modified parameters run the installation script in
+  *test-infra\e2e\provision\install_sandbox.sh* as follows:
 ```
-NEPHIO_HOST_MIN_VCPU=4 NEPHIO_HOST_MIN_CPU_RAM=8 ./install_sandbox.sh
+NEPHIO_HOST_MIN_VCPU=4 \
+NEPHIO_HOST_MIN_CPU_RAM=8 \
+ANSIBLE_CMD_EXTRA_VAR_LIST="k8s.context=kubernetes-admin@cluster.local,kind.enabled=false" \
+./install_sandbox.sh
 ```
 
-## Manual Installation of the managment cluster using kpt
-TDB (manual install of kpt, porch, configsync, nephio-webui, capi, metallb)
 
 ## Manual Installation of the Edge cluster using kpt
 
