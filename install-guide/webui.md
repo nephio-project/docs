@@ -47,7 +47,7 @@ the webui is *acting as a cluster admin*.
 
 This configuration is designed for *testing and development only*. You must not
 use this configuration in any other situation, and even for testing and
-development it must not be exposed on the Internet (for example, via a
+development it must not be exposed on the internet (for example, via a
 LoadBalancer service).
 
 Configuring authentication for the WebUI is very specific to the particular

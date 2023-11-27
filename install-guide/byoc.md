@@ -20,7 +20,7 @@ Instead, several guides showing opinionated installations are available.
 Regardless of the specific choices you make, you will need the following
 prerequisites. This is in addition to any prerequisites that are specific to
 your environment and choices.
- - a Linux workstation with Internet access
+ - a Linux workstation with internet access
  - `kubectl` [installed ](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)on your workstation
  - `kpt` [installed](https://kpt.dev/installation/kpt-cli) on your workstation
    (version v1.0.0-beta.43 or later)
@@ -30,7 +30,7 @@ your environment and choices.
 environment variable.
 
 As part of all installations, you will create or utilize an existing Kubernetes
-management cluster. The management cluster must have Internet access, and must
+management cluster. The management cluster must have internet access, and must
 be a non-EOL Kubernetes version. Additionally:
  - Your default `kubectl` context should point to the cluster
  - You will need cluster administrator privileges (in particular you will need
@@ -135,7 +135,7 @@ the webui is *acting as a cluster admin*.
 
 This configuration is designed for *testing and development only*. You must not
 use this configuration in any other situation, and even for testing and
-development it must not be exposed on the Internet (for example, via a
+development it must not be exposed on the internet (for example, via a
 LoadBalancer service, Ingress, or Route).
 
 The WebUI currently supports the following options:

@@ -135,7 +135,7 @@ kpt live apply nephio-configsync --reconcile-timeout=5m
 ```
 
 ## Configure Managment Cluster to manage Edge Cluster
-Get a [github token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#fine-grained-personal-access-tokens) if your repository is private, or allow Porch to make modifications.
+Get a [GitHub token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#fine-grained-personal-access-tokens) if your repository is private, or allow Porch to make modifications.
 
 Register the edge repository using kpt cli or nephio web-ui.
 ```

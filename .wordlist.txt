@@ -20,7 +20,7 @@ Ansible
 anthos
 Aper
 apiextensions
-apis
+APIs
 apiVersion
 ArgoCD
 args
@@ -253,7 +253,7 @@ Howto
 hqq
 href
 HttpLoadBalancing
-https
+HTTPS
 HU
 HydY
 hyperv
@@ -420,7 +420,7 @@ PLiW
 plmnSupportList
 pluggable
 pluralsight
-png
+PNG
 pocs
 podIP
 podman

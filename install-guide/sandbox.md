@@ -42,7 +42,7 @@ EOF
 While you may use other Git providers as well, Gitea is required in the R1
 setup. To install Gitea, use `kpt`. From your `nephio-install` directory, run:
 
-Gitea package has services that use front-end and database services, these services require authentication information.
+Gitea package has services that use frontend and database services, these services require authentication information.
 This information needs to be created as secret resources that belong to the `gitea` namespace.
 
 ```bash
