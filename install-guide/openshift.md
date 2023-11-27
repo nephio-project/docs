@@ -26,7 +26,7 @@ Two methods exists:
      
      Please refer to our [installation documentation](https://docs.openshift.com/container-platform/4.13/installing/index.html).
 
-- **Managed OpenShift**: this assumes you have access to a public cloud environemt with enough permission.
+- **Managed OpenShift**: this assumes you have access to a public cloud environment with enough permission.
     
     You can choose one of the two offerings
     - [Azure Red Hat OpenShift (ARO)](https://www.redhat.com/en/technologies/cloud-computing/openshift/azure)
@@ -74,7 +74,7 @@ This will take care of applying the [common dependencies](common-dependencies.md
 
 - Login
     - user: gitea
-    - password: passowrd
+    - password: password
 
 ## Install edge clusters
 
