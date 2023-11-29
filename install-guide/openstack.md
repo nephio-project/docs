@@ -3,7 +3,7 @@
 
 ## Prerequisites
 
-* Openstack Cluster Managment (master)
+* Openstack Cluster Management (master)
   * 4 VCPU 4 NODES
   * 8GB RAM
   * Kubernetes version 1.24+
@@ -11,9 +11,9 @@
   * 2 VCPU 1 NODE
   * 4GB RAM
   * Kubernetes version 1.24+
-* KPT beta [realeses](https://github.com/kptdev/kpt/releases)
+* KPT beta [releases](https://github.com/kptdev/kpt/releases)
 
-## Automatic Installation of the managment cluster
+## Automatic Installation of the management cluster
 * Change ansible variables to reflect your cluster and run the installation script
   
   1. Add the following to *test-infra\e2e\provision\playbooks\roles\bootstrap\tasks\prep-gitea.yml*
@@ -104,13 +104,13 @@ namespace: "{{ gitea.k8s.namespace }}"
       enabled: false
 
 
-  4. Override the check specitifaction values and run the installation script in
+  4. Override the check specification values and run the installation script in
   *test-infra\e2e\provision\install_sandbox.sh* by
 ```
 NEPHIO_HOST_MIN_VCPU=4 NEPHIO_HOST_MIN_CPU_RAM=8 ./install_sandbox.sh
 ```
 
-## Manual Installation of the managment cluster using kpt
+## Manual Installation of the management cluster using kpt
 TDB (manual install of kpt, porch, configsync, nephio-webui, capi, metallb)
 
 ## Manual Installation of the Edge cluster using kpt
@@ -134,8 +134,8 @@ kpt live init nephio-configsync
 kpt live apply nephio-configsync --reconcile-timeout=5m
 ```
 
-## Configure Managment Cluster to manage Edge Cluster
-Get a [github token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#fine-grained-personal-access-tokens) if your repository is private, or allow Porch to make modifications.
+## Configure Management Cluster to manage Edge Cluster
+Get a [GitHub token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#fine-grained-personal-access-tokens) if your repository is private, or allow Porch to make modifications.
 
 Register the edge repository using kpt cli or nephio web-ui.
 ```

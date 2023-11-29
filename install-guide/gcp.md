@@ -476,9 +476,9 @@ gcloud projects add-iam-policy-binding $PROJECT \
 ```
 
 
-Granting IAM priviliges is not necessary for this setup, but if you did want to
+Granting IAM privileges is not necessary for this setup, but if you did want to
 use separate service accounts per workload cluster, you would need to grant
-those priviliges as well (`roles/owner` for example).
+those privileges as well (`roles/owner` for example).
 
 ## Setting Up GitOps for Config Controller
 
@@ -1411,7 +1411,7 @@ Note that the exercises using free5gc rely on Multus and on the gtp5g kernel
 module, neither of which are installed on GKE nodes. Therefore, the free5gc
 workloads cannot be run on this installation. You will need to alter the
 exercises to use workloads that do not rely on that functionality in order
-to expermiment with Nephio features.
+to experiment with Nephio features.
 
 * Step through the [exercises](https://github.com/nephio-project/docs/blob/main/user-guide/exercises.md)
 * Dig into the [user guide](https://github.com/nephio-project/docs/blob/main/user-guide/README.md)
