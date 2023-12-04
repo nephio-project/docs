@@ -1,3 +1,33 @@
+# Nephio documentation
+
+This repository contains the documentation for the Nephio project. 
+
+## Status of the documentation
+
+We are in the middle fo moving the documentation from a GitHub based documentation to a Hugo / Docsy based documentation
+site. The content of this repo (especially this) branch will be a bit chaotic during this time. 
+
+## How to contribute to the documentation
+
+### Setting up the environment
+
+1 The site is using Hugo as the documentation generating engine, therefore you need to install Hugo. As the Docsy
+  template what we use requires the transforming Sass to CSS you will need to install the *extended* version of Hugo.
+  Link to installation instructions is [here](https://gohugo.io/installation/linux/). To ensure that you have the
+  *extended* version of Hugo run `hugo version` the version string should have the word extended in it. (Or `hugo
+  version | grep extended` should not be an empty line.)
+2 Some functions of the theme generation are using NPM packages, therefore NodeJS and NPM will be needed. For
+  compaility reasons a Nove version at least v16.20.2 is needed. To install this version of NodeJS you follow the
+  instructions from [deb.nodesource.com](http://deb.nodesource.com/) and set `NODE_MAJOR=20`. To install npm simply run
+  `sudo apt install npm`.
+3 Install the npm dependencies with `npm install`
+
+### Build the docs locally
+
+To build and see the documentation locally run `hugo serve`. To doublecheck if the site will build on Netifly run `hugo
+--gc --minify`.
+
+
 # Nephio R1
 
 Welcome to the R1 release of Nephio. Please use the documentation links below to
