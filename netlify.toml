@@ -1,0 +1,15 @@
+# Hugo build configuration for Netlify
+# (https://gohugo.io/hosting-and-deployment/hosting-on-netlify/#configure-hugo-version-in-netlify)
+
+[build]
+command = "hugo"
+publish = "public"
+
+[build.environment]
+GO_VERSION = "1.18.1"
+HUGO_VERSION = "v0.120.4"
+HUGO_ENV = "production"
+
+[context.production]
+command = "hugo"
+publish = "public"
