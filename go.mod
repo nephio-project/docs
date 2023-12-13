@@ -1,4 +1,4 @@
-module github.com/CsatariGergely/nephio-docs-test
+module github.com/nephio-project/docs
 
 go 1.18
 

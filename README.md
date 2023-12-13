@@ -18,8 +18,7 @@ site. The content of this repo (especially this) branch will be a bit chaotic du
   version | grep extended` should not be an empty line.)
 2 Some functions of the theme generation are using NPM packages, therefore NodeJS and NPM will be needed. For
   compaility reasons a Nove version at least v16.20.2 is needed. To install this version of NodeJS you follow the
-  instructions from [deb.nodesource.com](http://deb.nodesource.com/) and set `NODE_MAJOR=20`. To install npm simply run
-  `sudo apt install npm`.
+  instructions from [deb.nodesource.com](http://deb.nodesource.com/) and set `NODE_MAJOR=20`.
 3 Install the npm dependencies with `npm install`
 
 ### Build the docs locally
