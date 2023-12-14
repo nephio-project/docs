@@ -1,59 +1,57 @@
-# GCP Nephio Installation
+---
+title: Installation on GCP
+description: >
+  A step by step guide to install Nephio on GCP
+weight: 3
+---
 
 In this guide, you will set up Nephio with:
+
 - **Management Cluster**: GKE Standard with auto scaling enabled
-- **Cluster Provisioner**: Kubernetes Config Connector (KCC), hosted as a
-  managed service via Config Controller (CC).
+- **Cluster Provisioner**: Kubernetes Config Connector (KCC), hosted as a managed service via Config Controller (CC).
 - **Workload Clusters**: GKE
 - **Gitops Tool**: Config Sync
-- **Git Provider**: Google Cloud Source Repositories will be the git provider
-  for cluster deployment repositories. Some external repositories will be on
-  GitHub.
+- **Git Provider**: Google Cloud Source Repositories will be the git provider for cluster deployment repositories. Some
+  external repositories will be on GitHub.
 - **Web UI Auth**: Google OAuth 2.0
-- **Ingress/Load Balancer**: Ingress with a GKE-specific FrontEndConfig to
-  provide http-to-https redirection will be used to access the Nephio Web UI.
+- **Ingress/Load Balancer**: Ingress with a GKE-specific FrontEndConfig to provide http-to-https redirection will be
+  used to access the Nephio Web UI.
 
 Additionally, this guide makes the following simplifying choices:
-- All resources (Nephio management cluster, Config Controller, and workload
-  clusters) will be in the same GCP project.
+
+- All resources (Nephio management cluster, Config Controller, and workload clusters) will be in the same GCP project.
 - All clusters attached to the default VPC as their primary VPC.
 - All clusters will be created in the same region or zone.
 
-It is certainly possible to set up Nephio without these assumptions - that is
-left as an exercise for the reader.
+It is certainly possible to set up Nephio without these assumptions - that is left as an exercise for the reader.
 
 ## Prerequisites
 
 In addition to the general prerequisites, you will need:
-- A GCP account. This account should have enough privileges to create projects,
-  enable APIs in those projects, and create the necessary resources.
-- [Google Cloud CLI](https://cloud.google.com/sdk/docs) (`gcloud`) installed and
-  set up on your workstation.
+
+- A GCP account. This account should have enough privileges to create projects, enable APIs in those projects, and
+  create the necessary resources.
+- [Google Cloud CLI](https://cloud.google.com/sdk/docs) (`gcloud`) installed and set up on your workstation.
 - git installed on your workstation.
 
 ## Setup Your Environment
 
-To make the instructions (and possibly your life) simpler, you can create a
-`gcloud` configuration and a project for Nephio.
+To make the instructions (and possibly your life) simpler, you can create a `gcloud` configuration and a project for
+Nephio.
 
-In the commands below, several environment variables are used. You can set them to
-appropriate values for you. Set `LOCATION` to a region to create a regional
-Nephio management cluster, or to a zone to create a zonal cluster. Regional
+In the commands below, several environment variables are used. You can set them to appropriate values for you. Set
+`LOCATION` to a region to create a regional Nephio management cluster, or to a zone to create a zonal cluster. Regional
 clusters have increased availability but higher resource demands.
 
 - `PROJECT` is an existing project ID, or the ID to use for a new project.
 - `ACCOUNT` should be your Google account mentioned in the prerequisites.
-- `REGION` is the region for your Config Controller. See [this link] for the
-  list of supported regions.
-- `LOCATION` is the location (region or zone) for your Nephio management cluster
-  as well as any workload clusters you create. Setting this will not limit you
-  to this location, but it will be what is used in this guide. Note that Config
+- `REGION` is the region for your Config Controller. See [this link] for the list of supported regions.
+- `LOCATION` is the location (region or zone) for your Nephio management cluster as well as any workload clusters you
+  create. Setting this will not limit you to this location, but it will be what is used in this guide. Note that Config
   Controller is always regional.
-- `WEBUIFQDN` is the fully qualified domain name you would like to use for the
-  web UI.
-- `MANAGED_ZONE` is the GCP name for the zone where you will put the DNS entry
-  for `WEBUIFQDN`. Note that it is not the domain name, but rather the managed
-  zone name used in GCP - for example, `my-zone-name`, not `myzone.example.com`.
+- `WEBUIFQDN` is the fully qualified domain name you would like to use for the web UI.
+- `MANAGED_ZONE` is the GCP name for the zone where you will put the DNS entry for `WEBUIFQDN`. Note that it is not the
+  domain name, but rather the managed zone name used in GCP - for example, `my-zone-name`, not `myzone.example.com`.
 
 Set the environment variables:
 
@@ -66,9 +64,8 @@ WEBUIFQDN=nephio.example.com
 MANAGED_ZONE=your-managed-zone-name
 ```
 
-First, create the configuration. You can view and switch between `gcloud`
-configurations with `gcloud config configurations list` and `gcloud config
-configurations activate`.
+First, create the configuration. You can view and switch between `gcloud` configurations with
+`gcloud config configurations list` and `gcloud config configurations activate`.
 
 ```bash
 gcloud config configurations create nephio
@@ -97,9 +94,8 @@ Updated property [core/account].
 ```
 </details>
 
-Now, create a project for your Nephio resources. The instructions here work in
-the simplest environments. However, your organization may have specific
-processes and method for creating projects. See the GCP [project creation
+Now, create a project for your Nephio resources. The instructions here work in the simplest environments. However, your
+organization may have specific processes and method for creating projects. See the GCP [project creation
 documentation](https://cloud.google.com/resource-manager/docs/creating-managing-projects#creating_a_project)
 or consult with the GCP administrators in your organization.
 
@@ -119,10 +115,9 @@ Operation "operations/acat.p2-NNNNNNNNNNNNNN-f5dd29ea-a6c1-424d-ad15-5d563f7c68d
 </details>
 
 Projects must be associated with a billing account, which may be done in the
-[console](https://console.cloud.google.com/billing/projects). Again, your
-organization may have specific processes and method for selecting and assigning
-billing accounts.  See the [project billing account
-documentation](https://cloud.google.com/billing/docs/how-to/modify-project#how-to-change-ba),
+[console](https://console.cloud.google.com/billing/projects). Again, your organization may have specific processes and
+method for selecting and assigning billing accounts.  See the
+[project billing account documentation](https://cloud.google.com/billing/docs/how-to/modify-project#how-to-change-ba),
 or consult with the GCP administrators in your organization.
 
 Next, set the new project as the default in your `gcloud` configuration:
@@ -159,14 +154,12 @@ Operation "operations/acat.p2-NNNNNNNNNNNNN-c1aeadbe-3593-48a4-b4a9-e765e18a3009
 ```
 </details>
 
-Next, we are going to create service accounts for Config Sync and Porch on the
-workload clusters to use to access their repositories. The authentication will
-happen via Workload Identity, so we will also configure the service accounts to
+Next, we are going to create service accounts for Config Sync and Porch on the workload clusters to use to access their
+repositories. The authentication will happen via Workload Identity, so we will also configure the service accounts to
 allow that.
 
-It is also possible to use Config Controller to create separate service accounts
-for each cluster, but for simplicity we will use a single one for all clusters,
-for each workload (Config Sync and Porch).
+It is also possible to use Config Controller to create separate service accounts for each cluster, but for simplicity we
+will use a single one for all clusters, for each workload (Config Sync and Porch).
 
 Create the Config Sync SA:
 
@@ -329,21 +322,18 @@ Your project should now be ready to proceed with the installation.
 
 ## Provisioning Config Controller
 
-You can manage GCP infrastructure, including GKE clusters and many other GCP
-resources using Kubernetes Config Connector, an open source project from Google.
-The easiest way to run it, though, is by using the hosted version running in
-[Anthos Config
-Controller](https://cloud.google.com/anthos-config-management/docs/concepts/config-controller-overview).
+You can manage GCP infrastructure, including GKE clusters and many other GCP resources using Kubernetes Config
+Connector, an open source project from Google. The easiest way to run it, though, is by using the hosted version running
+in
+[Anthos Config Controller](https://cloud.google.com/anthos-config-management/docs/concepts/config-controller-overview).
 
-We will use it to provision our Nephio management cluster and related
-infrastructure, as well as connect it to Nephio for provisioning of GCP
-infrastructure by Nephio itself.
+We will use it to provision our Nephio management cluster and related infrastructure, as well as connect it to Nephio
+for provisioning of GCP infrastructure by Nephio itself.
 
-You can use the commands below, or for additional details, see the instructions
-to [create a Config Controller
-instance](https://cloud.google.com/anthos-config-management/docs/how-to/config-controller-setup)
-in your project. If you follow that guide, do not configure Config Sync yet; you
-will do that later in these instructions, after we create the repository.
+You can use the commands below, or for additional details, see the instructions to
+[create a Config Controller instance](https://cloud.google.com/anthos-config-management/docs/how-to/config-controller-setup)
+in your project. If you follow that guide, do not configure Config Sync yet; you will do that later in these
+instructions, after we create the repository.
 
 ```bash
 gcloud anthos config controller create nephio-cc \
@@ -351,9 +341,8 @@ gcloud anthos config controller create nephio-cc \
     --full-management
 ```
 
-Note that Config Controller clusters are always regional and are not available
-in all regions. See the link above for a list of available regions. The Config
-Controller creation may take up to fifteen minutes.
+Note that Config Controller clusters are always regional and are not available in all regions. See the link above for a
+list of available regions. The Config Controller creation may take up to fifteen minutes.
 
 <details>
 <summary>The output is similar to:</summary>
@@ -391,9 +380,8 @@ If not, you should retrieve the credentials with:
 gcloud anthos config controller get-credentials nephio-cc --location $REGION
 ```
 
-There is one more step - granting privileges to the CC cluster to manage GCP
-resources in this project. With `kubectl` pointing at the CC cluster, retrieve
-the service account email address used by CC:
+There is one more step - granting privileges to the CC cluster to manage GCP resources in this project. With `kubectl`
+pointing at the CC cluster, retrieve the service account email address used by CC:
 
 ```bash
 export SA_EMAIL="$(kubectl get ConfigConnectorContext -n config-control \
@@ -410,8 +398,8 @@ service-NNNNNNNNNNNN@gcp-sa-yakima.iam.gserviceaccount.com
 
 </details>
 
-Grant that service account `roles/editor`, which allows full management access
-to the project, except for IAM and a few other things:
+Grant that service account `roles/editor`, which allows full management access to the project, except for IAM and a few
+other things:
 
 ```bash
 gcloud projects add-iam-policy-binding $PROJECT \
@@ -465,8 +453,8 @@ version: 1
 
 </details>
 
-The service account also needs to create Cloud Source Repositories which is not
-par of the `roles/editor`, role. So, add the `roles/source.admin` role as well:
+The service account also needs to create Cloud Source Repositories which is not par of the `roles/editor`, role. So, add
+the `roles/source.admin` role as well:
 
 ```bash
 gcloud projects add-iam-policy-binding $PROJECT \
@@ -476,14 +464,13 @@ gcloud projects add-iam-policy-binding $PROJECT \
 ```
 
 
-Granting IAM privileges is not necessary for this setup, but if you did want to
-use separate service accounts per workload cluster, you would need to grant
-those privileges as well (`roles/owner` for example).
+Granting IAM privileges is not necessary for this setup, but if you did want to use separate service accounts per
+workload cluster, you would need to grant those privileges as well (`roles/owner` for example).
 
 ## Setting Up GitOps for Config Controller
 
-Next, you will set up a repository to store our GCP configurations, and
-Config Sync to apply those configurations to Config Controller.
+Next, you will set up a repository to store our GCP configurations, and Config Sync to apply those configurations to
+Config Controller.
 
 First, create a repository:
 
@@ -518,9 +505,8 @@ Project [your-nephio-project-id] repository [config-control] was cloned to [/hom
 
 </details>
 
-Before you start adding things to that repository, set up Config Sync to pull
-configurations from there by creating a RootSync in Config Controller. There is
-a package available to help properly configure the RootSync:
+Before you start adding things to that repository, set up Config Sync to pull configurations from there by creating a
+RootSync in Config Controller. There is a package available to help properly configure the RootSync:
 
 ```bash
 kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/distros/gcp/cc-rootsync@main
@@ -550,8 +536,8 @@ Customized package for deployment.
 
 </details>
 
-You need to add your project ID to your clone of the package. You
-can manually edit the `gcp-context.yaml` or run the following command:
+You need to add your project ID to your clone of the package. You can manually edit the `gcp-context.yaml` or run the
+following command:
 
 ```bash
 kpt fn eval cc-rootsync --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name gcp-context -- 'by-path=data.project-id' "put-value=${PROJECT}"
@@ -571,8 +557,7 @@ kpt fn eval cc-rootsync --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name
 
 </details>
 
-Then, render the package to make sure that the project ID is put in all the
-right places:
+Then, render the package to make sure that the project ID is put in all the right places:
 
 ```bash
 kpt fn render cc-rootsync/
@@ -596,10 +581,9 @@ Successfully executed 2 function(s) in 1 package(s).
 
 </details>
 
-In the sandbox exercises, you may have used `kpt live apply` to apply the
-package at this point. In this case, there are restrictions in Config Controller
-that interfere with the operation of `kpt live`. So, instead, you can just
-directly apply the RootSync resources with `kubectl`:
+In the sandbox exercises, you may have used `kpt live apply` to apply the package at this point. In this case, there are
+restrictions in Config Controller that interfere with the operation of `kpt live`. So, instead, you can just directly
+apply the RootSync resources with `kubectl`:
 
 ```bash
 kubectl apply -f cc-rootsync/rootsync.yaml
@@ -618,14 +602,12 @@ Config Sync will now synchronize that repository to your Config Controller.
 
 ## Provisioning Your Management Cluster
 
-You will use CC to provision the Nephio management cluster and associated
-resources, by way of the `config-control` repository. The
-[cc-cluster-gke-std-csr-cs](https://github.com/nephio-project/catalog/tree/main/infra/gcp/cc-cluster-gke-std-csr-cs)
-package uses CC to create a cluster and a cloud source repository, add the
-cluster to a fleet, and install and configure Config Sync on the cluster to point
-to the new repository.  This is similar to what the `nephio-workload-cluster`
-package does in the Sandbox exercises, except that it uses GCP services to
-create the repository and bootstrap Config Sync, rather than Nephio controllers.
+You will use CC to provision the Nephio management cluster and associated resources, by way of the `config-control`
+repository. The [cc-cluster-gke-std-csr-cs](https://github.com/nephio-project/catalog/tree/main/infra/gcp/cc-cluster-gke-std-csr-cs)
+package uses CC to create a cluster and a cloud source repository, add the cluster to a fleet, and install and configure
+Config Sync on the cluster to point to the new repository.  This is similar to what the `nephio-workload-cluster`
+package does in the Sandbox exercises, except that it uses GCP services to create the repository and bootstrap Config
+Sync, rather than Nephio controllers.
 
 First, pull the cluster package into your clone of the `config-control`
 repository:
@@ -635,18 +617,16 @@ cd config-control
 kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/infra/gcp/cc-cluster-gke-std-csr-cs@main nephio
 ```
 
-Before we start making changes to the package, it can be helpful to create a
-*local* git commit (do not push to the repository until the package is fully
-configured). This is not mandatory.
+Before we start making changes to the package, it can be helpful to create a *local* git commit (do not push to the
+repository until the package is fully configured). This is not mandatory.
 
 ```bash
 git add nephio
 git commit -m "Initial clone of GKE package"
 ```
 
-Next, configure the package for your environment. Specifically, you need to add
-your project ID and location to your clone of the package. You can manually edit
-the `gcp-context.yaml` or run the following commands:
+Next, configure the package for your environment. Specifically, you need to add your project ID and location to your
+clone of the package. You can manually edit the `gcp-context.yaml` or run the following commands:
 
 ```bash
 kpt fn eval nephio --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name gcp-context -- 'by-path=data.project-id' "put-value=${PROJECT}"
@@ -679,11 +659,10 @@ Propagate those changes throughout the package by running the function pipeline:
 kpt fn render nephio
 ```
 
-If you did the earlier commit, you can run `git diff` to see all the changes
-made by the functions. If everything looks correct, you now commit the changes
-and push them to the upstream Git repository. From there, Config Sync will apply
-the package to the Config Controller (we do not use `kpt live apply`, instead we
-rely on Config Sync running in the Config Controller):
+If you did the earlier commit, you can run `git diff` to see all the changes made by the functions. If everything looks
+correct, you now commit the changes and push them to the upstream Git repository. From there, Config Sync will apply
+the package to the Config Controller (we do not use `kpt live apply`, instead we rely on Config Sync running in the
+Config Controller):
 
 ```bash
 git add .
@@ -830,9 +809,8 @@ cd ..
 
 ## Installing the Nephio Components
 
-You will use GitOps to install the Nephio components in the management cluster.
-As part of the previous management cluster provisioning, a repository was
-created for managing the Nephio cluster with GitOps. To verify:
+You will use GitOps to install the Nephio components in the management cluster. As part of the previous management
+cluster provisioning, a repository was created for managing the Nephio cluster with GitOps. To verify:
 
 ```bash
 gcloud source repos list
@@ -909,8 +887,8 @@ Customized package for deployment.
 
 </details>
 
-Create a local commit, but do not push it to the upstream repository yet. As
-before, this is just to allow `git diff` to easily identify the you make later.
+Create a local commit, but do not push it to the upstream repository yet. As before, this is just to allow `git diff`
+to easily identify the you make later.
 
 ```bash
 git add nephio-mgmt/
@@ -1168,13 +1146,12 @@ To https://source.developers.google.com/p/your-nephio-project-id/nephio
 
 ## Accessing Nephio
 
-Accessing Nephio with `kubectl` or `kpt` can be done from your workstation, so
-long as you use the context for the Nephio management cluster.
+Accessing Nephio with `kubectl` or `kpt` can be done from your workstation, so long as you use the context for the
+Nephio management cluster.
 
-To access the WebUI, you need to create a DNS entry pointing to the load
-balancer IP serving the Ingress resources. The Ingress included in the Web UI
-package will use Cert Manager to automatically generate a self-signed
-certificate for the `WEBUIFQDN` value.
+To access the WebUI, you need to create a DNS entry pointing to the load balancer IP serving the Ingress resources. The
+Ingress included in the Web UI package will use Cert Manager to automatically generate a self-signed certificate for the
+`WEBUIFQDN` value.
 
 Find the IP address using this command:
 
@@ -1192,9 +1169,8 @@ echo $INGRESS_IP
 
 </details>
 
-You will need to add this as an `A` record for the name you used in `WEBUIFQDN`.
-If you are using Google Cloud DNS for that zone, first find the managed zone
-name:
+You will need to add this as an `A` record for the name you used in `WEBUIFQDN`. If you are using Google Cloud DNS for
+that zone, first find the managed zone name:
 
 ```bash
 gcloud dns managed-zones list
@@ -1272,7 +1248,7 @@ ID  START_TIME                STATUS
 You can now access the site via your browser, and will be asked to login as
 shown below:
 
-![Nephio Login Screen](img/gcp/nephio-login.png)
+![Nephio Login Screen](/images/install-guides/install-guide-gcp-nephio-login.png)
 
 
 ## Some Exercises
@@ -1311,13 +1287,11 @@ spec:
             nephio.org/region: us-central1
 ```
 
-This uses the GCP context (project and location) that was added to the cluster
-when you created the management cluster to create the GKE edge clusters, their
-Google Cloud Source Repositories, and attach them to Nephio.
+This uses the GCP context (project and location) that was added to the cluster when you created the management cluster
+to create the GKE edge clusters, their Google Cloud Source Repositories, and attach them to Nephio.
 
-As a follow up exercise, you could try creating GCP context ConfigMap entries
-for different locations, and use a PackageVariantSet to create per-location
-edge clusters based on a label selector against those.
+As a follow up exercise, you could try creating GCP context ConfigMap entries for different locations, and use a
+PackageVariantSet to create per-location edge clusters based on a label selector against those.
 
 First, create GCP context ConfigMap for each zone:
 
@@ -1401,17 +1375,14 @@ spec:
 
 ## Future Considerations
 
-Updating this installation and integrating the exercises with GKE Network
-Function Optimization would be useful to demonstrate how to build out
-Nephio-based networks on GCP.
+Updating this installation and integrating the exercises with GKE Network Function Optimization would be useful to
+demonstrate how to build out Nephio-based networks on GCP.
 
 ## Next Steps
 
-Note that the exercises using free5gc rely on Multus and on the gtp5g kernel
-module, neither of which are installed on GKE nodes. Therefore, the free5gc
-workloads cannot be run on this installation. You will need to alter the
-exercises to use workloads that do not rely on that functionality in order
-to experiment with Nephio features.
+Note that the exercises using free5gc rely on Multus and on the gtp5g kernel module, neither of which are installed on
+GKE nodes. Therefore, the free5gc workloads cannot be run on this installation. You will need to alter the exercises to\
+use workloads that do not rely on that functionality in order to experiment with Nephio features.
 
 * Step through the [exercises](https://github.com/nephio-project/docs/blob/main/user-guide/exercises.md)
 * Dig into the [user guide](https://github.com/nephio-project/docs/blob/main/user-guide/README.md)

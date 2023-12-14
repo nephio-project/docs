@@ -1,5 +1,9 @@
-# OpenStack Multi-Cluster Deployment Management with Nephio
-
+---
+title: OpenStack deployment management
+description: >
+  OpenStack Multi-Cluster Deployment Management with Nephio
+weight: 6
+---
 
 ## Prerequisites
 

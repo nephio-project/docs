@@ -1,7 +1,15 @@
+---
+title: Package transformations guide
+description: >
+  Package Transformations Work in Nephio Sandbox Installation
+weight: 7
+---
+
 Package Transformations Work in Nephio Sandbox Installation
 ===========================================================
 
 # Table of Contents
+
 - [Vanilla kpt for the Management cluster](#vanilla-kpt-for-the-management-cluster)
   - [kpt pkg get](#kpt-pkg-get)
   - [kpt fn render](#kpt-fn-render)
@@ -274,33 +282,27 @@ kpt alpha rpkg clone -n default nephio-example-packages-7895e28d847c0296a204007e
 ```
 
 During the clone operation, the command above performs the following operations:
+
 1. It creates a `drafts/regional/v1` branch on the `mgmt` repository
-2. It does the equivalent of a [kpt pkg get](#kpt-pkg-get) on the
-   `nephio-workload-cluster` package into a directory called `regional` on that
-   branch, with the same transformations on package files carried out as the
-   [kpt pkg get](#kpt-pkg-get) command above, this content is checked into the
-   new branch in the initial commit
-3. The pipeline specified in the `Kptfile`of the `nephio-workload-cluster`
-   package specifies an `apply-replacements` specified in the
-   `apply-replacements.yaml` file in the package and uses the value of the
-   `package-context.yaml:data.name` field set in 2. above (which is the workload
-   cluster name) as follows:
-   - In all `PackageVariant` files, the `metadata.name` and
-     `spec.downstream.package` field before the '-' is replaced with that field
-     value. In this way, the downstream package names for all the packages to be
-     pulled from the `mgmt-staging` repository for the workload cluster are
-     specified.
-   - In all `PackageVariant` files, the `spec.injectors.WorkloadCluster.name`
-     field is replaced with the workload cluster name. This gives us the handle
-     for `packageVariant` injection for the workload cluster in question.
+2. It does the equivalent of a [kpt pkg get](#kpt-pkg-get) on the `nephio-workload-cluster` package into a directory
+   called `regional` on that branch, with the same transformations on package files carried out as the
+   [kpt pkg get](#kpt-pkg-get) command above, this content is checked into the new branch in the initial commit
+3. The pipeline specified in the `Kptfile`of the `nephio-workload-cluster` package specifies an `apply-replacements`
+   specified in the `apply-replacements.yaml` file in the package and uses the value of the
+   `package-context.yaml:data.name` field set in 2. above (which is the workload cluster name) as follows:
+
+   - In all `PackageVariant` files, the `metadata.name` and `spec.downstream.package` field before the '-' is replaced
+     with that field value. In this way, the downstream package names for all the packages to be pulled from the
+     `mgmt-staging` repository for the workload cluster are specified.
+   - In all `PackageVariant` files, the `spec.injectors.WorkloadCluster.name` field is replaced with the workload
+     cluster name. This gives us the handle for `packageVariant` injection for the workload cluster in question.
    - In all `PackageVariant` files, the
      `spec.pipeline.mutators.[image=gcr.io/kpt-fn/set-annotations:v0.1.4].configMap.[nephio.org/cluster-name]`
      field is replaced with the workload cluster name.
-   - In all `WorkloadCluster` files, the `metadata.name` and `spec.clusterName`
-     fields are replaced with the workload cluster name.
+   - In all `WorkloadCluster` files, the `metadata.name` and `spec.clusterName` fields are replaced with the workload
+     cluster name.
 
-We now have a draft blueprint package for our workload cluster ready for further
-configuration.
+We now have a draft blueprint package for our workload cluster ready for further configuration.
 
 ## Configure the Package
 
@@ -326,7 +328,8 @@ kpt alpha rpkg pull -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 reg
 kpt fn eval --image gcr.io/kpt-fn/set-labels:v0.2.0 regional -- "nephio.org/site-type=regional" "nephio.org/region=us-west1"
 ```
 
-4. Check that the labels have been set. In all `PackageVariant` and `WorkloadCluster` files, the following `metadata.labels` fields have been added:
+4. Check that the labels have been set. In all `PackageVariant` and `WorkloadCluster` files, the following
+   `metadata.labels` fields have been added:
 
 ```
 labels:
@@ -403,28 +406,29 @@ The `PackageVariant` specified in `pv-cluster.yaml` is executed and:
 During creation of the package variant kpt package, the following transformations occur:
 
 1. It creates a `drafts/lambda-cluster/v1` branch on the `mgmt` repository
-2. It does the equivalent of a [kpt pkg get](#kpt-pkg-get) on the
-   `cluster-capi-kind` package into a directory called `lambda-cluster` on that
-   branch, with the same transformations on package files carried out as the
-   [kpt pkg get](#kpt-pkg-get) command above, this content is checked into the
-   new branch in the initial commit
-3. The pipeline specified in the `Kptfile`of the `cluster-capi-kind` package
-   specifies an `apply-replacements` specified in the `apply-replacements.yaml`
-   file in the package and uses the value of the
-   `workload-cluster.yaml:spec.clusterName` field set in 2. above (which is the
-   workload cluster name). This has the value of `example` in the
-   `workload-cluster.yaml` file. This means that in the `cluster.yaml` file the
-   value of field `metadata.name` is changed from `workload` to `example`.
-4. The package variant `spec.injectors` changes specified in the
-   `pv-cluster.yaml` file are applied.<br> a. The relevant `pv-cluster.yaml`
-   fields are: ``` spec: injectors:
+2. It does the equivalent of a [kpt pkg get](#kpt-pkg-get) on the `cluster-capi-kind` package into a directory called
+   `lambda-cluster` on that branch, with the same transformations on package files carried out as the
+   [kpt pkg get](#kpt-pkg-get) command above, this content is checked into the new branch in the initial commit
+3. The pipeline specified in the `Kptfile`of the `cluster-capi-kind` package specifies an `apply-replacements` specified
+   in the `apply-replacements.yaml` file in the package and uses the value of the
+   `workload-cluster.yaml:spec.clusterName` field set in 2. above (which is the workload cluster name). This has the
+   value of `example` in the `workload-cluster.yaml` file. This means that in the `cluster.yaml` file the value of field
+   `metadata.name` is changed from `workload` to `example`.
+4. The package variant `spec.injectors` changes specified in the `pv-cluster.yaml` file are applied.<br> a. The relevant
+   `pv-cluster.yaml` fields are: ``` spec: injectors:
+
     - kind: WorkloadCluster name: example pipeline: mutators:
+
       - image: gcr.io/kpt-fn/set-annotations:v0.1.4 configMap:
         nephio.org/cluster-name: example ```
 
    b. The following `PackageVariant` changes are made to the `lambda-cluster` package:
-      1. The field `info.readinessGates.conditionType` is added to the `Kptfile` with the value `config.injection.WorkloadCluster.workload-cluster`.
-      2. An extra `pipeline.mutators` entry is inserted in the `Kptfile`. This mutator is the mutator specified in the `pv-cluster.yaml` package variant specification, which specifies that the annotation `nephio.org/cluster-name: lambda` should be set on the resources in the package:
+
+      1. The field `info.readinessGates.conditionType` is added to the `Kptfile` with the value
+         `config.injection.WorkloadCluster.workload-cluster`.
+      2. An extra `pipeline.mutators` entry is inserted in the `Kptfile`. This mutator is the mutator specified in the
+         `pv-cluster.yaml` package variant specification, which specifies that the annotation
+         `nephio.org/cluster-name: lambda` should be set on the resources in the package:
 
       ```
         pipeline:
@@ -434,7 +438,9 @@ During creation of the package variant kpt package, the following transformation
             configMap:
               nephio.org/cluster-name: lambda
       ```
-      3. The field `status.conditions` is added to the `Kptfile` with the values below. This condition means that the kpt package is not considered to be applied until the condition `config.injection.WorkloadCluster.workload-cluster` is `True`:
+      3. The field `status.conditions` is added to the `Kptfile` with the values below. This condition means that the
+         kpt package is not considered to be applied until the condition `config.injection.WorkloadCluster.workload-cluster` is `True`:
+
       ```
         status:
           conditions:
@@ -443,7 +449,8 @@ During creation of the package variant kpt package, the following transformation
             message: injected resource "lambda" from cluster
             reason: ConfigInjected
       ```
-      4. The `spec` in the WorkloadCluster file `workload-cluster.yaml` is set. This is the specification of the extra configuration that will be carried out on the workload cluster once kind has brought it up:
+      4. The `spec` in the WorkloadCluster file `workload-cluster.yaml` is set. This is the specification of the extra
+         configuration that will be carried out on the workload cluster once kind has brought it up:
 
       ```
         clusterName: lambda
@@ -453,39 +460,46 @@ During creation of the package variant kpt package, the following transformation
           - sriov
           masterInterface: eth1
       ```
-5. The amended pipeline specified in the `Kptfile`of the `lambda-cluster` is now re-executed. It was previously executed in step 3 above but there is now an extra mutator added by the package variant. The following changes result:<br>
-  a. The new mutator added to the `Kptfile` by the package variant adds the annotation `nephio.org/cluster-name: lambda` is added to every resource in the package.
-  b. The existing annotation in the `Kptfile` (coming from the Kptfile in the parent `cluster-capi-kind` package) sets the value `lambda` of the  `spec.clusterName` field in `workload-cluster.yaml` as the value of the `metadata.name` field in the `cluster.yaml` file.
+5. The amended pipeline specified in the `Kptfile`of the `lambda-cluster` is now re-executed. It was previously executed
+   in step 3 above but there is now an extra mutator added by the package variant. The following changes result:
 
-6. The `lambda-cluster` package is now ready to go. It is proposed and approved and the process of cluster creation commences.
+   a. The new mutator added to the `Kptfile` by the package variant adds the annotation
+      `nephio.org/cluster-name: lambda` is added to every resource in the package.
+   b. The existing annotation in the `Kptfile` (coming from the Kptfile in the parent `cluster-capi-kind` package) sets
+      the value `lambda` of the  `spec.clusterName` field in `workload-cluster.yaml` as the value of the `metadata.name`
+      field in the `cluster.yaml` file.
+
+6. The `lambda-cluster` package is now ready to go. It is proposed and approved and the process of cluster creation
+   commences.
 
 ### Cluster Creation
-TBD.
 
+TBD.
 
 ## pv-rootsync.yaml:
 
 TBD.
 
 ## pv-repo.yaml: create the workload cluster repository
-TBD.
 
+TBD.
 
 ## pv-configsync.yaml:
+
 TBD.
 
-
 ## pv-kindnet.yaml:
+
 TBD.
 
 ## pv-local-path-provisioner.yaml:
+
 TBD.
 
 ## pv-multus.yaml:
-TBD.
 
+TBD.
 
 ## pv-vlanindex.yaml:
+
 TBD.
-
-

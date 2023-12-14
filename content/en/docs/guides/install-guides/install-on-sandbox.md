@@ -1,8 +1,14 @@
-# Sandbox Nephio Installation
+---
+title: Installation on a single VM
+description: >
+  Nephio Installation in a sandbox VM
+weight: 3
+---
 
 *Work-in-Progress*
 
 In this guide, you will set up Nephio running in a single VM with:
+
 - **Management Cluster**: [kind](https://kind.sigs.k8s.io/)
 - **Cluster Provisioner**: [Cluster API](https://cluster-api.sigs.k8s.io/)
 - **Workload Clusters**: kind
@@ -17,12 +23,16 @@ In this guide, you will set up Nephio running in a single VM with:
 
 In addition to the general prerequisites, you will need:
 
-* Access to a Virtual Machine provided by an hypervisor ([VirtualBox](https://www.virtualbox.org/), [Libvirt](https://libvirt.org/)) and running an OS supported by Nephio (Ubuntu 20.04/22.04, Fedora 34) with a minimum of 8vCPUs and 8 GB in RAM.
+* Access to a Virtual Machine provided by an hypervisor ([VirtualBox](https://www.virtualbox.org/),
+  [Libvirt](https://libvirt.org/)) and running an OS supported by Nephio (Ubuntu 20.04/22.04, Fedora 34) with a minimum
+  of 8 vCPUs and 8 GB in RAM.
 * [Kubernetes IN Docker](https://kind.sigs.k8s.io/) (`kind`) installed and set up your workstation.
 
 ## Provisioning Your Management Cluster
 
-The Cluster API services require communication with the Docker socket for creation of workload clusters. The command below creates an All-in-One Nephio management cluster through the KinD tool, mapping the `/var/run/docker.sock` socket file for Cluster API communication.
+The Cluster API services require communication with the Docker socket for creation of workload clusters. The command
+below creates an All-in-One Nephio management cluster through the KinD tool, mapping the `/var/run/docker.sock` socket
+file for Cluster API communication.
 
 ```bash
 cat << EOF | kind create cluster --config=-
@@ -39,8 +49,8 @@ EOF
 
 ## Gitea Installation
 
-While you may use other Git providers as well, Gitea is required in the R1
-setup. To install Gitea, use `kpt`. From your `nephio-install` directory, run:
+While you may use other Git providers as well, Gitea is required in the R1 setup. To install Gitea, use `kpt`. From your
+`nephio-install` directory, run:
 
 Gitea package has services that use frontend and database services, these services require authentication information.
 This information needs to be created as secret resources that belong to the `gitea` namespace.
@@ -69,19 +79,20 @@ kpt live apply gitea --reconcile-timeout 15m --output=table
 
 ## Common Dependencies
 
-There are a few dependencies that are common across most installations, and do
-not require any installation-specific setup. You should install these next, as
-described in the [common dependencies documentation](common-dependencies.md).
+There are a few dependencies that are common across most installations, and do not require any installation-specific
+setup. You should install these next, as described in the
+[common dependencies documentation]({{< relref "common-dependencies.md" >}}).
 
 ## Common Components
 
-With the necessary dependencies now installed, you can now install the essential
-Nephio components. This is documented in the [common components
-documentation](common-components.md).
+With the necessary dependencies now installed, you can now install the essential Nephio components. This is documented
+in the [common components documentation]({{< relref "common-components.md" >}}).
 
 ## Provisioning Cluster API
 
-For managing the Kubernetes cluster infrastructure, it is necessary to install [Cluster API project](https://cluster-api.sigs.k8s.io/). This package depends on [cert-manager project](https://cert-manager.io/) to generate certificates.
+For managing the Kubernetes cluster infrastructure, it is necessary to install
+[Cluster API project](https://cluster-api.sigs.k8s.io/). This package depends on
+[cert-manager project](https://cert-manager.io/) to generate certificates.
 
 ```bash
 kpt pkg get --for-deployment https://github.com/nephio-project/nephio-example-packages/cert-manager@v1.0.1
@@ -109,8 +120,8 @@ kpt live init cluster-capi-infrastructure-docker
 kpt live apply cluster-capi-infrastructure-docker --reconcile-timeout 15m --output=table
 ```
 
-The last step is required for defining cluster, machine and kubeadmin templates for controller and worker docker machines.
-These templates define the kubelet args, etcd and coreDNS configuration and image repository as other things.
+The last step is required for defining cluster, machine and kubeadmin templates for controller and worker docker
+machines. These templates define the kubelet args, etcd and coreDNS configuration and image repository as other things.
 
 
 ```bash
