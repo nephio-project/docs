@@ -2,7 +2,7 @@
 title: Nephio contributor guides
 description: >
   Nephio contributor guides
-weight: 4
+weight: 3
 ---
 
 # Developer guide

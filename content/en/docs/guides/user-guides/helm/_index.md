@@ -1,4 +1,9 @@
-# Helm Integration in Nephio
+---
+title: Helm Integration in Nephio
+description: >
+  User's guides about integration Helm to Nephio
+weight: 3
+---
 
 ## Overview
 

@@ -1,6 +1,11 @@
-# Abbreviation Decoder
+---
+title: Abbreviations
+description: 
+weight: 3
+---
 
-This page gives brief explanations of abbreviations used in the Nephio project. See also the [Nephio Glossary](glossary.md) for more detailed descriptions of Nephio related terms.
+This page gives brief explanations of abbreviations used in the Nephio project. See also the
+[Nephio Glossary]({{< ref "glossary.md" >}}) for more detailed descriptions of Nephio related terms.
 
 ## Nephio related abbreviations
 * NF: Network Function

@@ -1,4 +1,8 @@
-# Nephio Glossary
+---
+title: Glossary
+description: 
+weight: 4
+---
 
 We use many terms in our Nephio discussions, coming from different domains
 including telco, Kubernetes, configuration management, and our own

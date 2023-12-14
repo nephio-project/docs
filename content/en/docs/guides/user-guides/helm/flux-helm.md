@@ -1,43 +1,55 @@
-# Deploying helm charts in Nephio using Flux CD
+---
+title: Flux CD
+description: >
+  Deploying helm charts in Nephio using Flux CD
+weight: 1
+---
 
-[Flux CD](https://fluxcd.io/flux/use-cases/helm/) provides a set of Kubernetes controllers to enable a GitOps driven deployment of helm charts.
 
-In this example, we deploy the flux [helm](https://fluxcd.io/flux/components/helm/) and [source](https://fluxcd.io/flux/components/source/) controllers via a kpt package to the target workload cluster.
+[Flux CD](https://fluxcd.io/flux/use-cases/helm/) provides a set of Kubernetes controllers to enable a GitOps driven
+deployment of helm charts.
+
+In this example, we deploy the flux [helm](https://fluxcd.io/flux/components/helm/) and
+[source](https://fluxcd.io/flux/components/source/) controllers via a kpt package to the target workload cluster.
 
 Then, we can utilize the flux Custom Resources defined in another test kpt package to deploy an example helm chart.
 
 ##  Prerequisites:
+
 * [Nephio R1 sandbox](https://github.com/nephio-project/docs/blob/main/install-guide/README.md): Set up the Nephio sandbox environment.
 * [Access to the Nephio Web UI](https://github.com/nephio-project/docs/blob/main/install-guide/README.md#access-to-the-user-interfaces)
-* [Nephio R1 sandbox workload clusters](https://github.com/nephio-project/docs/blob/main/user-guide/exercises.md#quick-start-exercises): Create/Deploy the predefined set of workload clusters by completing the quick start exercises up to and including [Step 3](https://github.com/nephio-project/docs/blob/main/user-guide/exercises.md#step-3-deploy-two-edge-clusters).
+* [Nephio R1 sandbox workload clusters](https://github.com/nephio-project/docs/blob/main/user-guide/exercises.md#quick-start-exercises):
+  Create/Deploy the predefined set of workload clusters by completing the quick start exercises up to and including
+  [Step 3](https://github.com/nephio-project/docs/blob/main/user-guide/exercises.md#step-3-deploy-two-edge-clusters).
 
 ### Deploying the flux-helm-controllers pkg
 
 Access the Nephio Web UI and execute the following:
 
-We will deploy the `flux-helm-controllers` pkg from the `nephio-example-packages` 
-repo to the `edge02` workload cluster.
+We will deploy the `flux-helm-controllers` pkg from the `nephio-example-packages`  repo to the `edge02` workload
+cluster.
+
 * **Step 1**
 
-![Install flux controllers - Step 1](../../img/flux-helm/nephio-ui-edge02-deployment.png)
+![Install flux controllers - Step 1](/images/user-guides/nephio-ui-edge02-deployment.png)
 
 * **Step 2**
 
-![Install flux controllers - Step 2](../../img/flux-helm/add-deployment-selection.png)
+![Install flux controllers - Step 2](/images/user-guides/add-deployment-selection.png)
 
 * **Step 3**
 
-![Install flux controllers - Step 3](../../img/flux-helm/flux-controller-selection.png)
+![Install flux controllers - Step 3](/images/user-guides/flux-controller-selection.png)
 
-Click through the `Next` button until you are through all the steps, 
-leaving all options as `default`, then click `Create Deployment`.
+Click through the `Next` button until you are through all the steps, leaving all options as `default`, then click
+`Create Deployment`.
 
 * **Step 4**
 
-![Install flux controllers - Step 4](../../img/flux-helm/select-create-deployment.png)
+![Install flux controllers - Step 4](/images/user-guides/select-create-deployment.png)
 
-At this point, we can take a closer look at the contents of the kpt package which 
-contains the relevant kubernetes resources to deploy the controllers.
+At this point, we can take a closer look at the contents of the kpt package which contains the relevant kubernetes
+resources to deploy the controllers.
 
 **_NOTE:_**  We are deploying into the `flux-system` namespace by default.
 
@@ -45,11 +57,11 @@ Finally, we need to `propose` and then `approve` the pkg to initialize the deplo
 
 * **Step 5**
 
-![Install flux controllers - Step 5](../../img/flux-helm/propose-selection.png)
+![Install flux controllers - Step 5](/images/user-guides/propose-selection.png)
 
 * **Step 6**
 
-![Install flux controllers - Step 6](../../img/flux-helm/approve-selection.png)
+![Install flux controllers - Step 6](/images/user-guides/approve-selection.png)
 
 Shortly thereafter, you should see flux helm and source controllers in the flux-system namespace:
 
@@ -69,9 +81,8 @@ source-controller-5756bf7d48-hprkn   1/1     Running   0          6m20s
 
 ### Deploying the onlineboutique-flux pkg
 
-To make the demo kpt packages available in Nephio, we need to register a new 
-`External Blueprints`repository. 
-We can do this via kubectl towards the management cluster.
+To make the demo kpt packages available in Nephio, we need to register a new `External Blueprints`repository.  We can do
+this via kubectl towards the management cluster.
 
 ```bash
 cat << EOF | kubectl apply -f - 
@@ -96,28 +107,26 @@ EOF
 ```
 The new repository should now have been added to the `External Blueprints` section of the UI.
 
-![External Blueprints UI](../../img/flux-helm/external-bp-repos.png)
+![External Blueprints UI](/images/user-guides/external-bp-repos.png)
 
 From here, we can see the onlineboutique-flux pkg to be deployed.
 
-![online boutique pkg](../../img/flux-helm/nephio-pkgs-onlineboutique-show.png)
+![online boutique pkg](/images/user-guides/nephio-pkgs-onlineboutique-show.png)
 
 The HelmRepository Custom Resource within the kpt pkg refers to the official 
 [online boutique helm charts repo.](https://github.com/GoogleCloudPlatform/microservices-demo/tree/main/helm-chart)
 
-![HelmRepo online boutique ref](../../img/flux-helm/helmrepo-onlineboutique-ref.png)
+![HelmRepo online boutique ref](/images/user-guides/helmrepo-onlineboutique-ref.png)
 
-To deploy the pkg, repeat/follow **Steps 1 - 6** from above, 
-replacing **Step 3** with the following. 
-Take note of the source repo and the package to be deployed.
+To deploy the pkg, repeat/follow **Steps 1 - 6** from above, replacing **Step 3** with the following. Take note of the
+source repo and the package to be deployed.
 
-![Add acm pkg](../../img/flux-helm/add-deploy-onlinebout-select.png)
+![Add acm pkg](/images/user-guides/add-deploy-onlinebout-select.png)
 
-**_NOTE:_**  The overrides online-boutique-values ConfigMap in the package refers to
-the default values.yaml for the chart and can be customized prior to pkg approval.
+**_NOTE:_**  The overrides online-boutique-values ConfigMap in the package refers to the default values.yaml for the
+chart and can be customized prior to pkg approval.
 
-Shortly thereafter, you should see the online boutique components deployed 
-in the online-boutique namespace:
+Shortly thereafter, you should see the online boutique components deployed in the online-boutique namespace:
 
 ```bash
 kubectl get po --context edge02-admin@edge02 -n online-boutique
