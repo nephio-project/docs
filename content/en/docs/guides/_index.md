@@ -1,7 +1,7 @@
 ---
 title: Guides
 description: A collection of step by step Nephio guides.
-weight: 8
+weight: 2
 ---
 
 {{% pageinfo %}}

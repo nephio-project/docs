@@ -1,9 +1,7 @@
 ---
 title: Start
 description: Documentation of the Nephio project
-menu:
-  main:
-    weight: 10
+menu: {main: {weight: 10}}
 ---
 {{< blocks/cover title="Welcome to the Nephio documentation" image_anchor="top" height="full" >}}
 <a class="btn btn-lg btn-primary me-3 mb-4" href="https://nephio.org/">
