@@ -102,12 +102,11 @@ Connecting to Gitea allows you to see the actions that Nephio takes on Gitea.
 
 1. Port forward the Gitea port to your localhost
 
-`kubectl port-forward -n gitea svc/gitea 3000:3000`
+```sh
+kubectl port-forward -n gitea svc/gitea 3000:3000
+```
 
-2. Browse to the Gitea web client and log on.
-
-`http://localhost:3000`
-
+2. Browse to the Gitea web client at `http://localhost:3000` and log on.
 
 # VS Code Configuration
 

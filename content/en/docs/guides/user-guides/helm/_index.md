@@ -16,6 +16,6 @@ for deploying on Kubernetes, legacy helm support will be required for a number o
 
 ### Deployment options
 
-* [Using Flux CD](https://github.com/nephio-project/docs/blob/main/user-guide/docs/helm/flux-helm.md)
+* [Using Flux CD]({{< ref "flux-helm.md" >}})
 * [Operator SDK](https://sdk.operatorframework.io/docs/building-operators/helm/)
 

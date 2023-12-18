@@ -173,7 +173,7 @@ based upon the target cluster.
 ## kpt
 [Kpt](https://kpt.dev) is an open source tool for managing bundles of Kubernetes
 resource configurations, called kpt [packages](#package), using the
-[Configuration-as-Data](config-as-data) methodology.
+[Configuration-as-Data](#config-as-data) methodology.
 
 The `kpt` command-line tool allows pulling, pushing, cloning and otherwise
 managing packages stored in version control repositories (Git or OCI), as well

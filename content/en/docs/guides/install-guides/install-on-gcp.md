@@ -672,7 +672,7 @@ git push
 
 To check the status, use the console:
 
-![Console Packages](img/gcp/gcp-console-packages.png)
+![Console Packages](/images/install-guides/gcp-console-packages.png)
 
 Alternatively, you can use `kubectl` to view the status of the `root-sync`:
 

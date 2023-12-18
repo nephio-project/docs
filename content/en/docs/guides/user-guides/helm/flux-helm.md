@@ -16,11 +16,11 @@ Then, we can utilize the flux Custom Resources defined in another test kpt packa
 
 ##  Prerequisites:
 
-* [Nephio R1 sandbox](https://github.com/nephio-project/docs/blob/main/install-guide/README.md): Set up the Nephio sandbox environment.
-* [Access to the Nephio Web UI](https://github.com/nephio-project/docs/blob/main/install-guide/README.md#access-to-the-user-interfaces)
-* [Nephio R1 sandbox workload clusters](https://github.com/nephio-project/docs/blob/main/user-guide/exercises.md#quick-start-exercises):
+* [Nephio R1 sandbox]({{< ref "/docs/guides/install-guides/" >}}): Set up the Nephio sandbox environment.
+* [Access to the Nephio Web UI]({{< ref "/docs/guides/install-guides/#access-to-the-user-interfaces" >}})
+* [Nephio R1 sandbox workload clusters]({{< ref "/docs/guides/user-guides/exercises.md#quick-start-exercises" >}}):
   Create/Deploy the predefined set of workload clusters by completing the quick start exercises up to and including
-  [Step 3](https://github.com/nephio-project/docs/blob/main/user-guide/exercises.md#step-3-deploy-two-edge-clusters).
+  [Step 3]({{< ref "/docs/guides/user-guides/exercises.md#step-3-deploy-two-edge-clusters" >}}).
 
 ### Deploying the flux-helm-controllers pkg
 
