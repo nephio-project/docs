@@ -67,9 +67,9 @@ options, if you wish to assemble your own set of components.
 
 | Environment | Description                                                |
 | ----------- | ---------------------------------------------------------- |
-| [Sandbox](sandbox.md) | The demo sandbox environment, set up "the hard way" - without using the included provisioning script. This creates a complete Nephio-in-a-VM, just like the R1 demo sandbox. These instructions cover both Ubuntu and Fedora. |
-| [Google Cloud Platform](gcp.md) | Nephio running in GCP. A GKE cluster is used as the management cluster, with Anthos Config Controller for GCP infrastructure provisioning, Gitea as the Git provider, and Web UI authentication and authorization via Google OAuth 2.0 |
-| [OpenShift](openshift.md) | Nephio running in OpenShift, with Cluster API as the cluster provisioner, Gitea as the Git provider and Web UI authentication backed by Open Shift OIDC. |
+| [Single VM]({{< relref "install-on-sandbox.md" >}}) | The single VM demo environment, set up "the hard way" - without using the included provisioning script. This creates a complete Nephio-in-a-VM, just like the R1 demo environment. These instructions cover both Ubuntu and Fedora. |
+| [Google Cloud Platform]({{< relref "install-on-gcp.md" >}}) | Nephio running in GCP. A GKE cluster is used as the management cluster, with Anthos Config Controller for GCP infrastructure provisioning, Gitea as the Git provider, and Web UI authentication and authorization via Google OAuth 2.0 |
+| [OpenShift]({{< relref "install-on-openshift.md" >}}) | Nephio running in OpenShift, with Cluster API as the cluster provisioner, Gitea as the Git provider and Web UI authentication backed by Open Shift OIDC. |
 
 ## A La Carte Installation
 
@@ -146,8 +146,8 @@ development it must not be exposed on the internet (for example, via a
 LoadBalancer service, Ingress, or Route).
 
 The WebUI currently supports the following options:
-- [Google OAuth or OIDC](webui-auth-gcp.md)
-- [OIDC with Okta](webui-auth-okta.md)
+- [Google OAuth or OIDC]({{< relref "webui-auth-gcp.md" >}})
+- [OIDC with Okta]({{< relref "webui-auth-okta.md" >}})
 
 ### Nephio Stock Repositories
 

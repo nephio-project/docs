@@ -5,7 +5,9 @@ description: >
 weight: 3
 ---
 
-*Work-in-Progress*
+{{% pageinfo %}}
+This page is draft and the separation of the content to different categories is not clearly done. 
+{{% /pageinfo %}}
 
 In this guide, you will set up Nephio running in a single VM with:
 

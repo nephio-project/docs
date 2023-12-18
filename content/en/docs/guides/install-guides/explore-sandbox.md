@@ -1,12 +1,12 @@
 ---
-title: Overview of the sandbox installation
+title: Overview of the single VM installation
 description: >
-  An overview of the Nephio Sandbox
+  An overview of the Nephio single VM
 weight: 4
 ---
 
 
-You have installed the Nephio sandbox on your VM [using the installation instructions](https://github.com/nephio-project/test-infra/blob/main/e2e/provision/README.md).
+You have installed the Nephio single VM [using the installation instructions]({{< relref "install-on-sandbox.md" >}}).
 The installation has done a good job of installing a complex software stack without any fuss. Let's take a look around.
 
 ![Software Installed by the Nephio Sandbox Installation](/images/install-guides/ManagementCluster.png)

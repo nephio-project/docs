@@ -5,7 +5,9 @@ description: >
 weight: 3
 ---
 
-*Work in progress*
+{{% pageinfo %}}
+This page is draft and the separation of the content to different categories is not clearly done. 
+{{% /pageinfo %}}
 
 
 In this guide, you will set up Nephio with:
@@ -28,7 +30,7 @@ In this guide, you will set up Nephio with:
 ## Setup the Management Cluster
 
 If you have already access to an OpenShift cluster, make sure you have cluster-admin privilege. Then go to the
-[requirements](#requirements) section.
+[Install the requirements](#install-the-requirements) section.
 
 ### Create the management cluster
 Two methods exists: 
@@ -68,7 +70,7 @@ Application:
 oc apply -f https://raw.githubusercontent.com/openshift-telco/blueprints-nephio-openshift/v1.0.1/nephio-mgnt/app-of-apps.yaml
 ```
 
-This will take care of applying the [common dependencies](common-dependencies.md) and the [common components](common-components.md)
+This will take care of applying the [common dependencies]({{< relref "common-dependencies.md" >}}) and the [common components]({{< relref "common-components.md" >}})
 
 ### Access the Nephio
 

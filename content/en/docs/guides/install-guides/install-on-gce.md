@@ -11,11 +11,11 @@ weight: 3
 - [Installing on GCE](#installing-on-gce)
   - [GCE Prerequisites](#gce-prerequisites)
   - [Create a Virtual Machine on GCE](#create-a-virtual-machine-on-gce)
-  - [Follow installation on GCE](#follow-installation-on-gce)
+  - [Follow the installation on GCE](#follow-the-installation-on-gce)
 - [Installing on a pre-provisioned VM](#installing-on-a-pre-provisioned-vm)
   - [VM Prerequisites](#vm-prerequisites)
-  - [Kick off the installation on VM](#kick-off-installation-on-vm)
-  - [Follow installation on VM](#follow-installation-on-vm)
+  - [Kick off an installation on VM](#kick-off-an-installation-on-vm)
+  - [Follow the installation on VM](#follow-the-installation-on-vm)
 - [Access to the User Interfaces](#access-to-the-user-interfaces)
 - [Open terminal](#open-terminal)
 - [Next Steps](#next-steps)
@@ -173,6 +173,6 @@ ssh <user>@<vm-address>
 
 ## Next Steps
 
-* Step through the [exercises](https://github.com/nephio-project/docs/blob/main/user-guide/exercises.md)
-* Learn more about the [Nephio demo sandbox](https://github.com/nephio-project/docs/blob/main/install-guide/explore-sandbox.md)
-* Dig into the [user guide](https://github.com/nephio-project/docs/blob/main/user-guide/README.md)
+* Step through the [exercises]({{< relref "/docs/guides/user-guides/exercises.md" >}})
+* Learn more about the [Nephio demo sandbox]({{< relref "explore-sandbox.md" >}})
+* Dig into the [user guide]({{< relref "/docs/guides/user-guides/_index.md" >}})

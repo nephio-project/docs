@@ -7,7 +7,9 @@ description: >
 weight: 2
 ---
 
-*Work-in-Progress*
+{{% pageinfo %}}
+This page is draft and the separation of the content to different categories is not clearly done. 
+{{% /pageinfo %}}
 
 ### Porch
 
