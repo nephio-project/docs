@@ -5,9 +5,9 @@ description: >
 weight: 5
 ---
 
-Concepts as [Operator](https://github.com/nephio-project/docs/blob/main/glossary.md#operator) and
-[Controller](https://github.com/nephio-project/docs/blob/main/glossary.md#controller) and
-[CR](https://github.com/nephio-project/docs/blob/main/glossary.md#custom-resource) have already been explained here.
+Concepts as [Operator]({{< ref "/docs/glossary.md#operator" >}}) and
+[Controller]({{< ref "/docs/glossary.md#controller" >}}) and
+[CR]({{< ref "/docs/glossary.md#custom-resource" >}}) have already been explained here.
 
 # Deploy the operator to the cluster
 

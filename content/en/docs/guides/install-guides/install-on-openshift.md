@@ -75,7 +75,7 @@ This will take care of applying the [common dependencies]({{< relref "common-dep
 ### Access the Nephio
 
 - Get the Nephio URL:
-  ```
+  ```bash
   oc get route nephio -n nephio-webui -o=jsonpath=https://'{.spec.host}'
   ```
 
@@ -84,7 +84,7 @@ This will take care of applying the [common dependencies]({{< relref "common-dep
 ### Access the Gitea UI
 
 - Get the Gitea URL:
-  ```
+  ```bash
   oc get route gitea -n gitea -o=jsonpath=https://'{.spec.host}'
   ```
 
@@ -99,7 +99,7 @@ This will take care of applying the [common dependencies]({{< relref "common-dep
 You first need to create the OpenShift context ConfigMap entries to customize the cluster configuration. Here is an
 example:
 
-```
+```yaml
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -124,7 +124,7 @@ data:
 You can now create edge clusters by using `kubectl` to apply the following PackageVariantSet to your management cluster.
 It will inject the site specific configuration supplied in the ConfigMap.
 
-```
+```yaml
 apiVersion: config.porch.kpt.dev/v1alpha2
 kind: PackageVariantSet
 metadata:

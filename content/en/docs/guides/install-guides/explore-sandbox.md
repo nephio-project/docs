@@ -41,7 +41,7 @@ that create the *mgmt* and *mgmt-staging* repositories are unpacked in the */tmp
 package containing the rootsync configuration for the *mgmt* repository is unpacked in the */tmp/rootsync* directory.
 You can examine the contents of any rendered kpt packager by examining the contents of these directories.
 
-```
+```bash
 /tmp/kpt-pkg/                           /tmp/repository     /tmp/rootsync/
 ├── cert-manager                        ├── mgmt            └── mgmt
 ├── cluster-capi                        └── mgmt-staging
@@ -61,7 +61,7 @@ You can examine the contents of any rendered kpt packager by examining the conte
 <details>
  <summary>You can check the status of an applied kpt package using a "kpt live status package_dir" command.</summary>
  
-```
+```bash
 kpt live status /tmp/kpt-pkg/nephio-controllers/
 inventory-38069595/clusterrole.rbac.authorization.k8s.io//nephio-controller-approval-role is Current: Resource is current
 inventory-38069595/clusterrole.rbac.authorization.k8s.io//nephio-controller-bootstrap-role is Current: Resource is current

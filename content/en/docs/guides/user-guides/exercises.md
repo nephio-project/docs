@@ -800,7 +800,8 @@ ssh <user>@<vm-address> \
 
 You should now be able to navigate to [http://localhost:5000/](http://localhost:5000/) and access the free5gc WebUI.
 The test subscriber is the same as the standard free5gc default subscriber. Thus, you can follow the
-[instructions](https://free5gc.org/guide/New-Subscriber-via-webconsole/) on the free5gc site, but start at Step 4.
+[instructions](https://free5gc.org/guide/Webconsole/Create-Subscriber-via-webconsole/) on the free5gc site, but start at
+Step 4.
 
 Once the subscriber is registered, you can deploy UERANSIM:
 

@@ -21,7 +21,8 @@ weight: 6
 * Change ansible variables to reflect your cluster and run the installation script
   
   1. Add the following to *test-infra\e2e\provision\playbooks\roles\bootstrap\tasks\prep-gitea.yml*
-```- name: Create PersistentVolume
+```yaml
+- name: Create PersistentVolume
 kubernetes.core.k8s:
 context: "{{ k8s.context }}"
 state: present
@@ -110,7 +111,7 @@ namespace: "{{ gitea.k8s.namespace }}"
 
   4. Override the check specification values and run the installation script in
   *test-infra\e2e\provision\install_sandbox.sh* by
-```
+```bash
 NEPHIO_HOST_MIN_VCPU=4 NEPHIO_HOST_MIN_CPU_RAM=8 ./install_sandbox.sh
 ```
 
@@ -119,12 +120,12 @@ TDB (manual install of kpt, porch, configsync, nephio-webui, capi, metallb)
 
 ## Manual Installation of the Edge cluster using kpt
 
-``` 
+```bash
 kpt pkg get https://github.com/nephio-project/nephio-packages.git/nephio-configsync@v1.0.1
 ```
 
 Change *nephio-configsync/rootsync.yaml* and point spec.git.repo to the edge git repository
-```
+```yaml
  spec:
    sourceFormat: unstructured
    git:
@@ -133,7 +134,7 @@ Change *nephio-configsync/rootsync.yaml* and point spec.git.repo to the edge git
      auth: none
 ```
 Deploy the modified configsync
-```
+```bash
 kpt live init nephio-configsync
 kpt live apply nephio-configsync --reconcile-timeout=5m
 ```
@@ -142,7 +143,7 @@ kpt live apply nephio-configsync --reconcile-timeout=5m
 Get a [GitHub token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#fine-grained-personal-access-tokens) if your repository is private, or allow Porch to make modifications.
 
 Register the edge repository using kpt cli or nephio web-ui.
-```
+```bash
 GITHUB_USERNAME=<Github Username>
 GITHUB_TOKEN=<GitHub Token>
 

@@ -5,9 +5,6 @@ description: >
 weight: 7
 ---
 
-Package Transformations Work in Nephio Sandbox Installation
-===========================================================
-
 # Table of Contents
 
 - [Vanilla kpt for the Management cluster](#vanilla-kpt-for-the-management-cluster)
@@ -49,7 +46,7 @@ The fields in the command above are as follows:
 3. `upstream` and `upstreamlock` root fields are added to the root `Kptfile` as
    follows:
 
-```
+```yaml
 upstream:
   type: git
   git:
@@ -70,7 +67,7 @@ upstreamLock:
 5. The `package-context.yaml` file is added if it does not exist with the
    following content:
 
-```
+```yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -92,7 +89,7 @@ data:
    multiple YAML documents and each root `metadata` field is commented. For
    example:
 
-```
+```yaml
 metadata: # kpt-merge: cert-manager/cert-manager-cainjector
   name: cert-manager-cainjector
   namespace: cert-manager
@@ -107,7 +104,7 @@ metadata: # kpt-merge: cert-manager/cert-manager-cainjector
    file can contain multiple YAML documents and each root `metadata` field is
    commented. For example:
 
-```
+```yaml
 metadata: # kpt-merge: cert-manager/cert-manager-cainjector
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
@@ -133,7 +130,7 @@ The `repository` package has a kpt function written in
 [starlark](https://github.com/bazelbuild/starlark), which is invoked by a
 pipeline specified in the `kptfile`.
 
-```
+```yaml
 pipeline:
   mutators:
   - image: gcr.io/kpt-fn/starlark:v0.4.3
@@ -183,7 +180,7 @@ The `kpt live init <local-pkg-name>` initializes a local package, making it
 ready for application to a cluster. This command creates a `resourcegroup.yaml`
 in the kpt package with content similar to:
 
-```
+```yaml
 apiVersion: kpt.dev/v1alpha1
 kind: ResourceGroup
 metadata:
@@ -200,7 +197,7 @@ kubernetes cluster in scope. The packages in the `Repository` resources are
 
 To see which repositories are in scope:
 
-```
+```bash
 NAME                      TYPE   CONTENT   DEPLOYMENT   READY   ADDRESS
 free5gc-packages          git    Package   false        True    https://github.com/nephio-project/free5gc-packages.git
 mgmt                      git    Package   true         True    http://172.18.0.200:3000/nephio/mgmt.git
@@ -213,7 +210,7 @@ To see all the remote packages that are available:
 <details>
 <summary>$ kpt alpha rpkg get</summary>
 
-```
+```bash
 NAME                                                               PACKAGE                              WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
 free5gc-packages-daba5a241a23af3ce777b256c39dcedc3c5e3917          free5gc-cp                           v1              v1         true     Published   free5gc-packages
 free5gc-packages-ab9c21f547bdf11832d683a01dde851305ab151e          free5gc-operator                     v3              v3         true     Published   free5gc-packages
@@ -252,7 +249,7 @@ nephio-example-packages-dc0b55fb7a17d107e834417a2c9d8fb37f36d7cb   vlanindex    
 <details>
 <summary>To see the versions of a particular package:</summary>
 
-```
+```bash
 $ kpt alpha rpkg get --name nephio-workload-cluster
 NAME                                                               PACKAGE                   WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
 nephio-example-packages-05707c7acfb59988daaefd85e3f5c299504c2da1   nephio-workload-cluster   main            main       false    Published   nephio-example-packages
@@ -277,7 +274,7 @@ Clone the `nephio-workload-cluster` package into the `mgmt` repository. This
 creates the blueprint package for the workload cluster in the management
 repository.
 
-```
+```bash
 kpt alpha rpkg clone -n default nephio-example-packages-7895e28d847c0296a204007ed577cd2a4222d1ea --repository mgmt regional
 ```
 
@@ -311,7 +308,7 @@ file](https://github.com/nephio-project/test-infra/tree/main/e2e/provision).
 
 1. Get the name of the package:
 
-```
+```bash
 kpt alpha rpkg get | egrep '(NAME|regional)'
 NAME                                           PACKAGE  WORKSPACENAME REVISION LATEST LIFECYCLE REPOSITORY
 mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868  regional v1                     false  Draft     mgmt
@@ -319,19 +316,19 @@ mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868  regional v1                     f
 
 2. Pull the package to get a local copy of it
 
-```
+```bash
 kpt alpha rpkg pull -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 regional
 ```
 3. Set the Nephio labels on the package
 
-```
+```bash
 kpt fn eval --image gcr.io/kpt-fn/set-labels:v0.2.0 regional -- "nephio.org/site-type=regional" "nephio.org/region=us-west1"
 ```
 
 4. Check that the labels have been set. In all `PackageVariant` and `WorkloadCluster` files, the following
    `metadata.labels` fields have been added:
 
-```
+```yaml
 labels:
   nephio.org/region: us-west1
   nephio.org/site-type: regional
@@ -339,7 +336,7 @@ labels:
 
 5. Push the updated package back to the draft branch on the repository:
 
-```
+```bash
 kpt alpha rpkg push -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 regional
 [RUNNING] "gcr.io/kpt-fn/apply-replacements:v0.1.1"
 [PASS] "gcr.io/kpt-fn/apply-replacements:v0.1.1"
@@ -349,7 +346,7 @@ kpt alpha rpkg push -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 reg
 
 Propose the package:
 
-```
+```bash
 kpt alpha rpkg propose -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868
 mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 proposed
 ```
@@ -363,7 +360,7 @@ Approving the package triggers `configsync`, which triggers creation of the new
 workload cluster using all the `PackageVariant` components specified in the
 `nephio-workload-cluster` kpt package.
 
-```
+```bash
 kpt alpha rpkg approve -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868
 mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 approved
 ```
@@ -430,7 +427,7 @@ During creation of the package variant kpt package, the following transformation
          `pv-cluster.yaml` package variant specification, which specifies that the annotation
          `nephio.org/cluster-name: lambda` should be set on the resources in the package:
 
-      ```
+      ```yaml
         pipeline:
           mutators:
           - name: PackageVariant.lambda-cluster..0
@@ -441,7 +438,7 @@ During creation of the package variant kpt package, the following transformation
       3. The field `status.conditions` is added to the `Kptfile` with the values below. This condition means that the
          kpt package is not considered to be applied until the condition `config.injection.WorkloadCluster.workload-cluster` is `True`:
 
-      ```
+      ```yaml
         status:
           conditions:
           - type: config.injection.WorkloadCluster.workload-cluster
@@ -452,7 +449,7 @@ During creation of the package variant kpt package, the following transformation
       4. The `spec` in the WorkloadCluster file `workload-cluster.yaml` is set. This is the specification of the extra
          configuration that will be carried out on the workload cluster once kind has brought it up:
 
-      ```
+      ```yaml
         clusterName: lambda
           cnis:
           - macvlan
