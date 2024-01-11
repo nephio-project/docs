@@ -1,53 +1,11 @@
-# Nephio documentation
+---
+title: Documentation
+linkTitle: Docs
+menu: {main: {weight: 20}}
+weight: 1
+---
 
-This repository contains the documentation for the Nephio project. 
-
-## Status of the documentation
-
-We are in the middle fo moving the documentation from a GitHub based documentation to a Hugo / Docsy based documentation
-site. The content of this repo (especially this) branch will be a bit chaotic during this time. 
-
-## How to contribute to the documentation
-
-### Setting up the environment
-
-1 The site is using Hugo as the documentation generating engine, therefore you need to install Hugo. As the Docsy
-  template what we use requires the transforming Sass to CSS you will need to install the *extended* version of Hugo.
-  Link to installation instructions is [here](https://gohugo.io/installation/linux/). To ensure that you have the
-  *extended* version of Hugo run `hugo version` the version string should have the word extended in it. (Or `hugo
-  version | grep extended` should not be an empty line.)
-2 Some functions of the theme generation are using NPM packages, therefore NodeJS and NPM will be needed. For
-  compaility reasons a Nove version at least v16.20.2 is needed. To install this version of NodeJS you follow the
-  instructions from [deb.nodesource.com](http://deb.nodesource.com/) and set `NODE_MAJOR=20`.
-3 Install the npm dependencies with `npm install`
-
-### Build the docs locally
-
-To build and see the documentation locally run `hugo serve`. To doublecheck if the site will build on Netifly run `hugo
---gc --minify`.
-
-
-# Nephio R1
-
-Welcome to the R1 release of Nephio. Please use the documentation links below to
-learn more about Nephio R1, or checkout our [Learning Nephio with
-R1](https://wiki.nephio.org/display/HOME/Learning+with+Nephio+R1) series, which
-includes a [demo video](https://youtu.be/mFl71sy2Pdc) and short articles about
-different aspects of R1.
-
-## User Documentation
-* [Release Notes](https://github.com/nephio-project/docs/blob/main/release-notes/README.md)
-* [Demo Sandbox Environment Installation](https://github.com/nephio-project/docs/blob/main/install-guide/README.md)
-* [Quick Start Exercises](https://github.com/nephio-project/docs/blob/main/user-guide/exercises.md)
-* [User Guide](https://github.com/nephio-project/docs/blob/main/user-guide/README.md)
-
-## Other Documentation
-
-* [Developer Documentation](https://github.com/nephio-project/nephio)
-* [Developer Guide](https://github.com/nephio-project/docs/blob/main/developer-guide/README.md)
-* [Project Resources](https://github.com/nephio-project/docs/blob/main/resources.md)
-
-## About Nephio R1
+# About Nephio R1
 
 Our mission is "to deliver carrier-grade, simple, open, Kubernetes-based cloud
 native intent automation and common automation templates that materially
