@@ -5,3 +5,11 @@
 
 # Spell checker
 *.dic
+
+# Hugo
+.hugo*
+resources/
+
+# nodejs
+package-lock.json
+node_modules/
