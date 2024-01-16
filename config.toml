@@ -40,6 +40,8 @@ enableMissingTranslationPlaceholders = true
 copyright = "The Nephio Authors"
 #privacy_policy = ""
 
+code_of_conduct = "https://lfprojects.org/policies/code-of-conduct/"
+
 # Menu title if your navbar has a versions selector to access old versions of your site.
 # This menu appears only if you have at least one [params.versions] set.
 version_menu = "Releases"

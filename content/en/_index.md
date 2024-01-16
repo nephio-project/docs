@@ -41,5 +41,4 @@ Mass amount of developer inofrmation is available in the [wiki](https://wiki.nep
 Technical charter of the project can be found [here](https://nephio.org/wp-content/uploads/sites/6/2022/06/Nephio-Project-Technical-Charter-Amended-6-9-2022.pdf).
 {{% /blocks/feature %}}
 
-
 {{% /blocks/section %}}
