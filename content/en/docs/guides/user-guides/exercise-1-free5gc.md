@@ -1,5 +1,5 @@
 ---
-title: Quick Start Exercises
+title: Free5GC Testbed Deployment and E2E testing with UERANSIM
 description: >
 
 weight: 2
