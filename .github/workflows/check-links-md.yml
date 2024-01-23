@@ -17,4 +17,4 @@ jobs:
         npm install -g @umbrelladocs/linkspector
     - name: run linkspector
       run: |
-        linkspector check
+        linkspector check -c .linkspector.yml

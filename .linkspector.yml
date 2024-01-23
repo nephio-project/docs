@@ -1,0 +1,8 @@
+dirs:
+  - .
+useGitIgnore: true
+aliveStatusCodes:
+  - 200
+  - 201
+  - 204
+  - 304
