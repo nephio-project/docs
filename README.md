@@ -36,10 +36,10 @@ includes a [demo video](https://youtu.be/mFl71sy2Pdc) and short articles about
 different aspects of R1.
 
 ## User Documentation
-* [Release Notes](https://github.com/nephio-project/docs/blob/main/content/en/docs/release-notes)
-* [Demo Sandbox Environment Installation](https://github.com/nephio-project/docs/blob/main/content/en/docs/guides/install-guides/_index.md)
-* [Quick Start Exercises](https://github.com/nephio-project/docs/blob/main/content/en/docs/guides/user-guides/exercises.md)
-* [User Guide](https://github.com/nephio-project/docs/blob/main/content/en/docs/guides/user-guides/_index.md)
+* [Release Notes](/content/en/docs/release-notes)
+* [Demo Sandbox Environment Installation](/content/en/docs/guides/install-guides/_index.md)
+* [Quick Start Exercises](/content/en/docs/guides/user-guides/exercises.md)
+* [User Guide](/content/en/docs/guides/user-guides/_index.md)
 
 ## Other Documentation
 
