@@ -1,0 +1,20 @@
+name: "Check links of plain md files"
+on: 
+  pull_request:
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository code
+      uses: actions/checkout@v3
+    - name: Install prerequisites
+      run: |
+       curl -fsSL https://deb.nodesource.com/setup_21.x | sudo -E bash - &&\
+       sudo apt-get install -y nodejs
+    - name: Install tools
+      run: |
+        npm install -g @umbrelladocs/linkspector
+    - name: run linkspector
+      run: |
+        linkspector check
