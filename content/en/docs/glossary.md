@@ -85,7 +85,7 @@ See [Hydration](#hydration).
 
 ## DRY
 This is a common software engineering term that stands for [Don't Repeat
-Yourself](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself).  DRY attempts
+Yourself](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself,).  DRY attempts
 to reduce repetition in software development. In the Kubernetes configuration
 management context, a good example is a Helm chart, which attempts to abstract
 the particular manifests for a given workload. A kpt package that is not yet
@@ -339,8 +339,12 @@ we may build new types of variant generators, and may even compose them (for
 example, to produce variants that are affected by both environment and cluster).
 
 ## WET
-This term, which we use as an acronym for "Write Every Time", comes from [software
-engineering](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself#WET), and is a somewhat pejorative term in contrast to [DRY](#dry). However, in the context of *configuration-as-data*, rather than *code*, the idea of storing the configuration as fully-formed data enables automation and the use of data-management techniques to manage the configuration at scale.
+
+This term, which we use as an acronym for "Write Every Time", comes from
+[software engineering](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself), and is a somewhat pejorative term in
+contrast to [DRY](#dry). However, in the context of *configuration-as-data*, rather than *code*, the idea of storing the
+configuration as fully-formed data enables automation and the use of data-management techniques to manage the
+configuration at scale.
 
 *See also*: [DRY](#dry), [Hydration](#hydration)
 

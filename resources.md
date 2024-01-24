@@ -46,7 +46,7 @@ More tutorials are under discussion in
 * [SIG Release Meeting playlist](https://www.youtube.com/playlist?list=PLiW9_IXAWtks9Ys4Zs6wPRNEuQYAnWcg1)
 
 ## Other Resources
-* The [Glossary](glossary.md) defines common terminology used in the Nephio
+* The [Glossary](content/en/docs/glossary.md) defines common terminology used in the Nephio
   project.
 * The [Nephio Learning Resources page](learning.md) lists some learning resources that are useful for the Nephio community
-* The [Abbreviation Decoder page](abbreviations.md) explains common abbreviations used in the project.
+* The [Abbreviation Decoder page](content/en/docs/abbreviations.md) explains common abbreviations used in the project.
