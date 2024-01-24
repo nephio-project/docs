@@ -2,7 +2,7 @@
 title: OpenStack deployment management
 description: >
   OpenStack Multi-Cluster Deployment Management with Nephio
-weight: 6
+weight: 7
 ---
 
 ## Prerequisites

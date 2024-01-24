@@ -2,7 +2,7 @@
 title: Install WebUI
 description: >
    These instructions explain how to install the Nephio WebUI.
-weight: 5
+weight: 6
 ---
 
 {{% pageinfo %}}

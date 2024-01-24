@@ -2,7 +2,7 @@
 title: Nephio demo on Windows
 description: >
   Step by step guide to run Nephio on Windows
-weight: 5
+weight: 6
 ---
 
 # Nephio demo on Windows
