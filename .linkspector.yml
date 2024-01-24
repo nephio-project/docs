@@ -8,3 +8,4 @@ aliveStatusCodes:
   - 304
 ignorePatterns:
   - pattern: "^http://localhost.*$"
+  - pattern: "^http://HOSTNAME:PORT.*$"
