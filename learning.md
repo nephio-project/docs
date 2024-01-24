@@ -17,7 +17,6 @@
 * [Build a Kubernetes Operator in Six Steps](https://developers.redhat.com/articles/2021/09/07/build-kubernetes-operator-six-steps): Howto article from Red Hat
 * [How to Build a Kubernetes Operator](https://www.techtarget.com/searchitoperations/tutorial/How-to-build-a-Kubernetes-operator): Howto article from TechTarget
 * [Kopf: Kubernetes Operators Framework](https://kopf.readthedocs.io/en/stable/): A framework for writing Kubernetes Operators in python
-* [Creating Custom Resources in Kubernetes 1](https://www.pluralsight.com/courses/kubernetes-creating-custom-resources): Subscription required (with initial free trial) but helpful for writing CR/CRD/Operators
 
 ## KPT
 

@@ -42,7 +42,7 @@ In the secret, use these keys:
 | -------------- | ----------------------------------------------------------- |
 | client-id      | The client ID that you generated on Okta, e.g. 3abe134ejxzF21HU74c1 |
 | client-secret  | The client secret shown for the Application.                |
-| audience       | The Okta domain shown for the Application, e.g. https://company.okta.com |
+| audience       | The Okta domain shown for the Application, e.g. https://www.okta.com/company/ |
 | auth-server-id | The authorization server ID for the Application (optional)  |
 | idp            | The identity provider for the application, e.g. 0oaulob4BFVa4zQvt0g3 (optional) |
 

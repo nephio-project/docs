@@ -22,7 +22,7 @@ menu: {main: {weight: 10}}
 {{% blocks/lead color="primary" %}}
 [Nephio project's](https://nephio.org) mission is "to deliver carrier-grade, simple, open, Kubernetes-based cloud native intent automation and
 common automation templates that materially simplify the deployment and management of multi-vendor cloud infrastructure
-and network functions across large scale edge deployments."  
+and network functions across large scale edge deployments."
 {{% /blocks/lead %}}
 
 {{% blocks/section type="row" %}}
@@ -38,7 +38,7 @@ Mass amount of developer inofrmation is available in the [wiki](https://wiki.nep
 {{% /blocks/feature %}}
 
 {{% blocks/feature icon="fas fa-balance-scale-right" title="Charter" %}}
-Technical charter of the project can be found [here](https://nephio.org/wp-content/uploads/sites/6/2022/06/Nephio-Project-Technical-Charter-Amended-6-9-2022.pdf).
+Technical charter of the project can be found [here](https://github.com/nephio-project/governance/blob/main/nephio-technical-charter-amended-2022-06-22.pdf).
 {{% /blocks/feature %}}
 
 
