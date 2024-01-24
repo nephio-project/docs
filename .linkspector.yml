@@ -10,3 +10,4 @@ aliveStatusCodes:
 ignorePatterns:
   - pattern: "^http://localhost.*$"
   - pattern: "^http://HOSTNAME:PORT.*$"
+  - pattern: "^http.*t_repeat_yourself#WET.*"
