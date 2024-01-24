@@ -5,6 +5,7 @@ aliveStatusCodes:
   - 200
   - 201
   - 204
+  - 302
   - 304
 ignorePatterns:
   - pattern: "^http://localhost.*$"
