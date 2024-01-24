@@ -10,12 +10,12 @@ Some of these, like the resource-backend, will move out of the "required"
 category in later releases.  Even if you do not use these directly in your
 installation, the CRDs that come along with them are necessary.
 
+> **_NOTE:_** If you want to use a version other than that at the tip of Nephio `catalog` repo, then replace the `@main` suffix on the package URLs on the `kpt pkg get` commands below with the tag of the version you wish to use.
+
 ### Network Config Operator
 
 This component is a controller for applying configuration to routers and
 switches.
-
-> **_NOTE:_** If you want to use a version other than that at the tip of Nephio `catalog` repo, then replace the `@main` suffix on the package URLs on the `kpt pkg get` commands below with the tag of the version you wish to use.
 
 ```bash
 kpt pkg get --for-deployment https://github.com/nephio-project/catalog/nephio/optional/network-config@main
