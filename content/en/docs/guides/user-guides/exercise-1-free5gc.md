@@ -1,7 +1,7 @@
 ---
 title: Free5GC Testbed Deployment and E2E testing with UERANSIM
 description: >
-
+  A step by step guide to deploy Free5GC Core and perform E2E testing with UERANSIM
 weight: 2
 ---
 
@@ -328,6 +328,9 @@ Once the Edge clusters are ready, it is necessary to connect them. For now you a
 [containerlab tool](https://containerlab.dev/). Eventually, the inter-cluster networking will be automated as well.
 
 ```bash
+export E2EDIR=${E2EDIR:-$HOME/test-infra/e2e}
+export LIBDIR=${LIBDIR:-$HOME/test-infra/e2e/lib}
+export TESTDIR=${TESTDIR:-$HOME/test-infra/e2e/tests/free5gc}
 ./test-infra/e2e/provision/hacks/inter-connect_workers.sh
 ```
 
