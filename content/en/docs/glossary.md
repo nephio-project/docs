@@ -28,15 +28,20 @@ vendors enable KRM-based management of this internal configuration, to allow
 leveraging all the techniques we are building for KRM-based configuration (this
 is part of the "Kubernetes Everywhere" principle).
 
-As a community, we should try to use a common set of terminology for different
-types of configuration. See
-[docs#4](https://github.com/nephio-project/docs/issues/4).
+As a community, we should try to use a common set of terminology for different types of configuration. See
+[docs#4](https://github.com/nephio-project/nephio/issues/266).
 
 ## Config Injection
 See [Injector](#injector).
 
 ## Controller
-This term comes from Kubernetes where [controller](https://kubernetes.io/docs/reference/glossary/?fundamental=true#term-controller) is defined as a control loop that watches the intended and actual state of the cluster, and attempts to make changes as needed to make the actual state match the intended state. More specifically, this typically refers to software that processes Kubernetes Resources residing in the Kubernetes API server, and either transforms them into new resources, or calls to other APIs that change the state of some entity external to the API server. For example, `kubelet` itself is a controller that processes Pod resources to create and manage containers on a Node.
+This term comes from Kubernetes where
+[controller](https://kubernetes.io/docs/reference/glossary/?fundamental=true#term-controller) is defined as a control
+loop that watches the intended and actual state of the cluster, and attempts to make changes as needed to make the
+actual state match the intended state. More specifically, this typically refers to software that processes Kubernetes
+Resources residing in the Kubernetes API server, and either transforms them into new resources, or calls to other APIs
+that change the state of some entity external to the API server. For example, `kubelet` itself is a controller that
+processes Pod resources to create and manage containers on a Node.
 
 *See also*: [Operator](#operator), [Injector](#injector), [KRM
 function](#krm-function), [Specializer](#specializer)
@@ -85,7 +90,7 @@ See [Hydration](#hydration).
 
 ## DRY
 This is a common software engineering term that stands for [Don't Repeat
-Yourself](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself,).  DRY attempts
+Yourself](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself).  DRY attempts
 to reduce repetition in software development. In the Kubernetes configuration
 management context, a good example is a Helm chart, which attempts to abstract
 the particular manifests for a given workload. A kpt package that is not yet
