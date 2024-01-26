@@ -12,9 +12,9 @@ are used by Kubernetes to enforce the desired state of a Custom Resource (CR).
 
 ## The Nephio Reconciler Interface
 
-The Nephio Controller deploys multiple reconcilers and also supports pluggable reconcilers. To plug into the Nephio controller, a reconciler must implement the ...
-[nephio reconciler
-interface](https://github.com/nephio-project/nephio/tree/main/controllers/pkg/reconcilers/reconciler-interface).
+The Nephio Controller deploys multiple reconcilers and also supports pluggable reconcilers. To plug into the Nephio
+controller, a reconciler must implement the
+[nephio reconcilerinterface](https://github.com/nephio-project/nephio/tree/main/controllers/pkg/reconcilers/reconciler-interface).
 Reconcilers register with the Nephio reconciler interface when they start up.
 
 The reconcilers below are currently deployed by default in the nephio controller:
