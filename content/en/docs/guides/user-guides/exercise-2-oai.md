@@ -7,7 +7,15 @@ weight: 2
 
 ## Table of Contents
 
-[[_TOC_]]
+- [Introduction](#introduction)
+- [Setup the infrastructure](#step-1-setup-the-infrastructure)
+- [Check the status of the workload clusters](#step-2-check-the-status-of-the-workload-clusters)
+- [Deploy Dependencies, MySQL database, OAI Core and RAN Operator in the Workload clusters](#step-3-deploy-dependencies-mysql-database-oai-core-and-ran-operator-in-the-workload-clusters)
+- [Check Database and Operator Deployment](#step-4-check-database-and-operator-deployment)
+- [Deploy the Core Network Functions](#step-5-deploy-the-core-network-functions)
+- [Deploy RAN Network Functions](#step-6-deploy-ran-network-functions)
+- [Deploy UE](#step-7-deploy-ue)
+- [Test the End to End Connectivity](#step-8-test-the-end-to-end-connectivity)
 
 ## Introduction
 
@@ -103,7 +111,7 @@ kubectl get packagerevisions | grep -E 'core|regional|edge' | grep mgmt
 
 While you are checking you will see `LIFECYCLE` will change from Draft to Published. Once packages are Published then the clusters will start getting deployed. 
 
-## Step 2: Check the status of the Workload clusters
+## Step 2: Check the status of the workload clusters
 
 You can check if all the clusters have been added to the management cluster:
 
@@ -298,7 +306,7 @@ vpc-ran        True
 ```
 </details>
 
-## Step 4: Deploy Dependencies, MySQL database, OAI Core and RAN Operator in the Workload clusters
+## Step 3: Deploy Dependencies, MySQL database, OAI Core and RAN Operator in the Workload clusters
 
 Now you will need to deploy the MySQL database required by OAI UDR network function, OAI Core and RAN operators across the Workload clusters. To do this, you use `PackageVariant` and `PackageVariantSet`. Later uses an objectSelector to select the WorkloadCluster resources previously added to the Management cluster when you had deployed the nephio-workload-cluster packages (manually as well as via
 PackageVariantSet).
@@ -320,7 +328,7 @@ packagevariant.config.porch.kpt.dev/oai-ran-operator-regional created
 ```
 </details>
 
-## Step 5: Check Database and Operator Deployment
+## Step 4: Check Database and Operator Deployment
 
 Within five minutes of applying the RAN and Core Operator YAML file, you should see `oai-core` and `oai-operators` namespaces on core workload cluster, :
 
@@ -448,7 +456,7 @@ oai-upf-controller-75cbc869cb-67lf9   1/1     Running   0          16m
 </details>
 
 
-## Step 6: Deploy the Core Network Functions
+## Step 5: Deploy the Core Network Functions
 
 You can start by deploying the core network functions which the operator will instantiate. For now, you will use
 individual `PackageVariants` targeting the Core and Edge cluster. In the future, you could put all of these resources into
@@ -550,7 +558,7 @@ content-length: 58
 
 In the logs you should see `Received SX HEARTBEAT REQUEST` statement. If that is present then SMF and UPF are sharing PFCP heartbeats. 
 
-## Step 8: Deploy RAN Network Functions
+## Step 6: Deploy RAN Network Functions
 
 If the core network functions are running and configured properly then you can start by deploying RAN network function `PackageVariants`. 
 
@@ -664,7 +672,7 @@ kubectl logs -n oai-ran-cucp $CU_CP_POD_NAME  -c gnbcucp --context regional-admi
 </details>
 
 
-## Step 9: Deploy UE
+## Step 7: Deploy UE
 
 If all three links are configured then you can prooced with deploying the UE `PackageVariants`
 
@@ -714,7 +722,7 @@ kubectl logs -n oai-ue $UE_POD -c nr-ue --context edge-admin@edge | grep "Interf
 </details>
 
 
-## Step 10: Test the End to End Connectivity
+## Step 8: Test the End to End Connectivity
 
 To perform the end to end connectivity test you can ping from the UE to the UPF. 
 
@@ -740,4 +748,4 @@ rtt min/avg/max/mdev = 10.869/11.435/12.093/0.503 ms
 ```
 </details>
 
-For now the extra interfaces which are created using inter-connectivity script does not perform natting to have internet access.  
+For now the extra interfaces which are created using inter-connectivity script does not perform natting to have internet access.
