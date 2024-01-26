@@ -2,7 +2,7 @@
 title: Installation on a single VM
 description: >
   Nephio Installation in a sandbox VM
-weight: 3
+weight: 4
 ---
 
 {{% pageinfo %}}

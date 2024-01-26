@@ -2,7 +2,7 @@
 title: Nephio Free5gc Operator
 description: >
   Step by step guide to deploy the Free5gc Operator
-weight: 5
+weight: 6
 ---
 
 Concepts as [Operator]({{< ref "/docs/glossary.md#operator" >}}) and

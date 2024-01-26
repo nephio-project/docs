@@ -3,7 +3,7 @@ title: WebUI authenticaiton with Google OAuth 2.0 or OIDC
 description: >
   These instructions explain how to set up the Nephio WebUI to use Google OAuth 2.0 for authentication, or using OIDC
   backed by Google authentication. 
-weight: 6
+weight: 7
 ---
 
 

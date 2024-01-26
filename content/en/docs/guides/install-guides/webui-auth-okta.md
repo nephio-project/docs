@@ -2,7 +2,7 @@
 title: WebUI OIDC authenticaiton with Okta
 description: >
    These instructions explain how to set up the Nephio WebUI to use OIDC with Okta for authentication.
-weight: 6
+weight: 7
 ---
 
 If you are not exposing the webui on a load balancer IP address, but are instead using `kubectl port-forward`, you

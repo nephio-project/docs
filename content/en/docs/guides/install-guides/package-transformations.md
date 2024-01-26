@@ -2,7 +2,7 @@
 title: Package transformations guide
 description: >
   Package Transformations Work in Nephio Sandbox Installation
-weight: 6
+weight: 7
 ---
 
 # Table of Contents
