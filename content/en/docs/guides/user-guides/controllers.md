@@ -80,5 +80,6 @@ Nephio Controller to see what reconcilers are being deployed.
 $ kubectl rollout restart deployment nephio-controller -n nephio-system
 
 $ kubectl logs -n nephio-system nephio-controller-59487989bf-md845 --all-containers | \
-grep enable 2023-06-27T11:37:58.646Z	INFO	setup	enabled reconcilers	{"reconcilers": "repositories,approval,bootstrappackages,bootstrapsecrets,genericspecializer,networks"}
+grep enable
+2023-06-27T11:37:58.646Z	INFO	setup	enabled reconcilers	{"reconcilers": "repositories,approval,bootstrappackages,bootstrapsecrets,genericspecializer,networks"}
 ```
