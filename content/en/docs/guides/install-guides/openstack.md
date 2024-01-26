@@ -98,21 +98,10 @@ definition:
         storage: 10Gi
 namespace: "{{ gitea.k8s.namespace }}"
 ```
-  2. Change context value from all the *test-infra\e2e\provision\playbooks* yaml files into your kubernetes context: `kubectl config get-contexts`
-    
-    context: kubernetes-admin@cluster.local 
-  
-  3. Disable kind installation in 
-  *test-infra\e2e\provision\playbooks\roles\bootstrap\defaults\main.yml*
-   
-    kind:
-      enabled: false
-
-
-  4. Override the check specification values and run the installation script in
+  2. Override the default Ansible values and run the installation script in
   *test-infra\e2e\provision\install_sandbox.sh* by
 ```bash
-NEPHIO_HOST_MIN_VCPU=4 NEPHIO_HOST_MIN_CPU_RAM=8 ./install_sandbox.sh
+ANSIBLE_CMD_EXTRA_VAR_LIST="k8s.context='kubernetes-admin@cluster.local' kind.enable=false host_min_vcpu=4 host_min_cpu_ram=8" ./install_sandbox.sh
 ```
 
 ## Manual Installation of the management cluster using kpt

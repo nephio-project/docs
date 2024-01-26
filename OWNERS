@@ -3,6 +3,8 @@ approvers:
   - henderiw
   - s3wong
   - tliron
+  - liamfallon
+  - efiacor
 
 reviewers:
   - johnbelamaric
@@ -11,3 +13,4 @@ reviewers:
   - tliron
   - efiacor
   - CsatariGergely
+  - liamfallon
