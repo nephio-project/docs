@@ -1,7 +1,7 @@
 ---
 title: Installation on GCE
 description: >
-  Step by step guide to instal Nephio on GCE
+  Step by step guide to install Nephio on GCE
 weight: 3
 ---
 

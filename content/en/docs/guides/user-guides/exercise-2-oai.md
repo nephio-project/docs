@@ -41,7 +41,7 @@ Above described deployment configuration is illustrated in the following figure:
 
 ![nephio-r2-deployment-diagram.png](/images/user-guides/nephio-r2-deployment-diagram.png)
 
-The placement of Core and RAN network functions and the naming of the clouds is refered from O-RAN.WG6.CADS-v4.00 TR page 23.
+The placement of Core and RAN network functions and the naming of the clouds is referred from O-RAN.WG6.CADS-v4.00 TR page 23.
 
 The network configuration is illustrated in the following figure:
 
@@ -674,7 +674,7 @@ kubectl logs -n oai-ran-cucp $CU_CP_POD_NAME  -c gnbcucp --context regional-admi
 
 ## Step 7: Deploy UE
 
-If all three links are configured then you can prooced with deploying the UE `PackageVariants`
+If all three links are configured then you can proceed with deploying the UE `PackageVariants`
 
 ```bash
 kubectl create -f test-infra/e2e/tests/oai/005-ue.yaml
@@ -703,7 +703,7 @@ oai-nr-ue-78846cf68c-rxkkz   1/1     Running   0          32m
 ```
 </details>
 
-To verify if the UE is succesfully connected you can use the below command 
+To verify if the UE is successfully connected you can use the below command 
 
 
 ```bash

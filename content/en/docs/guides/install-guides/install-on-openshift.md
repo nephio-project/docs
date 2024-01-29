@@ -1,7 +1,7 @@
 ---
 title: Installation on OpenShift
 description: >
-  Step by step guide to instal Nephio on OpenShift
+  Step by step guide to install Nephio on OpenShift
 weight: 3
 ---
 
