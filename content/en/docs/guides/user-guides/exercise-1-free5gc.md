@@ -1,7 +1,7 @@
 ---
-title: Quick Start Exercises
+title: Free5GC Testbed Deployment and E2E testing with UERANSIM
 description: >
-
+  A step by step guide to deploy Free5GC Core and perform E2E testing with UERANSIM
 weight: 2
 ---
 
@@ -74,15 +74,24 @@ kubectl get repositories
 <summary>The output is similar to:</summary>
 
 ```console
-NAME                      TYPE   CONTENT   DEPLOYMENT   READY   ADDRESS
-free5gc-packages          git    Package   false        True    https://github.com/nephio-project/free5gc-packages.git
-mgmt                      git    Package   true         True    http://172.18.0.200:3000/nephio/mgmt.git
-mgmt-staging              git    Package   false        True    http://172.18.0.200:3000/nephio/mgmt-staging.git
-nephio-example-packages   git    Package   false        True    https://github.com/nephio-project/nephio-example-packages.git
+NAME                        TYPE   CONTENT   DEPLOYMENT   READY   ADDRESS
+catalog-distros-sandbox     git    Package   false        True    https://github.com/nephio-project/catalog.git
+catalog-infra-capi          git    Package   false        True    https://github.com/nephio-project/catalog.git
+catalog-nephio-core         git    Package   false        True    https://github.com/nephio-project/catalog.git
+catalog-nephio-optional     git    Package   false        True    https://github.com/nephio-project/catalog.git
+catalog-workloads-free5gc   git    Package   false        True    https://github.com/Nordix/catalog.git
+catalog-workloads-oai-ran   git    Package   false        True    https://github.com/nephio-project/catalog.git
+catalog-workloads-tools     git    Package   false        True    https://github.com/nephio-project/catalog.git
+edge01                      git    Package   true         True    http://172.18.0.200:3000/nephio/edge01.git
+edge02                      git    Package   true         True    http://172.18.0.200:3000/nephio/edge02.git
+mgmt                        git    Package   true         True    http://172.18.0.200:3000/nephio/mgmt.git
+mgmt-staging                git    Package   false        True    http://172.18.0.200:3000/nephio/mgmt-staging.git
+oai-core-packages           git    Package   false        True    https://github.com/OPENAIRINTERFACE/oai-packages.git
+regional                    git    Package   true         True    http://172.18.0.200:3000/nephio/regional.git
 ```
 </details>
 
-Since those are Ready, you can deploy a package from the [nephio-example-packages](https://github.com/nephio-project/nephio-example-packages)
+Since those are Ready, you can deploy a package from the [catalog-infra-capi](https://github.com/nephio-project/catalog/infra/capi)
 repository into the mgmt repository. To do this, you retrieve the Package Revision name using `kpt alpha rpkg get`,
 clone that specific Package Revision via the `kpt alpha rpkg clone` command, then propose and approve the resulting
 package revision. You want to use the latest revision of the nephio-workload-cluster package, which you can get with the
@@ -96,17 +105,8 @@ kpt alpha rpkg get --name nephio-workload-cluster
 <summary>The output is similar to:</summary>
 
 ```console
-NAME                                                               PACKAGE                   WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
-nephio-example-packages-05707c7acfb59988daaefd85e3f5c299504c2da1   nephio-workload-cluster   main            main       false    Published   nephio-example-packages
-nephio-example-packages-781e1c17d63eed5634db7b93307e1dad75a92bce   nephio-workload-cluster   v1              v1         false    Published   nephio-example-packages
-nephio-example-packages-5929727104f2c62a2cb7ad805dabd95d92bf727e   nephio-workload-cluster   v2              v2         false    Published   nephio-example-packages
-nephio-example-packages-cdc6d453ae3e1bd0b64234d51d575e4a30980a77   nephio-workload-cluster   v3              v3         false    Published   nephio-example-packages
-nephio-example-packages-c78ecc6bedc8bf68185f28a998718eed8432dc3b   nephio-workload-cluster   v4              v4         false    Published   nephio-example-packages
-nephio-example-packages-46b923a6bbd09c2ab7aa86c9853a96cbd38d1ed7   nephio-workload-cluster   v5              v5         false    Published   nephio-example-packages
-nephio-example-packages-17bffe318ac068f5f9ef22d44f08053e948a3683   nephio-workload-cluster   v6              v6         false    Published   nephio-example-packages
-nephio-example-packages-0fbaccf6c5e75a3eff7976a523bb4f42bb0118ce   nephio-workload-cluster   v7              v7         false    Published   nephio-example-packages
-nephio-example-packages-7895e28d847c0296a204007ed577cd2a4222d1ea   nephio-workload-cluster   v8              v8         false    Published   nephio-example-packages
-nephio-example-packages-48cea934a3bd876b775099ab59e7c12456888ffd   nephio-workload-cluster   v9              v9         true     Published   nephio-example-packages
+NAME                                                          PACKAGE                   WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
+catalog-infra-capi-d4d7d55835a5578f5c43fc8244deb6a091a8643f   nephio-workload-cluster   main            main       false    Published   catalog-infra-capi
 ```
 </details>
 
@@ -114,14 +114,14 @@ Then, use the NAME from that in the `clone` operation, and the resulting Package
 and `approve` operations:
 
 ```bash
-kpt alpha rpkg clone -n default nephio-example-packages-48cea934a3bd876b775099ab59e7c12456888ffd --repository mgmt regional
+kpt alpha rpkg clone -n default catalog-infra-capi-d4d7d55835a5578f5c43fc8244deb6a091a8643f --repository mgmt regional
 ```
 
 <details>
 <summary>The output is similar to:</summary>
 
 ```console
-mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 created
+catalog-infra-capi-d4d7d55835a5578f5c43fc8244deb6a091a8643f created
 ```
 </details>
 
@@ -132,7 +132,7 @@ and the `set-labels` function to do this.
 To pull the package to a local directory, use the `rpkg pull` command:
 
 ```bash
-kpt alpha rpkg pull -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 regional
+kpt alpha rpkg pull -n default catalog-infra-capi-d4d7d55835a5578f5c43fc8244deb6a091a8643f regional
 ```
 
 The package is now in the `regional` directory. So you can execute the `set-labels` function against the package
@@ -161,7 +161,7 @@ In any case, you now can push the package with the labels applied back to the
 repository:
 
 ```bash
-kpt alpha rpkg push -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 regional
+kpt alpha rpkg push -n default catalog-infra-capi-d4d7d55835a5578f5c43fc8244deb6a091a8643f regional
 ```
 
 <details>
@@ -176,26 +176,26 @@ kpt alpha rpkg push -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 reg
 Finally, you propose and approve the package.
 
 ```bash
-kpt alpha rpkg propose -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868
+kpt alpha rpkg propose -n default catalog-infra-capi-d4d7d55835a5578f5c43fc8244deb6a091a8643f
 ```
 
 <details>
 <summary>The output is similar to:</summary>
 
 ```console
-mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 proposed
+catalog-infra-capi-d4d7d55835a5578f5c43fc8244deb6a091a8643f proposed
 ```
 </details>
 
 ```bash
-kpt alpha rpkg approve -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868
+kpt alpha rpkg approve -n default catalog-infra-capi-d4d7d55835a5578f5c43fc8244deb6a091a8643f
 ```
 
 <details>
 <summary>The output is similar to:</summary>
 
 ```console
-mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 approved
+catalog-infra-capi-d4d7d55835a5578f5c43fc8244deb6a091a8643f approved
 ```
 </details>
 
@@ -241,12 +241,15 @@ kubectl get ns --context regional-admin@regional
 
 ```console
 NAME                           STATUS   AGE
-config-management-monitoring   Active   3h35m
-config-management-system       Active   3h35m
-default                        Active   3h39m
-kube-node-lease                Active   3h39m
-kube-public                    Active   3h39m
-kube-system                    Active   3h39m
+config-management-monitoring   Active   142m
+config-management-system       Active   142m
+default                        Active   142m
+kube-node-lease                Active   142m
+kube-public                    Active   142m
+kube-system                    Active   142m
+local-path-storage             Active   141m
+metallb-system                 Active   142m
+resource-group-system          Active   140m
 ```
 </details>
 
@@ -261,8 +264,8 @@ kubectl get machinesets
 <summary>The output is similar to:</summary>
 
 ```console
-NAME                                   CLUSTER    REPLICAS   READY   AVAILABLE   AGE     VERSION
-regional-md-0-zhw2j-58d497c498xkz96z   regional   1          1       1           3h58m   v1.26.3
+NAME                        CLUSTER    REPLICAS   READY   AVAILABLE   AGE    VERSION
+regional-md-0-lvmvm-8msw6   regional   1          1       1           143m   v1.26.3
 ```
 </details>
 
@@ -293,9 +296,10 @@ kubectl get machinesets
 <summary>The output is similar to:</summary>
 
 ```console
-NAME                                   CLUSTER    REPLICAS   READY   AVAILABLE   AGE    VERSION
-edge01-md-0-p5vwv-98cb4b55cx58l8l      edge01     1          1       1           114m   v1.26.3
-edge02-md-0-4nfpb-797dc6ddd7x8fc56     edge02     1          1       1           114m   v1.26.3
+NAME                        CLUSTER    REPLICAS   READY   AVAILABLE   AGE    VERSION
+edge01-md-0-rts82-q2vkr     edge01     1          1       1           104m   v1.26.3
+edge02-md-0-kwn67-74tpw     edge02     1          1       1           104m   v1.26.3
+regional-md-0-lvmvm-8msw6   regional   1          1       1           143m   v1.26.3
 ```
 </details>
 
@@ -324,6 +328,9 @@ Once the Edge clusters are ready, it is necessary to connect them. For now you a
 [containerlab tool](https://containerlab.dev/). Eventually, the inter-cluster networking will be automated as well.
 
 ```bash
+export E2EDIR=${E2EDIR:-$HOME/test-infra/e2e}
+export LIBDIR=${LIBDIR:-$HOME/test-infra/e2e/lib}
+export TESTDIR=${TESTDIR:-$HOME/test-infra/e2e/tests/free5gc}
 ./test-infra/e2e/provision/hacks/inter-connect_workers.sh
 ```
 
@@ -331,29 +338,29 @@ Once the Edge clusters are ready, it is necessary to connect them. For now you a
 <summary>The output is similar to:</summary>
 
 ```console
-{"workers":["edge01-md-0-nqjqm-b89c57dc5x8bxqk-l4bm9","edge02-md-0-m2t95-7f9f97c885x8cq64-9nf9r","regional-md-0-68wr8-9664894cxqdhph-bp59q"]}
-INFO[0000] Containerlab v0.41.2 started
-INFO[0000] Parsing & checking topology file: 002-topo.gotmpl
-INFO[0000] Could not read docker config: open /root/.docker/config.json: no such file or directory
-INFO[0000] Pulling ghcr.io/nokia/srlinux:22.11.2-116 Docker image
-INFO[0056] Done pulling ghcr.io/nokia/srlinux:22.11.2-116
-INFO[0056] Creating lab directory: /home/ubuntu/clab-free5gc-net
-INFO[0056] Creating container: "leaf"
-INFO[0058] Creating virtual wire: leaf:e1-2 <--> edge02-md-0-m2t95-7f9f97c885x8cq64-9nf9r:eth1
-INFO[0058] Creating virtual wire: leaf:e1-3 <--> regional-md-0-68wr8-9664894cxqdhph-bp59q:eth1
-INFO[0058] Creating virtual wire: leaf:e1-1 <--> edge01-md-0-nqjqm-b89c57dc5x8bxqk-l4bm9:eth1
-INFO[0058] Running postdeploy actions for Nokia SR Linux 'leaf' node
-INFO[0076] Adding containerlab host entries to /etc/hosts file
-INFO[0076] 🎉 New containerlab version 0.42.0 is available! Release notes: https://containerlab.dev/rn/0.42/
-Run 'containerlab version upgrade' to upgrade or go check other installation options at https://containerlab.dev/install/
-+---+------------------------------------------+--------------+-----------------------------------+---------------+---------+----------------+--------------------------+
-| # |                   Name                   | Container ID |               Image               |     Kind      |  State  |  IPv4 Address  |       IPv6 Address       |
-+---+------------------------------------------+--------------+-----------------------------------+---------------+---------+----------------+--------------------------+
-| 1 | edge01-md-0-nqjqm-b89c57dc5x8bxqk-l4bm9  | f2fc7ace220b | kindest/node:v1.26.3              | ext-container | running | 172.18.0.10/16 | fc00:f853:ccd:e793::a/64 |
-| 2 | edge02-md-0-m2t95-7f9f97c885x8cq64-9nf9r | 22b81815901e | kindest/node:v1.26.3              | ext-container | running | 172.18.0.11/16 | fc00:f853:ccd:e793::b/64 |
-| 3 | regional-md-0-68wr8-9664894cxqdhph-bp59q | 20dfc8f0be2a | kindest/node:v1.26.3              | ext-container | running | 172.18.0.5/16  | fc00:f853:ccd:e793::5/64 |
-| 4 | net-free5gc-net-leaf                     | 1c21153a1acb | ghcr.io/nokia/srlinux:22.11.2-116 | srl           | running | 172.18.0.12/16 | fc00:f853:ccd:e793::c/64 |
-+---+------------------------------------------+--------------+-----------------------------------+---------------+---------+----------------+--------------------------+
+{"workers":["edge01-md-0-rts82-q2vkr-7cw86","edge02-md-0-kwn67-74tpw-v6x96","regional-md-0-lvmvm-8msw6-r67f6"]}
+INFO[0000] Containerlab v0.42.0 started                 
+INFO[0000] Parsing & checking topology file: clab-topo.gotmpl 
+INFO[0000] Could not read docker config: open /root/.docker/config.json: no such file or directory 
+INFO[0000] Pulling ghcr.io/nokia/srlinux:22.11.2-116 Docker image 
+INFO[0046] Done pulling ghcr.io/nokia/srlinux:22.11.2-116 
+INFO[0046] Creating lab directory: /home/ubuntu/test-infra/e2e/tests/free5gc/clab-5g 
+INFO[0046] Creating container: "leaf"                   
+INFO[0074] Creating virtual wire: leaf:e1-2 <--> edge02-md-0-kwn67-74tpw-v6x96:eth1 
+INFO[0074] Creating virtual wire: leaf:e1-1 <--> edge01-md-0-rts82-q2vkr-7cw86:eth1 
+INFO[0074] Creating virtual wire: leaf:e1-3 <--> regional-md-0-lvmvm-8msw6-r67f6:eth1 
+INFO[0074] Running postdeploy actions for Nokia SR Linux 'leaf' node 
+INFO[0097] Adding containerlab host entries to /etc/hosts file 
+INFO[0097] 🎉 New containerlab version 0.49.0 is available! Release notes: https://containerlab.dev/rn/0.49/
+Run 'containerlab version upgrade' to upgrade or go check other installation options at https://containerlab.dev/install/ 
++---+---------------------------------+--------------+-----------------------------------+---------------+---------+----------------+--------------------------+
+| # |              Name               | Container ID |               Image               |     Kind      |  State  |  IPv4 Address  |       IPv6 Address       |
++---+---------------------------------+--------------+-----------------------------------+---------------+---------+----------------+--------------------------+
+| 1 | edge01-md-0-rts82-q2vkr-7cw86   | 6e36e2cfb143 | kindest/node:v1.26.3              | ext-container | running | 172.18.0.8/16  | fc00:f853:ccd:e793::8/64 |
+| 2 | edge02-md-0-kwn67-74tpw-v6x96   | 83ae8118b520 | kindest/node:v1.26.3              | ext-container | running | 172.18.0.11/16 | fc00:f853:ccd:e793::b/64 |
+| 3 | regional-md-0-lvmvm-8msw6-r67f6 | 60a6efe0f86f | kindest/node:v1.26.3              | ext-container | running | 172.18.0.5/16  | fc00:f853:ccd:e793::5/64 |
+| 4 | net-5g-leaf                     | 402cecf6061c | ghcr.io/nokia/srlinux:22.11.2-116 | srl           | running | 172.18.0.12/16 | fc00:f853:ccd:e793::c/64 |
++---+---------------------------------+--------------+-----------------------------------+---------------+---------+----------------+--------------------------+
 ```
 </details>
 
@@ -369,24 +376,7 @@ worker nodes.
 <summary>The output is similar to:</summary>
 
 ```console
-docker exec "edge01-md-0-znvpq-56ff577758xjgj8b-qbrzh" ip link add link eth1 name eth1.2 type vlan id 2
-docker exec "edge01-md-0-znvpq-56ff577758xjgj8b-qbrzh" ip link add link eth1 name eth1.3 type vlan id 3
-docker exec "edge01-md-0-znvpq-56ff577758xjgj8b-qbrzh" ip link add link eth1 name eth1.4 type vlan id 4
-docker exec "edge01-md-0-znvpq-56ff577758xjgj8b-qbrzh" ip link set up eth1.2
-docker exec "edge01-md-0-znvpq-56ff577758xjgj8b-qbrzh" ip link set up eth1.3
-docker exec "edge01-md-0-znvpq-56ff577758xjgj8b-qbrzh" ip link set up eth1.4
-docker exec "edge02-md-0-kk5rv-6d944f5f4cx8fb4n-42ttj" ip link add link eth1 name eth1.2 type vlan id 2
-docker exec "edge02-md-0-kk5rv-6d944f5f4cx8fb4n-42ttj" ip link add link eth1 name eth1.3 type vlan id 3
-docker exec "edge02-md-0-kk5rv-6d944f5f4cx8fb4n-42ttj" ip link add link eth1 name eth1.4 type vlan id 4
-docker exec "edge02-md-0-kk5rv-6d944f5f4cx8fb4n-42ttj" ip link set up eth1.2
-docker exec "edge02-md-0-kk5rv-6d944f5f4cx8fb4n-42ttj" ip link set up eth1.3
-docker exec "edge02-md-0-kk5rv-6d944f5f4cx8fb4n-42ttj" ip link set up eth1.4
-docker exec "regional-md-0-6hqq6-79bf858cd5xcxzl8-6x9d7" ip link add link eth1 name eth1.2 type vlan id 2
-docker exec "regional-md-0-6hqq6-79bf858cd5xcxzl8-6x9d7" ip link add link eth1 name eth1.3 type vlan id 3
-docker exec "regional-md-0-6hqq6-79bf858cd5xcxzl8-6x9d7" ip link add link eth1 name eth1.4 type vlan id 4
-docker exec "regional-md-0-6hqq6-79bf858cd5xcxzl8-6x9d7" ip link set up eth1.2
-docker exec "regional-md-0-6hqq6-79bf858cd5xcxzl8-6x9d7" ip link set up eth1.3
-docker exec "regional-md-0-6hqq6-79bf858cd5xcxzl8-6x9d7" ip link set up eth1.4
+
 ```
 </details>
 

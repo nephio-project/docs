@@ -37,12 +37,12 @@ You will need a account in GCP and `gcloud` installed on your local environment.
 ### Create a Virtual Machine on GCE
 
 ```bash
-gcloud compute instances create --machine-type e2-standard-8 \
+gcloud compute instances create --machine-type e2-standard-16 \
                                     --boot-disk-size 200GB \
                                     --image-family=ubuntu-2004-lts \
                                     --image-project=ubuntu-os-cloud \
-                                    --metadata=startup-script-url=https://raw.githubusercontent.com/nephio-project/test-infra/v1.0.1/e2e/provision/init.sh,nephio-test-infra-branch=v1.0.1 \
-                                    nephio-r1-e2e
+                                    --metadata=startup-script-url=https://raw.githubusercontent.com/nephio-project/test-infra/v2.0.0/e2e/provision/init.sh,nephio-test-infra-branch=v2.0.0 \
+                                    nephio-r2-e2e
 ```
 
 ### Follow the Installation on GCE
@@ -52,7 +52,7 @@ seconds to reach a network accessible state, and then ssh in and tail the
 startup script execution:
 
 ```bash
-gcloud compute ssh ubuntu@nephio-r1-e2e -- \
+gcloud compute ssh ubuntu@nephio-r2-e2e -- \
                 sudo journalctl -u google-startup-scripts.service --follow
 ```
 
@@ -66,7 +66,7 @@ Azure.
 Order or create a VM with the following specification:
 
 - Linux Flavour: Ubuntu-20.04-focal
-- 8 cores
+- 16 cores
 - 32 GB memory
 - 200 GB disk size
 - Default user with sudo passwordless permissions
@@ -100,9 +100,9 @@ sudo netplan apply
 Log onto your VM and run the following command:
 
 ```bash
-wget -O - https://raw.githubusercontent.com/nephio-project/test-infra/v1.0.1/e2e/provision/init.sh |  \
+wget -O - https://raw.githubusercontent.com/nephio-project/test-infra/v2.0.0/e2e/provision/init.sh |  \
 sudo NEPHIO_DEBUG=false   \
-     NEPHIO_BRANCH=v1.0.1 \
+     NEPHIO_BRANCH=v2.0.0 \
      NEPHIO_USER=ubuntu   \
      bash
 ```
@@ -133,7 +133,7 @@ Gitea's HTTP interface, if desired (3000):
 Using GCE:
 
 ```bash
-gcloud compute ssh ubuntu@nephio-r1-e2e -- \
+gcloud compute ssh ubuntu@nephio-r2-e2e -- \
                 -L 7007:localhost:7007 \
                 -L 3000:172.18.0.200:3000 \
                 kubectl port-forward --namespace=nephio-webui svc/nephio-webui 7007
@@ -162,7 +162,7 @@ connection with that setting).
 Using GCE:
 
 ```bash
-gcloud compute ssh ubuntu@nephio-r1-e2e
+gcloud compute ssh ubuntu@nephio-r2-e2e
 ```
 
 Using a VM:
@@ -173,6 +173,8 @@ ssh <user>@<vm-address>
 
 ## Next Steps
 
-* Step through the [exercises]({{< relref "/docs/guides/user-guides/exercises.md" >}})
+* Step through the exercises
+  * [Free5GC Testbed Deployment and E2E testing with UERANSIM]({{< relref "/docs/guides/user-guides/exercise-1-free5gc.md" >}})
+  * [OAI Core and RAN Testbed Deployment and E2E testing]({{< relref "/docs/guides/user-guides/exercise-2-oai.md" >}})
 * Learn more about the [Nephio demo sandbox]({{< relref "explore-sandbox.md" >}})
 * Dig into the [user guide]({{< relref "/docs/guides/user-guides/_index.md" >}})
