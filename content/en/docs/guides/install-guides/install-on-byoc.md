@@ -117,9 +117,9 @@ KCC, or AWS Controllers for Kubernetes. You can provision more than one.
 
 | Provider    | Notes                                                                                   |
 | ----------- | --------------------------------------------------------------------------------------- |
-| Cluster API | Kubernetes project cluster provisioner for a variety of cluster providers.              |
-| KCC         | Google's Kubernetes Config Connector for GKE clusters and other GCP resources.          |
-| Crossplane  | API composition framework with cluster and other infrastructure providers.              |
+| [Cluster API](https://cluster-api.sigs.k8s.io/) | Kubernetes project cluster provisioner for a variety of cluster providers.              |
+| [KCC](https://cloud.google.com/config-connector/docs/overview)         | Google's Kubernetes Config Connector for GKE clusters and other GCP resources.          |
+| [Crossplane](https://docs.crossplane.io/latest/getting-started/introduction/)  | API composition framework with cluster and other infrastructure providers.              |
 
 ### Load Balancer
 
