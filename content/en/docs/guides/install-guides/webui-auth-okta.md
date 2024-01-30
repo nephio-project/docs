@@ -1,5 +1,5 @@
 ---
-title: WebUI OIDC authenticaiton with Okta
+title: WebUI OIDC authentication with Okta
 description: >
    These instructions explain how to set up the Nephio WebUI to use OIDC with Okta for authentication.
 weight: 7
