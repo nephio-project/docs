@@ -38,13 +38,13 @@ different aspects of R1.
 ## User Documentation
 * [Release Notes](/content/en/docs/release-notes)
 * [Demo Sandbox Environment Installation](/content/en/docs/guides/install-guides/_index.md)
-* [Quick Start Exercises](/content/en/docs/guides/user-guides/exercises.md)
+* [Quick Start Exercises](/content/en/docs/guides/user-guides/_index.md)
 * [User Guide](/content/en/docs/guides/user-guides/_index.md)
 
 ## Other Documentation
 
 * [Developer Documentation](https://github.com/nephio-project/nephio)
-* [Developer Guide](/content/en/docs/guides/contributor-guides)
+* [Developer Guide](/content/en/docs/guides/contributor-guides/_index.md)
 * [Project Resources](https://github.com/nephio-project/docs/blob/main/resources.md)
 
 ## About Nephio R1

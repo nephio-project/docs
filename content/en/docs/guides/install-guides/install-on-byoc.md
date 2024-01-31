@@ -115,11 +115,11 @@ Flux or ArgoCD to apply packages to the clusters.
 R1 uses Cluster API, but other options may be used such as Crossplane, Google
 KCC, or AWS Controllers for Kubernetes. You can provision more than one.
 
-| Provider                    | Notes                                                                                   |
-| --------------------------- | --------------------------------------------------------------------------------------- |
-| [Cluster API](capi.md)      | Kubernetes project cluster provisioner for a variety of cluster providers.              |
-| [KCC](kcc.md)               | Google's Kubernetes Config Connector for GKE clusters and other GCP resources.          |
-| [Crossplane](crossplane.md) | API composition framework with cluster and other infrastructure providers.              |
+| Provider    | Notes                                                                                   |
+| ----------- | --------------------------------------------------------------------------------------- |
+| [Cluster API](https://cluster-api.sigs.k8s.io/) | Kubernetes project cluster provisioner for a variety of cluster providers.              |
+| [KCC](https://cloud.google.com/config-connector/docs/overview)         | Google's Kubernetes Config Connector for GKE clusters and other GCP resources.          |
+| [Crossplane](https://docs.crossplane.io/latest/getting-started/introduction/)  | API composition framework with cluster and other infrastructure providers.              |
 
 ### Load Balancer
 
