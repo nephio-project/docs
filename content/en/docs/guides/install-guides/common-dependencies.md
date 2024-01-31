@@ -18,7 +18,7 @@ This component is a controller for applying configuration to routers and
 switches.
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/catalog/nephio/optional/network-config@main
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/optional/network-config@main
 kpt fn render network-config
 kpt live init network-config
 kpt live apply network-config --reconcile-timeout=15m --output=table
