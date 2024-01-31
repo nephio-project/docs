@@ -19,20 +19,20 @@ kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
   - role: control-plane
-    image: kindest/node:v1.28.0
+    image: kindest/node:v1.29.0
     extraPortMappings:
       - containerPort: 3000
         hostPort: 3000
 EOF
 pushd "$(mktemp -d -t "kpt-pkg-XXX")" >/dev/null || exit
-for pkg in gitea porch-dev configsync resource-backend; do
-    kpt pkg get "https://github.com/nephio-project/nephio-example-packages.git/${pkg}@main" "$pkg"
-    kpt live init "$pkg"
-    kpt live apply "$pkg"
+for pkg in "distros/sandbox/gitea" "/nephio/core/porch" "nephio/core/configsync" "nephio/optional/resource-backend"; do
+    kpt pkg get "https://github.com/nephio-project/catalog.git/${pkg}@main" "${pkg##*/}"
+    kpt live init "${pkg##*/}"
+    kpt live apply "${pkg##*/}"
 done
 
-kpt pkg get https://github.com/nephio-project/nephio-example-packages/tree/main/nephio-controllers nephio-controllers
-find nephio-controllers/crd/bases/*.yaml -exec kubectl apply -f {} \;
+kpt pkg get https://github.com/nephio-project/catalog/tree/main/nephio/core/nephio-operator nephio-operator
+find nephio-operator/crd/bases/*.yaml -exec kubectl apply -f {} \;
 
 popd >/dev/null || exit
 ```
@@ -54,7 +54,7 @@ kind create cluster -n mgmt
 5. Install gitea
 
 ```sh
-kpt pkg get https://github.com/nephio-project/nephio-example-packages/tree/main/gitea gitea
+kpt pkg get https://github.com/nephio-project/catalog.git/distros/sandbox/gitea@main gitea
 kpt live init gitea
 kpt live apply gitea
 ```
@@ -68,15 +68,15 @@ kubectl port-forward -n gitea svc/gitea 3000:3000
 7. Install Porch
 
 ```sh
-kpt pkg get https://github.com/nephio-project/nephio-example-packages/tree/main/porch-dev porch-dev
-kpt live init porch-dev
-kpt live apply porch-dev
+kpt pkg get https://github.com/nephio-project/catalog.git/nephio/core/porch@main porch
+kpt live init porch
+kpt live apply porch
 ```
 
 8. Install configsync
 
 ```sh
-kpt pkg get https://github.com/nephio-project/nephio-example-packages/tree/main/configsync configsync
+kpt pkg get https://github.com/nephio-project/catalog.git/nephio/core/configsync@main configsync
 kpt live init configsync
 kpt live apply configsync
 ```
@@ -84,7 +84,7 @@ kpt live apply configsync
 9. Install the resource backend
 
 ```sh
-kpt pkg get https://github.com/nephio-project/nephio-example-packages/tree/main/resource-backend resource-backend
+kpt pkg get https://github.com/nephio-project/catalog.git/nephio/optional/resource-backend@main resource-backend
 kpt live init resource-backend
 kpt live apply resource-backend
 ```
@@ -92,8 +92,8 @@ kpt live apply resource-backend
 10. Load the Nephio CRDs
 
 ```sh
-kpt pkg get https://github.com/nephio-project/nephio-example-packages/tree/main/nephio-controllers nephio-controllers
-ls nephio-controllers/crd/bases/*.yaml | xargs -n1 kubectl apply -f
+kpt pkg get https://github.com/nephio-project/catalog/tree/main/nephio/core/nephio-operator nephio-operator
+ls nephio-operator/crd/bases/*.yaml | xargs -n1 kubectl apply -f
 ```
 
 # Connect to Gitea on your browser
