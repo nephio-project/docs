@@ -91,11 +91,12 @@ regional                    git    Package   true         True    http://172.18.
 ```
 </details>
 
-Since those are Ready, you can deploy a package from the [catalog-infra-capi](https://github.com/nephio-project/catalog/infra/capi)
-repository into the mgmt repository. To do this, you retrieve the Package Revision name using `kpt alpha rpkg get`,
-clone that specific Package Revision via the `kpt alpha rpkg clone` command, then propose and approve the resulting
-package revision. You want to use the latest revision of the nephio-workload-cluster package, which you can get with the
-command below (your latest revision may be different):
+Since those are Ready, you can deploy a package from the
+[catalog-infra-capi](https://github.com/nephio-project/catalog/tree/main/infra/capi) repository into the mgmt
+repository. To do this, you retrieve the Package Revision name using `kpt alpha rpkg get`, clone that specific Package
+Revision via the `kpt alpha rpkg clone` command, then propose and approve the resulting package revision. You want to
+use the latest revision of the nephio-workload-cluster package, which you can get with the command below (your latest
+revision may be different):
 
 ```bash
 kpt alpha rpkg get --name nephio-workload-cluster
