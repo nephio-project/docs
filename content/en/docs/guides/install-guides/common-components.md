@@ -61,7 +61,7 @@ To install it on the management cluster, we again follow the same process.
 Later, we will configure it to point to the `mgmt` repository:
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/catalog/nephio/core/configsync@main
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/core/configsync@main
 kpt fn render configsync
 kpt live init configsync
 kpt live apply configsync --reconcile-timeout=15m --output=table
