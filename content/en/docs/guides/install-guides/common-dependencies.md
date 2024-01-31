@@ -29,7 +29,7 @@ kpt live apply network-config --reconcile-timeout=15m --output=table
 The resource backend provides IP and VLAN allocation.
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/catalog/nephio/optional/resource-backend@main
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/optional/resource-backend@main
 kpt fn render resource-backend
 kpt live init resource-backend
 kpt live apply resource-backend --reconcile-timeout=15m --output=table
