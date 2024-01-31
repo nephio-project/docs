@@ -74,7 +74,7 @@ be installed via a package for convenience. This will install Repository
 resources pointing directly to the GitHub repositories, with read-only access.
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/catalog/nephio/optional/stock-repos@main
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/optional/stock-repos@main
 kpt fn render stock-repos
 kpt live init stock-repos
 kpt live apply stock-repos --reconcile-timeout=15m --output=table
