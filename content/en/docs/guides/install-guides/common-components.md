@@ -11,6 +11,9 @@ weight: 2
 This page is draft and the separation of the content to different categories is not clearly done. 
 {{% /pageinfo %}}
 
+> **_NOTE:_** If you want to use a version other than that at the tip of Nephio `catalog` repo, then replace the `@main` suffix on the package URLs on the `kpt pkg get` commands below with the tag of the version you wish to use.
+
+
 ### Porch
 
 This "Package Orchestration" component provides the Kubernetes APIs for
@@ -23,27 +26,27 @@ Fetch the package using `kpt`, and run any `kpt` functions, and then apply the
 package:
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/nephio-example-packages.git/porch-dev@v1.0.1
-kpt fn render porch-dev
-kpt live init porch-dev
-kpt live apply porch-dev --reconcile-timeout=15m --output=table
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog/nephio/core/proch@main
+kpt fn render porch
+kpt live init porch
+kpt live apply porch --reconcile-timeout=15m --output=table
 ```
 
-### Nephio Controllers
+### Nephio Operators
 
-The Nephio Controllers provide implementations of the Nephio-specific APIs. This
+The Nephio Operators provide implementations of the Nephio-specific APIs. This
 includes the code that implements the various package specialization features -
 such as integration with IPAM and VLAN allocation, and NAD generation - as well
-as controllers that can provision repositories and bootstrap new clusters into
+as operators that can provision repositories and bootstrap new clusters into
 Nephio.
 
-To install the Nephio Controllers, repeat the `kpt` steps, but for that package:
+To install the Nephio Operators, repeat the `kpt` steps, but for that package:
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/nephio-example-packages.git/nephio-controllers@v1.0.1
-kpt fn render nephio-controllers
-kpt live init nephio-controllers
-kpt live apply nephio-controllers --reconcile-timeout=15m --output=table
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/core/nephio-operator@main
+kpt fn render nephio-operator
+kpt live init nephio-operator
+kpt live apply nephio-operator --reconcile-timeout=15m --output=table
 ```
 
 ### Management Cluster GitOps Tool
@@ -58,7 +61,7 @@ To install it on the management cluster, we again follow the same process.
 Later, we will configure it to point to the `mgmt` repository:
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/nephio-example-packages.git/configsync@v1.0.1
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/core/configsync@main
 kpt fn render configsync
 kpt live init configsync
 kpt live apply configsync --reconcile-timeout=15m --output=table
@@ -71,8 +74,8 @@ be installed via a package for convenience. This will install Repository
 resources pointing directly to the GitHub repositories, with read-only access.
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/nephio-example-packages.git/nephio-stock-repos@v1.0.1
-kpt fn render nephio-stock-repos
-kpt live init nephio-stock-repos
-kpt live apply nephio-stock-repos --reconcile-timeout=15m --output=table
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/optional/stock-repos@main
+kpt fn render stock-repos
+kpt live init stock-repos
+kpt live apply stock-repos --reconcile-timeout=15m --output=table
 ```
