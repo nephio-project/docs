@@ -334,6 +334,6 @@ workaround scripts. Also, please see the Release Notes
 
 ## Next Steps
 
-* Learn more about the Nephio controllers
+* Learn more about the Nephio [controllers]({{< relref "controllers.md" >}})
 * Learn more about how packages are [transformed]({{< relref "../install-guides/package-transformations.md" >}})
 * Learn more about [deploying helm charts]({{< relref "../user-guides/helm/#helm-integration-in-nephio" >}}) in Nephio
