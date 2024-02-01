@@ -20,7 +20,7 @@ weight: 2
 
 ## Introduction
 
-Be sure you have followed the [installation guide](content/en/docs/install-guides/_index.md)
+Be sure you have followed the [installation guide](content/en/docs/guides/install-guides/_index.md)
 before trying these exercises.
 
 These exercises will take you from a system with only the Nephio Management cluster setup to a deployment with:
@@ -995,7 +995,7 @@ commits to see how Porch interacts with packages stored in Git repositories.
 ![Commits in Gitea made by porch](/images/user-guides/gitea-porch.png)
 
 After the package is approved, the results can be observed in Nephio Web UI. Head over to http://localhost:7007/config-as-data
-([port forwarding](content/en/docs/install-guides/_index.md#access-to-the-user-interfaces) must be running).
+([port forwarding](content/en/docs/guides/install-guides/_index.md#access-to-the-user-interfaces) must be running).
 
 ![Deployments in Nephio UI](/images/user-guides/UPF-Capacity.png)
 
