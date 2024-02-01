@@ -995,7 +995,7 @@ commits to see how Porch interacts with packages stored in Git repositories.
 ![Commits in Gitea made by porch](/images/user-guides/gitea-porch.png)
 
 After the package is approved, the results can be observed in Nephio Web UI. Head over to http://localhost:7007/config-as-data
-([port forwarding](docs/guides/install-guides/#access-to-the-user-interfaces) must be running).
+([port forwarding](../install-guides/#access-to-the-user-interfaces) must be running).
 
 ![Deployments in Nephio UI](/images/user-guides/UPF-Capacity.png)
 
