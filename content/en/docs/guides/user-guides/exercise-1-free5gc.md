@@ -20,7 +20,7 @@ weight: 2
 
 ## Introduction
 
-Be sure you have followed the [installation guide](docs/guides/install-guides ")
+Be sure you have followed the [installation guide](../install-guides)
 before trying these exercises.
 
 These exercises will take you from a system with only the Nephio Management cluster setup to a deployment with:
