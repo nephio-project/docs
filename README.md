@@ -29,7 +29,7 @@ To build and see the documentation locally run `hugo serve`. To double-check if 
 
 # Nephio
 
-Welcome Nephio. Please use the documentation links below to
+Welcome to Nephio! Please use the documentation links below to
 learn more about Nephio, or checkout our [Learning Nephio](https://wiki.nephio.org/display/HOME/Learning+with+Nephio+R1) series. The video series includes a [demo video](https://youtu.be/mFl71sy2Pdc) and short articles about different aspects of Nephio.
 
 ## User Documentation
