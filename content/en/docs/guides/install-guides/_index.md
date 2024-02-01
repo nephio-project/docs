@@ -173,7 +173,7 @@ ssh <user>@<vm-address>
 
 ## Next Steps
 
-* Step through the [Free5GC]({{< relref "exercise-1-free5gc.md" >}}) and [OAI]({{< relref "exercise-2-oai.md" >}}) exercises
-* Learn more about the [Nephio demo sandbox]({{< relref "explore-sandbox.md" >}})
-* Dig into the [user guide]({{< ref "user-guides#nephio-r1-user-guide" >}})
-* Create a [Bring-Your-Own-Cluster]({{< relref "install-on-byoc.md" >}}) Nephio Installation
+* Step through the [Free5GC](exercise-1-free5gc.md) and [OAI](exercise-2-oai.md) exercises
+* Learn more about the [Nephio demo sandbox](explore-sandbox.md)
+* Dig into the [user guide](user-guides#nephio-r1-user-guide)
+* Create a [Bring-Your-Own-Cluster](install-on-byoc.md) Nephio Installation

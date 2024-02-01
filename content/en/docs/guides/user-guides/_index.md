@@ -330,10 +330,10 @@ The diagram below depicts deployment at the high level.
 
 On the demo VM, the `test-infra/e2e/provision/hacks` directory contains some
 workaround scripts. Also, please see the Release Notes
-[known issues]({{< relref "../../release-notes/r1#known-issues-and-workarounds">}}).
+[known issues](../../release-notes/r1#known-issues-and-workarounds").
 
 ## Next Steps
 
-* Learn more about the Nephio [controllers]({{< relref "controllers.md" >}})
-* Learn more about how packages are [transformed]({{< relref "../install-guides/package-transformations.md" >}})
-* Learn more about [deploying helm charts]({{< relref "../user-guides/helm/#helm-integration-in-nephio" >}}) in Nephio
+* Learn more about the Nephio [controllers](controllers.md)
+* Learn more about how packages are [transformed](../install-guides/package-transformations.md)
+* Learn more about [deploying helm charts](../user-guides/helm/#helm-integration-in-nephio) in Nephio
