@@ -330,7 +330,7 @@ The diagram below depicts deployment at the high level.
 
 On the demo VM, the `test-infra/e2e/provision/hacks` directory contains some
 workaround scripts. Also, please see the Release Notes
-[known issues](../../release-notes/R2.md#known-issues-and-workarounds").
+[known issues](../../release-notes/R2.md#known-issues-and-workarounds).
 
 ## Next Steps
 
