@@ -174,7 +174,7 @@ ssh <user>@<vm-address>
 ## Next Steps
 
 * Step through the exercises
-  * [Free5GC Testbed Deployment and E2E testing with UERANSIM](content/en/docs/guides/user-guides/exercise-1-free5gc.md)
-  * [OAI Core and RAN Testbed Deployment and E2E testing](content/en/docs/guides/user-guides/exercise-2-oai.md)
-* Learn more about the [Nephio demo sandbox](content/en/docs/guides/install-guides/explore-sandbox.md)
-* Dig into the [user guide](content/en/docs/guides/user-guides/_index.md)
+  * [Free5GC Testbed Deployment and E2E testing with UERANSIM](/content/en/docs/guides/user-guides/exercise-1-free5gc.md)
+  * [OAI Core and RAN Testbed Deployment and E2E testing](/content/en/docs/guides/user-guides/exercise-2-oai.md)
+* Learn more about the [Nephio demo sandbox](/content/en/docs/guides/install-guides/explore-sandbox.md)
+* Dig into the [user guide](/content/en/docs/guides/user-guides/_index.md)

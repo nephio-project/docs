@@ -70,8 +70,8 @@ Application:
 oc apply -f https://raw.githubusercontent.com/openshift-telco/blueprints-nephio-openshift/v1.0.1/nephio-mgnt/app-of-apps.yaml
 ```
 
-This will take care of applying the [common dependencies](content/en/docs/guides/install-guides/common-dependencies.md)
-and the [common components](content/en/docs/guides/install-guides/common-components.md)
+This will take care of applying the [common dependencies](/content/en/docs/guides/install-guides/common-dependencies.md)
+and the [common components](/content/en/docs/guides/install-guides/common-components.md)
 
 ### Access the Nephio
 

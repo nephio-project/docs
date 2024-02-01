@@ -1022,9 +1022,9 @@ git commit -m "Initial checking of nephio-mgmt"
 **Prior to deploying the package, we need to manually setup the secret for the
 WebUI.**
 
-See [Google OAuth 2.0 or OIDC](content/en/docs/guides/install-guides/webui-auth-gcp.md) for details on how to
-set up OAuth. In particular you need to [create the client ID](content/en/docs/guides/install-guides/webui-auth-gcp.md#creating-an-oauth-20-client-id)
-and the [secret](content/en/docs/guides/install-guides/webui-auth-gcp.md#create-the-secret-in-the-cluster)
+See [Google OAuth 2.0 or OIDC](/content/en/docs/guides/install-guides/webui-auth-gcp.md) for details on how to
+set up OAuth. In particular you need to [create the client ID](/content/en/docs/guides/install-guides/webui-auth-gcp.md#creating-an-oauth-20-client-id)
+and the [secret](/content/en/docs/guides/install-guides/webui-auth-gcp.md#create-the-secret-in-the-cluster)
 manually.
 
 The `nephio-webui` subpackage in `nephio-mgmt` is already set up for
@@ -1384,6 +1384,6 @@ Note that the exercises using free5gc rely on Multus and on the gtp5g kernel mod
 GKE nodes. Therefore, the free5gc workloads cannot be run on this installation. You will need to alter the exercises to\
 use workloads that do not rely on that functionality in order to experiment with Nephio features.
 
-* Step through the [Free5GC](content/en/docs/guides/user-guides/exercise-1-free5gc.md) and
-[OAI](content/en/docs/guides/user-guides/exercise-2-oai.md) exercises
-* Dig into the [user guide](content/en/docs/guides/user-guides/_index.md)
+* Step through the [Free5GC](/content/en/docs/guides/user-guides/exercise-1-free5gc.md) and
+[OAI](/content/en/docs/guides/user-guides/exercise-2-oai.md) exercises
+* Dig into the [user guide](/content/en/docs/guides/user-guides/_index.md)
