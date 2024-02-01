@@ -16,6 +16,6 @@ for deploying on Kubernetes, legacy helm support will be required for a number o
 
 ### Deployment options
 
-* [Using Flux CD](flux-helm.md)
+* [Using Flux CD](content/en/docs/guides/user-guides/helm/flux-helm.md)
 * [Operator SDK](https://sdk.operatorframework.io/docs/building-operators/helm/)
 
