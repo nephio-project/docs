@@ -175,5 +175,5 @@ ssh <user>@<vm-address>
 
 * Step through the [Free5GC](content/en/docs/guides/user-guides/exercise-1-free5gc.md) and [OAI](content/en/docs/guides/user-guides/exercise-2-oai.md) exercises
 * Learn more about the [Nephio demo sandbox](content/en/docs/guides/install-guides/explore-sandbox.md)
-* Dig into the [user guide](content/en/docs/guides/user-guides#nephio-r1-user-guide)
+* Dig into the [user guide](content/en/docs/guides/user-guides/_index.md)
 * Create a [Bring-Your-Own-Cluster](content/en/docs/guides/install-guides/install-on-byoc.md) Nephio Installation
