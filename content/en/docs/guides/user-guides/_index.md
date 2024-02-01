@@ -336,4 +336,4 @@ workaround scripts. Also, please see the Release Notes
 
 * Learn more about the Nephio [controllers](controllers.md)
 * Learn more about how packages are [transformed](../install-guides/package-transformations.md)
-* Learn more about [deploying helm charts](helm/#helm-integration-in-nephio) in Nephio
+* Learn more about [deploying helm charts](helm/_index.md_) in Nephio
