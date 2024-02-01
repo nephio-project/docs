@@ -423,8 +423,6 @@ also the credentials and information is provided to configure the network device
 
 ```bash
 ./test-infra/e2e/provision/hacks/network-topo.sh
-
-kubectl apply -f test-infra/e2e/tests/003-network-topo.yaml
 ```
 
 <details>
