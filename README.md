@@ -27,16 +27,13 @@ To build and see the documentation locally run `hugo serve`. To double-check if 
 --gc --minify`.
 
 
-# Nephio R1
+# Nephio
 
-Welcome to the R1 release of Nephio. Please use the documentation links below to
-learn more about Nephio R1, or checkout our [Learning Nephio with
-R1](https://wiki.nephio.org/display/HOME/Learning+with+Nephio+R1) series, which
-includes a [demo video](https://youtu.be/mFl71sy2Pdc) and short articles about
-different aspects of R1.
+Welcome Nephio. Please use the documentation links below to
+learn more about Nephio, or checkout our [Learning Nephio](https://wiki.nephio.org/display/HOME/Learning+with+Nephio+R1) series. The video series includes a [demo video](https://youtu.be/mFl71sy2Pdc) and short articles about different aspects of Nephio.
 
 ## User Documentation
-* [Release Notes](/content/en/docs/release-notes)
+* [Release Notes for each Nephio release](/content/en/docs/release-notes)
 * [Demo Sandbox Environment Installation](/content/en/docs/guides/install-guides/_index.md)
 * [Quick Start Exercises](/content/en/docs/guides/user-guides/_index.md)
 * [User Guide](/content/en/docs/guides/user-guides/_index.md)
@@ -47,7 +44,7 @@ different aspects of R1.
 * [Developer Guide](/content/en/docs/guides/contributor-guides/_index.md)
 * [Project Resources](https://github.com/nephio-project/docs/blob/main/resources.md)
 
-## About Nephio R1
+## About Nephio
 
 Our mission is "to deliver carrier-grade, simple, open, Kubernetes-based cloud
 native intent automation and common automation templates that materially
@@ -122,7 +119,7 @@ This challenge is currently left to ad hoc processes that differ across
 organizations. Nephio is working on how to structure the intent to make it
 manageable using data management techniques.
 
-This release of Nephio focuses:
+The releases of Nephio to date focus on:
 - Demonstrating the core Nephio principles such as Configuration-as-Data and
   leveraging the intent-driven, active-reconciliation nature of Kubernetes.
 - Infrastructure orchestration/automation using controllers based on
@@ -131,7 +128,7 @@ This release of Nephio focuses:
   management. This release focuses on network functions from
   [free5gc](https://free5gc.org/).
 
-While the current release uses Cluster API, KIND, and free5gc for demonstration
+While the release to date use Cluster API, KIND, free5gc and OAI for demonstration
 purposes, the exact same principles and even code can be used for managing other
 infrastructure and network functions. The *uniformity in systems* principle
 means that as long as something is manageable via the Kubernetes Resource Model,
