@@ -54,8 +54,8 @@ service).
 Configuring authentication for the WebUI is very specific to the particular cluster environment. Guides for different
 environments are below:
 
-- [Google OAuth or OIDC](/webui-auth-gcp.md)
-- [OIDC with Okta](/webui-auth-okta.md)
+- [Google OAuth or OIDC](webui-auth-gcp.md)
+- [OIDC with Okta](webui-auth-okta.md)
 
 Once that configuration is updated, you can proceed with the installation (note, this uses `inventory-policy=adopt`,
 since in the previous steps we may have created the namespace already).
