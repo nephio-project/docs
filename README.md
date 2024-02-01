@@ -30,7 +30,7 @@ To build and see the documentation locally run `hugo serve`. To double-check if 
 # Nephio
 
 Welcome to Nephio! Please use the documentation links below to
-learn more about Nephio, or checkout our [Learning Nephio](https://wiki.nephio.org/display/HOME/Learning+with+Nephio+R1) series. The video series includes a [demo video](https://youtu.be/mFl71sy2Pdc) and short articles about different aspects of Nephio.
+learn more about Nephio, or check out our [Learning Nephio](https://wiki.nephio.org/display/HOME/Learning+with+Nephio+R1) series. The video series includes a [demo video](https://youtu.be/mFl71sy2Pdc) and short articles about different aspects of Nephio.
 
 ## User Documentation
 * [Release Notes for each Nephio release](/content/en/docs/release-notes)
@@ -128,7 +128,7 @@ The releases of Nephio to date focus on:
   management. This release focuses on network functions from
   [free5gc](https://free5gc.org/).
 
-While the release to date use Cluster API, KIND, free5gc and OAI for demonstration
+While the releases to date use Cluster API, KIND, free5gc and OAI for demonstration
 purposes, the exact same principles and even code can be used for managing other
 infrastructure and network functions. The *uniformity in systems* principle
 means that as long as something is manageable via the Kubernetes Resource Model,
