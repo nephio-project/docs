@@ -41,7 +41,7 @@ These exercises will take you from a system with only the Nephio Management clus
 
 The network configuration is illustrated in the following figure:
 
-![nephio-r1-5g-network.png](/images/user-guides/nephio-r1-5g-network.png)
+![nephio-r1-5g-network.png](/static/images/user-guides/nephio-r1-5g-network.png)
 
 Note that for simplicity, only one edge cluster is represented.
 
@@ -442,20 +442,20 @@ SMF, AMF, and UPF. For this, you will use the Regional cluster. Since these are 
 can use the UI to pick the `free5gc-cp` package from the `free5gc-packages` repository and clone it to the `regional`
 repository (you could have also used the CLI).
 
-![Install free5gc - Step 1](/images/user-guides/free5gc-cp-1.png)
+![Install free5gc - Step 1](/static/images/user-guides/free5gc-cp-1.png)
 
-![Install free5gc - Step 2](/images/user-guides/free5gc-cp-2.png)
+![Install free5gc - Step 2](/static/images/user-guides/free5gc-cp-2.png)
 
-![Install free5gc - Step 3](/images/user-guides/free5gc-cp-3.png)
+![Install free5gc - Step 3](/static/images/user-guides/free5gc-cp-3.png)
 
 Click through the "Next" button until you are through all the steps, then click "Add Deployment". On the next screen,
 click "Propose", and then "Approve".
 
-![Install free5gc - Step 4](/images/user-guides/free5gc-cp-4.png)
+![Install free5gc - Step 4](/static/images/user-guides/free5gc-cp-4.png)
 
-![Install free5gc - Step 5](/images/user-guides/free5gc-cp-5.png)
+![Install free5gc - Step 5](/static/images/user-guides/free5gc-cp-5.png)
 
-![Install free5gc - Step 6](/images/user-guides/free5gc-cp-6.png)
+![Install free5gc - Step 6](/static/images/user-guides/free5gc-cp-6.png)
 
 Shortly thereafter, you should see free5gc-cp in the cluster namespace:
 
@@ -992,18 +992,18 @@ edge01-40c616e5d87053350473d3ffa1387a9a534f8f42                    free5gc-upf  
 Additionally you can check the Gitea edge01 repository (accessible at http://localhost:3000/nephio/edge01) for new
 commits to see how Porch interacts with packages stored in Git repositories.
 
-![Commits in Gitea made by porch](/images/user-guides/gitea-porch.png)
+![Commits in Gitea made by porch](/static/images/user-guides/gitea-porch.png)
 
 After the package is approved, the results can be observed in Nephio Web UI. Head over to http://localhost:7007/config-as-data
 ([port forwarding](/content/en/docs/guides/install-guides/_index.md#access-to-the-user-interfaces) must be running).
 
-![Deployments in Nephio UI](/images/user-guides/UPF-Capacity.png)
+![Deployments in Nephio UI](/static/images/user-guides/UPF-Capacity.png)
 
-![UPF Deployment](/images/user-guides/UPF-Capacity-2.png)
+![UPF Deployment](/static/images/user-guides/UPF-Capacity-2.png)
 
-![Inspecting Capacity.yaml file](/images/user-guides/UPF-Capacity-3.png)
+![Inspecting Capacity.yaml file](/static/images/user-guides/UPF-Capacity-3.png)
 
-![Throughput values](/images/user-guides/UPF-Capacity-4.png)
+![Throughput values](/static/images/user-guides/UPF-Capacity-4.png)
 
 Inside the package, you can see that the throughput values for UPF have been modified, reflecting the changes you made
 with the CLI.
@@ -1011,27 +1011,27 @@ with the CLI.
 You can also scale NFs vertically using the Nephio Web UI. For practice you can scale the UPF on the second edge
 cluster. Once again, navigate to the Web UI and choose the `edge02` repository in the Deployments section.
 
-![Edge02 Deployments](/images/user-guides/UPF-Capacity-5.png)
+![Edge02 Deployments](/static/images/user-guides/UPF-Capacity-5.png)
 
 Select the `free5gc-upf` deployment, and then `View draft revision`.
 
-![UPF Deployment in edge02](/images/user-guides/UPF-Capacity-6.png)
+![UPF Deployment in edge02](/static/images/user-guides/UPF-Capacity-6.png)
 
-![First revision](/images/user-guides/UPF-Capacity-7.png)
+![First revision](/static/images/user-guides/UPF-Capacity-7.png)
 
 Edit the draft revision, and modify the `Capacity.yaml` file.
 
-![Edit the revision](/images/user-guides/UPF-Capacity-8.png)
+![Edit the revision](/static/images/user-guides/UPF-Capacity-8.png)
 
-![Capacity.yaml file](/images/user-guides/UPF-Capacity-9.png)
+![Capacity.yaml file](/static/images/user-guides/UPF-Capacity-9.png)
 
-![Throughput inside the file](/images/user-guides/UPF-Capacity-10.png)
+![Throughput inside the file](/static/images/user-guides/UPF-Capacity-10.png)
 
-![Propose the draft package](/images/user-guides/UPF-Capacity-11.png)
+![Propose the draft package](/static/images/user-guides/UPF-Capacity-11.png)
 
 After saving the changes to the file, propose the draft package and approve it.
 
-![New revision](/images/user-guides/UPF-Capacity-12.png)
+![New revision](/static/images/user-guides/UPF-Capacity-12.png)
 
 After a few minutes, the revision for the UPF deployment will change, and the changes will be reflected in the `edge-02`
 cluster.

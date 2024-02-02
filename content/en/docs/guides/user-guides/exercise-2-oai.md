@@ -39,13 +39,13 @@ These exercises will take you from a system with only the Nephio Management clus
 
 Above described deployment configuration is illustrated in the following figure: 
 
-![nephio-r2-deployment-diagram.png](/images/user-guides/nephio-r2-deployment-diagram.png)
+![nephio-r2-deployment-diagram.png](/static/images/user-guides/nephio-r2-deployment-diagram.png)
 
 The placement of Core and RAN network functions and the naming of the clouds is referred from O-RAN.WG6.CADS-v4.00 TR page 23.
 
 The network configuration is illustrated in the following figure:
 
-![nephio-r2-5g-network.png](/images/user-guides/nephio-r2-5g-network.png)
+![nephio-r2-5g-network.png](/static/images/user-guides/nephio-r2-5g-network.png)
 
 To perform these exercises, you will need:
 
