@@ -5,9 +5,9 @@ description: >
 weight: 6
 ---
 
-Concepts as [Operator]({{< ref "/docs/glossary.md#operator" >}}) and
-[Controller]({{< ref "/docs/glossary.md#controller" >}}) and
-[CR]({{< ref "/docs/glossary.md#custom-resource" >}}) have already been explained here.
+Concepts as [Operator](/content/en/docs/glossary.md#operator) and
+[Controller](/content/en/docs/glossary.md#controller) and
+[CR](/content/en/docs/glossary.md#custom-resource) have already been explained here.
 
 # Deploy the operator to the cluster
 

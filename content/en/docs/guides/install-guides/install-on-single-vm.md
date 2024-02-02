@@ -65,12 +65,12 @@ kpt live apply gitea --reconcile-timeout 15m --output=table
 
 There are a few dependencies that are common across most installations, and do not require any installation-specific
 setup. You should install these next, as described in the
-[common dependencies documentation]({{< relref "common-dependencies.md" >}}).
+[common dependencies documentation](/content/en/docs/guides/install-guides/common-dependencies.md).
 
 ## Common Components
 
 With the necessary dependencies now installed, you can now install the essential Nephio components. This is documented
-in the [common components documentation]({{< relref "common-components.md" >}}).
+in the [common components documentation](/content/en/docs/guides/install-guides/common-components.md).
 
 ## Provisioning Cluster API
 
