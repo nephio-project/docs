@@ -48,7 +48,7 @@ Nephio is establishing open, extensible Kubernetes Custom Resource Definition
 (CRD) models for each layer of the stack, in conformance to the 3GPP & O-RAN
 standards.
 
-![nephio-overview.png](/images/user-guides/nephio-overview.png)
+![nephio-overview.png](/static/images/user-guides/nephio-overview.png)
 
 ## Overview of Underlying Technologies
 
@@ -186,14 +186,14 @@ A package may have a single upstream parent, and many downstream descendants.
 The Kptfiles in these packages are used to maintain the relationships, capturing
 ancestry relationships like those shown below.
 
-![package-ancestry.png](/images/user-guides/package-ancestry.png)
+![package-ancestry.png](/static/images/user-guides/package-ancestry.png)
 
 By tracking these relationships, changes at the original source can be
 propagated via controlled automation down the tree.
 
 ### Package Configuration Journey
 
-![package-lifecycle.png](/images/user-guides/package-lifecycle.png)
+![package-lifecycle.png](/static/images/user-guides/package-lifecycle.png)
 
 ## R1 scope
 
@@ -240,7 +240,7 @@ For the purposes of Nephio deployment, we can categorize clusters into two varie
 
 The diagram below depicts deployment at the high level.
 
-![nephio-deployment.png](/images/user-guides/nephio-deployment.png)
+![nephio-deployment.png](/static/images/user-guides/nephio-deployment.png)
 
 ### Management Cluster Components
 

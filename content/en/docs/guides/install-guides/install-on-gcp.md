@@ -672,7 +672,7 @@ git push
 
 To check the status, use the console:
 
-![Console Packages](/images/install-guides/gcp-console-packages.png)
+![Console Packages](/static/images/install-guides/gcp-console-packages.png)
 
 Alternatively, you can use `kubectl` to view the status of the `root-sync`:
 
@@ -1248,7 +1248,7 @@ ID  START_TIME                STATUS
 You can now access the site via your browser, and will be asked to login as
 shown below:
 
-![Nephio Login Screen](/images/install-guides/install-guide-gcp-nephio-login.png)
+![Nephio Login Screen](/static/images/install-guides/install-guide-gcp-nephio-login.png)
 
 
 ## Some Exercises
