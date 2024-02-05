@@ -5,7 +5,7 @@ menu: {main: {weight: 20}}
 weight: 1
 ---
 
-# About Nephio R1
+# About Nephio
 
 Our mission is "to deliver carrier-grade, simple, open, Kubernetes-based cloud
 native intent automation and common automation templates that materially
@@ -85,11 +85,10 @@ This release of Nephio focuses:
   leveraging the intent-driven, active-reconciliation nature of Kubernetes.
 - Infrastructure orchestration/automation using controllers based on
   the Cluster API. At this time only KIND cluster creation is supported.
-- Orchestration/automation of 5G core network functions deployment and
-  management. This release focuses on network functions from
-  [free5gc](https://free5gc.org/).
+- Orchestration/automation of 5G Core and RAN network functions deployment and
+  management. 
 
-While the current release uses Cluster API, KIND, and free5gc for demonstration
+While the current releases uses Cluster API, KIND, and free5gc/OAI for demonstration
 purposes, the exact same principles and even code can be used for managing other
 infrastructure and network functions. The *uniformity in systems* principle
 means that as long as something is manageable via the Kubernetes Resource Model,
