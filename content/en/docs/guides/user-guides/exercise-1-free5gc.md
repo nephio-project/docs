@@ -82,12 +82,9 @@ catalog-nephio-optional     git    Package   false        True    https://github
 catalog-workloads-free5gc   git    Package   false        True    https://github.com/Nordix/catalog.git
 catalog-workloads-oai-ran   git    Package   false        True    https://github.com/nephio-project/catalog.git
 catalog-workloads-tools     git    Package   false        True    https://github.com/nephio-project/catalog.git
-edge01                      git    Package   true         True    http://172.18.0.200:3000/nephio/edge01.git
-edge02                      git    Package   true         True    http://172.18.0.200:3000/nephio/edge02.git
 mgmt                        git    Package   true         True    http://172.18.0.200:3000/nephio/mgmt.git
 mgmt-staging                git    Package   false        True    http://172.18.0.200:3000/nephio/mgmt-staging.git
 oai-core-packages           git    Package   false        True    https://github.com/OPENAIRINTERFACE/oai-packages.git
-regional                    git    Package   true         True    http://172.18.0.200:3000/nephio/regional.git
 ```
 </details>
 
@@ -391,7 +388,7 @@ specialization pipeline will determine the exact VLAN tags and IP addresses for 
 clusters. There is a predefined PackageVariant in the tests directory for this:
 
 ```bash
-kubectl apply -f test-infra/e2e/tests/003-network.yaml
+kubectl apply -f test-infra/e2e/tests/free5gc/002-network.yaml
 ```
 
 <details>
@@ -405,7 +402,7 @@ packagevariant.config.porch.kpt.dev/network created
 Then you will create appropriate `Secret` to make sure that Nephio can authenticate to the external backend.
 
 ```bash
-kubectl apply -f test-infra/e2e/tests/003-secret.yaml
+kubectl apply -f test-infra/e2e/tests/free5gc/002-secret.yaml
 ```
 
 <details>
@@ -539,7 +536,7 @@ added to the Management cluster when you had deployed the nephio-workload-cluste
 PackageVariantSet).
 
 ```bash
-kubectl apply -f test-infra/e2e/tests/004-free5gc-operator.yaml
+kubectl apply -f test-infra/e2e/tests/free5gc/004-free5gc-operator.yaml
 ```
 
 <details>
@@ -603,9 +600,9 @@ yet-another-package - a "topology" package - and deploy them all as a unit. Or y
 create them. But for now, let's do each manually.
 
 ```bash
-kubectl apply -f test-infra/e2e/tests/005-edge-free5gc-upf.yaml
-kubectl apply -f test-infra/e2e/tests/006-regional-free5gc-amf.yaml
-kubectl apply -f test-infra/e2e/tests/006-regional-free5gc-smf.yaml
+kubectl apply -f test-infra/e2e/tests/free5gc/005-edge-free5gc-upf.yaml
+kubectl apply -f test-infra/e2e/tests/free5gc/006-regional-free5gc-amf.yaml
+kubectl apply -f test-infra/e2e/tests/free5gc/006-regional-free5gc-smf.yaml
 ```
 
 Free5gc requires that the SMF and AMF NFs be explicitly configured with information about each UPF. Therefore, the AMF
