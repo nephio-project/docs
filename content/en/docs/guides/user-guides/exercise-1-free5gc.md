@@ -433,7 +433,7 @@ rawtopology.topo.nephio.org/nephio created
 ```
 </details>
 
-## Step 4: Deploy Free5GC Control Plane Functions
+## Step 4: Deploy free5GC Control Plane Functions
 
 While the Edge clusters are deploying (which will take 5-10 minutes), you can install the free5gc functions other than
 SMF, AMF, and UPF. For this, you will use the Regional cluster. Since these are all installed with a single package, you
@@ -531,9 +531,9 @@ statefulset.apps/mongodb   1/1     3m31s
 ```
 </details>
 
-## Step 5: Deploy Free5GC Operator in the Workload clusters
+## Step 5: Deploy free5GC Operator in the Workload clusters
 
-Now you will need to deploy the free5gc operator across all of the Workload clusters (regional and edge). To do this,
+Now you will need to deploy the free5GC operator across all of the Workload clusters (regional and edge). To do this,
 you use another PackageVariantSet. This one uses an objectSelector to select the WorkloadCluster resources previously
 added to the Management cluster when you had deployed the nephio-workload-cluster packages (manually as well as via
 PackageVariantSet).
@@ -550,7 +550,7 @@ packagevariantset.config.porch.kpt.dev/free5gc-operator created
 ```
 </details>
 
-## Step 6: Check Free5GC Operator Deployment
+## Step 6: Check free5GC Operator Deployment
 
 Within five minutes of applying the free5gc Operator YAML file, you should see `free5gc` namespaces on your regional and
 edge clusters:
@@ -766,7 +766,7 @@ The UERANSIM package can be deployed to the edge01 cluster, where it will simula
 packages, UERANSIM needs to be configured to attach to the correct networks and use the correct IP address. Thus, you
 use our standard specialization techniques and pipeline to deploy UERANSIM, just like the other network functions.
 
-However, before you do that, let us register the UE with free5gc as a subscriber. You will use the free5gc Web UI to do
+However, before you do that, let us register the UE with free5GC as a subscriber. You will use the free5GC Web UI to do
 this. To access it, you need to open another port forwarding session. Assuming you have the `regional-kubeconfig` file
 you created earlier in your home directory, you need to establish another ssh session from your workstation to the VM,
 port forwarding port 5000.
@@ -787,9 +787,9 @@ ssh <user>@<vm-address> \
                 port-forward --namespace=free5gc-cp svc/webui-service 5000
 ```
 
-You should now be able to navigate to [http://localhost:5000/](http://localhost:5000/) and access the free5gc WebUI.
-The test subscriber is the same as the standard free5gc default subscriber. Thus, you can follow the
-[instructions](https://free5gc.org/guide/Webconsole/Create-Subscriber-via-webconsole/) on the free5gc site, but start at
+You should now be able to navigate to [http://localhost:5000/](http://localhost:5000/) and access the free5GC WebUI.
+The test subscriber is the same as the standard free5GC default subscriber. Thus, you can follow the
+[instructions](https://free5gc.org/guide/Webconsole/Create-Subscriber-via-webconsole/) on the free5GC site, but start at
 Step 4.
 
 Once the subscriber is registered, you can deploy UERANSIM:
