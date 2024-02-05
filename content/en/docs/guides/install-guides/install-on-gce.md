@@ -45,6 +45,8 @@ gcloud compute instances create --machine-type e2-standard-16 \
                                     nephio-r2-e2e
 ```
 
+**NOTE**: e2-standard-16 is recommended and e2-standard-8 is minimum. 
+
 ### Follow the Installation on GCE
 
 If you want to watch the progress of the installation, give it about 30
@@ -66,7 +68,7 @@ Azure.
 Order or create a VM with the following specification:
 
 - Linux Flavour: Ubuntu-20.04-focal
-- 16 cores
+- Minimum 8 cores and recommended 16 Cores
 - 32 GB memory
 - 200 GB disk size
 - Default user with sudo passwordless permissions
@@ -114,7 +116,6 @@ The following environment variables can be used to configure the installation:
 | NEPHIO_USER            | userid           | ubuntu        | The user to install the sandbox on (must have sudo passwordless permissions) |
 | NEPHIO_DEBUG           | false or true    | false         | Controls debug output from the install                 |
 | NEPHIO_HOME            | path             | /home/$NEPHIO_USER | The directory to check out the install scripts into |
-| NEPHIO_DEPLOYMENT_TYPE | r1 or one-summit | r1            | Controls the type of installation to be carried out    |
 | RUN_E2E                | false or true    | false         | Specifies whether end-to-end tests should be executed or not |
 | NEPHIO_REPO            | URL              | https://github.com/nephio-project/test-infra.git |URL of the repository to be used for installation |
 | NEPHIO_BRANCH          | branch or tag    | main          | Tag or branch name to use in NEPHIO_REPO |

@@ -304,6 +304,71 @@ vpc-ran        True
 ```
 </details>
 
+After the networks are succesfully configured lets configure metallb ip-address pool for each workload cluster. Some workloads in the workload cluster require metallb to expose their services. 
+
+
+```bash
+./test-infra/e2e/tests/oai/001b-infra-metal-lb.sh
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+21:58:35 - INFO: looking for packagerev default/mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b using /home/ubuntu/.kube/config
+21:58:35 - INFO: Found packagerev default/mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b
+[RUNNING] "gcr.io/kpt-fn/search-replace:v0.2"
+[PASS] "gcr.io/kpt-fn/search-replace:v0.2" in 2.5s
+  Results:
+    [info] spec.addresses[0]: Mutated field value to "172.18.16.0/20"
+[RUNNING] "gcr.io/kpt-fn/set-annotations:v0.1.4"
+[PASS] "gcr.io/kpt-fn/set-annotations:v0.1.4" in 3.1s
+21:58:42 - INFO: looking for Update.*packagerevisionresources/mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b, log entry in porch server(porch-server-68bfdddbbf-pmnmd)
+21:58:42 - INFO: Found Update.*packagerevisionresources/mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b, log entry in porch server
+mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b proposed
+21:58:43 - INFO: looking for Update.*packagerevisions/mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b, log entry in porch server(porch-server-68bfdddbbf-pmnmd)
+21:58:43 - INFO: Found Update.*packagerevisions/mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b, log entry in porch server
+mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b approved
+21:58:46 - INFO: looking for Update.*/mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b.*/approval log entry in porch server(porch-server-68bfdddbbf-pmnmd)
+21:58:46 - INFO: Found Update.*/mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b.*/approval log entry in porch server
+~
+21:58:48 - INFO: looking for packagerev default/mgmt-staging-0c11427319b42b1f9e85f27ad22f82d27c9978a3 using /home/ubuntu/.kube/config
+21:58:48 - INFO: Found packagerev default/mgmt-staging-0c11427319b42b1f9e85f27ad22f82d27c9978a3
+[RUNNING] "gcr.io/kpt-fn/search-replace:v0.2"
+[PASS] "gcr.io/kpt-fn/search-replace:v0.2" in 300ms
+  Results:
+    [info] spec.addresses[0]: Mutated field value to "172.18.32.0/20"
+[RUNNING] "gcr.io/kpt-fn/set-annotations:v0.1.4"
+[PASS] "gcr.io/kpt-fn/set-annotations:v0.1.4" in 1.3s
+21:58:51 - INFO: looking for Update.*packagerevisionresources/mgmt-staging-0c11427319b42b1f9e85f27ad22f82d27c9978a3, log entry in porch server(porch-server-68bfdddbbf-pmnmd)
+21:58:51 - INFO: Found Update.*packagerevisionresources/mgmt-staging-0c11427319b42b1f9e85f27ad22f82d27c9978a3, log entry in porch server
+mgmt-staging-0c11427319b42b1f9e85f27ad22f82d27c9978a3 proposed
+21:58:52 - INFO: looking for Update.*packagerevisions/mgmt-staging-0c11427319b42b1f9e85f27ad22f82d27c9978a3, log entry in porch server(porch-server-68bfdddbbf-pmnmd)
+21:58:52 - INFO: Found Update.*packagerevisions/mgmt-staging-0c11427319b42b1f9e85f27ad22f82d27c9978a3, log entry in porch server
+mgmt-staging-0c11427319b42b1f9e85f27ad22f82d27c9978a3 approved
+21:58:55 - INFO: looking for Update.*/mgmt-staging-0c11427319b42b1f9e85f27ad22f82d27c9978a3.*/approval log entry in porch server(porch-server-68bfdddbbf-pmnmd)
+21:58:55 - INFO: Found Update.*/mgmt-staging-0c11427319b42b1f9e85f27ad22f82d27c9978a3.*/approval log entry in porch server
+~
+21:58:57 - INFO: looking for packagerev default/mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722 using /home/ubuntu/.kube/config
+21:58:57 - INFO: Found packagerev default/mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722
+[RUNNING] "gcr.io/kpt-fn/search-replace:v0.2"
+[PASS] "gcr.io/kpt-fn/search-replace:v0.2" in 200ms
+  Results:
+    [info] spec.addresses[0]: Mutated field value to "172.18.48.0/20"
+[RUNNING] "gcr.io/kpt-fn/set-annotations:v0.1.4"
+[PASS] "gcr.io/kpt-fn/set-annotations:v0.1.4" in 1.3s
+21:59:00 - INFO: looking for Update.*packagerevisionresources/mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722, log entry in porch server(porch-server-68bfdddbbf-pmnmd)
+21:59:00 - INFO: Found Update.*packagerevisionresources/mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722, log entry in porch server
+mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722 proposed
+21:59:01 - INFO: looking for Update.*packagerevisions/mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722, log entry in porch server(porch-server-68bfdddbbf-pmnmd)
+21:59:01 - INFO: Found Update.*packagerevisions/mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722, log entry in porch server
+mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722 approved
+21:59:04 - INFO: looking for Update.*/mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722.*/approval log entry in porch server(porch-server-68bfdddbbf-pmnmd)
+21:59:04 - INFO: Found Update.*/mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722.*/approval log entry in porch server
+~
+```
+</details>
+
 ## Step 3: Deploy Dependencies, MySQL database, OAI Core and RAN Operator in the Workload clusters
 
 Now you will need to deploy the MySQL database required by OAI UDR network function, OAI Core and RAN operators across the Workload clusters. To do this, you use `PackageVariant` and `PackageVariantSet`. Later uses an objectSelector to select the WorkloadCluster resources previously added to the Management cluster when you had deployed the nephio-workload-cluster packages (manually as well as via
@@ -476,7 +541,7 @@ packagevariant.config.porch.kpt.dev/oai-upf-edge created
 ```
 </details>
 
-All the NFs will wait for NRF to come up and then they will register to NRF. SMF has a dependency on UPF which is described by `dependency.yaml` file in SMF package. It will wait till the time UPF is deployed. It takes around ~20 mins for the whole core network to come up.
+All the NFs will wait for NRF to come up and then they will register to NRF. SMF has a dependency on UPF which is described by `dependency.yaml` file in SMF package. It will wait till the time UPF is deployed. It takes around ~20 mins for the whole core network to come up. NRF is exposing its service via metallb external ip-address. In case metallb ip-address pool is not properly defined in the previous section, then UPF will not be able to register to NRF and in this case SMF and UPF will not be able to communicate. 
 
 ### Check Core Network Deployment
 
