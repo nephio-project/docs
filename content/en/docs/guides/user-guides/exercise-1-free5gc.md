@@ -79,7 +79,7 @@ catalog-distros-sandbox     git    Package   false        True    https://github
 catalog-infra-capi          git    Package   false        True    https://github.com/nephio-project/catalog.git
 catalog-nephio-core         git    Package   false        True    https://github.com/nephio-project/catalog.git
 catalog-nephio-optional     git    Package   false        True    https://github.com/nephio-project/catalog.git
-catalog-workloads-free5gc   git    Package   false        True    https://github.com/Nordix/catalog.git
+catalog-workloads-free5gc   git    Package   false        True    https://github.com/nephio-project/catalog.git
 catalog-workloads-oai-ran   git    Package   false        True    https://github.com/nephio-project/catalog.git
 catalog-workloads-tools     git    Package   false        True    https://github.com/nephio-project/catalog.git
 mgmt                        git    Package   true         True    http://172.18.0.200:3000/nephio/mgmt.git
@@ -105,6 +105,7 @@ kpt alpha rpkg get --name nephio-workload-cluster
 ```console
 NAME                                                          PACKAGE                   WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
 catalog-infra-capi-d4d7d55835a5578f5c43fc8244deb6a091a8643f   nephio-workload-cluster   main            main       false    Published   catalog-infra-capi
+catalog-infra-capi-b0ae9512aab3de73bbae623a3b554ade57e15596   nephio-workload-cluster   v2.0.0          v2.0.0     true     Published   catalog-infra-capi
 ```
 </details>
 
@@ -112,14 +113,14 @@ Then, use the NAME from that in the `clone` operation, and the resulting Package
 and `approve` operations:
 
 ```bash
-kpt alpha rpkg clone -n default catalog-infra-capi-d4d7d55835a5578f5c43fc8244deb6a091a8643f --repository mgmt regional
+kpt alpha rpkg clone -n default catalog-infra-capi-b0ae9512aab3de73bbae623a3b554ade57e15596 --repository mgmt regional
 ```
 
 <details>
 <summary>The output is similar to:</summary>
 
 ```console
-catalog-infra-capi-d4d7d55835a5578f5c43fc8244deb6a091a8643f created
+mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 created
 ```
 </details>
 
@@ -130,7 +131,7 @@ and the `set-labels` function to do this.
 To pull the package to a local directory, use the `rpkg pull` command:
 
 ```bash
-kpt alpha rpkg pull -n default catalog-infra-capi-d4d7d55835a5578f5c43fc8244deb6a091a8643f regional
+kpt alpha rpkg pull -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 regional
 ```
 
 The package is now in the `regional` directory. So you can execute the `set-labels` function against the package
@@ -145,9 +146,9 @@ kpt fn eval --image gcr.io/kpt-fn/set-labels:v0.2.0 regional -- "nephio.org/site
 
 ```console
 [RUNNING] "gcr.io/kpt-fn/set-labels:v0.2.0"
-[PASS] "gcr.io/kpt-fn/set-labels:v0.2.0" in 3.7s
+[PASS] "gcr.io/kpt-fn/set-labels:v0.2.0" in 2.6s
   Results:
-    [info]: set 18 labels in total
+    [info]: set 22 labels in total
 ```
 </details>
 
@@ -159,7 +160,7 @@ In any case, you now can push the package with the labels applied back to the
 repository:
 
 ```bash
-kpt alpha rpkg push -n default catalog-infra-capi-d4d7d55835a5578f5c43fc8244deb6a091a8643f regional
+kpt alpha rpkg push -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 regional
 ```
 
 <details>
@@ -174,26 +175,26 @@ kpt alpha rpkg push -n default catalog-infra-capi-d4d7d55835a5578f5c43fc8244deb6
 Finally, you propose and approve the package.
 
 ```bash
-kpt alpha rpkg propose -n default catalog-infra-capi-d4d7d55835a5578f5c43fc8244deb6a091a8643f
+kpt alpha rpkg propose -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868
 ```
 
 <details>
 <summary>The output is similar to:</summary>
 
 ```console
-catalog-infra-capi-d4d7d55835a5578f5c43fc8244deb6a091a8643f proposed
+mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 proposed
 ```
 </details>
 
 ```bash
-kpt alpha rpkg approve -n default catalog-infra-capi-d4d7d55835a5578f5c43fc8244deb6a091a8643f
+kpt alpha rpkg approve -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868
 ```
 
 <details>
 <summary>The output is similar to:</summary>
 
 ```console
-catalog-infra-capi-d4d7d55835a5578f5c43fc8244deb6a091a8643f approved
+mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 approved
 ```
 </details>
 
@@ -262,8 +263,8 @@ kubectl get machinesets
 <summary>The output is similar to:</summary>
 
 ```console
-NAME                        CLUSTER    REPLICAS   READY   AVAILABLE   AGE    VERSION
-regional-md-0-lvmvm-8msw6   regional   1          1       1           143m   v1.26.3
+NAME                        CLUSTER    REPLICAS   READY   AVAILABLE   AGE     VERSION
+regional-md-0-m6cr5-wtzlx   regional   1          1       1           5m36s   v1.26.3
 ```
 </details>
 
@@ -272,7 +273,7 @@ regional-md-0-lvmvm-8msw6   regional   1          1       1           143m   v1.
 Next, you can deploy two Edge clusters by applying the PackageVariantSet that can be found in the `tests` directory:
 
 ```bash
-kubectl apply -f test-infra/e2e/tests/002-edge-clusters.yaml
+kubectl apply -f test-infra/e2e/tests/free5gc/002-edge-clusters.yaml
 ```
 
 <details>
@@ -369,15 +370,6 @@ worker nodes.
 ```bash
 ./test-infra/e2e/provision/hacks/vlan-interfaces.sh
 ```
-
-<details>
-<summary>The output is similar to:</summary>
-
-```console
-
-```
-</details>
-
 
 Finally, you want to configure the resource backend to be aware of these clusters. The resource backend is an IP address
 and VLAN index management system. It is included for demonstration purposes to show how Nephio package specialization
@@ -792,7 +784,7 @@ Step 4.
 Once the subscriber is registered, you can deploy UERANSIM:
 
 ```bash
-kubectl apply -f test-infra/e2e/tests/007-edge01-ueransim.yaml
+kubectl apply -f test-infra/e2e/tests/free5gc/007-edge01-ueransim.yaml
 ```
 
 You can check to see if the simulated UE is up and running by checking the UERANSIM deployment. First, you can use the
@@ -801,7 +793,7 @@ UERANSIM pods.
 
 ```bash
 get_capi_kubeconfig edge01
-kubectl --kubeconfig edge01-kubeconfig -n ueransim get po
+kubectl --kubeconfig edge01-kubeconfig -n ueransim get pod
 ```
 
 <details>
@@ -861,7 +853,7 @@ kubectl get packagevariant edge-free5gc-upf-edge01-free5gc-upf -o jsonpath='{.st
 <summary>The output is similar to:</summary>
 
 ```console
-edge01-e827e1b4d5ea1d76d1514de20d1ee27bf884c72e
+edge01-6b26ca0f4fdf83212a73faff159bd013b41207ee
 ```
 </details>
 
@@ -871,7 +863,7 @@ This way you retrieve the downstream target name of the package. You can also re
 Next create a new package revision from the existing UPF package.
 
 ```bash
-kpt alpha rpkg copy -n default edge01-e827e1b4d5ea1d76d1514de20d1ee27bf884c72e --workspace upf-scale-package 
+kpt alpha rpkg copy -n default edge01-6b26ca0f4fdf83212a73faff159bd013b41207ee --workspace upf-scale-package 
 ```
 <details>
 <summary>The output is similar to:</summary>
@@ -928,6 +920,10 @@ kpt fn eval --image gcr.io/kpt-fn/search-replace:v0.2.0 /tmp/upf-scale-package -
 [PASS] "gcr.io/kpt-fn/search-replace:v0.2.0" in 6.3s
   Results:
     [info] spec.maxUplinkThroughput: Mutated field value to "10"
+[RUNNING] "gcr.io/kpt-fn/search-replace:v0.2.0"
+[PASS] "gcr.io/kpt-fn/search-replace:v0.2.0" in 400ms
+  Results:
+    [info] spec.maxDownlinkThroughput: Mutated field value to "10"
 ```
 </details>
 
@@ -941,13 +937,15 @@ kpt pkg diff /tmp/upf-scale-package | grep linkThroughput
 <summary>The output is similar to:</summary>
 
 ```console
-From https://github.com/nephio-project/free5gc-packages
- * tag               pkg-example-upf-bp/v3 -> FETCH_HEAD
-Adding package "pkg-example-upf-bp".
-<   maxUplinkThroughput: 10G
+From https://github.com/nephio-project/catalog
+ * tag               workloads/free5gc/pkg-example-upf-bp/v2.0.0 -> FETCH_HEAD
+Adding package "workloads/free5gc/pkg-example-upf-bp".
+<   maxUplinkThroughput: 10
 <   maxDownlinkThroughput: 10
 >   maxUplinkThroughput: 5G
 >   maxDownlinkThroughput: 5G
+<     maxDownlinkThroughput: 5G
+<     maxUplinkThroughput: 5G
 ```
 </details>
 
@@ -963,6 +961,28 @@ kpt alpha rpkg approve -n default edge01-40c616e5d87053350473d3ffa1387a9a534f8f4
 <summary>The output is similar to:</summary>
 
 ```console
+[RUNNING] "gcr.io/kpt-fn/apply-replacements:v0.1.1" 
+[PASS] "gcr.io/kpt-fn/apply-replacements:v0.1.1"
+[RUNNING] "gcr.io/kpt-fn/apply-replacements:v0.1.1" 
+[PASS] "gcr.io/kpt-fn/apply-replacements:v0.1.1"
+[RUNNING] "gcr.io/kpt-fn/set-namespace:v0.4.1" 
+[PASS] "gcr.io/kpt-fn/set-namespace:v0.4.1"
+  Results:
+    [info]: all namespaces are already "free5gc-upf". no value changed
+[RUNNING] "docker.io/nephio/nfdeploy-fn:v2.0.0" 
+[PASS] "docker.io/nephio/nfdeploy-fn:v2.0.0"
+[RUNNING] "docker.io/nephio/interface-fn:v2.0.0" 
+[PASS] "docker.io/nephio/interface-fn:v2.0.0"
+[RUNNING] "docker.io/nephio/dnn-fn:v2.0.0" 
+[PASS] "docker.io/nephio/dnn-fn:v2.0.0"
+[RUNNING] "docker.io/nephio/nad-fn:v2.0.0" 
+[PASS] "docker.io/nephio/nad-fn:v2.0.0"
+[RUNNING] "docker.io/nephio/dnn-fn:v2.0.0" 
+[PASS] "docker.io/nephio/dnn-fn:v2.0.0"
+[RUNNING] "docker.io/nephio/interface-fn:v2.0.0" 
+[PASS] "docker.io/nephio/interface-fn:v2.0.0"
+[RUNNING] "docker.io/nephio/nfdeploy-fn:v2.0.0" 
+[PASS] "docker.io/nephio/nfdeploy-fn:v2.0.0
 edge01-40c616e5d87053350473d3ffa1387a9a534f8f42 proposed
 edge01-40c616e5d87053350473d3ffa1387a9a534f8f42 approved
 ```
@@ -970,7 +990,7 @@ edge01-40c616e5d87053350473d3ffa1387a9a534f8f42 approved
 
 You can check the current lifecycle stage of a package using the `kpt alpha rpkg get` command.
 ```bash
-kpt alpha rpkg get
+kpt alpha rpkg get | grep free5gc-upf
 ```
 
 <details>
@@ -978,9 +998,11 @@ kpt alpha rpkg get
 
 ```console
 NAME                                                               PACKAGE                              WORKSPACENAME          REVISION   LATEST   LIFECYCLE   REPOSITORY
-edge01-e72d245b864db0fd234d9b4ead2f96edcf6bb3e4                    free5gc-operator                     packagevariant-1       main       false    Published   edge01
-edge01-7c9bf9f43768ecd2b45a8be84698763cdd2593b6                    free5gc-operator                     packagevariant-1       v1         true     Published   edge01
-edge01-40c616e5d87053350473d3ffa1387a9a534f8f42                    free5gc-upf                          upf-scale-package      v2         true     Published   edge01
+edge01-5e5621cee05df46c3e9ad6dd50ab485f4ebeeffd                      free5gc-upf                          upf-scale-package   main       false    Published   edge01
+edge01-6b26ca0f4fdf83212a73faff159bd013b41207ee                      free5gc-upf                          packagevariant-1    v1         false    Published   edge01
+edge01-40c616e5d87053350473d3ffa1387a9a534f8f42                      free5gc-upf                          upf-scale-package   v2         true     Published   edge01
+edge02-b5d2931f75d20d95e7d3d9b1fb10bcfa9156b9ba                      free5gc-upf                          packagevariant-1    main       false    Published   edge02
+edge02-be05d7134eca3e02fecd63c4e4031f728d5f0e84                      free5gc-upf                          packagevariant-1    v1         true     Published   edge02
 ```
 </details>
 

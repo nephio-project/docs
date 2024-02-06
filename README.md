@@ -126,7 +126,7 @@ The releases of Nephio to date focus on:
   the Cluster API. At this time only KIND cluster creation is supported.
 - Orchestration/automation of 5G core network functions deployment and
   management. This release focuses on network functions from
-  [free5gc](https://free5gc.org/).
+  [free5gc](https://free5gc.org/) and [OAI](https://openairinterface.org/).
 
 While the releases to date use Cluster API, KIND, free5gc and OAI for demonstration
 purposes, the exact same principles and even code can be used for managing other
