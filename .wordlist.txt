@@ -1,3 +1,4 @@
+aab
 AAC
 abcdef
 acat
@@ -9,6 +10,7 @@ ackage
 acm
 addons
 Addr
+ade
 adecc
 adetalhouet
 adf
@@ -46,11 +48,13 @@ backends
 bae
 balancer
 bazelbuild
+bbae
 bbd
 bbf
 bcbd
 bcdfbf
 bce
+bcfa
 bd
 bdb
 bdd
@@ -61,9 +65,11 @@ bedc
 benchmarking
 bfb
 bfd
+bfdddbbf
 bfe
 bffe
 BFVa
+blockquote
 bmc
 bool
 bootstrappackages
@@ -89,6 +95,7 @@ ccd
 cdd
 cea
 cecf
+cee
 cfb
 cfcfdcf
 Cfg
@@ -194,6 +201,7 @@ ead
 eadd
 ealenn
 eb
+ebeeffd
 eca
 ecc
 ecd
@@ -243,6 +251,7 @@ fcf
 fdb
 fdec
 fdf
+fecd
 ffa
 ffc
 ffcd
@@ -397,6 +406,8 @@ lfnetworking
 LIBDIR
 Libvirt
 lifecycle
+linkinspector
+linkspector
 linkThroughput
 linkTitle
 linuxfoundation
@@ -470,6 +481,8 @@ networkconfigs
 networkFeatureSupport
 networkinstances
 networkName
+nfdeploy
+NFDeploy
 NFDeploymentStatus
 nfm
 nfpb
@@ -528,6 +541,7 @@ otel
 PackageDeployment
 packageExpr
 packageNames
+packagerev
 PackageRevision
 PackageRevisionResources
 PackageRevisions
@@ -538,6 +552,7 @@ packagevariantset
 PackageVariantSets
 pageinfo
 parameterization
+parameterRef
 params
 passwordless
 paymentservice
@@ -551,11 +566,13 @@ PLiW
 plmnSupportList
 pluggable
 pluralsight
+pmnmd
 PNG
 pocs
 podIP
 podman
 popd
+porchctl
 postdeploy
 Postgres
 pq
@@ -586,6 +603,7 @@ ReadWriteOnce
 REcb
 recommendationservice
 reconciler
+reconcilerinterface
 reconcilers
 reconfigures
 redfish
@@ -695,6 +713,7 @@ UI
 UID
 uint
 UIs
+umbrelladocs
 undeploy
 Undeploys
 updateStrategy
@@ -749,6 +768,7 @@ wq
 wr
 wts
 wttp
+wtzlx
 wzmz
 xargs
 xc

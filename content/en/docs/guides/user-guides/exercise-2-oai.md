@@ -304,7 +304,7 @@ vpc-ran        True
 ```
 </details>
 
-After the networks are succesfully configured lets configure metallb ip-address pool for each workload cluster. Some workloads in the workload cluster require metallb to expose their services. 
+After the networks are successfully configured lets configure metallb ip-address pool for each workload cluster. Some workloads in the workload cluster require metallb to expose their services.
 
 
 ```bash
