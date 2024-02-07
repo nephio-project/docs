@@ -1,20 +1,23 @@
 ---
-title: OpenStack deployment management
+title: Nephio manual deployment on multiple VMs
 description: >
-  OpenStack Multi-Cluster Deployment Management with Nephio
+  Nephio manual deployment on different VMs
 weight: 7
 ---
 
 ## Prerequisites
 
-* Openstack Cluster Management (master)
-  * 4 VCPU 4 NODES
-  * 8GB RAM
-  * Kubernetes version 1.24+
-* Openstack Cluster Edge n
-  * 2 VCPU 1 NODE
-  * 4GB RAM
-  * Kubernetes version 1.24+
+* OpenStack Cluster Management (master)
+
+  * 4 vCPU
+  * 8 GB RAM
+
+  * Kubernetes version 1.26+
+* OpenStack Cluster Edge n
+
+  * 2 vCPU 1 NODE
+  * 4 GB RAM
+  * Kubernetes version 1.26+
 * KPT beta [releases](https://github.com/kptdev/kpt/releases)
 
 ## Installation of the management cluster
@@ -26,14 +29,10 @@ Override the default Ansible values and run the installation script in
 
 then run:
 ```bash
-wget -qO- https://raw.githubusercontent.com/nephio-project/test-infra/main/e2e/provision/init.sh | \
-sudo \
-NEPHIO_DEBUG=true \
-NEPHIO_BRANCH=main \
-NEPHIO_USER=$USER \
-NEPHIO_RUN_E2E=false \
-ANSIBLE_CMD_EXTRA_VAR_LIST="k8s.context=kubernetes-admin@cluster.local kind.enable=false host_min_vcpu=4 host_min_cpu_ram=8" \
-bash
+export NEPHIO_USER=$USER
+export ANSIBLE_CMD_EXTRA_VAR_LIST="k8s.context=kubernetes-admin@cluster.local kind.enable=false host_min_vcpu=4 host_min_cpu_ram=8"
+
+curl -fsSL https://raw.githubusercontent.com/nephio-project/test-infra/main/e2e/provision/init.sh | sudo -E bash
 ```
 - - - -
 
