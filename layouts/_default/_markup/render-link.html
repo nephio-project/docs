@@ -1,32 +1,10 @@
-{{- $attrs := dict }}
-{{- $u := urls.Parse .Destination }}
-
-{{- if $u.IsAbs }}
-  {{- /* Remote */}}
-  {{- $attrs = dict "href" $u.String "rel" "external" }}
-  {{- else }}
-    {{- with $u.Path }}
-      {{- with $.Page.GetPage . }}
-        {{- /* Page */}}
-        {{- $href := .RelPermalink }}
-        {{- with $u.RawQuery }}
-          {{- $href = printf "%s?%s" $href $u.RawQuery }}
-        {{- end }}
-        {{- with $u.Fragment }}
-          {{- $href = printf "%s#%s" $href $u.Fragment }}
-        {{- end }}
-        {{- $attrs = dict "href" $href }}
-      {{- end }}
-  {{- end }}
-{{- end }}
-
-{{- with .Title }}
-  {{- $attrs = merge $attrs (dict "title" .) }}
+{{ $link := .Destination }}
+{{ $isRemote := strings.HasPrefix $link "http" }}
+{{- if not $isRemote -}}
+{{ $url := urls.Parse .Destination }}
+{{- if $url.Path -}}
+{{ $fragment := "" }}
+{{- with $url.Fragment }}{{ $fragment = printf "#%s" . }}{{ end -}}
+{{- with .Page.GetPage $url.Path }}{{ $link = printf "%s%s" .RelPermalink $fragment }}{{ else }}{{ warnf "%q not found from %q" $url.Path $.Page.Path }}{{ end }}{{ end -}}
 {{- end -}}
-
-<a
-{{- range $k, $v := $attrs }}
-  {{- printf " %s=%q" $k $v | safeHTMLAttr }}
-{{- end -}}
->{{ .Text | safe.HTML }}</a>
-{{- /**/ -}}
+<a href="{{ $link | safeURL }}"{{ with .Title}} title="{{ . }}"{{ end }}{{ if $isRemote }} target="_blank"{{ end }}>{{ .Text | safeHTML }}</a>
