@@ -91,4 +91,5 @@ kpt alpha repo register \
 ```
 
 ## Deploy packages to the edge clusters
-Using the web-ui add a new deployment with destination the edge cluster.
+Using the web-ui, add a new deployment to the edge workload cluster.
+
