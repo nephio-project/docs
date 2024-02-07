@@ -11,7 +11,8 @@
     <img alt="{{ $.Text }}" srcset="
         {{ replace .RelPermalink "/static/" "/" | safeURL }} 458w,
         {{ replace $medium.RelPermalink "/static/" "/" | safeURL }} 726w,
-        {{ replace $large.RelPermalink "/static/" "/" | safeURL }} 1200w" sizes="50vw" src="{{ replace $small.RelPermalink "/static/" "/images/" | safeURL }}" />
+        {{ replace $large.RelPermalink "/static/" "/" | safeURL }} 1200w" sizes="50vw" src="{{ replace $small.RelPermalink "/static/" "/" | safeURL }}" />
+
     <figcaption>{{ with $.Title | safeHTML }}{{ . }}{{ end }}</figcaption>
 </figure>
 {{- else -}}
