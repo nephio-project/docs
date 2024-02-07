@@ -26,7 +26,7 @@ Fetch the package using `kpt`, and run any `kpt` functions, and then apply the
 package:
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/catalog/nephio/core/proch@main
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog/nephio/core/porch@main
 kpt fn render porch
 kpt live init porch
 kpt live apply porch --reconcile-timeout=15m --output=table
