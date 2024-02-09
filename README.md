@@ -1,11 +1,13 @@
 # Nephio documentation
 
-This repository contains the documentation for the Nephio project. 
+This repository contains the source filed for the documentation for the [Nephio](https://nephio.org/) project. 
+The documentation is served from [docs.nephio.org](https://docs.nephio.org/) and the status of our Netlify build is
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/9a7a49cd-9710-49c7-bd97-1dfb2272717c/deploy-status)](https://app.netlify.com/sites/nephio/deploys)
 
 ## Status of the documentation
 
-We are in the middle fo moving the documentation from a GitHub based documentation to a Hugo / Docsy based documentation
-site. The content of this repo (especially this) branch will be a bit chaotic during this time. 
+In this release the documentation was moved from a GitHub based documentation to a Hugo / Docsy based site. We are still working on the restructuring the content and finalizing the look and feel of the page. 
 
 ## How to contribute to the documentation
 
@@ -26,25 +28,7 @@ site. The content of this repo (especially this) branch will be a bit chaotic du
 To build and see the documentation locally run `hugo serve`. To double-check if the site will build on Netifly run `hugo
 --gc --minify`.
 
-
-# Nephio
-
-Welcome to Nephio! Please use the documentation links below to
-learn more about Nephio, or check out our [Learning Nephio](https://wiki.nephio.org/display/HOME/Learning+with+Nephio+R1) series. The video series includes a [demo video](https://youtu.be/mFl71sy2Pdc) and short articles about different aspects of Nephio.
-
-## User Documentation
-* [Release Notes for each Nephio release](/content/en/docs/release-notes)
-* [Demo Sandbox Environment Installation](/content/en/docs/guides/install-guides/_index.md)
-* [Quick Start Exercises](/content/en/docs/guides/user-guides/_index.md)
-* [User Guide](/content/en/docs/guides/user-guides/_index.md)
-
-## Other Documentation
-
-* [Developer Documentation](https://github.com/nephio-project/nephio)
-* [Developer Guide](/content/en/docs/guides/contributor-guides/_index.md)
-* [Project Resources](https://github.com/nephio-project/docs/blob/main/resources.md)
-
-## About Nephio
+# About Nephio
 
 Our mission is "to deliver carrier-grade, simple, open, Kubernetes-based cloud
 native intent automation and common automation templates that materially
@@ -133,3 +117,17 @@ purposes, the exact same principles and even code can be used for managing other
 infrastructure and network functions. The *uniformity in systems* principle
 means that as long as something is manageable via the Kubernetes Resource Model,
 it is manageable via Nephio.
+
+Please use the documentation links below to learn more about Nephio, or check out our [Learning Nephio](https://wiki.nephio.org/display/HOME/Learning+with+Nephio+R1) series. The video series includes a [demo video](https://youtu.be/mFl71sy2Pdc) and short articles about different aspects of Nephio.
+
+## User Documentation
+* [Release Notes for each Nephio release](https://docs.nephio.org/docs/release-notes/)
+* [Demo Sandbox Environment Installation](https://docs.nephio.org/docs/guides/install-guides/)
+* [User Guide](https://docs.nephio.org/docs/guides/user-guides/)
+
+## Other Documentation
+
+* [Developer Documentation](https://github.com/nephio-project/nephio)
+* [Developer Guide](https://docs.nephio.org/docs/guides/contributor-guides/)
+* [Project Resources](https://github.com/nephio-project/docs/blob/main/resources.md)
+
