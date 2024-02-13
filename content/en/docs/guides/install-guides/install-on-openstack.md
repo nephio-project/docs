@@ -45,7 +45,8 @@ curl -fsSL https://raw.githubusercontent.com/nephio-project/test-infra/main/e2e/
 - [Common Dependencies](/content/en/docs/guides/install-guides/common-dependencies.md)
 
 ## Manual Installation of the Edge cluster using kpt
-Install rootsync CRD from:
+Install config-sync using:
+
 ```bash
 kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/core/configsync@main
 kpt fn render configsync
