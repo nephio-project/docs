@@ -8,17 +8,17 @@ weight: 7
 ## Prerequisites
 
 * OpenStack Cluster Management (master)
-
   * 4 vCPU
   * 8 GB RAM
-
   * Kubernetes version 1.26+
-* OpenStack Cluster Edge n
 
+* OpenStack Cluster Edge n
   * 2 vCPU 1 NODE
   * 4 GB RAM
   * Kubernetes version 1.26+
+
 * KPT beta [releases](https://github.com/kptdev/kpt/releases)
+
 
 ## Installation of the management cluster
 ### Automatic installation of the management cluster using the sandbox Ansible script
