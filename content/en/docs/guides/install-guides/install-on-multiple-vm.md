@@ -6,17 +6,14 @@ weight: 7
 ---
 
 ## Prerequisites
-
-* OpenStack Cluster Management (master)
+* Cluster Management (master)
   * 4 vCPU
   * 8 GB RAM
   * Kubernetes version 1.26+
-
-* OpenStack Cluster Edge n
+* Cluster Edge n
   * 2 vCPU 1 NODE
   * 4 GB RAM
   * Kubernetes version 1.26+
-
 * KPT beta [releases](https://github.com/kptdev/kpt/releases)
 
 
@@ -34,10 +31,6 @@ export ANSIBLE_CMD_EXTRA_VAR_LIST="k8s.context=kubernetes-admin@cluster.local ki
 
 curl -fsSL https://raw.githubusercontent.com/nephio-project/test-infra/main/e2e/provision/init.sh | sudo -E bash
 ```
-- - - -
-
-> **_NOTE:_** The Ansible script will try to install some utilities, if for example the script fails to uninstall them first, you can manually delete them and re-run the script.
-```find /usr/lib/python* -type f -name "PyYAML*"``` and ```sudo rm /usr/lib/python3/dist-packages/PyYAML-5.3.1.egg-info```
 
 ### Manual Installation of the management cluster using kpt
 
@@ -92,4 +85,3 @@ kpt alpha repo register \
 
 ## Deploy packages to the edge clusters
 Using the web-ui, add a new deployment to the edge workload cluster.
-
