@@ -16,7 +16,6 @@ weight: 7
   * Kubernetes version 1.26+
 * KPT beta [releases](https://github.com/kptdev/kpt/releases)
 
-
 ## Installation of the management cluster
 ### Automatic installation of the management cluster using the sandbox Ansible script
 Override the default Ansible values and run the installation script in 
