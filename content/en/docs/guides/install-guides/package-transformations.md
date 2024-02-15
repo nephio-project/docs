@@ -11,7 +11,7 @@ weight: 7
   - [kpt pkg get](#kpt-pkg-get)
   - [kpt fn render](#kpt-fn-render)
   - [kpt live init](#kpt-live-init)
-- [kpt alpha rpkg for the Workload clusters](#kpt-alpha-rpkg-for-workload-clusters)
+- [porchctl rpkg for the Workload clusters](#porchctl-rpkg-for-workload-clusters)
   - [Create workload cluster package](#create-workload-cluster-package)
   - [Configure the package](#configure-the-package)
   - [Propose the package](#propose-the-package)
@@ -189,9 +189,9 @@ metadata:
   labels:
     cli-utils.sigs.k8s.io/inventory-id: 0123456789abcdef0123456789abcdef01234567-0123456789abcdef012
 ```
-# kpt alpha rpkg for Workload clusters
+# porchctl rpkg for Workload clusters
 
-The `kpt alpha rpkg` suite of commands that act on `Repository` resources on the
+The `porchctl rpkg` suite of commands that act on `Repository` resources on the
 kubernetes cluster in scope. The packages in the `Repository` resources are
 *remote packages (rpkg)*.
 
@@ -208,7 +208,7 @@ nephio-example-packages   git    Package   false        True    https://github.c
 To see all the remote packages that are available:
 
 <details>
-<summary>$ kpt alpha rpkg get</summary>
+<summary>$ porchctl rpkg get</summary>
 
 ```bash
 NAME                                                               PACKAGE                              WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
@@ -250,7 +250,7 @@ nephio-example-packages-dc0b55fb7a17d107e834417a2c9d8fb37f36d7cb   vlanindex    
 <summary>To see the versions of a particular package:</summary>
 
 ```bash
-$ kpt alpha rpkg get --name nephio-workload-cluster
+$ porchctl rpkg get --name nephio-workload-cluster
 NAME                                                               PACKAGE                   WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
 nephio-example-packages-05707c7acfb59988daaefd85e3f5c299504c2da1   nephio-workload-cluster   main            main       false    Published   nephio-example-packages
 nephio-example-packages-781e1c17d63eed5634db7b93307e1dad75a92bce   nephio-workload-cluster   v1              v1         false    Published   nephio-example-packages
@@ -275,7 +275,7 @@ creates the blueprint package for the workload cluster in the management
 repository.
 
 ```bash
-kpt alpha rpkg clone -n default nephio-example-packages-7895e28d847c0296a204007ed577cd2a4222d1ea --repository mgmt regional
+porchctl rpkg clone -n default nephio-example-packages-7895e28d847c0296a204007ed577cd2a4222d1ea --repository mgmt regional
 ```
 
 During the clone operation, the command above performs the following operations:
@@ -309,7 +309,7 @@ file](https://github.com/nephio-project/test-infra/tree/main/e2e/provision).
 1. Get the name of the package:
 
 ```bash
-kpt alpha rpkg get | egrep '(NAME|regional)'
+porchctl rpkg get | egrep '(NAME|regional)'
 NAME                                           PACKAGE  WORKSPACENAME REVISION LATEST LIFECYCLE REPOSITORY
 mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868  regional v1                     false  Draft     mgmt
 ```
@@ -317,7 +317,7 @@ mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868  regional v1                     f
 2. Pull the package to get a local copy of it
 
 ```bash
-kpt alpha rpkg pull -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 regional
+porchctl rpkg pull -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 regional
 ```
 3. Set the Nephio labels on the package
 
@@ -337,7 +337,7 @@ labels:
 5. Push the updated package back to the draft branch on the repository:
 
 ```bash
-kpt alpha rpkg push -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 regional
+porchctl rpkg push -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 regional
 [RUNNING] "gcr.io/kpt-fn/apply-replacements:v0.1.1"
 [PASS] "gcr.io/kpt-fn/apply-replacements:v0.1.1"
 ```
@@ -347,7 +347,7 @@ kpt alpha rpkg push -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 reg
 Propose the package:
 
 ```bash
-kpt alpha rpkg propose -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868
+porchctl rpkg propose -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868
 mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 proposed
 ```
 
@@ -361,7 +361,7 @@ workload cluster using all the `PackageVariant` components specified in the
 `nephio-workload-cluster` kpt package.
 
 ```bash
-kpt alpha rpkg approve -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868
+porchctl rpkg approve -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868
 mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 approved
 ```
 

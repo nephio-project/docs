@@ -90,13 +90,13 @@ oai-core-packages           git    Package   false        True    https://github
 
 Since those are Ready, you can deploy a package from the
 [catalog-infra-capi](https://github.com/nephio-project/catalog/tree/main/infra/capi) repository into the mgmt
-repository. To do this, you retrieve the Package Revision name using `kpt alpha rpkg get`, clone that specific Package
-Revision via the `kpt alpha rpkg clone` command, then propose and approve the resulting package revision. You want to
+repository. To do this, you retrieve the Package Revision name using `porchctl rpkg get`, clone that specific Package
+Revision via the `porchctl rpkg clone` command, then propose and approve the resulting package revision. You want to
 use the latest revision of the nephio-workload-cluster package, which you can get with the command below (your latest
 revision may be different):
 
 ```bash
-kpt alpha rpkg get --name nephio-workload-cluster
+porchctl rpkg get --name nephio-workload-cluster
 ```
 
 <details>
@@ -113,7 +113,7 @@ Then, use the NAME from that in the `clone` operation, and the resulting Package
 and `approve` operations:
 
 ```bash
-kpt alpha rpkg clone -n default catalog-infra-capi-b0ae9512aab3de73bbae623a3b554ade57e15596 --repository mgmt regional
+porchctl rpkg clone -n default catalog-infra-capi-b0ae9512aab3de73bbae623a3b554ade57e15596 --repository mgmt regional
 ```
 
 <details>
@@ -131,7 +131,7 @@ and the `set-labels` function to do this.
 To pull the package to a local directory, use the `rpkg pull` command:
 
 ```bash
-kpt alpha rpkg pull -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 regional
+porchctl rpkg pull -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 regional
 ```
 
 The package is now in the `regional` directory. So you can execute the `set-labels` function against the package
@@ -160,7 +160,7 @@ In any case, you now can push the package with the labels applied back to the
 repository:
 
 ```bash
-kpt alpha rpkg push -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 regional
+porchctl rpkg push -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 regional
 ```
 
 <details>
@@ -175,7 +175,7 @@ kpt alpha rpkg push -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 reg
 Finally, you propose and approve the package.
 
 ```bash
-kpt alpha rpkg propose -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868
+porchctl rpkg propose -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868
 ```
 
 <details>
@@ -187,7 +187,7 @@ mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 proposed
 </details>
 
 ```bash
-kpt alpha rpkg approve -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868
+porchctl rpkg approve -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868
 ```
 
 <details>
@@ -863,7 +863,7 @@ This way you retrieve the downstream target name of the package. You can also re
 Next create a new package revision from the existing UPF package.
 
 ```bash
-kpt alpha rpkg copy -n default edge01-6b26ca0f4fdf83212a73faff159bd013b41207ee --workspace upf-scale-package 
+porchctl rpkg copy -n default edge01-6b26ca0f4fdf83212a73faff159bd013b41207ee --workspace upf-scale-package 
 ```
 <details>
 <summary>The output is similar to:</summary>
@@ -877,7 +877,7 @@ The output contains the package revision of our newly cloned upf package. Pull t
 choice (in the example you can use /tmp/upf-scale-package). 
 
 ```bash
-kpt alpha rpkg pull -n default edge01-40c616e5d87053350473d3ffa1387a9a534f8f42 /tmp/upf-scale-package
+porchctl rpkg pull -n default edge01-40c616e5d87053350473d3ffa1387a9a534f8f42 /tmp/upf-scale-package
 ```
 You can inspect the contents of the package in the chosen directory. The UPF configuration is located in the
 capacity.yaml file.
@@ -953,9 +953,9 @@ Next, progress through the package lifecycle stages by pushing the changes to th
 the changes and approving them.
 
 ```bash
-kpt alpha rpkg push -n default edge01-40c616e5d87053350473d3ffa1387a9a534f8f42 /tmp/upf-scale-package
-kpt alpha rpkg propose -n default edge01-40c616e5d87053350473d3ffa1387a9a534f8f42
-kpt alpha rpkg approve -n default edge01-40c616e5d87053350473d3ffa1387a9a534f8f42
+porchctl rpkg push -n default edge01-40c616e5d87053350473d3ffa1387a9a534f8f42 /tmp/upf-scale-package
+porchctl rpkg propose -n default edge01-40c616e5d87053350473d3ffa1387a9a534f8f42
+porchctl rpkg approve -n default edge01-40c616e5d87053350473d3ffa1387a9a534f8f42
 ```
 <details>
 <summary>The output is similar to:</summary>
@@ -988,9 +988,9 @@ edge01-40c616e5d87053350473d3ffa1387a9a534f8f42 approved
 ```
 </details>
 
-You can check the current lifecycle stage of a package using the `kpt alpha rpkg get` command.
+You can check the current lifecycle stage of a package using the `porchctl rpkg get` command.
 ```bash
-kpt alpha rpkg get | grep free5gc-upf
+porchctl rpkg get | grep free5gc-upf
 ```
 
 <details>

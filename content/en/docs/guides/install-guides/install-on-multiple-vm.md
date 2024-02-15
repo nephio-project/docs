@@ -73,7 +73,7 @@ Register the edge repository using kpt cli or nephio web-ui.
 GITHUB_USERNAME=<Github Username>
 GITHUB_TOKEN=<GitHub Token>
 
-kpt alpha repo register \
+porchctl repo register \
   --namespace default \
   --repo-basic-username=${GITHUB_USERNAME} \
   --repo-basic-password=${GITHUB_TOKEN} \
