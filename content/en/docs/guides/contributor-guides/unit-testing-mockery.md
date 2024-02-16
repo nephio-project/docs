@@ -151,7 +151,7 @@ type repoTest struct {
 	wantErr bool
 }
 ```
-The code above allows us to specify input data and the expected outcome for tests. Each test is specified as an instance of the `repoTest` struct. Fr each test, we specify its fields and arguments, and specify the mocking for the test.
+The code above allows us to specify input data and the expected outcome for tests. Each test is specified as an instance of the `repoTest` struct. For each test, we specify its fields and arguments, and specify the mocking for the test.
 
 ```
 func TestUpsertRepo(t *testing.T)
