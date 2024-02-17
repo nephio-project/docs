@@ -1,13 +1,13 @@
 # Nephio documentation
 
-This repository contains the source filed for the documentation for the [Nephio](https://nephio.org/) project. 
+This repository contains the source files for the documentation for the [Nephio](https://nephio.org/) project. 
 The documentation is served from [docs.nephio.org](https://docs.nephio.org/) and the status of our Netlify build is
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/9a7a49cd-9710-49c7-bd97-1dfb2272717c/deploy-status)](https://app.netlify.com/sites/nephio/deploys)
 
 ## Status of the documentation
 
-In this release the documentation was moved from a GitHub based documentation to a Hugo / Docsy based site. We are still working on the restructuring the content and finalizing the look and feel of the page. 
+In R2 release, a Hugo / Docsy based documentation site was introduced for the Nephio documentation. Hugo / Docsy uses the Markdown files hosted in the Github repo to generate the documentation website. We are still working on the restructuring the content and finalizing the look and feel of the website.
 
 ## How to contribute to the documentation
 
