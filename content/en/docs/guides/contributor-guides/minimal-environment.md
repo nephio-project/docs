@@ -1,7 +1,7 @@
 ---
 title: Minimal Environment install for development
 description: >
-  Minimal Environment install for development
+  How to set up a minimal environment for development in the Nephio project.
 weight: 5
 ---
 
