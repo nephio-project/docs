@@ -6,21 +6,21 @@ weight: 1
 The [Helm to Operator Codegen SDK](https://github.com/nephio-project/nephio-sdk/tree/main/helm-to-operator-codegen-sdk) offers a streamlined solution for translating existing Helm charts into Kubernetes operators with minimal effort and cost.
 
 ## The Flow Diagram
-In a nutshell, Firstly, the Helm-Charts are converted to Yamls using the values provided in "values.yaml". Then, each Kubernetes Resource Manifest (KRM) in the YAML is translated into Go code, employing one of two methods.
+In a nutshell, the Helm-Charts are converted to YAML files using the values provided in "values.yaml". Then, each Kubernetes Resource Model (KRM) in the YAML is translated into Go code, employing one of two methods.
 1) If the resource is Runtime-Supported, it undergoes a conversion process where the KRM resource is first transformed into a Runtime Object, then into JSON, and finally into Go code.
 2) Otherwise, if the resource is not Runtime-Supported, it is converted into an Unstructured Object and then into Go code.
 
-After the conversion process, all the generated Go code is gathered and compiled into a single Go file. This resulting file contains functions that can be readily utilized by Kubernetes operators.
+After the conversion process, all the generated Go code is gathered and compiled into a single Go file. This process results in a file that contains functions which can be readily utilized by Kubernetes operators.
 
 ![alt Flow Diagram](/static/images/user-guides/helm-to-operator-codegen-sdk-flow-diagram.jpg)
 
 -----
-### Flow-1: Helm to Yaml
-Helm to Yaml conversion is achieved by running the command
-`helm template <chart>  --namespace <namespace>  --output-dir “temp/templated/”` Internally. As of now, It retrieves the values from default "values.yaml"
+### Flow-1: Helm to YAML
+Helm to YAML conversion is achieved by running the following command
+`helm template <chart>  --namespace <namespace>  --output-dir “temp/templated/”` Internally. As of now, it retrieves the values from default "values.yaml"
 
-### Flow-2: Yaml Split
-The SDK iterates over each YAML file in the "converted-yamls" directory. If a YAML file contains multiple Kubernetes Resource Manifests (KRM), separated by "---", the SDK splits the YAML file accordingly to isolate each individual KRM resource. This ensures that each KRM resource is processed independently.
+### Flow-2: YAML Split
+The SDK iterates over each YAML file in the "converted-yamls" directory. If a YAML file contains multiple Kubernetes Resource Models (KRM), separated by "---", the SDK splits the YAML file accordingly to isolate each individual KRM resource. This ensures that each KRM resource is processed independently.
 
 ### Runtime-Object and Unstruct-Object
 The SDK currently employs the "runtime-object method" to handle Kubernetes resources whose structure is recognized by Kubernetes by default. Examples of such resources include Deployment, Service, and ConfigMap. Conversely, resources that are not inherently known to Kubernetes and require explicit installation or definition, such as Third-Party Custom Resource Definitions (CRDs) like NetworkAttachmentDefinition or PrometheusRule, are processed using the "unstructured-object" method. Such examples are given below:
@@ -290,7 +290,7 @@ There is an automation-script that takes the types.go files of packages and buil
 
 
 ### Flow-4: KRM to Unstruct-Obj to String(Go-code)
-All Kubernetes resource kinds that are not supported by the runtime-object method are handled using the unstructured method. In this approach, the Kubernetes Resource Manifest (KRM) is converted to an unstructured object using the package "k8s.io/apimachinery/pkg/apis/meta/v1/unstructured". 
+All Kubernetes resource kinds that are not supported by the runtime-object method are handled using the unstructured method. In this approach, the Kubernetes Resource MOdel (KRM) is converted to an unstructured object using the package "k8s.io/apimachinery/pkg/apis/meta/v1/unstructured". 
 Then, We traverse the unstructured-Obj in a DFS fashion and build the gocode-string.
 <details>
 <summary>DFS Algorithm Cases (Unstruct-Version)</summary>
@@ -322,7 +322,7 @@ B) Composite Cases:
 ### Flow-5: Go-Codes to Gofile
 The process of generating the final Go file consists of the following steps:
 
-1. Collecting Go Code: Go code for each Kubernetes Resource Manifest (KRM) is collected and stored in a map where the key represents the kind of resource (e.g., "Service", "Deployment"), and the value is a slice containing the corresponding Go code strings.
+1. Collecting Go Code: Go code for each Kubernetes Resource Model (KRM) is collected and stored in a map where the key represents the kind of resource (e.g., "Service", "Deployment"), and the value is a slice containing the corresponding Go code strings.
 
 2. Aggregation and Writing to Runnable Go Function: Iterate over the map and for each kind of resource, assign the collected Go code to a variable and write it into its corresponding runnable Go function. All services are written in one function, and the same applies to other kinds of resources.
 
