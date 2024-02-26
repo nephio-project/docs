@@ -46,7 +46,7 @@ go run main.go /home/ubuntu/free5gccharts/towards5gs-helm/charts/free5gc/ free5g
 <details>
 <summary>The output is similar to:</summary>
 
-```console
+```bash
 INFO[0000] free5gcns ../../testing_helpers/free5gc_helm_chart/towards5gs-helm/charts/free5gc/
 INFO[0000]  ----------------- Converting Helm to Yaml --------------------------
 WARN[0000] Duplication Detected in Struct Mapping | For Preconditions
@@ -297,7 +297,7 @@ In the end, all the resources created could be checked by:
 <details>
 <summary>The output Should be: </summary>
 
-```
+```bash
 mongodb-0                                                1/1     Running             0          87m
 release-name-free5gc-amf-amf-8649b95f6-hkrqr             1/1     Running             0          87m
 release-name-free5gc-ausf-ausf-78864bd7c4-cgc8v          1/1     Running             0          87m
@@ -315,4 +315,4 @@ release-name-free5gc-webui-webui-7dccf6c877-lj5p5        1/1     Running        
 </details>
 
 ----
-For advanced requirements, Please refer to the developer guide [here](helm-to-operator-codegen-sdk-developer-guide.md)
+For advanced requirements, Please refer to the developer guide [here](/docs/guides/contributor-guides/helm-to-operator-codegen-sdk-developer-guide.md)

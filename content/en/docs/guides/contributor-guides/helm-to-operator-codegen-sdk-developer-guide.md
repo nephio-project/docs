@@ -76,42 +76,38 @@ The conversion process relies on the "k8s.io/apimachinery/pkg/runtime" package. 
 
 ### Flow-3.2: Runtime-Object to JSON
 Firstly, the SDK performs a typecast of the runtime object to its actual data type. For instance, if the Kubernetes Kind is "Service," the SDK typecasts the runtime object to the specific data type corev1.Service. Then, it conducts a Depth-First Search (DFS) traversal over the corev1.Service object using reflection. During this traversal, the SDK generates a JSON structure that encapsulates information about the struct hierarchy, including corresponding data types and values. This transformation results in a JSON representation of the corev1.Service object's structure and content.
-<details>
-<summary>DFS Algorithm Cases</summary>
+
+#### DFS Algorithm Cases
 
 The DFS function iterates over the runtime object, traversing its structure in a Depth-First Search manner. During this traversal, it constructs the JSON structure while inspecting each attribute for its data type and value. Attributes that have default values in the runtime object but are not explicitly set in the YAML file are omitted from the conversion process. This ensures that only explicitly defined attributes with their corresponding values are included in the resulting JSON structure. The function follows this flow to accurately capture the structure, data types, and values of the Kubernetes resource while excluding default attributes that are not explicitly configured in the YAML file.
 
-```	
-A) Base-Cases:
-1. Float32, Float64, Int8, Int16, Int32, Int64
+
+A) Base-Cases: 
+1. Float32, Float64, Int8, Int16, Int32, Int64: 
  	Typecast the Float, Int value to String and returns. (0 is considered as default value)
-2. Bool
+2. Bool: 
 	Returns the bool value as it is. 
-3. String
+3. String: 
 	Replaces (“ with \”) and (\ with \\) and returns. (“” is considered as default value) 
 
 B) Composite-Cases:
-1. Slice/ Array:
+1. Slice/ Array: 
 	Iterates over each element of slice and calls the DFS fxn again with the element.
 	Returns the list of all backtrack-values. ([] is considered as default value)
-2. Map
+2. Map: 
 	Iterates over each key-value pairs, calls the DFS(value).
-	Returns the map containing key-backtrack_values. (Empty Map is considered as default value).
-3. Struct
+	Returns the map containing key : backtrack_values. (Empty Map is considered as default value).
+3. Struct: 
 	Iterates over each attribute-value and calls the DFS(value).
+	```
 	Returns map[Attribute-Name] = {“type” : “Data-type of Attribute”, “val”: “Backtracked-Value of 	Attribute”}.
+	```
 
 C) Special-Cases:
 We have assumed in the DFS function, that every path (structure) will end at the basic-data-types (string, int, bool etc), But there lies some cases when we can’t traverse further because the attributes of struct are private. Such cases are handled specially. (Converted to String and then return appropriately)
 1. V1.Time and resource.Quantity
-2. []byte/[]uint8: []byte is generally used in kind: Secret. It is seen that we provide 64base encoded secret-value in yaml, but on converting the yaml to runtime-obj, the secret-val automatically get decoded to actual value, Since, It is not good to show decoded/actual secret value in the code, therefore, we decode it again and store this decoded-value as secret-value in json.
+2. []byte/[]uint8: []byte is generally used in kind: Secret. It is seen that we provide 64base encoded secret-value in yaml, but on converting the yaml to runtime-obj, the secret-val automatically get decoded to actual value, Since, It is not good to show decoded/actual secret value in the code, therefore, we encode it again and store this base64-encoded-value as secret-value in json.
 
-
-
-		
-```
-
-</details>
 
 <details>
 <summary>JSON Conversion Example</summary>
@@ -166,40 +162,39 @@ spec:
 ### Flow-3.3: JSON to String (Go-Code)
 The SDK reads the JSON file containing the information about the Kubernetes resource and then translates this information into a string of Go code. This process involves parsing the JSON structure and generating corresponding Go code strings based on the structure, data types, and values extracted from the JSON representation. Ultimately, this results in a string that represents the Kubernetes resource in a format compatible with Go code.
 
-<details>
-<summary>TraverseJSON Cases (Json-to-String)</summary>
-
-
-```
+#### TraverseJSON Cases (Json-to-String)
 The traverse JSON function is responsible for converting JSON data into Go code. Here's how it handles base cases:
 The JSON structure contains type as well as value information. Based on the type the following case are formulated.
 A) Base Cases:
 1. Bool: Returns the boolean value as a string.
 2. String: if SingleLine, then return the string with enclosed quotes i.e. \”mystring\”,
-	   If MultiLine, then it is handled using Concatenated Line strings.
+	If Multi-line, then it is handled using Concatenated Line strings.
+	```
 	Line-1       ---> "Line-1\n" + 
 	Line-2        	  "Line-2\n"	
-
+	```
 
 B) Composite Cases:
 1. Slice/Array: Iterate over each element, run the TraverseJson(element), capture the backtrackVal & format it accordingly using FormatTypeVal(backtrack-Val):
+	```
 		“Formatted-backtrackVal1”,
 		“Formatted-backtrackVal2”,
+	```
 
 2. Map: Iterate over each key-value pair, run the TraverseJson(value), capture the backtrackVal & format it accordingly using FormatTypeVal(backtrack-Val):
+	```
 	map[string]string{}{
 		“key1”: “Formatted-backtrackVal1”,
 		“key2”: “Formatted-backtrackVal2”,	
 	}
+	```
 
-3. : Any Data-type Other Than Map (Signifies it is a Struct with attributes)
+3. Any Data-type Other Than Map (Signifies it is a Struct with attributes):
 	Iterate over each attribute value, run the TraverseJson(attribute-value), capture the backtrackVal & format it accordingly using FormatTypeVal(backtrack-Val)
+	```
 	Attribute-Name1: “Formatted-backtrackVal1”,
 	Attribute-Name2: “Formatted-backtrackVal2”,
-
-```
-
-</details>
+	```
 
 
 
@@ -272,7 +267,7 @@ Based on the data type, Values are formatted accordingly,
 
 The Config-Jsons are required for more package-specific-types (such as : v1.Service, v1.Deployment)
 
-#### i) Struct_Module_mapping.json
+#### Struct_Module_mapping.json
 Mostly, It is seen that inspecting the type of struct(using reflect) would tell us that the struct belong to package “v1”, but there are multiple v1 packages (appsv1, metav1, rbacv1, etc), So, the actual package remains unknown. 
 
 Solution: To solve the above problems, we build a “structModuleMapping” which is a map that takes “struct-name” as the key and gives “package/module name” as a value.
@@ -281,7 +276,7 @@ v1.Deployment -->  appsv1.Deployment
 v1.Service --> corev1.Service
 ```
 
-#### ii) Enum_Module_mapping.json
+#### Enum_Module_mapping.json
 Structs need to be initialized using curly brackets {}, whereas enums need Parenthesis (), Since, reflect doesn’t tell us which data-type is struct or enum, We:
 
 Solution: We solve the above problems by building an “enumModuleMapping” which is a set that stores all data types that are enums. i.e. If a data type belongs to the set, then It is an Enum.
@@ -292,11 +287,10 @@ There is an automation-script that takes the types.go files of packages and buil
 ### Flow-4: KRM to Unstruct-Obj to String(Go-code)
 All Kubernetes resource kinds that are not supported by the runtime-object method are handled using the unstructured method. In this approach, the Kubernetes Resource MOdel (KRM) is converted to an unstructured object using the package "k8s.io/apimachinery/pkg/apis/meta/v1/unstructured". 
 Then, We traverse the unstructured-Obj in a DFS fashion and build the gocode-string.
-<details>
-<summary>DFS Algorithm Cases (Unstruct-Version)</summary>
 
 
-```	
+#### DFS Algorithm Cases (Unstruct-Version)
+
 A) Base Cases:
 1. Bool: Convert the Bool value to string and return.
 2. Int & Float: Convert the value to string and return.
@@ -305,19 +299,20 @@ A) Base Cases:
 
 B) Composite Cases:
 1. Slice/Array: Iterate over each element, runs the DFS(element), captures the backtrackVal & return as:
+	```
 	[]interface{}{
 		“backtrackVal1”,
 		“backtrackVal2”,
 	}
+	```
 2. Map: Iterate over each key-value pair, runs the DFS(value), capture the backtrackVal & returns as:
+	```
 	map[string]interface{}{
 		“key1”: “backtrackVal1”,
 		“key2”: “backtrackVal2”,	
 	}
+	```
 
-```
-
-</details>
 
 ### Flow-5: Go-Codes to Gofile
 The process of generating the final Go file consists of the following steps:
