@@ -9,7 +9,7 @@ The [Helm to Operator Codegen SDK](https://github.com/nephio-project/nephio-sdk/
 
 By utilizing the Helm to Operator Codegen SDK, users can efficiently convert existing Helm charts into Kubernetes operators. This transition enables users to leverage the advanced capabilities provided by Kubernetes operators, such as enhanced automation, lifecycle management, and custom logic handling. Overall, the SDK facilitates a smooth migration process, empowering users to embrace the operator model for managing their Kubernetes resources effectively.
 
-## Excercise: Deploying Free5gc using operator
+## Exercise: Deploying Free5gc using operator
 In the following exercise, the objective is to convert the Free5gc Helm chart to Go code suitable for a Kubernetes operator using the sdk. Once the conversion is complete, the generated Go code will be used to deploy all the resources defined in the Free5gc Helm chart using a Kubernetes operator.
 
 ### Step 0: Prerequisite

@@ -17,7 +17,7 @@ After the conversion process, all the generated Go code is gathered and compiled
 -----
 ### Flow-1: Helm to YAML
 Helm to YAML conversion is achieved by running the following command
-`helm template <chart>  --namespace <namespace>  --output-dir “temp/templated/”` Internally. As of now, it retrieves the values from default "values.yaml"
+`helm template <chart>  --namespace <namespace>  --output-dir “temp/templated/”` internally. As of now, it retrieves the values from default "values.yaml"
 
 ### Flow-2: YAML Split
 The SDK iterates over each YAML file in the "converted-yamls" directory. If a YAML file contains multiple Kubernetes Resource Models (KRM), separated by "---", the SDK splits the YAML file accordingly to isolate each individual KRM resource. This ensures that each KRM resource is processed independently.
