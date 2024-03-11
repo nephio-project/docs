@@ -93,3 +93,174 @@ purposes, the exact same principles and even code can be used for managing other
 infrastructure and network functions. The *uniformity in systems* principle
 means that as long as something is manageable via the Kubernetes Resource Model,
 it is manageable via Nephio.
+
+# Nephio Architecture
+
+```mermaid
+---
+title: Nephio R2 Architecture
+config:
+  theme: neutral
+---
+
+flowchart TB
+
+subgraph R2
+    direction TB
+    subgraph MGNT [Management Cluster]
+        subgraph WebUI
+        end
+
+        subgraph Porch
+            subgraph PAPI [API]
+                PackageRevision[[PackageRevision]]
+                PackageVariant[[PackageVariant]]
+                ..[[...]]
+            end
+            subgraph KptPipeline [kpt pipeline]
+                subgraph SI [Specialization Functions / Controllers]
+                    IPAM{{IPAM}}
+                    NW{{NAD}}
+                    VLAN{{VLAN}}
+                    DNN{{DataNetwork}}
+                    SNFDeployment{{NFDeployment}}
+                    CI{{Config Injection}}
+                end
+            end
+            PApproval{{Approval Controller}}
+        end
+        subgraph Nephio [Nephio]
+            subgraph NAPI [API]
+                NFTopology[[NFTopology]]
+                NFDeployment[[NFDeployment]]
+                NFConfig[[NFConfig]]
+                .[[...]]
+                click NAPI "https://github.com/nephio-project/api/tree/v2.0.0"
+            end
+            subgraph NC [Controllers]
+                CNETWORK{{Nework}}
+                CNETWORKCONFIG{{Nework Config}}
+                CRB{{Resource Backend}}
+                CTOK{{Token}}
+                CBP{{Boostrap packages}}
+                %% CBS{{Boostrap secret}}
+                CREPO{{Repository}}
+            end
+        end
+
+        subgraph CSM [ConfigSync]
+            direction TB
+            subgraph CSMAPI [API]
+                RSM[[RootSync]]
+            end
+            subgraph CSMControllers [Controllers]
+                CSMC{{Config Management}}
+            end
+        end
+    end
+
+    subgraph Git
+        Blueprints[(Nephio Catalog <br/>Blueprints)]
+        Deployment[(Deployment)]
+    end
+
+    subgraph WORK [Workload Cluster]
+        subgraph CSW [ConfigSync]
+            direction TB
+            subgraph CSWAPI [API]
+                RSW[[RootSync]]
+            end
+            subgraph CSWControllers [Controllers]
+                CSWC{{Config Management}}
+            end
+        end
+        subgraph NF [Supported Network Functions]
+            subgraph 5GRAN [5G RAN]
+                OAIRAN{{OAI}}
+            end
+            subgraph 5GCORE [5G Core]
+                direction TB
+                OAICORE{{OAI}}
+                Free5GCO{{Free5GC}}
+            end
+        end
+    end
+
+    subgraph Infrastructure
+        subgraph Cloud
+            KIND(Kind)
+            GC(Google Cloud)
+            OCP(OpenShift)
+        end
+        subgraph Network
+            SRLinux(Nokia SR)
+        end
+    end
+end
+
+%% link 0
+WebUI --> Porch
+%% link 1
+%% Force mermaid to render Nephio box below Porch
+KptPipeline ~~~ Nephio
+%% link 2
+%% Force mermaid to render ConfigSync box below Nephio
+Nephio ~~~ CSM
+%% link 3
+PackageVariant -- Upstream --> Blueprints
+%% link 4
+PackageVariant -- Downstream --> Deployment
+%% link 5
+PackageRevision <--> KptPipeline
+%% link 6
+PackageRevision --> Deployment
+%% link 7
+Deployment -- Pull ---o WORK
+%% link 8
+MGNT --> Infrastructure
+%% link 9
+WORK --> Infrastructure
+%% link 10
+MGNT ~~~ Git
+
+classDef NephioFunctions fill:#96cdff;
+classDef NephioFunctionComponents fill:#bee0ff
+classDef NephioBackgroundLight fill:#6fbbff
+classDef WhiteBackground fill:#fffff,stroke-width:3px
+
+classDef default fill:#48a8ff,color:white
+
+class MGNT WhiteBackground
+class WORK WhiteBackground
+class Git WhiteBackground
+class Infrastructure WhiteBackground
+
+class PAPI NephioFunctionComponents
+class KptPipeline NephioFunctionComponents
+class SI NephioFunctionComponents
+class NAPI NephioFunctionComponents
+class NC NephioFunctionComponents
+class CSMAPI NephioFunctionComponents
+class CSMControllers NephioFunctionComponents
+class Cloud NephioFunctionComponents
+class Network NephioFunctionComponents
+class 5GCORE NephioFunctionComponents
+class 5GRAN NephioFunctionComponents
+class CSWAPI NephioFunctionComponents
+class CSWControllers NephioFunctionComponents
+
+class Porch NephioFunctions
+class Nephio NephioFunctions
+class CSM NephioFunctions
+class CSW NephioFunctions
+class NF NephioFunctions
+class Git NephioFunctions
+class Infrastructure NephioFunctions
+
+class R2 NephioBackground
+style R2 color:white
+
+linkStyle default interpolate linear
+```
+
+Information regarding various Nephio components can be found in the main [User Guide](/content/en/docs/guides/user-guides/_index.md).
