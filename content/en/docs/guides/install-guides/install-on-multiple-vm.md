@@ -26,7 +26,7 @@ Override the default Ansible values and run the installation script in
 then run:
 ```bash
 export NEPHIO_USER=$USER
-export ANSIBLE_CMD_EXTRA_VAR_LIST="k8s.context=kubernetes-admin@cluster.local kind.enable=false host_min_vcpu=4 host_min_cpu_ram=8"
+export ANSIBLE_CMD_EXTRA_VAR_LIST="k8s.context=kubernetes-admin@cluster.local kind.enabled=false host_min_vcpu=4 host_min_cpu_ram=8"
 
 curl -fsSL https://raw.githubusercontent.com/nephio-project/test-infra/main/e2e/provision/init.sh | sudo -E bash
 ```
