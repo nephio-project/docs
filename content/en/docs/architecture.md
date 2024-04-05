@@ -19,7 +19,7 @@ The system context view gives a high level perspective of the Nephio software sy
 
 ## System Landscape View
 
-![System Landscape](diagrams/gen/level2-nephio-container.png)
+![System Landscape](/images/architecture/level2-nephio-container.png)
 
 Nephio is an amalgamation of software systems, so a system landscape provides a high-level view of how those software systems interoperate.
 
@@ -27,7 +27,7 @@ Nephio is an amalgamation of software systems, so a system landscape provides a 
 
 ### Nephio Core
 
-![Nephio Core Component View](diagrams/gen/level3-nephio-core-component.png)
+![Nephio Core Component View](/images/architecture/level3-nephio-core-component.png)
 
 Nephio core is a collection of operators and functions that perform the fundamental aspects of Nephio use cases, independent of the specifics of vendor implementations. 
 
@@ -36,7 +36,7 @@ The controllers for OAI and Free5GC are represented here as while they are vendo
 
 ### Porch
 
-![Nephio Porch Component View](diagrams/gen/nephio-porch-component-view.png)
+![Nephio Porch Component View](/images/architecture/nephio-porch-component-view.png)
 
 ### ConfigSync
 
