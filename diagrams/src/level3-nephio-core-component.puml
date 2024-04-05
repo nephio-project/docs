@@ -1,0 +1,74 @@
+@startuml nephio-core-component
+!include  https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+System_Boundary(nephio, "Nephio") {
+    ' Container(web_ui, "Web UI", "Backstage-based web application providing Nephio Packages management via web browser")
+    ' Container(porch, "Porch", "kpt as a Service", "Package Orchestration Server is a K8s extension apiserver which manages the lifecycle of KRM configuration packages")
+    Container(K8s_api, "Kubernetes API Server", "K8s Control Plane", "A component of the Kubernetes control plane that exposes the Kubernetes API. The API server is the front end for the Kubernetes control plane")
+    ' Container(configsync, "ConfigSync", "GitOps Engine", "GitOps service which lets administrators deploy configurations from a source of truth, with the flexibility to support one or many clusters in a hybrid or multi-cloud environment")
+    Container(gitrepomgr, "Git Repository Manager", "git", "System for hosting git repositories and supporting remote branch management and merging")
+    Container(network_function_controllers, "Network Function Controllers", "K8s Operators", "Manage the lifecycle of Network Functions; Nephio currently supports OAI Core and RAN, and Free5GC")
+
+    Container_Boundary(nephio_core, "Nephio Core") {
+
+        ContainerDb(inventory, "Inventory", "datastore", "inventory Network Configuration or Token")
+
+        Container_Boundary(nephio_core_api, "Nephio Core APIs") {
+            Component(workload_crd, "Workload", "CRD", "Defines NFConfigs, NFDeployments, and AMF UPF and SMF Network Functions")
+            ' Component(requirements_crd, "Requirements", "CRD", "Defines Capacities, DataNetworks, and Interfaces")
+            Component(infrastructure_crd, "Infrastructure", "CRD", "Defines Workload Cluster, Tokens, Repositories, Networks, and NetworkConfigs")
+            Component(inventory_crd, "Inventory", "CRD", "Defines Endpoints, Links, Nodes, and Targets")
+            Component(resources_crd, "Resources", "CRD", "Defines IPClaim, IPPrefix, NetworkInstances, VlanClaims, VlanIndices, and Vlans")
+            Component(config_crd, "Config", "CRD", "Defines Networks configuration")
+            ' Component(topology_crd, "Topology", "CRD", "Defines RawTopologies configuration")
+            ' Component(ref_crd, "Reference", "CRD", "Defines Config reference")
+        }
+
+        Container_Boundary(nephio_core_controllers, "Nephio Core Controllers") {
+            Component(cluster_controller, "K8S Cluster ", "K8s reconcilier", "Controller responsible for reconciling cluster definitions with running clusters")
+            Component(network_controller, "Network", "K8s reconcilier", "Controller responsible for reconciling Network attachment definitions")
+            Component(resource_backend, "Resource Backend", "K8s reconcilier")
+            Component(token, "Token", "K8s reconcilier", "Controller for handling security tokens")
+            Component(bootstrap_package, "Bootstrap Package", "K8s reconcilier", "Controller for bootstrapping onboarded packages")
+            Component(repository, "Repository", "K8s reconcilier", "Controller for reconciling repository definitions")
+        }
+    }
+}
+
+' Southbound dependencies
+System_Ext(supported_nfs, "Supported Network Functions", "Network functions supported by Nephio (currently free5gc and OAI, with other vendors implementing support independently)")
+Boundary(infrastructure, "Infrastructure") {
+    System_Ext(clouds, "Cloud Providers", "Providers of Kubernetes clusters, such as GCP / Openshift and local kind clusters")
+    System_Ext(network_fabric, "Network Fabric", "Data Center network fabric elements, such as Nokia SR Linux")
+}
+
+Lay_D(inventory, infrastructure)
+
+
+Rel_D(K8s_api, nephio_core_api, "Allow users to manage Custom Resource instances for the exposed Custom Resource Definitions")
+
+Rel_D(infrastructure_crd, cluster_controller, "Manage K8s Clusters")
+Rel_D(infrastructure_crd, token, "Manage Tokens")
+Rel_D(infrastructure_crd, repository, "Manage Repositories")
+Rel_D(infrastructure_crd, network_controller, "Manage Network Configurations")
+
+Rel_U(network_controller, config_crd, "Generate Network Function configuration")
+BiRel_D(resources_crd, resource_backend, "Manage resources assignement")
+BiRel_D(workload_crd, network_function_controllers, "Manage Network Function lifecycle")
+BiRel_D(workload_crd, network_controller, "Manage Network Function configuration")
+
+Rel_R(repository, gitrepomgr, "Manage Git repositories programatically")
+
+Rel_U(resource_backend, inventory_crd, "Generate inventory resources")
+Rel_D(resource_backend, inventory, "Create and manage IP and VLAN index, claim and assignement")
+Rel_D(token, inventory, "Create and manage Token used to authenticate against systems")
+Rel_D(network_controller, inventory, "Create and manage Network configuration")
+
+Rel_D(network_function_controllers, supported_nfs, "Manage Network Functions Lifecycle")
+
+Rel_D(supported_nfs, clouds, "Execute on cloud infrastructure")
+Rel_D(bootstrap_package, clouds, "Deploy initial kpt packages upon K8s Cluster creation")
+Rel_D(cluster_controller, clouds, "Create and Manage K8s Clusters")
+Rel_D(network_controller, network_fabric, "Provision the Network Fabric using OpenConfig")
+
+@enduml

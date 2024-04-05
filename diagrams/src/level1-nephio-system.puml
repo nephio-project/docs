@@ -1,0 +1,32 @@
+@startuml nephio-system
+!include  https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+' External actors
+Person(admin, "Administrator", "Administrator of networks, cloud infrastructure or both")
+Boundary(service_orchestrators, "Service Orchestration") {
+    System_Ext(core_service_orchestrator, "Core Service Orchestrator", "Core Domain service orchestrator" )
+    System_Ext(oran_service_orchestrator, "O-RAN Service Orchestrator (SMO)", "RAN domain service orchestrator")
+}
+System_Ext(cicd_system, "GitOps, CI/CD", "Verifies workloads and packages before onboarding to Nephio, or using Nephio as part of their operations")
+
+' Core Nephio function
+System(nephio, "Nephio", "Kubernetes-based cloud native automation system, supporting deployment and management of multi-vendor cloud infrastructure and network functions across large scale edge deployments")
+
+' Southbound dependencies
+System_Ext(supported_nfs, "Supported network functions", "Network functions supported by Nephio (currently free5gc and OAI, with other vendors implementing support independently)")
+Boundary(infrastructure, "Infrastructure") {
+    System_Ext(clouds, "Cloud Providers", "Providers of Kubernetes clusters, such as GCP / Openshift and local kind clusters")
+    System_Ext(network_fabric, "Network Fabric", "Data Center network fabric elements, such as Nokia SR Linux")
+}
+
+' Actor - nephio relationships
+Rel_D(admin, nephio, "Create Network Topology, K8s Cluster and Network Function Intent")
+Rel_D(service_orchestrators, nephio, "Generate Network Topology, K8s Cluster and Network Function Intent")
+Rel_R(cicd_system, nephio, "Reconcile, Integrate or Deploy external artifacts")
+
+' Nephio - managed entity relationships
+Rel_D(nephio, infrastructure, "Manage Network Topology and K8s Cluster Lifecycle (e.g. O2-IMS)")
+Rel_D(nephio, supported_nfs, "Manage Network Functions Lifecycle")
+Rel_D(supported_nfs, clouds, "Execute on cloud infrastructure")
+
+@enduml
