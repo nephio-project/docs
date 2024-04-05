@@ -65,6 +65,8 @@ Management cluster via Nephio; the mgmt-staging repository is just used internal
 process.
 
 Use the session just started on the VM to run these commands:
+(Note: After fresh `docker` install, verify `docker` supplementary group is loaded by executing `id | grep docker`.
+If not, logout and login to the VM or execute the `newgrp docker` to ensure the `docker` supplementary group is loaded.)
 
 ```bash
 kubectl get repositories
