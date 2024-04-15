@@ -8,7 +8,7 @@ description: Reference for the Nephio Architecture
 Some experiments on working with [C4 model](https://c4model.com/) to document Nephio.
 
 ## Prerequisites
-To work with these PlantUML files, you will need [Graphviz](https://graphviz.org/download/) installed.
+1. [Graphviz](https://graphviz.org/download/) is required to render some of the diagrams in this document.
 
 ## System Context View
 
