@@ -15,8 +15,8 @@ System_Boundary(nephio, "Nephio") {
     Container(porch, "Porch", "kpt as a Service", "Package Orchestration Server is a K8s extension apiserver which manages the lifecycle of KRM configuration packages")
     Container(nephio_core, "Nephio Core", "K8s Operators", "Responsible for handling different aspects of workload and cluster specialisation and actuation")
     Container(K8s_api, "Kubernetes API Server", "K8s Control Plane", "A component of the Kubernetes control plane that exposes the Kubernetes API. The API server is the front end for the Kubernetes control plane")
-    Container(configsync, "ConfigSync", "GitOps Engine", "GitOps service which lets administrators deploy configurations from a source of truth, with the flexibility to support one or many clusters in a hybrid or multi-cloud environment")
-    ContainerDb(gitrepomgr, "Git Repository Manager", "git", "System for hosting git repositories and supporting remote branch management and merging")
+    Container_Ext(configsync, "Reconciliation Engine", "GitOps Engine", "GitOps service which lets administrators deploy configurations from a source of truth, with the flexibility to support one or many clusters in a hybrid or multi-cloud environment")
+    ContainerDb_Ext(gitrepomgr, "Git Repository Manager", "git", "System for hosting git repositories and supporting remote branch management and merging")
     Container(network_function_controllers, "Network Function Controllers", "K8s Operators", "Manage the lifecycle of Network Functions; Nephio currently supports OAI Core and RAN, and Free5GC")
 }
 
@@ -37,8 +37,8 @@ Lay_L(K8s_api, cicd_system)
 Rel_D(web_ui, K8s_api, "Use the K8s API to read/write Porch resources")
 
 ' Porch relations
-Rel_L(porch, K8s_api, "Manage PackagesVariants / PackageRevisions API")
-Rel_D(porch, gitrepomgr, "Deploy PackageRevisions")
+BiRel_L(porch, K8s_api, "Manage PackagesVariants / PackageRevisions API")
+Rel_D(porch, gitrepomgr, "Lifecycle KRM packages")
 
 ' ConfigSync relations
 Rel_L(configsync, gitrepomgr, "Reconcile K8s resources")

@@ -2,7 +2,11 @@
 !include  https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
 
 ' External actors
-Person(admin, "Administrator", "Administrator of networks, cloud infrastructure or both")
+
+Boundary(persons, "Personas"){
+    Person(desginer, "Designer", "Creates the Network Function packages")
+    Person(networkEng, "Network Engineer", "Implements and instantiates the Network Function")
+}
 Boundary(service_orchestrators, "Service Orchestration") {
     System_Ext(core_service_orchestrator, "Core Service Orchestrator", "Core Domain service orchestrator" )
     System_Ext(oran_service_orchestrator, "O-RAN Service Orchestrator (SMO)", "RAN domain service orchestrator")
@@ -20,7 +24,7 @@ Boundary(infrastructure, "Infrastructure") {
 }
 
 ' Actor - nephio relationships
-Rel_D(admin, nephio, "Create Network Topology, K8s Cluster and Network Function Intent")
+Rel_D(persons, nephio, "Create Network Topology, K8s Cluster and Network Function Intent")
 Rel_D(service_orchestrators, nephio, "Generate Network Topology, K8s Cluster and Network Function Intent")
 Rel_R(cicd_system, nephio, "Reconcile, Integrate or Deploy external artifacts")
 
