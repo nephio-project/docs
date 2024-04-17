@@ -1,0 +1,35 @@
+@startuml
+!include  https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+!include  https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+Person_Ext(admin, "Network administrator", "Administrator of networks, cloud infrastructure or both")
+System_Ext(ext_auto, "External Automation Systems", "Software systems responsible for automatically provisioning and managing networks, cloud infrastructure, or both")
+
+System_Boundary(nephio, "Nephio") {
+    System_Boundary(porch, "Porch") {
+        Component(packagevariant_controller, "PackageVariant Controller", "controller", "Controller responsible for reconciling package variants with what is in git")
+        Component(packagevariantset_controller, "PackageVariantSet Controller", "controller", "Controller responsible for reconciling package variants with what is in git")
+    }
+
+    System_Boundary(k8s_api, "Kubernetes API Server") {
+        Component(packagevariant_crds, "PackageVariant CRD", "Custom Resource Definition", "Custom resource representing package variants managed by Porch")
+        Component(packagevariantset_crds, "PackageVariantSet CRD", "Custom Resource Definition", "Custom resource representing package variant sets managed by Porch")
+    }
+        ContainerDb_Ext(gitrepo, "Git Repository Manager", "git", "System for hosting git repositories and supporting remote branch management and merging")
+}
+
+' Relationships with external users
+Rel_D(admin, packagevariant_crds, "Manage package variants")
+Rel_D(admin, packagevariantset_crds, "Manage package variant sets")
+Rel_D(ext_auto, packagevariant_crds, "Manage package variants")
+Rel_D(ext_auto, packagevariantset_crds, "Manage package variant sets")
+
+' Relationships between operators and CRDs
+Rel_U(packagevariant_controller, packagevariant_crds, "Reconcile PackageVariants")
+Rel_U(packagevariantset_controller, packagevariantset_crds, "Reconcile PackageVariantSets")
+
+' Porch relationships
+Rel_U(packagevariant_controller, gitrepo, "Reconcile Package Variants")
+Rel_U(packagevariantset_controller, gitrepo, "Reconcile Package Variant Sets")
+
+@enduml
