@@ -21,6 +21,8 @@ The aim is to keep these diagrams as simple as possible for now and only convey 
 
 ## Topology and Network APIs
 
+This is a high-level overview of the Nephio models and their relationships, with links to the relevant API documentation where available, and to the source code where not.
+
 ```mermaid
 flowchart TD
     %% Topology constructs
