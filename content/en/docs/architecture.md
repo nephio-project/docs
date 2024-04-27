@@ -15,13 +15,17 @@ Some experiments on working with [C4 model](https://c4model.com/) to document Ne
 
 ![System Context](/images/architecture/level1-nephio-system.png)
 
-The system context view gives a high level perspective of the Nephio software system and the external entities that it interacts with. There are no deployment considerations in this view - the main purpose of the picture is to depict what is the responsibility and scope of Nephio, and the key interfaces and capabilities it exposes to deliver on that responsibility.
+The system context view gives a high level perspective of the Nephio software system and the external entities that it interacts with. There are no deployment considerations in this view - the main purpose of the picture is to depict what is the responsibility and scope of Nephio, and the key interfaces and capabilities it exposes to deliver on that responsibility. 
+
+- Comments, 1) it will be good to clarify the meaning of the color coding of the functional components used in the Architecture; 2) "Supported Network Functions" is tagged as "external system",  would it be better to tag it as "external vendor network functions", since these are more deployment artifacts than systems ?
 
 ## System Landscape View
 
 ![System Landscape](/images/architecture/level2-nephio-container.png)
 
 Nephio is an amalgamation of software systems, so a system landscape provides a high-level view of how those software systems interoperate.
+
+- Comments, 1) Assume from this figure on, its R2 view, so change the title to "R2 system Landscape View"; 2) Significance of the color codes could be clarified too.
 
 ## Component Views
 
@@ -33,6 +37,7 @@ Nephio core is a collection of operators and functions that perform the fundamen
 
 The controllers for OAI and Free5GC are represented here. Although they are vendor extensions to Nephio, they are for now part of the Nephio system.
 
+- Comments, 1) Change the title to "R2 Nephio Core Component View" ; 2) Is there a "Inventory" implementation in R2 ?
 
 ### Porch
 
