@@ -10,7 +10,7 @@ aliveStatusCodes:
 ignorePatterns:
   - pattern: "^http://localhost.*$"
   - pattern: "^http://HOSTNAME:PORT.*$"
-  - pattern: "*.png"
+  - pattern: ".png"
 replacementPatterns:
   - pattern: ".md#.*$"
     replacement: ".md"
