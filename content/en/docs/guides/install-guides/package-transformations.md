@@ -12,11 +12,11 @@ weight: 7
   - [kpt fn render](#kpt-fn-render)
   - [kpt live init](#kpt-live-init)
 - [porchctl rpkg for the Workload clusters](#porchctl-rpkg-for-workload-clusters)
-  - [Create workload cluster package](#create-workload-cluster-package)
+  - [Create workload cluster package](#create-the-workload-cluster-package)
   - [Configure the package](#configure-the-package)
   - [Propose the package](#propose-the-package)
   - [Approve the package and trigger configsync](#approve-the-package-and-trigger-configsync)
-- [Transformations in the Workload cluster creation](#transformations-in-workload-cluster-creation)
+- [Transformations in the Workload cluster creation](#transformations-in-the-workload-cluster-creation)
 
 # Vanilla kpt for the Management cluster
 
@@ -368,6 +368,12 @@ mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 approved
 The new cluster comes up after a number of minutes.
 
 # Transformations in the Workload cluster creation
+
+Test mest
+
+# Blah
+
+## Blih
 
 Approving the `regional` Workload cluster package in the `mgmt` repository
 triggered configsync to apply the `PackageVariant` configurations in the

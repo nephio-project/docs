@@ -178,7 +178,7 @@ based upon the target cluster.
 ## kpt
 [Kpt](https://kpt.dev) is an open source tool for managing bundles of Kubernetes
 resource configurations, called kpt [packages](#package), using the
-[Configuration-as-Data](#config-as-data) methodology.
+Configuration-as-Data methodology.
 
 The `kpt` command-line tool allows pulling, pushing, cloning and otherwise
 managing packages stored in version control repositories (Git or OCI), as well
@@ -289,7 +289,7 @@ Also see [REST](https://en.wikipedia.org/wiki/Representational_state_transfer).
 This refers to a software component that runs in the Nephio Management cluster,
 and could be considered a type of [controller](#controller). However, it
 specifically watches for `PackageRevision` resources in a Draft state, and
-checks for the [conditions](#conditions) on those resources. When it finds
+checks for the conditions on those resources. When it finds
 unsatisfied conditions of the type it handles, the specializer will
 [mutate](#mutation) (modify) the Draft package by adding or
 changing resources.
