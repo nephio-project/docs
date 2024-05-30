@@ -207,8 +207,7 @@ nephio-example-packages   git    Package   false        True    https://github.c
 
 To see all the remote packages that are available:
 
-<details>
-<summary>$ porchctl rpkg get</summary>
+$ porchctl rpkg get
 
 ```bash
 NAME                                                               PACKAGE                              WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
@@ -244,10 +243,9 @@ nephio-example-packages-fb6e4adecc13c50da838953ece623cf04de21884   ueransim     
 nephio-example-packages-dc0b55fb7a17d107e834417a2c9d8fb37f36d7cb   vlanindex                            v1              v1         true     Published   nephio-example-packages
 ```
 
-</details>
 
-<details>
-<summary>To see the versions of a particular package:</summary>
+
+To see the versions of a particular package:
 
 ```bash
 $ porchctl rpkg get --name nephio-workload-cluster
@@ -262,8 +260,6 @@ nephio-example-packages-17bffe318ac068f5f9ef22d44f08053e948a3683   nephio-worklo
 nephio-example-packages-0fbaccf6c5e75a3eff7976a523bb4f42bb0118ce   nephio-workload-cluster   v7              v7         false    Published   nephio-example-packages
 nephio-example-packages-7895e28d847c0296a204007ed577cd2a4222d1ea   nephio-workload-cluster   v8              v8         true     Published   nephio-example-packages
 ```
-
-</details>
 
 ## Create the Workload cluster package
 

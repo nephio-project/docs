@@ -71,14 +71,12 @@ First, create the configuration. You can view and switch between `gcloud` config
 gcloud config configurations create nephio
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+The output is similar to:
 
 ```console
 Created [nephio].
 Activated [nephio].
 ```
-</details>
 
 Next, set the configuration to use your account.
 
@@ -86,13 +84,11 @@ Next, set the configuration to use your account.
 gcloud config set account $ACCOUNT
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+The output is similar to:
 
 ```console
 Updated property [core/account].
 ```
-</details>
 
 Now, create a project for your Nephio resources. The instructions here work in the simplest environments. However, your
 organization may have specific processes and method for creating projects. See the GCP [project creation
@@ -103,8 +99,8 @@ or consult with the GCP administrators in your organization.
 gcloud projects create $PROJECT
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 Create in progress for [https://cloudresourcemanager.googleapis.com/v1/projects/your-nephio-project-id].
@@ -112,7 +108,7 @@ Waiting for [operations/cp.6666041359205885403] to finish...done.
 Enabling service [cloudapis.googleapis.com] on project [your-nephio-project-id]...
 Operation "operations/acat.p2-NNNNNNNNNNNNNN-f5dd29ea-a6c1-424d-ad15-5d563f7c68d1" finished successfully.
 ```
-</details>
+
 
 Projects must be associated with a billing account, which may be done in the
 [console](https://console.cloud.google.com/billing/projects). Again, your organization may have specific processes and
@@ -126,13 +122,13 @@ Next, set the new project as the default in your `gcloud` configuration:
 gcloud config set project $PROJECT
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 Updated property [core/project].
 ```
-</details>
+
 
 Next, enable the GCP services you will need:
 
@@ -146,13 +142,13 @@ gcloud services enable krmapihosting.googleapis.com \
     anthosconfigmanagement.googleapis.com
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 Operation "operations/acat.p2-NNNNNNNNNNNNN-c1aeadbe-3593-48a4-b4a9-e765e18a3009" finished successfully.
 ```
-</details>
+
 
 Next, we are going to create service accounts for Config Sync and Porch on the workload clusters to use to access their
 repositories. The authentication will happen via Workload Identity, so we will also configure the service accounts to
@@ -169,13 +165,13 @@ gcloud iam service-accounts create nephio-config-sync \
     --display-name="nephio-config-sync"
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 Created service account [nephio-config-sync].
 ```
-</details>
+
 
 Create the Porch SA:
 
@@ -185,14 +181,14 @@ gcloud iam service-accounts create nephio-porch \
     --display-name="nephio-porch"
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 Created service account [nephio-porch].
 ```
 
-</details>
+
 
 Grant repository read privileges to the Config Sync SA:
 
@@ -202,10 +198,10 @@ gcloud projects add-iam-policy-binding ${PROJECT} \
    --role roles/source.reader
 ```
 
-<details>
-<summary>The output is similar to:</summary>
 
-```console
+The output is similar to:
+
+```bash
 Updated IAM policy for project [your-nephio-project-id].
 bindings:
 - members:
@@ -254,7 +250,7 @@ etag: BwYE4Sxmm5A=
 version: 1
 ```
 
-</details>
+
 
 Grant repository read/write access to the Porch SA:
 
@@ -283,8 +279,8 @@ gcloud iam service-accounts add-iam-policy-binding \
    nephio-config-sync@${PROJECT}.iam.gserviceaccount.com
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 Updated IAM policy for serviceAccount [nephio-config-sync@your-nephio-project-id.iam.gserviceaccount.com].
@@ -296,7 +292,7 @@ etag: BwYE4TKYQSk=
 version: 1
 ```
 
-</details>
+
 
 Enable the Porch server Kubernetes service account (KSA) to authenticate as
 Porch SA using workload identity:
@@ -344,8 +340,8 @@ gcloud anthos config controller create nephio-cc \
 Note that Config Controller clusters are always regional and are not available in all regions. See the link above for a
 list of available regions. The Config Controller creation may take up to fifteen minutes.
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 Create request issued for: [nephio-cc]
@@ -355,7 +351,7 @@ Fetching cluster endpoint and auth data.
 kubeconfig entry generated for krmapihost-nephio-cc.
 ```
 
-</details>
+
 
 After completing, your `kubectl` context will be pointing to the Config
 Controller cluster:
@@ -364,15 +360,15 @@ Controller cluster:
 kubectl config get-contexts
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 CURRENT   NAME                                                          CLUSTER                                                  AUTHINFO                                                 NAMESPACE
 *         gke_your-nephio-project-id_us-central1_krmapihost-nephio-cc   gke_your-nephio-project-id_us-central1_krmapihost-nephio-cc   gke_your-nephio-project-id_us-central1_krmapihost-nephio-cc
 ```
 
-</details>
+
 
 If not, you should retrieve the credentials with:
 
@@ -389,14 +385,14 @@ export SA_EMAIL="$(kubectl get ConfigConnectorContext -n config-control \
 echo $SA_EMAIL
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 service-NNNNNNNNNNNN@gcp-sa-yakima.iam.gserviceaccount.com
 ```
 
-</details>
+
 
 Grant that service account `roles/editor`, which allows full management access to the project, except for IAM and a few
 other things:
@@ -408,8 +404,8 @@ gcloud projects add-iam-policy-binding $PROJECT \
     --project $PROJECT
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 Updated IAM policy for project [your-nephio-project-id].
@@ -451,7 +447,7 @@ etag: BwYEGPcbq9U=
 version: 1
 ```
 
-</details>
+
 
 The service account also needs to create Cloud Source Repositories which is not par of the `roles/editor`, role. So, add
 the `roles/source.admin` role as well:
@@ -478,15 +474,15 @@ First, create a repository:
 gcloud source repos create config-control
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 Created [config-control].
 WARNING: You may be billed for this repository. See https://cloud.google.com/source-repositories/docs/pricing for details.
 ```
 
-</details>
+
 
 Next, clone that repository locally. You will use this clone shortly.
 
@@ -494,8 +490,8 @@ Next, clone that repository locally. You will use this clone shortly.
 gcloud source repos clone config-control
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 Cloning into '/home/your-username/nephio-install/config-control'...
@@ -503,7 +499,7 @@ warning: You appear to have cloned an empty repository.
 Project [your-nephio-project-id] repository [config-control] was cloned to [/home/your-username/nephio-install/config-control].
 ```
 
-</details>
+
 
 Before you start adding things to that repository, set up Config Sync to pull configurations from there by creating a
 RootSync in Config Controller. There is a package available to help properly configure the RootSync:
@@ -512,8 +508,8 @@ RootSync in Config Controller. There is a package available to help properly con
 kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/distros/gcp/cc-rootsync@main
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 Package "cc-rootsync":
@@ -534,7 +530,7 @@ Customizing package for deployment.
 Customized package for deployment.
 ```
 
-</details>
+
 
 You need to add your project ID to your clone of the package. You can manually edit the `gcp-context.yaml` or run the
 following command:
@@ -543,10 +539,10 @@ following command:
 kpt fn eval cc-rootsync --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name gcp-context -- 'by-path=data.project-id' "put-value=${PROJECT}"
 ```
 
-</details>
 
-<details>
-<summary>The output is similar to:</summary>
+
+
+The output is similar to:
 
 ```console
 [RUNNING] "gcr.io/kpt-fn/search-replace:v0.2.0" on 1 resource(s)
@@ -555,7 +551,7 @@ kpt fn eval cc-rootsync --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name
     [info] data.project-id: Mutated field value to "your-nephio-project-id"
 ```
 
-</details>
+
 
 Then, render the package to make sure that the project ID is put in all the right places:
 
@@ -563,8 +559,8 @@ Then, render the package to make sure that the project ID is put in all the righ
 kpt fn render cc-rootsync/
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 Package "cc-rootsync":
@@ -579,7 +575,7 @@ Package "cc-rootsync":
 Successfully executed 2 function(s) in 1 package(s).
 ```
 
-</details>
+
 
 In the sandbox exercises, you may have used `kpt live apply` to apply the package at this point. In this case, there are
 restrictions in Config Controller that interfere with the operation of `kpt live`. So, instead, you can just directly
@@ -589,14 +585,14 @@ apply the RootSync resources with `kubectl`:
 kubectl apply -f cc-rootsync/rootsync.yaml
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 rootsync.configsync.gke.io/root-sync created
 ```
 
-</details>
+
 
 Config Sync will now synchronize that repository to your Config Controller.
 
@@ -633,8 +629,8 @@ kpt fn eval nephio --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name gcp-
 kpt fn eval nephio --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name gcp-context -- 'by-path=data.location' "put-value=${LOCATION}"
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 [RUNNING] "gcr.io/kpt-fn/search-replace:v0.2.0" on 1 resource(s)
@@ -651,7 +647,7 @@ and
   Results:
     [info] data.location: Matched field value "us-central1"
 ```
-</details>
+
 
 Propagate those changes throughout the package by running the function pipeline:
 
@@ -760,8 +756,8 @@ You can check if the management cluster is up an running:
 gcloud container clusters list
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                  LOCATION     MASTER_VERSION  MASTER_IP     MACHINE_TYPE  NODE_VERSION    NUM_NODES  STATUS
@@ -769,7 +765,7 @@ krmapihost-nephio-cc  us-central1  1.27.3-gke.100  35.xxx.xx.xx  e2-medium     1
 nephio                us-central1  1.27.3-gke.100  34.xxx.xx.xx  e2-medium     1.27.3-gke.100  3          RUNNING
 ```
 
-</details>
+
 
 Once the management cluster is `RUNNING`, retrieve the credentials and
 store them as a `kubectl` context:
@@ -784,15 +780,15 @@ This will also set it to the current context, which you can verify with:
 kubectl config get-contexts
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 CURRENT   NAME                                                          CLUSTER                                                       AUTHINFO                                                      NAMESPACE
 *         gke_your-nephio-project-id_us-central1_nephio                 gke_your-nephio-project-id_us-central1_nephio                 gke_your-nephio-project-id_us-central1_nephio
           gke_your-nephio-project-id_us-central1_krmapihost-nephio-cc   gke_your-nephio-project-id_us-central1_krmapihost-nephio-cc   gke_your-nephio-project-id_us-central1_krmapihost-nephio-cc
 ```
-</details>
+
 
 If the context is not current, use this command to make it current:
 
@@ -816,8 +812,8 @@ cluster provisioning, a repository was created for managing the Nephio cluster w
 gcloud source repos list
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 REPO_NAME        PROJECT_ID              URL
@@ -825,7 +821,7 @@ config-control   your-nephio-project-id  https://source.developers.google.com/p/
 nephio           your-nephio-project-id  https://source.developers.google.com/p/your-nephio-project-id/r/nephio
 ```
 
-</details>
+
 
 Ensure your current working directory is `nephio-install`, and then clone the
 `nephio` repository locally:
@@ -834,8 +830,8 @@ Ensure your current working directory is `nephio-install`, and then clone the
 gcloud source repos clone nephio
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 Cloning into '/home/your-username/nephio-install/nephio'...
@@ -843,7 +839,7 @@ warning: You appear to have cloned an empty repository.
 Project [your-nephio-project-id] repository [nephio] was cloned to [/home/your-username/nephio-install/nephio].
 ```
 
-</details>
+
 
 Navigate to that directory, and pull out the `nephio-mgmt` package, which
 contains all the necessary Nephio components as subpackages:
@@ -859,8 +855,8 @@ cd nephio
 kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/distros/gcp/nephio-mgmt@main
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 Package "nephio-mgmt":
@@ -885,7 +881,7 @@ Customizing package for deployment.
 Customized package for deployment.
 ```
 
-</details>
+
 
 Create a local commit, but do not push it to the upstream repository yet. As before, this is just to allow `git diff`
 to easily identify the you make later.
@@ -1040,8 +1036,8 @@ kpt fn eval nephio-mgmt --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name
 kpt fn eval nephio-mgmt --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name gen-app-config -- 'by-path=params.hostname' "put-value=${WEBUIFQDN}"
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 [RUNNING] "gcr.io/kpt-fn/search-replace:v0.2.0" on 2 resource(s)
@@ -1069,7 +1065,7 @@ and
   Results:
     [info] params.hostname: Mutated field value to "nephio.example.com"
 ```
-</details>
+
 
 Render the package:
 
@@ -1077,8 +1073,8 @@ Render the package:
 kpt fn render nephio-mgmt/
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 Package "nephio-mgmt/cert-manager": 
@@ -1113,7 +1109,7 @@ Package "nephio-mgmt":
 Successfully executed 5 function(s) in 13 package(s).
 ```
 
-</details>
+
 
 Commit the rendered package, and push the changes to the repository so Config
 Sync can pick them up and apply them.
@@ -1133,8 +1129,8 @@ git tag nephio-mgmt/v1
 git push --tags
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 Total 0 (delta 0), reused 0 (delta 0), pack-reused 0
@@ -1142,7 +1138,7 @@ To https://source.developers.google.com/p/your-nephio-project-id/nephio
  * [new tag]         nephio-mgmt/v1 -> nephio-mgmt/v1
 ```
 
-</details>
+
 
 ## Accessing Nephio
 
@@ -1160,14 +1156,14 @@ INGRESS_IP=$(kubectl -n nephio-webui get ingress nephio-webui -o jsonpath="{.sta
 echo $INGRESS_IP
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 1.2.3.4
 ```
 
-</details>
+
 
 You will need to add this as an `A` record for the name you used in `WEBUIFQDN`. If you are using Google Cloud DNS for
 that zone, first find the managed zone name:
@@ -1176,8 +1172,8 @@ that zone, first find the managed zone name:
 gcloud dns managed-zones list
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                                   DNS_NAME                       DESCRIPTION                                                                                                                                         VISIBILITY
@@ -1186,7 +1182,7 @@ your-managed-zone-name                 example.com.                             
 
 ```
 
-</details>
+
 
 In this case, you would use `your-managed-zone-name`, which is the name for the
 `example.com.` zone.
@@ -1197,14 +1193,14 @@ Start a transaction to add a record set:
 gcloud dns record-sets transaction start --zone=$MANAGED_ZONE
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 Transaction started [transaction.yaml].
 ```
 
-</details>
+
 
 Add the specific IP address as an A record, with the fully-qualified domain name
 of the site:
@@ -1217,14 +1213,14 @@ gcloud dns record-sets transaction add $INGRESS_IP \
    --zone=$MANAGED_ZONE
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 Record addition appended to transaction at [transaction.yaml].
 ```
 
-</details>
+
 
 Execute the transaction to store the record. Depending on your DNS
 configuration, it may take some time to be resolvable.
@@ -1233,8 +1229,8 @@ configuration, it may take some time to be resolvable.
 gcloud dns record-sets transaction execute --zone=$MANAGED_ZONE
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 Executed transaction [transaction.yaml] for managed-zone [your-managed-zone-name].
@@ -1243,7 +1239,7 @@ ID  START_TIME                STATUS
 1   2023-09-15T19:38:36.601Z  pending
 ```
 
-</details>
+
 
 You can now access the site via your browser, and will be asked to login as
 shown below:

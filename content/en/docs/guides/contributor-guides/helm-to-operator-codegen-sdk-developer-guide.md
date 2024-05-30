@@ -25,8 +25,7 @@ The SDK iterates over each YAML file in the "converted-yamls" directory. If a YA
 ### Runtime-Object and Unstruct-Object
 The SDK currently employs the "runtime-object method" to handle Kubernetes resources whose structure is recognized by Kubernetes by default. Examples of such resources include Deployment, Service, and ConfigMap. Conversely, resources that are not inherently known to Kubernetes and require explicit installation or definition, such as Third-Party Custom Resource Definitions (CRDs) like NetworkAttachmentDefinition or PrometheusRule, are processed using the "unstructured-object" method. Such examples are given below:
 
-<details>
-<summary>Example</summary>
+Example
 
 ```
 // Runtime-Object Example
@@ -68,7 +67,6 @@ networkAttachmentDefinition1 := &unstructured.Unstructured{
 		},
 	}
 ```
-</details>
 
 ### Flow-3.1: KRM to Runtime-Object
 The conversion process relies on the "k8s.io/apimachinery/pkg/runtime" package. Currently, only the API version "v1" is supported. The supported kinds for the Runtime Object method include:
@@ -109,8 +107,7 @@ We have assumed in the DFS function, that every path (structure) will end at the
 2. []byte/[]uint8: []byte is generally used in kind: Secret. It is seen that we provide 64base encoded secret-value in yaml, but on converting the yaml to runtime-obj, the secret-val automatically get decoded to actual value, Since, It is not good to show decoded/actual secret value in the code, therefore, we encode it again and store this base64-encoded-value as secret-value in json.
 
 
-<details>
-<summary>JSON Conversion Example</summary>
+JSON Conversion Example
 
 ```
 // For A KRM Resource
@@ -157,7 +154,6 @@ spec:
 }
 // It shows the hierarchical structure along with the specific data types and corresponding values for each attribute
 ```
-</details>
 
 ### Flow-3.3: JSON to String (Go-Code)
 The SDK reads the JSON file containing the information about the Kubernetes resource and then translates this information into a string of Go code. This process involves parsing the JSON structure and generating corresponding Go code strings based on the structure, data types, and values extracted from the JSON representation. Ultimately, this results in a string that represents the Kubernetes resource in a format compatible with Go code.
@@ -198,8 +194,7 @@ B) Composite Cases:
 
 
 
-<details>
-<summary>GoCode Conversion Example</summary>
+GoCode Conversion Example
 
 ```
 // For a JSON structure Like the following: 
@@ -255,7 +250,6 @@ B) Composite Cases:
 	},
 }
 ```
-</details>
 
 ### Significance of Config-Jsons: (Struct_Module_mapping.json & Enum_module_mapping.json)
 Based on the data type, Values are formatted accordingly,
