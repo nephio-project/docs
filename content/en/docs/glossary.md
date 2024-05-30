@@ -12,6 +12,9 @@ these terms.
 ## Config
 See [Configuration](#configuration).
 
+## Config Injection
+See [Injector](#injector).
+
 ## Configuration
 In Nephio, this *usually* refers to the Kubernetes resources used to provision
 and manage network functions, their underlying infrastructure, and their
@@ -31,8 +34,18 @@ is part of the "Kubernetes Everywhere" principle).
 As a community, we should try to use a common set of terminology for different types of configuration. See
 [docs#4](https://github.com/nephio-project/nephio/issues/266).
 
-## Config Injection
-See [Injector](#injector).
+## Configuration as Data
+Configuration as Data is an approach to management of configuration (incl. configuration of infrastructure, policy,
+services, applications, etc.) which:
+
+* makes configuration data the source of truth, stored separately from the live state
+* uses a uniform, serializable data model to represent configuration
+* separates code that acts on the configuration from the data and from packages / bundles of the data
+* abstracts configuration file structure and storage from operations that act upon the configuration data; clients
+  manipulating configuration data don’t need to directly interact with storage (git, container images)
+
+Source of definition and more information about Configuration as Data can be found in the
+[kpt documentation](https://github.com/kptdev/kpt/blob/main/docs/design-docs/06-config-as-data.md#configuration-as-data-1).
 
 ## Controller
 This term comes from Kubernetes where
