@@ -13,5 +13,3 @@ ignorePatterns:
 replacementPatterns:
   - pattern: ".md#.*$"
     replacement: ".md"
-  - pattern: "/images/architecture/(.*\\.png)"
-    replacement: "$1"
