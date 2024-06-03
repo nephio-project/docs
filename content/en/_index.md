@@ -3,7 +3,7 @@ title: Start
 description: Documentation of the Nephio project
 menu: {main: {weight: 10}}
 ---
-{{< blocks/cover title="Welcome to the Nephio documentation" image_anchor="top" height="full" >}}
+{{< blocks/cover title="Welcome to the Nephio R2 documentation" image_anchor="top" height="full" >}}
 <a class="btn btn-lg btn-primary me-3 mb-4" href="https://nephio.org/">
   Homepage <i class="fas fa-arrow-alt-circle-right ms-2"></i>
 </a>
@@ -27,10 +27,8 @@ and network functions across large scale edge deployments."
 
 {{% blocks/section type="row" %}}
 
-{{% blocks/feature icon="fas fa-rocket" title="R1" %}}
-Welcome to the R1 release of Nephio. Please use the documentation links below to learn more about Nephio R1, or checkout
-our [Learning Nephio with R1](https://wiki.nephio.org/display/HOME/Learning+with+Nephio+R1) series, which includes a
-[demo video](https://youtu.be/mFl71sy2Pdc) and short articles about different aspects of Nephio R1.
+{{% blocks/feature icon="fas fa-rocket" title="R2" %}}
+Welcome to the R2 release of Nephio. Please use the documentation links below to learn more about Nephio R2.
 {{% /blocks/feature %}}
 
 {{% blocks/feature icon="fab fa-wikipedia-w" title="Wiki" %}}
