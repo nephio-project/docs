@@ -45,7 +45,7 @@ services, applications, etc.) which:
   manipulating configuration data don’t need to directly interact with storage (git, container images)
 
 Source of definition and more information about Configuration as Data can be found in the
-[kpt documentation](https://github.com/kptdev/kpt/blob/main/docs/design-docs/06-config-as-data.md#configuration-as-data-1).
+[kpt documentation](https://github.com/nephio-project/porch/blob/main/docs/06-config-as-data.md).
 
 ## Controller
 This term comes from Kubernetes where

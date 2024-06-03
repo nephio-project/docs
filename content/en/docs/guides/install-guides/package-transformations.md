@@ -369,12 +369,6 @@ The new cluster comes up after a number of minutes.
 
 # Transformations in the Workload cluster creation
 
-Test mest
-
-# Blah
-
-## Blih
-
 Approving the `regional` Workload cluster package in the `mgmt` repository
 triggered configsync to apply the `PackageVariant` configurations in the
 `mgmt/regional` package. Let's examine those `PackageVariant` configurations one
