@@ -6,6 +6,8 @@ approvers:
   - liamfallon
   - efiacor
   - CsatariGergely
+  - arora-sagar
+  - timop62
 
 reviewers:
   - johnbelamaric
@@ -15,3 +17,5 @@ reviewers:
   - efiacor
   - liamfallon
   - CsatariGergely
+  - arora-sagar
+  - timop62
