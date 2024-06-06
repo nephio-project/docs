@@ -12,6 +12,9 @@ these terms.
 ## Config
 See [Configuration](#configuration).
 
+## Config Injection
+See [Injector](#injector).
+
 ## Configuration
 In Nephio, this *usually* refers to the Kubernetes resources used to provision
 and manage network functions, their underlying infrastructure, and their
@@ -31,8 +34,18 @@ is part of the "Kubernetes Everywhere" principle).
 As a community, we should try to use a common set of terminology for different types of configuration. See
 [docs#4](https://github.com/nephio-project/nephio/issues/266).
 
-## Config Injection
-See [Injector](#injector).
+## Configuration as Data
+Configuration as Data is an approach to management of configuration (incl. configuration of infrastructure, policy,
+services, applications, etc.) which:
+
+* makes configuration data the source of truth, stored separately from the live state
+* uses a uniform, serializable data model to represent configuration
+* separates code that acts on the configuration from the data and from packages / bundles of the data
+* abstracts configuration file structure and storage from operations that act upon the configuration data; clients
+  manipulating configuration data don’t need to directly interact with storage (git, container images)
+
+Source of definition and more information about Configuration as Data can be found in the
+[kpt documentation](https://github.com/nephio-project/porch/blob/main/docs/06-config-as-data.md).
 
 ## Controller
 This term comes from Kubernetes where
@@ -178,7 +191,7 @@ based upon the target cluster.
 ## kpt
 [Kpt](https://kpt.dev) is an open source tool for managing bundles of Kubernetes
 resource configurations, called kpt [packages](#package), using the
-[Configuration-as-Data](#config-as-data) methodology.
+[Configuration as Data](#configuration-as-data) methodology.
 
 The `kpt` command-line tool allows pulling, pushing, cloning and otherwise
 managing packages stored in version control repositories (Git or OCI), as well
@@ -289,7 +302,7 @@ Also see [REST](https://en.wikipedia.org/wiki/Representational_state_transfer).
 This refers to a software component that runs in the Nephio Management cluster,
 and could be considered a type of [controller](#controller). However, it
 specifically watches for `PackageRevision` resources in a Draft state, and
-checks for the [conditions](#conditions) on those resources. When it finds
+checks for the conditions on those resources. When it finds
 unsatisfied conditions of the type it handles, the specializer will
 [mutate](#mutation) (modify) the Draft package by adding or
 changing resources.

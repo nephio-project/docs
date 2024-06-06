@@ -1,7 +1,7 @@
 ---
 title: Free5GC Testbed Deployment and E2E testing with UERANSIM
 description: >
-  A step by step guide to deploy Free5GC Core and perform E2E testing with UERANSIM
+  A step by step guide to deploy free5GC Core and perform E2E testing with UERANSIM
 weight: 2
 ---
 
@@ -11,11 +11,11 @@ weight: 2
 - [Create the Regional cluster](#step-1-create-the-regional-cluster)
 - [Check the Regional cluster installation](#step-2-check-the-regional-cluster-installation)
 - [Deploy two Edge clusters](#step-3-deploy-two-edge-clusters)
-- [Deploy Free5GC control plane functions](#step-4-deploy-free5Gc-control-plane-functions)
-- [Deploy Free5GC Operator in the Workload clusters](#step-5-deploy-free5GC-operator-in-the-workload-clusters)
-- [Check Free5GC Operator deployment](#step-6-check-free5GC-operator-deployment)
+- [Deploy free5GC control plane functions](#step-4-deploy-free5gc-control-plane-functions)
+- [Deploy free5GC Operator in the Workload clusters](#step-5-deploy-free5gc-operator-in-the-workload-clusters)
+- [Check free5GC Operator deployment](#step-6-check-free5gc-operator-deployment)
 - [Deploy AMF, SMF and UPF](#step-7-deploy-the-amf-smf-and-upf-nfs)
-- [Deploy UERANSIM](#step-8-deploy-UERANSIM)
+- [Deploy UERANSIM](#step-8-deploy-ueransim)
 - [Change the Capacities of the UPF and SMF NFs](#step-9-change-the-capacities-of-the-upf-and-smf-nfs)
 
 ## Introduction
@@ -29,14 +29,14 @@ These exercises will take you from a system with only the Nephio Management clus
 - Two Edge clusters
 - Repositories for each cluster, registered with Nephio, and with Config Sync set up to pull from those repositories.
 - Inter-cluster networking between those clusters
-- A complete free5gc deployment including:
+- A complete free5GC deployment including:
 
   - AUSF, NRF, NSSF, PCF, UDM, UDR running on the Regional cluster and communicating via the Kubernetes default network
   - SMF, AMF running on the Regional cluster and attached to the secondary Multus networks as needed
   - UPF running on the Edge clusters and attached to the secondary Multus networks as needed
-  - The free5gc WebUI and MongoDB as supporting services
+  - The free5GC WebUI and MongoDB as supporting services
 
-- A registered subscriber in the free5gc core
+- A registered subscriber in the free5GC core
 - UERANSIM running on the edge01 cluster and simulating a gNB and the subscriber's UE
 
 The network configuration is illustrated in the following figure:
@@ -45,7 +45,7 @@ The network configuration is illustrated in the following figure:
 
 Note that for simplicity, only one edge cluster is represented.
 
-Additionally, you can use Nephio to change the capacity requirement for the UPF and SMF NFs and see how the free5gc
+Additionally, you can use Nephio to change the capacity requirement for the UPF and SMF NFs and see how the free5GC
 operator translates that into increased memory and CPU requirements for the underlying workload.
 
 To perform these exercises, you will need:
@@ -54,7 +54,7 @@ To perform these exercises, you will need:
 - Access to the Nephio UI as described in the installation guide
 
 Access to Gitea, used in the demo environment as the Git provider, is optional. Later in the exercises, you will also
-access the free5gc Web UI.
+access the free5GC Web UI.
 
 ## Step 1: Create the Regional cluster
 
@@ -426,7 +426,7 @@ rawtopology.topo.nephio.org/nephio created
 
 ## Step 4: Deploy free5GC Control Plane Functions
 
-While the Edge clusters are deploying (which will take 5-10 minutes), you can install the free5gc functions other than
+While the Edge clusters are deploying (which will take 5-10 minutes), you can install the free5GC functions other than
 SMF, AMF, and UPF. For this, you will use the Regional cluster. Since these are all installed with a single package, you
 can use the UI to pick the `free5gc-cp` package from the `free5gc-packages` repository and clone it to the `regional`
 repository (you could have also used the CLI).
@@ -446,7 +446,7 @@ click "Propose", and then "Approve".
 
 ![Install free5gc - Step 6](/static/images/user-guides/free5gc-cp-6.png)
 
-Shortly thereafter, you should see free5gc-cp in the cluster namespace:
+Shortly thereafter, you should see free5GC-cp in the cluster namespace:
 
 ```bash
 kubectl get ns --context regional-admin@regional
@@ -543,7 +543,7 @@ packagevariantset.config.porch.kpt.dev/free5gc-operator created
 
 ## Step 6: Check free5GC Operator Deployment
 
-Within five minutes of applying the free5gc Operator YAML file, you should see `free5gc` namespaces on your regional and
+Within five minutes of applying the free5GC Operator YAML file, you should see `free5gc` namespaces on your regional and
 edge clusters:
 
 ```bash
