@@ -10,6 +10,7 @@ aliveStatusCodes:
 ignorePatterns:
   - pattern: "^http://localhost.*$"
   - pattern: "^http://HOSTNAME:PORT.*$"
+  - pattern: "https://wiki.lfnetworking.org/.*"
 replacementPatterns:
   - pattern: ".md#.*$"
     replacement: ".md"
