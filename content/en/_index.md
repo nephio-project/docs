@@ -28,7 +28,7 @@ and network functions across large scale edge deployments."
 {{% blocks/section type="row" %}}
 
 {{% blocks/feature icon="fas fa-rocket" title="R2" %}}
-Welcome to the R2 release of Nephio. Please use the documentation links below to learn more about Nephio R2.
+Welcome to the Release 2 (R2) of Nephio. Please use the documentation links below to learn more about Nephio R2.
 {{% /blocks/feature %}}
 
 {{% blocks/feature icon="fab fa-wikipedia-w" title="Wiki" %}}
