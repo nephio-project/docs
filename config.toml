@@ -1,4 +1,4 @@
-baseURL = 'https://nephio.org/'
+baseURL = 'https://r2.docs.nephio.org/'
 languageCode = 'en-us'
 title = 'Nephio Documentation'
 # based on https://www.docsy.dev/docs/get-started/docsy-as-module/start-from-scratch/

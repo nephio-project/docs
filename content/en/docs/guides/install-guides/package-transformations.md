@@ -12,11 +12,11 @@ weight: 7
   - [kpt fn render](#kpt-fn-render)
   - [kpt live init](#kpt-live-init)
 - [kpt alpha rpkg for the Workload clusters](#kpt-alpha-rpkg-for-workload-clusters)
-  - [Create workload cluster package](#create-workload-cluster-package)
+  - [Create workload cluster package](#create-the-workload-cluster-package)
   - [Configure the package](#configure-the-package)
   - [Propose the package](#propose-the-package)
   - [Approve the package and trigger configsync](#approve-the-package-and-trigger-configsync)
-- [Transformations in the Workload cluster creation](#transformations-in-workload-cluster-creation)
+- [Transformations in the Workload cluster creation](#transformations-in-the-workload-cluster-creation)
 
 # Vanilla kpt for the Management cluster
 
