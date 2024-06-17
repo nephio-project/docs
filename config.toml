@@ -158,7 +158,7 @@ enable = false
 
 [[params.versions]]
   version = "R3"
-  url = "https://nephio-r3.netlify.app/docs/"
+  url = "https://r3.docs.nephio.org/docs/"
 
   [[params.versions]]
   version = "R2"
