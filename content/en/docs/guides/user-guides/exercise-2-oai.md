@@ -69,8 +69,8 @@ If not, logout and login to the VM or execute the `newgrp docker` to ensure the 
 kubectl get repositories
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                        TYPE   CONTENT   DEPLOYMENT   READY   ADDRESS
@@ -85,7 +85,7 @@ mgmt                        git    Package   true         True    http://172.18.
 mgmt-staging                git    Package   false        True    http://172.18.0.200:3000/nephio/mgmt-staging.git
 oai-core-packages           git    Package   false        True    https://github.com/OPENAIRINTERFACE/oai-packages.git
 ```
-</details>
+
 
 Since those are Ready, you can deploy packages from these repositories. You can use our pre-defined `PackageVariantSets` for creating workload clusters
 
@@ -93,15 +93,15 @@ Since those are Ready, you can deploy packages from these repositories. You can 
 kubectl apply -f test-infra/e2e/tests/oai/001-infra.yaml
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 packagevariant.config.porch.kpt.dev/oai-core-clusters-mgmt-core created
 packagevariantset.config.porch.kpt.dev/oai-regional-clusters created
 packagevariantset.config.porch.kpt.dev/oai-edge-clusters created
 ```
-</details>
+
 
 It will take around 15 mins to create the three clusters. You can check the progress by looking at commits made in gitea `mgmt` and `mgmt-staging` repository. After couple of minutes you should see three independent repositories (Core, Regional and Edge) for each workload cluster.
 
@@ -124,8 +124,8 @@ or
 ```bash
 kubectl get clusters.cluster.x-k8s.io
 ```
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME       CLUSTERCLASS   PHASE         AGE   VERSION
@@ -133,7 +133,7 @@ core       docker         Provisioned   34m   v1.26.3
 edge       docker         Provisioned   34m   v1.26.3
 regional   docker         Provisioned   34m   v1.26.3
 ```
-</details>
+
 
 To access the API server of that cluster, you need to retrieve the `kubeconfig` file by pulling it from the Kubernetes
 Secret and decode the base64 encoding:
@@ -154,8 +154,8 @@ You can then use it to access the Workload cluster directly:
 kubectl get ns --context core-admin@core
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                           STATUS   AGE
@@ -169,7 +169,7 @@ local-path-storage             Active   33m
 metallb-system                 Active   33m
 resource-group-system          Active   32m
 ```
-</details>
+
 
 You should also check that the KinD clusters have come up fully with `kubectl get machinesets`. You should see READY and
 AVAILABLE replicas.
@@ -178,8 +178,8 @@ AVAILABLE replicas.
 kubectl get machinesets
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                        CLUSTER    REPLICAS   READY   AVAILABLE   AGE   VERSION
@@ -187,7 +187,7 @@ core-md-0-q9mxp-mstdp       core       1          1       1           35m   v1.2
 edge-md-0-v44mh-pbs9k       edge       1          1       1           35m   v1.26.3
 regional-md-0-hm5n8-wts7m   regional   1          1       1           35m   v1.26.3
 ```
-</details>
+
 
 Once all the clusters are ready, it is necessary to connect them. For now you are using the [containerlab tool](https://containerlab.dev/). Eventually, the inter-cluster networking will be automated as well.
 
@@ -198,8 +198,8 @@ export TESTDIR=${TESTDIR:-$HOME/test-infra/e2e/tests/oai}
 ./test-infra/e2e/provision/hacks/inter-connect_workers.sh
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 {"workers":["core-md-0-q9mxp-mstdp-6mtvg","edge-md-0-v44mh-pbs9k-t9dq9","regional-md-0-hm5n8-wts7m-5wttp"]}
@@ -226,7 +226,7 @@ Run 'containerlab version upgrade' to upgrade or go check other installation opt
 | 4 | net-5g-leaf                     | 297a422aa608 | ghcr.io/nokia/srlinux:22.11.2-116 | srl           | running | 172.18.0.12/16 | fc00:f853:ccd:e793::c/64 |
 +---+---------------------------------+--------------+-----------------------------------+---------------+---------+----------------+--------------------------+
 ```
-</details>
+
 
 You will also need to configure the nodes for the VLANs. Again, this will be automated in a future release that
 addresses node setup and inter-cluster networking. For now, you must run a script that creates them in each of the
@@ -248,13 +248,13 @@ clusters. There is a predefined PackageVariant in the tests directory for this:
 kubectl apply -f test-infra/e2e/tests/oai/001-network.yaml
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 packagevariant.config.porch.kpt.dev/network created
 ```
-</details>
+
 
 Then you will create appropriate `Secret` to make sure that Nephio can authenticate to the external backend.
 
@@ -262,13 +262,13 @@ Then you will create appropriate `Secret` to make sure that Nephio can authentic
 kubectl apply -f test-infra/e2e/tests/oai/001-secret.yaml
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 secret/srl.nokia.com created
 ```
-</details>
+
 
 The predefined PackageVariant package defines certain resources that exist for the entire topology. However, you also
 need to configure the resource backend for our particular topology. This will likely be automated in the future, but for
@@ -279,13 +279,13 @@ also the credentials and information is provided to configure the network device
 ./test-infra/e2e/provision/hacks/network-topo.sh
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 rawtopology.topo.nephio.org/nephio created
 ```
-</details>
+
 
 It might take a couple of seconds for the networks to come up. To list the networks you can use the below command
 
@@ -293,8 +293,8 @@ It might take a couple of seconds for the networks to come up. To list the netwo
 kubectl get networks.infra.nephio.org
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME           READY
@@ -304,7 +304,7 @@ vpc-internal   True
 vpc-internet   True
 vpc-ran        True
 ```
-</details>
+
 
 After the networks are successfully configured lets configure metallb ip-address pool for each workload cluster. Some workloads in the workload cluster require metallb to expose their services.
 
@@ -381,8 +381,8 @@ kubectl apply -f test-infra/e2e/tests/oai/002-database.yaml
 kubectl apply -f test-infra/e2e/tests/oai/002-operators.yaml
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 packagevariantset.config.porch.kpt.dev/oai-common created
@@ -391,7 +391,7 @@ packagevariant.config.porch.kpt.dev/oai-up-operators created
 packagevariant.config.porch.kpt.dev/oai-ran-operator-edge created
 packagevariant.config.porch.kpt.dev/oai-ran-operator-regional created
 ```
-</details>
+
 
 ## Step 4: Check Database and Operator Deployment
 
@@ -401,8 +401,8 @@ Within five minutes of applying the RAN, Core Operator, and database Packages, y
 kubectl get ns --context core-admin@core
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 kubectl get ns --context core-admin@core
@@ -419,7 +419,7 @@ oai-cn-operators               Active   5m
 oai-core                       Active   5m39s
 resource-group-system          Active   88m
 ```
-</details>
+
 
 In the namespace `oai-core` you can check MySQL pod
 
@@ -427,14 +427,14 @@ In the namespace `oai-core` you can check MySQL pod
 kubectl get pods -n oai-core --context core-admin@core
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                     READY   STATUS    RESTARTS   AGE
 mysql-7dd4cc6945-lqwcv   1/1     Running   0          7m12s
 ```
-</details>
+
 
 In the `oai-cn-operators` namespace you should see control plane network function operators
 
@@ -442,8 +442,8 @@ In the `oai-cn-operators` namespace you should see control plane network functio
 kubectl get pods -n oai-cn-operators --context core-admin@core
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                                 READY   STATUS    RESTARTS   AGE
@@ -454,7 +454,7 @@ oai-smf-operator-5874557bb9-kbp4t    1/1     Running   0          11m
 oai-udm-operator-6b4658b9c-nnnb7     1/1     Running   0          11m
 oai-udr-operator-85464c47c9-wjprf    1/1     Running   0          11m
 ```
-</details>
+
 
 In regional and edge clusters you should see below namespaces,
 
@@ -462,8 +462,8 @@ In regional and edge clusters you should see below namespaces,
 kubectl get ns --context regional-admin@regional
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                           STATUS   AGE
@@ -478,14 +478,14 @@ metallb-system                 Active   98m
 oai-ran-operators              Active   14m
 resource-group-system          Active   97m
 ```
-</details>
+
 
 ```bash
 kubectl get ns --context edge-admin@edge
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                           STATUS   AGE
@@ -501,7 +501,7 @@ oai-cn-operators               Active   14m
 oai-ran-operators              Active   14m
 resource-group-system          Active   97m
 ```
-</details>
+
 
 In edge cluster in `oai-cn-operators` namespace you will see only oai-upf network function.
 
@@ -509,14 +509,14 @@ In edge cluster in `oai-cn-operators` namespace you will see only oai-upf networ
 kubectl get pods -n oai-cn-operators --context edge-admin@edge
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                                READY   STATUS    RESTARTS   AGE
 oai-upf-operator-75cbc869cb-67lf9   1/1     Running   0          16m
 ```
-</details>
+
 
 ## Step 5: Deploy the Core Network Functions
 
@@ -529,8 +529,8 @@ create them. But for now, let's do each manually.
 kubectl create -f test-infra/e2e/tests/oai/003-core-network.yaml
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 packagevariant.config.porch.kpt.dev/oai-nrf created
@@ -541,7 +541,7 @@ packagevariant.config.porch.kpt.dev/oai-amf created
 packagevariant.config.porch.kpt.dev/oai-smf created
 packagevariant.config.porch.kpt.dev/oai-upf-edge created
 ```
-</details>
+
 
 All the NFs will wait for NRF to come up and then they will register to NRF. SMF has a dependency on UPF which is described by `dependency.yaml` file in SMF package. It will wait till the time UPF is deployed. It takes around ~20 mins for the whole core network to come up. NRF is exposing its service via metallb external ip-address. In case metallb ip-address pool is not properly defined in the previous section, then UPF will not be able to register to NRF and in this case SMF and UPF will not be able to communicate. 
 
@@ -553,8 +553,8 @@ You can check if all the control plane network functions are up and running
 kubectl get pods -n oai-core --context core-admin@core
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                        READY   STATUS    RESTARTS   AGE
@@ -566,7 +566,7 @@ smf-core-68c4c76bbf-95v9z   1/1     Running   0          31m
 udm-core-c7d67cb4d-wdvjx    1/1     Running   0          52m
 udr-core-69c56bcbd5-sf8nc   1/1     Running   0          52m
 ```
-</details>
+
 
 The user plane network function UPF will be deployed on the Edge cluster
 
@@ -574,14 +574,14 @@ The user plane network function UPF will be deployed on the Edge cluster
 kubectl get pods -n oai-core --context edge-admin@edge
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                        READY   STATUS    RESTARTS   AGE
 upf-edge-55ccb4f9d7-868k6   1/1     Running   0          30m
 ```
-</details>
+
 
 
 To verify that UPF and SMF are sharing PFCP heartbeats you can run the below commands
@@ -590,8 +590,8 @@ To verify that UPF and SMF are sharing PFCP heartbeats you can run the below com
 kubectl logs -n oai-core --context=edge-admin@edge -l workload.nephio.org/oai=upf --tail=20
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 * Connection state changed (HTTP/2 confirmed)
@@ -615,7 +615,7 @@ content-length: 58
 [2024-01-25 16:54:21.817] [upf_n4 ] [info] handle_receive(16 bytes)
 [2024-01-25 16:54:21.817] [upf_n4 ] [info] Received SX HEARTBEAT REQUEST
 ```
-</details>
+
 
 In the logs you should see `Received SX HEARTBEAT REQUEST` statement. If that is present then SMF and UPF are sharing PFCP heartbeats.
 
@@ -627,15 +627,15 @@ If the core network functions are running and configured properly then you can s
 kubectl create -f test-infra/e2e/tests/oai/004-ran-network.yaml
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 packagevariant.config.porch.kpt.dev/oai-cucp created
 packagevariant.config.porch.kpt.dev/oai-du created
 packagevariant.config.porch.kpt.dev/oai-cuup created
 ```
-</details>
+
 
 Wait for ~20 mins for the RAN network functions to come up.
 
@@ -647,40 +647,40 @@ You can check if the deployment of RAN components, CU-CP in Regional cluster and
 kubectl get pods -n oai-ran-cucp --context regional-admin@regional
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                             READY   STATUS    RESTARTS   AGE
 oai-gnb-cu-cp-588f76c5f9-9fp54   1/1     Running   0          10m
 ```
-</details>
+
 
 ```bash
 kubectl get pods -n oai-ran-cuup --context edge-admin@edge
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                             READY   STATUS    RESTARTS   AGE
 oai-gnb-cu-up-75475f949b-j6chc   1/1     Running   0          9m
 ```
-</details>
+
 
 ```bash
 kubectl get pods -n oai-ran-du --context edge-admin@edge
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                          READY   STATUS    RESTARTS   AGE
 oai-gnb-du-6cb4cc5fcd-zvlrq   1/1     Running   0          9m
 ```
-</details>
+
 
 To check that RAN network functions are properly deployed it is important to check if N2, E1 and F1 links are created.
 
@@ -690,13 +690,13 @@ To verify E1 link between CU-CP and CU-UP is properly configured you can run the
 kubectl logs -n oai-ran-cucp --context=regional-admin@regional -l app.kubernetes.io/name=oai-gnb-cu-cp --tail=-1 | grep "e1ap_send_SETUP_RESPONSE"
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 9890.462425 [E1AP] I e1ap_send_SETUP_RESPONSE: Sending ITTI message to SCTP Task
 ```
-</details>
+
 
 To verify F1 link between CU-CP and DU is properly configured you can run the below commands
 
@@ -704,13 +704,13 @@ To verify F1 link between CU-CP and DU is properly configured you can run the be
 kubectl logs -n oai-ran-cucp --context=regional-admin@regional -l app.kubernetes.io/name=oai-gnb-cu-cp --tail=-1 | grep "Cell Configuration ok"
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 9887.922215 [F1AP] I Cell Configuration ok (assoc_id 6)
 ```
-</details>
+
 
 To verify N2 link between AMF and CU-CP is properly configured you can run the below commands
 
@@ -718,13 +718,13 @@ To verify N2 link between AMF and CU-CP is properly configured you can run the b
 kubectl logs -n oai-ran-cucp --context=regional-admin@regional -l app.kubernetes.io/name=oai-gnb-cu-cp --tail=-1 | grep "Received NGAP_REGISTER_GNB_CNF: associated AMF"
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 9496.571150 [GNB_APP] I [gNB 0] Received NGAP_REGISTER_GNB_CNF: associated AMF 1
 ```
-</details>
+
 
 
 ## Step 7: Deploy UE
@@ -735,13 +735,13 @@ If all three links are configured then you can proceed with deploying the UE `Pa
 kubectl create -f test-infra/e2e/tests/oai/005-ue.yaml
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 packagevariant.config.porch.kpt.dev/oai-ue created
 ```
-</details>
+
 
 The UE will be deployed in the Edge cluster. To verify that the UE is deployed you can use the below command
 
@@ -749,14 +749,14 @@ The UE will be deployed in the Edge cluster. To verify that the UE is deployed y
 kubectl get pods -n oai-ue --context edge-admin@edge
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                         READY   STATUS    RESTARTS   AGE
 oai-nr-ue-78846cf68c-rxkkz   1/1     Running   0          32m
 ```
-</details>
+
 
 To verify if the UE is successfully connected you can use the below command
 
@@ -766,14 +766,14 @@ kubectl logs -n oai-ue $UE_POD -c nr-ue --context edge-admin@edge | grep "REGIST
 kubectl logs -n oai-ue $UE_POD -c nr-ue --context edge-admin@edge | grep "Interface oaitun_ue1 successfully configured"
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 24908.869517 [NAS] I [UE] Received REGISTRATION ACCEPT message
 24910.122107 [OIP] I Interface oaitun_ue1 successfully configured, ip address 10.2.0.2, mask 255.255.255.0 broadcast address 10.2.0.255
 ```
-</details>
+
 
 ## Step 8: Test the End to End Connectivity
 
@@ -786,8 +786,8 @@ UPF_tun0_IP_ADDR=$(kubectl exec -it $UPF_POD -n oai-core -c upf-edge --context e
 kubectl exec -it $UE_POD -n oai-ue --context edge-admin@edge -- ping -I oaitun_ue1 -c 3 $UPF_tun0_IP_ADDR
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 PING 10.2.0.1 (10.2.0.1) from 10.2.0.2 oaitun_ue1: 56(84) bytes of data.
@@ -799,6 +799,6 @@ PING 10.2.0.1 (10.2.0.1) from 10.2.0.2 oaitun_ue1: 56(84) bytes of data.
 3 packets transmitted, 3 received, 0% packet loss, time 2002ms
 rtt min/avg/max/mdev = 10.869/11.435/12.093/0.503 ms
 ```
-</details>
+
 
 For now the extra interfaces which are created using inter-connectivity script does not perform natting to have internet access.

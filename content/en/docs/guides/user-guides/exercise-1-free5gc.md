@@ -72,8 +72,8 @@ If not, logout and login to the VM or execute the `newgrp docker` to ensure the 
 kubectl get repositories
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                        TYPE   CONTENT   DEPLOYMENT   READY   ADDRESS
@@ -88,7 +88,7 @@ mgmt                        git    Package   true         True    http://172.18.
 mgmt-staging                git    Package   false        True    http://172.18.0.200:3000/nephio/mgmt-staging.git
 oai-core-packages           git    Package   false        True    https://github.com/OPENAIRINTERFACE/oai-packages.git
 ```
-</details>
+
 
 Since those are Ready, you can deploy a package from the
 [catalog-infra-capi](https://github.com/nephio-project/catalog/tree/main/infra/capi) repository into the mgmt
@@ -101,15 +101,15 @@ revision may be different):
 porchctl rpkg get --name nephio-workload-cluster
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                                                          PACKAGE                   WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
 catalog-infra-capi-d4d7d55835a5578f5c43fc8244deb6a091a8643f   nephio-workload-cluster   main            main       false    Published   catalog-infra-capi
 catalog-infra-capi-b0ae9512aab3de73bbae623a3b554ade57e15596   nephio-workload-cluster   v2.0.0          v2.0.0     true     Published   catalog-infra-capi
 ```
-</details>
+
 
 Then, use the NAME from that in the `clone` operation, and the resulting PackageRevision name to perform the `propose`
 and `approve` operations:
@@ -118,13 +118,13 @@ and `approve` operations:
 porchctl rpkg clone -n default catalog-infra-capi-b0ae9512aab3de73bbae623a3b554ade57e15596 --repository mgmt regional
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 created
 ```
-</details>
+
 
 Next, you will want to ensure that the new Regional cluster is labeled as regional. Since you are using the CLI, you
 will need to pull the package out, modify it, and then push the updates back to the Draft revision. You will use `kpt`
@@ -143,8 +143,8 @@ imperatively, using `kpt fn eval`:
 kpt fn eval --image gcr.io/kpt-fn/set-labels:v0.2.0 regional -- "nephio.org/site-type=regional" "nephio.org/region=us-west1"
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 [RUNNING] "gcr.io/kpt-fn/set-labels:v0.2.0"
@@ -152,7 +152,7 @@ kpt fn eval --image gcr.io/kpt-fn/set-labels:v0.2.0 regional -- "nephio.org/site
   Results:
     [info]: set 22 labels in total
 ```
-</details>
+
 
 If you wanted to, you could have used the `--save` option to add the `set-labels` call to the package pipeline. This
 would mean that function gets called whenever the server saves the package. If you added new resources later, they would
@@ -165,14 +165,14 @@ repository:
 porchctl rpkg push -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 regional
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 [RUNNING] "gcr.io/kpt-fn/apply-replacements:v0.1.1" 
 [PASS] "gcr.io/kpt-fn/apply-replacements:v0.1.1"
 ```
-</details>
+
 
 Finally, you propose and approve the package.
 
@@ -180,25 +180,25 @@ Finally, you propose and approve the package.
 porchctl rpkg propose -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 proposed
 ```
-</details>
+
 
 ```bash
 porchctl rpkg approve -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 approved
 ```
-</details>
+
 
 ConfigSync running in the Management cluster will now pull out this new package, create all the resources necessary to
 provision a KinD cluster, and register it with Nephio. This will take about five minutes or so.
@@ -214,14 +214,14 @@ or
 ```bash
 kubectl get clusters.cluster.x-k8s.io
 ```
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME       PHASE         AGE     VERSION
 regional   Provisioned   52m     v1.26.3
 ```
-</details>
+
 
 To access the API server of that cluster, you need to retrieve the `kubeconfig` file by pulling it from the Kubernetes
 Secret and decode the base64 encoding:
@@ -237,8 +237,8 @@ You can then use it to access the Workload cluster directly:
 kubectl get ns --context regional-admin@regional
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                           STATUS   AGE
@@ -252,7 +252,7 @@ local-path-storage             Active   141m
 metallb-system                 Active   142m
 resource-group-system          Active   140m
 ```
-</details>
+
 
 You should also check that the KinD cluster has come up fully with `kubectl get machinesets`. You should see READY and
 AVAILABLE replicas.
@@ -261,14 +261,14 @@ AVAILABLE replicas.
 kubectl get machinesets
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                        CLUSTER    REPLICAS   READY   AVAILABLE   AGE     VERSION
 regional-md-0-m6cr5-wtzlx   regional   1          1       1           5m36s   v1.26.3
 ```
-</details>
+
 
 ## Step 3: Deploy two Edge clusters
 
@@ -278,13 +278,13 @@ Next, you can deploy two Edge clusters by applying the PackageVariantSet that ca
 kubectl apply -f test-infra/e2e/tests/free5gc/002-edge-clusters.yaml
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 packagevariantset.config.porch.kpt.dev/edge-clusters created
 ```
-</details>
+
 
 You should also check that the KinD cluster has come up fully with `kubectl get machinesets`. You should see READY and
 AVAILABLE replicas.
@@ -293,8 +293,8 @@ AVAILABLE replicas.
 kubectl get machinesets
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                        CLUSTER    REPLICAS   READY   AVAILABLE   AGE    VERSION
@@ -302,7 +302,7 @@ edge01-md-0-rts82-q2vkr     edge01     1          1       1           104m   v1.
 edge02-md-0-kwn67-74tpw     edge02     1          1       1           104m   v1.26.3
 regional-md-0-lvmvm-8msw6   regional   1          1       1           143m   v1.26.3
 ```
-</details>
+
 
 This is equivalent to doing the same `kpt` commands used earlier for the Regional cluster, except that it uses the
 PackageVariantSet controller, which is running in the Nephio Management cluster. It will clone the package for each
@@ -335,8 +335,8 @@ export TESTDIR=${TESTDIR:-$HOME/test-infra/e2e/tests/free5gc}
 ./test-infra/e2e/provision/hacks/inter-connect_workers.sh
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 {"workers":["edge01-md-0-rts82-q2vkr-7cw86","edge02-md-0-kwn67-74tpw-v6x96","regional-md-0-lvmvm-8msw6-r67f6"]}
@@ -363,7 +363,7 @@ Run 'containerlab version upgrade' to upgrade or go check other installation opt
 | 4 | net-5g-leaf                     | 402cecf6061c | ghcr.io/nokia/srlinux:22.11.2-116 | srl           | running | 172.18.0.12/16 | fc00:f853:ccd:e793::c/64 |
 +---+---------------------------------+--------------+-----------------------------------+---------------+---------+----------------+--------------------------+
 ```
-</details>
+
 
 You will also need to configure the nodes for the VLANs. Again, this will be automated in a future release that
 addresses node setup and inter-cluster networking. For now, you must run a script that creates them in each of the
@@ -385,13 +385,13 @@ clusters. There is a predefined PackageVariant in the tests directory for this:
 kubectl apply -f test-infra/e2e/tests/free5gc/002-network.yaml
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 packagevariant.config.porch.kpt.dev/network created
 ```
-</details>
+
 
 Then you will create appropriate `Secret` to make sure that Nephio can authenticate to the external backend.
 
@@ -399,13 +399,13 @@ Then you will create appropriate `Secret` to make sure that Nephio can authentic
 kubectl apply -f test-infra/e2e/tests/free5gc/002-secret.yaml
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 secret/srl.nokia.com created
 ```
-</details>
+
 
 The predefined PackageVariant package defines certain resources that exist for the entire topology. However, you also
 need to configure the resource backend for our particular topology. This will likely be automated in the future, but for
@@ -416,13 +416,13 @@ also the credentials and information is provided to configure the network device
 ./test-infra/e2e/provision/hacks/network-topo.sh
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 rawtopology.topo.nephio.org/nephio created
 ```
-</details>
+
 
 ## Step 4: Deploy free5GC Control Plane Functions
 
@@ -452,8 +452,8 @@ Shortly thereafter, you should see free5GC-cp in the cluster namespace:
 kubectl get ns --context regional-admin@regional
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                           STATUS   AGE
@@ -467,7 +467,7 @@ kube-system                    Active   28m
 local-path-storage             Active   28m
 resource-group-system          Active   27m
 ```
-</details>
+
 
 And the actual workload resources:
 
@@ -533,13 +533,13 @@ PackageVariantSet).
 kubectl apply -f test-infra/e2e/tests/free5gc/004-free5gc-operator.yaml
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 packagevariantset.config.porch.kpt.dev/free5gc-operator created
 ```
-</details>
+
 
 ## Step 6: Check free5GC Operator Deployment
 
@@ -550,8 +550,8 @@ edge clusters:
 kubectl get ns --context edge01-admin@edge01
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                           STATUS   AGE
@@ -564,14 +564,14 @@ kube-public                    Active   3h47m
 kube-system                    Active   3h47m
 resource-group-system          Active   3h45m
 ```
-</details>
+
 
 ```bash
 kubectl -n free5gc get all --context edge01-admin@edge01
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                                                          READY   STATUS    RESTARTS   AGE
@@ -583,7 +583,7 @@ deployment.apps/free5gc-operator-controller-controller   1/1     1            1 
 NAME                                                                DESIRED   CURRENT   READY   AGE
 replicaset.apps/free5gc-operator-controller-controller-58df9975f4   1         1         1       164m
 ```
-</details>
+
 
 ## Step 7: Deploy the AMF, SMF and UPF NFs
 
@@ -678,8 +678,8 @@ AMF_POD=$(kubectl get pods -n free5gc-cp -l name=amf-regional --context regional
 kubectl -n free5gc-cp logs $AMF_POD --context regional-admin@regional
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 2023-07-15T09:08:55Z [INFO][AMF][CFG] config version [1.0.3]
@@ -703,7 +703,7 @@ kubectl -n free5gc-cp logs $AMF_POD --context regional-admin@regional
 2023-07-15T09:08:55Z [INFO][AMF][Util] amfconfig Info: Version[1.0.3] Description[AMF initial local configuration]
 2023-07-15T09:08:55Z [INFO][AMF][NGAP] Listen on 172.2.2.254:38412
 ```
-</details>
+
 
 ### Check SMF deployment
 
@@ -714,8 +714,8 @@ SMF_POD=$(kubectl get pods -n free5gc-cp -l name=smf-regional --context regional
 kubectl -n free5gc-cp logs $SMF_POD --context regional-admin@regional
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 2023-07-15T09:10:45Z [INFO][SMF][CFG] SMF config version [1.0.2]
@@ -749,7 +749,7 @@ kubectl -n free5gc-cp logs $SMF_POD --context regional-admin@regional
 2023-07-15T09:10:45Z [INFO][LIB][PFCP] Remove Request Transaction [2]
 2023-07-15T09:10:45Z [INFO][SMF][App] Received PFCP Association Setup Accepted Response from UPF[172.1.2.254]
 ```
-</details>
+
 
 ## Step 8: Deploy UERANSIM
 
@@ -798,8 +798,8 @@ get_capi_kubeconfig edge01
 kubectl --kubeconfig edge01-kubeconfig -n ueransim get pod
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                                  READY   STATUS    RESTARTS   AGE
@@ -807,7 +807,7 @@ ueransimgnb-edge01-748b45f684-sbs8h   1/1     Running   0          81m
 ueransimue-edge01-56fccbc4b6-h42k7    1/1     Running   0          81m
 ```
 
-</details>
+
 
 Let's see if you can simulate the UE pinging out to our DNN.
 
@@ -816,8 +816,8 @@ UE_POD=$(kubectl --kubeconfig edge01-kubeconfig get pods -n ueransim -l app=uera
 kubectl --kubeconfig edge01-kubeconfig -n ueransim exec -it $UE_POD -- /bin/bash -c "ping -I uesimtun0 172.0.0.1"
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 PING 172.0.0.1 (172.0.0.1) from 10.1.0.2 uesimtun0: 56(84) bytes of data.
@@ -831,7 +831,7 @@ PING 172.0.0.1 (172.0.0.1) from 10.1.0.2 uesimtun0: 56(84) bytes of data.
 rtt min/avg/max/mdev = 6.280/7.586/8.896/1.011 ms
 ```
 
-</details>
+
 
 Note that our DNN does not actually provide access to the internet, so you won't be able to reach the other sites.
 
@@ -851,13 +851,13 @@ kubectl config use kind-kind
 kubectl get packagevariant edge-free5gc-upf-edge01-free5gc-upf -o jsonpath='{.status.downstreamTargets[0].name}'
 
 ```
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 edge01-6b26ca0f4fdf83212a73faff159bd013b41207ee
 ```
-</details>
+
 
 This way you retrieve the downstream target name of the package. You can also retrieve this information by using the
 `kubectl describe` command on the UPF PackageVariant.
@@ -867,13 +867,13 @@ Next create a new package revision from the existing UPF package.
 ```bash
 porchctl rpkg copy -n default edge01-6b26ca0f4fdf83212a73faff159bd013b41207ee --workspace upf-scale-package 
 ```
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 edge01-40c616e5d87053350473d3ffa1387a9a534f8f42 created
 ```
-</details>
+
 
 The output contains the package revision of our newly cloned upf package. Pull the package to a local directory of your
 choice (in the example you can use /tmp/upf-scale-package). 
@@ -887,8 +887,8 @@ capacity.yaml file.
 ```bash
 cat /tmp/upf-scale-package/capacity.yaml 
 ```
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 apiVersion: req.nephio.org/v1alpha1
@@ -904,7 +904,7 @@ spec:
   maxUplinkThroughput: 5G
   maxDownlinkThroughput: 5G
 ```
-</details>
+
 
 The contents of the package will be mutated using kpt functions to adjust the UPF configuration, however you can also
 manually edit the file. Apply the kpt functions to the contents of the kpt package with a new value for the throughputs
@@ -914,8 +914,8 @@ of your choice.
 kpt fn eval --image gcr.io/kpt-fn/search-replace:v0.2.0 /tmp/upf-scale-package -- by-path='spec.maxUplinkThroughput' by-file-path='**/capacity.yaml' put-value=10
 kpt fn eval --image gcr.io/kpt-fn/search-replace:v0.2.0 /tmp/upf-scale-package -- by-path='spec.maxDownlinkThroughput' by-file-path='**/capacity.yaml' put-value=10
 ```
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 [RUNNING] "gcr.io/kpt-fn/search-replace:v0.2.0"
@@ -927,7 +927,7 @@ kpt fn eval --image gcr.io/kpt-fn/search-replace:v0.2.0 /tmp/upf-scale-package -
   Results:
     [info] spec.maxDownlinkThroughput: Mutated field value to "10"
 ```
-</details>
+
 
 Observe the changes to the UPF configuration using the kpt pkg diff command.
 
@@ -935,8 +935,8 @@ Observe the changes to the UPF configuration using the kpt pkg diff command.
 kpt pkg diff /tmp/upf-scale-package | grep linkThroughput
 ``` 
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 From https://github.com/nephio-project/catalog
@@ -949,7 +949,7 @@ Adding package "workloads/free5gc/pkg-example-upf-bp".
 <     maxDownlinkThroughput: 5G
 <     maxUplinkThroughput: 5G
 ```
-</details>
+
 
 Next, progress through the package lifecycle stages by pushing the changes to the package to its repository, proposing
 the changes and approving them.
@@ -959,8 +959,8 @@ porchctl rpkg push -n default edge01-40c616e5d87053350473d3ffa1387a9a534f8f42 /t
 porchctl rpkg propose -n default edge01-40c616e5d87053350473d3ffa1387a9a534f8f42
 porchctl rpkg approve -n default edge01-40c616e5d87053350473d3ffa1387a9a534f8f42
 ```
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 [RUNNING] "gcr.io/kpt-fn/apply-replacements:v0.1.1" 
@@ -988,15 +988,15 @@ porchctl rpkg approve -n default edge01-40c616e5d87053350473d3ffa1387a9a534f8f42
 edge01-40c616e5d87053350473d3ffa1387a9a534f8f42 proposed
 edge01-40c616e5d87053350473d3ffa1387a9a534f8f42 approved
 ```
-</details>
+
 
 You can check the current lifecycle stage of a package using the `porchctl rpkg get` command.
 ```bash
 porchctl rpkg get | grep free5gc-upf
 ```
 
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                                                               PACKAGE                              WORKSPACENAME          REVISION   LATEST   LIFECYCLE   REPOSITORY
@@ -1006,7 +1006,7 @@ edge01-40c616e5d87053350473d3ffa1387a9a534f8f42                      free5gc-upf
 edge02-b5d2931f75d20d95e7d3d9b1fb10bcfa9156b9ba                      free5gc-upf                          packagevariant-1    main       false    Published   edge02
 edge02-be05d7134eca3e02fecd63c4e4031f728d5f0e84                      free5gc-upf                          packagevariant-1    v1         true     Published   edge02
 ```
-</details>
+
 
 Additionally you can check the Gitea edge01 repository (accessible at http://localhost:3000/nephio/edge01) for new
 commits to see how Porch interacts with packages stored in Git repositories.

@@ -68,15 +68,15 @@ Shortly thereafter, you should see flux helm and source controllers in the flux-
 ```bash
 kubectl get po --context edge02-admin@edge02 -n flux-system
 ```
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                                 READY   STATUS    RESTARTS   AGE
 helm-controller-cccc87cc-zqnd6       1/1     Running   0          6m20s
 source-controller-5756bf7d48-hprkn   1/1     Running   0          6m20s
 ```
-</details>
+
 
 
 ### Deploying the onlineboutique-flux pkg
@@ -131,8 +131,8 @@ Shortly thereafter, you should see the online boutique components deployed in th
 ```bash
 kubectl get po --context edge02-admin@edge02 -n online-boutique
 ```
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                                     READY   STATUS    RESTARTS   AGE
@@ -149,4 +149,3 @@ recommendationservice-c58857d6-qwrkd     1/1     Running   0          37s
 redis-cart-7495b4ff99-gbq4m              1/1     Running   0          37s
 shippingservice-6f65f85b8b-j5c28         1/1     Running   0          37s
 ```
-</details>
