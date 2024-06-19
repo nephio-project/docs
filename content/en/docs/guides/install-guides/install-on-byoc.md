@@ -5,15 +5,6 @@ description: >
 weight: 3
 ---
 
-# Nephio Installation Overview
-
-## Table of Contents
-
-- [Introduction](#introduction)
-- [Prerequisites](#prerequisites)
-- [Opinionated Installations](#opinionated-installations)
-- [A La Carte Installation](#a-la-carte-installation)
-
 ## Introduction
 
 There are many ways to assemble a Nephio installation. This Installation Guide

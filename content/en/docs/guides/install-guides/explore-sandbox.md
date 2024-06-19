@@ -11,7 +11,7 @@ The installation has done a good job of installing a complex software stack with
 
 ![Software Installed by the Nephio Sandbox Installation](/static/images/install-guides/ManagementCluster.png)
 
-# Components Installed on the VM Itself
+## Components Installed on the VM Itself
 
 The following components are installed on the VM itself. These components are installed directly on the VM by the
 Ansible install scripts.
@@ -28,7 +28,7 @@ Ansible install scripts.
 The Ansible install scripts use kind to create the Management cluster. Once the Management KinD cluster is created, the
 install uses kpt packages to install the remainder of the software.
 
-# Components Installed on the Management KinD cluster
+## Components Installed on the Management KinD cluster
 
 Everything is installed on the Management KinD cluster by Ansible scripts using kpt packages.
 
@@ -98,7 +98,7 @@ inventory-38069595/customresourcedefinition.apiextensions.k8s.io//upfdeployments
 inventory-38069595/namespace//nephio-system is Current: Resource is current
 ```
 
-## Base Components
+### Base Components
 
 The following base components are installed on the Management cluster. Base components are the infrastructure components
 that are needed for the Nephio sandbox, which Nephio uses out of the box. In real world installations, alternative
@@ -114,7 +114,7 @@ components that provide the same functionality may be used.
 | IPAM         | A reference backend system to allocate and manage IP addresses     |
 | VLAN         | A reference backend system used to allocate and manage VLANs       |
 
-## Specific Components
+### Specific Components
 
 The following specific components are installed on the Management cluster. The specific components are Nephio components
 and components from [Google Container Tools](https://github.com/GoogleContainerTools) that Nephio uses heavily and
@@ -127,7 +127,7 @@ interacts closely with.
 | Nephio Controllers | The Nephio controllers, which implement the Nephio functionality to fetch, manipulate, and deploy NFs                                                        |
 | Nephio WebUI       | The Nephio web client                                                                                                                                        |
 
-# Some Useful Commands
+## Some Useful Commands
 
 Easily get the kubeconfig for a CAPI KinD cluster:
 

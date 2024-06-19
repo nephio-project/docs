@@ -9,7 +9,7 @@ Concepts as [Operator](/content/en/docs/glossary.md#operator) and
 [Controller](/content/en/docs/glossary.md#controller) and
 [CR](/content/en/docs/glossary.md#custom-resource) have already been explained here.
 
-# Deploy the operator to the cluster
+## Deploy the operator to the cluster
 
 In the [nephio/free5gc repository](https://github.com/nephio-project/free5gc) the **Makefile** is used to
 [deploy the operator to the cluster](https://github.com/nephio-project/free5gc/tree/main#getting-started) automating
@@ -30,7 +30,7 @@ tasks such as
 3. Build Dependencies:
  * Targets for installing and managing build dependencies like kustomize, controller-gen, and envtest.
 
-# The structure of the repository
+## The structure of the repository
 
 1. [Operator](https://github.com/nephio-project/free5gc/tree/main/free5gc-operator)
  * Binding metrics and healthcheck ports

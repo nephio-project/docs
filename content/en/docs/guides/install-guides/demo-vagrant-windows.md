@@ -5,9 +5,8 @@ description: >
 weight: 6
 ---
 
-# Nephio demo on Windows
+## Steps
 
-## Steps:
 - install git
 - install virtualbox
 - install [vagrant](https://developer.hashicorp.com/vagrant/docs/installation)
@@ -32,7 +31,7 @@ But the easiest way is to force the port-forwarding as shown before:
 
 `vagrant ssh -- -L 7007:localhost:7007 -L 3000:172.18.0.200:3000`
 
-## Tests were done on:
+## Tests were done on
 
 1. Laptop: Windows 11 i7-10750H (16 T) 32GB ram (8VCPU 32GB)
 
@@ -40,7 +39,7 @@ But the easiest way is to force the port-forwarding as shown before:
 
 ## Notes
 
-**Warning**: For low-end machines (less then 8T32GB), you will need to modify
+> **Warning**: For low-end machines (less then 8T32GB), you will need to modify
 the Vagrant file. This is not recommended!
 
 - In the Vagrant file "./Vagrantfile", there are *CPUS & RAM* parameters in

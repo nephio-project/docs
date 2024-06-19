@@ -1,7 +1,7 @@
 ---
 title: Nephio user guides
 description: >
-  Nephio R1 User Guide
+  Nephio User Guide
 weight: 2
 ---
 

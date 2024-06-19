@@ -5,28 +5,12 @@ description: >
 weight: 3
 ---
 
-## Table of Contents
-
-- [Introduction](#introduction)
-- [Installing on GCE](#installing-on-gce)
-  - [GCE Prerequisites](#gce-prerequisites)
-  - [Create a Virtual Machine on GCE](#create-a-virtual-machine-on-gce)
-  - [Follow the installation on GCE](#follow-the-installation-on-gce)
-- [Installing on a pre-provisioned VM](#installing-on-a-pre-provisioned-vm)
-  - [VM Prerequisites](#vm-prerequisites)
-  - [Kick off an installation on VM](#kick-off-an-installation-on-vm)
-  - [Follow the installation on VM](#follow-the-installation-on-vm)
-- [Access to the User Interfaces](#access-to-the-user-interfaces)
-- [Open terminal](#open-terminal)
-- [Next Steps](#next-steps)
-
 ## Introduction
 
 This Installation Guide will set up and run a Nephio demonstration
 environment. This environment is a single VM that will be used in the exercises
 to simulate a topology with a Nephio Management cluster, a Regional Workload
 cluster, and two Edge Workload clusters.
-
 
 ## Installing on GCE
 
