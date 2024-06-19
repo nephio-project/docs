@@ -1,6 +1,6 @@
 baseURL = 'https://r3.docs.nephio.org/'
 languageCode = 'en-us'
-title = 'Nephio Documentation'
+title = 'Nephio R3 Documentation'
 # based on https://www.docsy.dev/docs/get-started/docsy-as-module/start-from-scratch/
 
 # Language settings
@@ -55,11 +55,11 @@ archived_version = false
 # Used in the "version-banner" partial to display a version number for the 
 # current doc set.
 #version = "0.0"
-version = "latest"
+version = "R3"
 
 # A link to latest version of the docs. Used in the "version-banner" partial to
 # point people to the main doc site.
-#url_latest_version = "https://example.com"
+url_latest_version = "https://docs.nephio.org/docs/"
 
 # Repository configuration (URLs for in-page links to opening issues and suggesting changes)
 github_repo = "https://github.com/nephio-project/docs"
@@ -149,5 +149,21 @@ enable = false
 	# name = "Developer mailing list"
 	# url = "https://example.org/mail"
 	# icon = "fa fa-envelope"
-        # desc = "Discuss development issues around the project"
+  # desc = "Discuss development issues around the project"
 
+# Add your release versions here
+[[params.versions]]
+  version = "main"
+  url = "https://docs.nephio.org/docs/"
+
+[[params.versions]]
+  version = "R3"
+  url = "https://r3.docs.nephio.org/docs/"
+
+  [[params.versions]]
+  version = "R2"
+  url = "https://r2.docs.nephio.org/docs/"
+
+  [[params.versions]]
+  version = "R1"
+  url = "https://github.com/nephio-project/docs/tree/R1"
