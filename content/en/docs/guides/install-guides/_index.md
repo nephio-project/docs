@@ -120,6 +120,7 @@ The following environment variables can be used to configure the installation:
 | NEPHIO_REPO            | URL              | https://github.com/nephio-project/test-infra.git | URL of the repository to be used for installation |
 | NEPHIO_BRANCH          | branch or tag    | main/v2.0.0               | Tag or branch name to use in NEPHIO_REPO                                     |
 | DOCKER_REGISTRY_MIRRORS | list of URLs in JSON format |        | List of docker registry mirrors in JSON format, or empty for no mirrors to be set. Example value: ``["https://docker-registry-remote.mycompany.com", "https://docker-registry-remote2.mycompany.com"]`` |
+| K8S_CONTEXT            | K8s context      | kind-kind          | Kubernetes context for existing non-kind cluster (gathered from `kubectl config get-contexts`, for example "kubernetes-admin@kubernetes") |
 
 ### Follow the Installation on VM
 
