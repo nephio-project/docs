@@ -1,11 +1,9 @@
 ---
-title: Documentation
+title: About Nephio
 linkTitle: Docs
 menu: {main: {weight: 20}}
 weight: 1
 ---
-
-# About Nephio
 
 Our mission is "to deliver carrier-grade, simple, open, Kubernetes-based cloud
 native intent automation and common automation templates that materially

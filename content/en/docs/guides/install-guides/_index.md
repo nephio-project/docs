@@ -1,26 +1,9 @@
 ---
 title: Nephio install guides
 description: >
-  Nephio install guides
+  Demonstration Environment Installation
 weight: 1
 ---
-
-# Demonstration Environment Installation
-
-## Table of Contents
-
-- [Introduction](#introduction)
-- [Installing on GCE](#installing-on-gce)
-  - [GCE Prerequisites](#gce-prerequisites)
-  - [Create a Virtual Machine on GCE](#create-a-virtual-machine-on-gce)
-  - [Follow installation on GCE](#follow-the-installation-on-gce)
-- [Installing on a pre-provisioned VM](#installing-on-a-pre-provisioned-vm)
-  - [VM Prerequisites](#vm-prerequisites)
-  - [Kick off the installation on VM](#kick-off-an-installation-on-vm)
-  - [Follow installation on VM](#follow-the-installation-on-vm)
-- [Access to the User Interfaces](#access-to-the-user-interfaces)
-- [Open terminal](#open-terminal)
-- [Next Steps](#next-steps)
 
 ## Introduction
 

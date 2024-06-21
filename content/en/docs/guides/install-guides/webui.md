@@ -10,7 +10,7 @@ This page is draft and the separation of the content to different categories is 
 {{% /pageinfo %}}
 
 
-### Nephio WebUI
+## Nephio WebUI
 
 To install the WebUI, we simply install a different kpt package. First, we pull the package locally:
 

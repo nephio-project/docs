@@ -5,20 +5,6 @@ description: >
 weight: 2
 ---
 
-## Table of Contents
-
-- [Introduction](#introduction)
-- [Setup the infrastructure](#step-1-setup-the-infrastructure)
-- [Check the status of the workload clusters](#step-2-check-the-status-of-the-workload-clusters)
-- [Deploy Dependencies, MySQL database, OAI Core and RAN Operator in the Workload clusters](#step-3-deploy-dependencies-mysql-database-oai-core-and-ran-operator-in-the-workload-clusters)
-- [Check Database and Operator Deployment](#step-4-check-database-and-operator-deployment)
-- [Deploy the Core Network Functions](#step-5-deploy-the-core-network-functions)
-- [Deploy RAN Network Functions](#step-6-deploy-ran-network-functions)
-- [Deploy UE](#step-7-deploy-ue)
-- [Test the End to End Connectivity](#step-8-test-the-end-to-end-connectivity)
-
-## Introduction
-
 Be sure you have followed the [installation guide](/content/en/docs/guides/install-guides/_index.md)
 before trying these exercises.
 

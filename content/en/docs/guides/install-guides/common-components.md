@@ -14,7 +14,7 @@ This page is draft and the separation of the content to different categories is 
 > **_NOTE:_** If you want to use a version other than that at the tip of Nephio `catalog` repo, then replace the `@main` suffix on the package URLs on the `kpt pkg get` commands below with the tag of the version you wish to use.
 
 
-### Porch
+## Porch
 
 This "Package Orchestration" component provides the Kubernetes APIs for
 Repositories, PackageRevisions, PackageRevisionResources, PackageVariants, and
@@ -32,7 +32,7 @@ kpt live init porch
 kpt live apply porch --reconcile-timeout=15m --output=table
 ```
 
-### Nephio Operators
+## Nephio Operators
 
 The Nephio Operators provide implementations of the Nephio-specific APIs. This
 includes the code that implements the various package specialization features -
@@ -49,7 +49,7 @@ kpt live init nephio-operator
 kpt live apply nephio-operator --reconcile-timeout=15m --output=table
 ```
 
-### Management Cluster GitOps Tool
+## Management Cluster GitOps Tool
 
 In the R1 demo environment, a GitOps tool (ConfigSync) is installed to allow
 GitOps-based application of packages to the management cluster itself. This is
@@ -67,7 +67,7 @@ kpt live init configsync
 kpt live apply configsync --reconcile-timeout=15m --output=table
 ```
 
-### Nephio Stock Repositories
+## Nephio Stock Repositories
 
 The repositories with the Nephio packages used in the exercises are available to
 be installed via a package for convenience. This will install Repository

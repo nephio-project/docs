@@ -7,7 +7,7 @@ weight: 5
 
 The following environment install works on a MacBook Pro M1 or via SSH to Ubuntu 22.04 to get the nephio-operators running in vscode talking to a local kind cluster running in Docker. Note that depending on what part of Nephio you are working on, you may wish to install less or more of the components below. It should work on other environments with appropriate tweaking.
 
-# Install Docker, kind, and kpt packages
+## Install Docker, kind, and kpt packages
 
 This script automates steps 3 to 9 below.
 
@@ -37,7 +37,7 @@ find nephio-operator/crd/bases/*.yaml -exec kubectl apply -f {} \;
 popd >/dev/null || exit
 ```
 
-## Installation steps:
+### Installation steps:
 
 1. [Install Docker](https://docs.docker.com/engine/install/) using the appropriate method for your system.
 
@@ -96,7 +96,7 @@ kpt pkg get https://github.com/nephio-project/catalog/tree/main/nephio/core/neph
 ls nephio-operator/crd/bases/*.yaml | xargs -n1 kubectl apply -f
 ```
 
-# Connect to Gitea on your browser
+## Connect to Gitea on your browser
 
 Connecting to Gitea allows you to see the actions that Nephio takes on Gitea.
 
@@ -108,7 +108,7 @@ kubectl port-forward -n gitea svc/gitea 3000:3000
 
 2. Browse to the Gitea web client at `http://localhost:3000` and log on.
 
-# VS Code Configuration
+## VS Code Configuration
 
 Set up a launch configuration in VS Code `launch.json` similar to the configuration below:
 
