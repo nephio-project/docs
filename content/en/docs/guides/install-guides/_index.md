@@ -96,6 +96,21 @@ sudo netplan apply
 ```
 
 ### Kick Off an Installation on VM
+The below commands make assumptions of GitHub path, GitHub branch/tag, username, K8s context, etc. See the table of variables below to change installation parameters and make changes to commands as needed.
+
+**Kind Cluster**
+
+Log onto your VM and run the following command :
+
+```bash
+wget -O - https://raw.githubusercontent.com/nephio-project/test-infra/v2.0.0/e2e/provision/init.sh |  \
+sudo NEPHIO_DEBUG=false   \
+     NEPHIO_BRANCH=v2.0.0 \
+     NEPHIO_USER=ubuntu   \
+     bash
+```
+
+**Real K8s Cluster**
 
 Log onto your VM and run the following command:
 
@@ -104,6 +119,9 @@ wget -O - https://raw.githubusercontent.com/nephio-project/test-infra/v2.0.0/e2e
 sudo NEPHIO_DEBUG=false   \
      NEPHIO_BRANCH=v2.0.0 \
      NEPHIO_USER=ubuntu   \
+     DOCKERHUB_USERNAME=username \
+     DOCKERHUB_PASSWORD=password \
+     K8S_CONTEXT=kubernetes-admin@kubernetes \
      bash
 ```
 
