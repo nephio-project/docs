@@ -120,7 +120,7 @@ sudo NEPHIO_DEBUG=false   \
      NEPHIO_BRANCH=v2.0.0 \
      NEPHIO_USER=ubuntu   \
      DOCKERHUB_USERNAME=username \
-     DOCKERHUB_PASSWORD=password \
+     DOCKERHUB_TOKEN=password \
      K8S_CONTEXT=kubernetes-admin@kubernetes \
      bash
 ```
