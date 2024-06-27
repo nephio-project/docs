@@ -96,7 +96,7 @@ sudo netplan apply
 ```
 
 ### Kick Off an Installation on VM
-The below commands make assumptions of GitHub path, GitHub branch/tag, username, K8s context, etc. See the table of variables below to change installation parameters and make changes to commands as needed.
+The commands below use default values for the GitHub path, GitHub branch/tag, username, K8s context, etc. See the table of variables below for information on how to set custom installation parameters and make changes to commands as you need to.
 
 **Kind Cluster**
 
