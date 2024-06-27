@@ -79,6 +79,21 @@ sudo netplan apply
 ```
 
 ### Kick Off an Installation on VM
+The commands below use default values for the GitHub path, GitHub branch/tag, username, K8s context, etc. See the table of variables below for information on how to set custom installation parameters and make changes to commands as you need to.
+
+**Kind Cluster**
+
+Log onto your VM and run the following command :
+
+```bash
+wget -O - https://raw.githubusercontent.com/nephio-project/test-infra/v2.0.0/e2e/provision/init.sh |  \
+sudo NEPHIO_DEBUG=false   \
+     NEPHIO_BRANCH=v2.0.0 \
+     NEPHIO_USER=ubuntu   \
+     bash
+```
+
+**Real K8s Cluster**
 
 Log onto your VM and run the following command:
 
@@ -87,6 +102,9 @@ wget -O - https://raw.githubusercontent.com/nephio-project/test-infra/v2.0.0/e2e
 sudo NEPHIO_DEBUG=false   \
      NEPHIO_BRANCH=v2.0.0 \
      NEPHIO_USER=ubuntu   \
+     DOCKERHUB_USERNAME=username \
+     DOCKERHUB_TOKEN=password \
+     K8S_CONTEXT=kubernetes-admin@kubernetes \
      bash
 ```
 
@@ -103,6 +121,7 @@ The following environment variables can be used to configure the installation:
 | NEPHIO_REPO            | URL              | https://github.com/nephio-project/test-infra.git | URL of the repository to be used for installation |
 | NEPHIO_BRANCH          | branch or tag    | main/v2.0.0               | Tag or branch name to use in NEPHIO_REPO                                     |
 | DOCKER_REGISTRY_MIRRORS | list of URLs in JSON format |        | List of docker registry mirrors in JSON format, or empty for no mirrors to be set. Example value: ``["https://docker-registry-remote.mycompany.com", "https://docker-registry-remote2.mycompany.com"]`` |
+| K8S_CONTEXT            | K8s context      | kind-kind          | Kubernetes context for existing non-kind cluster (gathered from `kubectl config get-contexts`, for example "kubernetes-admin@kubernetes") |
 
 ### Follow the Installation on VM
 
