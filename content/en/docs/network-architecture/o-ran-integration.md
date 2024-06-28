@@ -13,7 +13,7 @@ The focus of the O-RAN Integration within Nephio focuses on the Federated O-Clou
 ![deployment-architecture.png](/static/images/network-architecture/o-ran/deployment-architecture.png)
 
 These services can be categorized into:
--Infrastructure services for the lifecycle management of Cloud Resources (FOCOM, IMS): These services are deployed and utilizes the Nephio capabilities provided by Nephio Management Clusters. In some deployed architectures aspects of the IMS utilizes Nephio capabilities provided by Nephio Workload Clusters.
+- Infrastructure services for the lifecycle management of Cloud Resources (FOCOM, IMS): These services are deployed and utilizes the Nephio capabilities provided by Nephio Management Clusters. In some deployed architectures aspects of the IMS utilizes Nephio capabilities provided by Nephio Workload Clusters.
 - Lifecycle management of deployments for O-RAN NFs (NFO, DMS): The NFO service is deployed and utilizes the Nephio capabilities provided by Nephio Management Clusters. The DMS is deployed and utilizes the Nephio capabilities provided by Nephio Workload Clusters.
 
 ## Infrastructure services for the lifecycle management of Cloud Resources
@@ -28,14 +28,15 @@ The primary role of the FOCOM and IMS services is to provide for the lifecycle m
 
 {{% alert title="Note" color="primary" %}}
 
-In R3 Nephio use cases and component architectures have been defined for O-Cloud Cluster Lifecycle Management
+In R3 Nephio use cases and component architectures have been defined for O-Cloud Cluster Lifecycle Management.
+
+{{% /alert %}}
+
 As stated, the role of the FOCOM function is to provide federated orchestration and management across multiple O-Clouds using the O2ims interface between the O-Clouds as shown in the figure below:
 
 ![focom-ims.png](/static/images/network-architecture/o-ran/focom-ims.png)
 
 Due to the standardized O2ims O-RAN interface, the functions that implement the FOCOM service can interact with O-Clouds IMSs that utilize the capabilities provided by Nephio or O-Clouds that use other non-Nephio capabilities and vice-versa.
-
-{{% /alert %}}
 
 ### O-Cloud Cluster Lifecycle Management
 
@@ -128,6 +129,7 @@ In R3 Nephio use cases and component architectures have been defined for the Dep
 ##### Deploy O-RAN NF
 
 The role of the NFO within the SMO is to handle functionality related to the lifecycle management for deployment of O-RAN Cloudified NFs. The deployment of the O-RAN NF includes software components realizing all or part of an NF which could be an O-DU, O-CU-CP, O-CU-UP, xApps and the Near-RT RIC components in the O-Cloud sites.
+
 This use case describes the high-level steps and requirements for deployment of O-RAN NF that is composed as discrete NF Deployments across the O2dms using the K8s profile.
 
 {{% alert title="Note" color="primary" %}}
