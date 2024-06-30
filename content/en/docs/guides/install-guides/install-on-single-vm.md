@@ -107,10 +107,98 @@ kpt live apply cluster-capi-infrastructure-docker --reconcile-timeout 15m --outp
 The last step is required for defining cluster, machine and kubeadmin templates for controller and worker docker
 machines. These templates define the kubelet args, etcd and coreDNS configuration and image repository as other things.
 
-
 ```bash
 kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/infra/capi/cluster-capi-kind-docker-templates@v2.0.0
 kpt fn render cluster-capi-kind-docker-templates
 kpt live init cluster-capi-kind-docker-templates
 kpt live apply cluster-capi-kind-docker-templates --reconcile-timeout 15m --output=table
 ```
+
+## Installing Packages
+
+Management or workload cluster both need config-sync, root-sync and a cluster git repository to manage packages. 
+
+### Install Config-sync
+
+Install config-sync using:
+
+```bash
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/core/configsync@main
+kpt fn render configsync
+kpt live init configsync
+kpt live apply configsync --reconcile-timeout=15m --output=table
+```
+
+### Create Git Repository
+
+If you are using Gitea then you can use the following steps
+
+```bash
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/distros/sandbox/repository@main <cluster-name>
+kpt fn render <cluster-name>
+kpt live init <cluster-name>
+kpt live apply <cluster-name> --reconcile-timeout=15m --output=table
+```
+
+**Note**: 
+
+* For management cluster you have to name the repository as `mgmt`.
+* In the `repository` package by default Gitea address is `172.18.0.200:3000` in `repository/set-values.yaml` 
+change this to your Gitea address
+* `repository/token-configsync.yaml` and `repository/token-porch.yaml` are responsible for creating secrets with the help of Nephio token controller for accessing git instance for root-sync. You would need the name of config-sync token to provide it to root-sync.
+
+### Install Root-sync
+
+Get the Root-sync kpt package and edit it:
+
+```bash
+kpt pkg get https://github.com/nephio-project/catalog.git/nephio/optional/rootsync@main
+```
+
+Change `./rootsync/rootsync.yaml` and point `spec.git.repo` to the edge git repository and the  
+
+```yaml
+ spec:
+   sourceFormat: unstructured
+   git:
+    repo: http://<GIT_URL>/nephio/mgmt.git
+    branch: main
+    auth: token
+    secretRef:
+      name: mgmt-access-token-configsync
+```
+
+If need credentials to access repository your repository then 
+copy the token name from previous section and provide it in 
+`./rootsync/rootsync.yaml`
+
+```yaml
+spec:
+  sourceFormat: unstructured
+  git:
+    repo: <http url of your edge repo>
+    branch: main
+    auth: token
+    secretRef:
+      name: <TOKEN-NAME>
+```
+
+Deploy the modified root-sync
+
+```bash
+kpt live init rootsync
+kpt live apply rootsync --reconcile-timeout=15m --output=table
+```
+
+If the output of `kubectl get rootsyncs.configsync.gke.io -A` 
+is similar as below then root-sync is properly configured. 
+
+```console
+kubectl get rootsyncs.configsync.gke.io -A
+NAMESPACE                  NAME   RENDERINGCOMMIT                            RENDERINGERRORCOUNT   SOURCECOMMIT                               SOURCEERRORCOUNT   SYNCCOMMIT                                 SYNCERRORCOUNT
+config-management-system   mgmt   ddc9676c997696d4a102a5cf2c67d0a0c459ceb3                         ddc9676c997696d4a102a5cf2c67d0a0c459ceb3                      ddc9676c997696d4a102a5cf2c67d0a0c459ceb3   
+```
+
+## Managing Clusters via Nephio 
+
+You can use the [pre-configured workload cluster package](https://github.com/nephio-project/catalog/tree/main/infra/capi/nephio-workload-cluster).  
