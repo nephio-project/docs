@@ -5,11 +5,16 @@ description: >
 weight: 6
 ---
 
+{{% pageinfo %}}
+This page is draft and the separation of the content to different categories is not clearly done. 
+{{% /pageinfo %}}
+
+
 ## Steps
 
-- install git
-- install virtualbox
-- install [vagrant](https://developer.hashicorp.com/vagrant/docs/installation)
+- Install git
+- Install virtualbox
+- Install [vagrant](https://developer.hashicorp.com/vagrant/docs/installation)
 - open git bash
 - `git clone https://github.com/nephio-project/test-infra.git && cd test-infra/e2e/provision`
 - `vagrant up`

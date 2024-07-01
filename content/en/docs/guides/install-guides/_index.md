@@ -5,11 +5,14 @@ description: >
 weight: 1
 ---
 
+{{% pageinfo %}}
+This page is draft and the separation of the content to different categories is not clearly done. 
+{{% /pageinfo %}}
+
 ## Introduction
 
 This Installation Guide will set up and run a Nephio demonstration environment. This environment is a single VM that
-will be used in the exercises to simulate a topology with a Nephio Management cluster, a Regional Workload
-cluster, and two Edge Workload clusters.
+will be used in the exercises to simulate a topology with a Nephio management cluster and three workload clusters.
 
 ## Installing on GCE
 
@@ -93,7 +96,7 @@ sudo NEPHIO_DEBUG=false   \
      bash
 ```
 
-**Real K8s Cluster**
+**Pre-installed K8s Cluster**
 
 Log onto your VM and run the following command:
 
@@ -179,6 +182,10 @@ ssh <user>@<vm-address>
 * Step through the exercises
   * [Free5GC Testbed Deployment and E2E testing with UERANSIM](/content/en/docs/guides/user-guides/exercise-1-free5gc.md)
   * [OAI Core and RAN Testbed Deployment and E2E testing](/content/en/docs/guides/user-guides/exercise-2-oai.md)
-* Learn more about the [Nephio demo sandbox](/content/en/docs/guides/install-guides/explore-sandbox.md)
 * Dig into the [user guide](/content/en/docs/guides/user-guides/_index.md)
-* Create a [Bring-Your-Own-Cluster](/content/en/docs/guides/install-guides/install-on-byoc.md) Nephio Installation
+* Nephio sandbox environment
+  * Install on pre-provisioned single VM
+  * Install on GCE
+  * [Explore sandbox environment](/content/en/docs/guides/install-guides/explore-sandbox.md)
+* [Bring-Your-Own-Cluster](/content/en/docs/guides/install-guides/install-on-byoc.md) 
+* [Install using vagrant on Windows (for development)](/content/en/docs/guides/install-guides/demo-vagrant-windows.md) 
