@@ -810,7 +810,7 @@ packagevariant.config.porch.kpt.dev/oai-ue-20mhz created
 ```
 
 
-The UE will be deployed in the Edge cluster. To verify that the UE is deployed you can use the below command
+The UE will be deployed in the Edge cluster. It might take 2-3 mins for the ue to get deployed.To verify that the UE is deployed you can use the below command
 
 ```bash
 kubectl get pods -n oai-ue --context edge-admin@edge
@@ -850,7 +850,7 @@ To perform the end to end connectivity test you can ping from the UE to the UPF.
 UE_POD=$(kubectl get pods -n oai-ue --context edge-admin@edge  -l app.kubernetes.io/name=oai-nr-ue-20mhz -o jsonpath='{.items[*].metadata.name}')
 UPF_POD=$(kubectl get pods -n oai-core --context=edge-admin@edge -l workload.nephio.org/oai=upf -o jsonpath='{.items[*].metadata.name}')
 UPF_tun0_IP_ADDR=$(kubectl exec -it $UPF_POD -n oai-core -c upf-edge --context edge-admin@edge -- ip -f inet addr show tun0 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p')
-kubectl exec -it $UE_POD -n oai-ue --context edge-admin@edge -- ping -c 3 $UPF_tun0_IP_ADDR
+kubectl exec -it $UE_POD -n oai-ue --context edge-admin@edge -- ping -I oaitun_ue1 -c 3 $UPF_tun0_IP_ADDR
 ```
 
 
@@ -956,6 +956,8 @@ echo o1 stats | nc -N $O1_IP 9090
 </details>
 
 You can see `nrcelldu3gpp:bSChannelBwUL` as 40.
+Note: Sometimes, It might happen that the Bandwidth doesn't reconfigure (to 40) after running the o1-commands. If that's the case, re-run the o1-commands.
+
 
 ### Reconnect UE (40 Mhz)
 ```bash
@@ -1027,7 +1029,7 @@ To perform the end to end connectivity test you can ping from the UE to the UPF.
 UE_POD=$(kubectl get pods -n oai-ue --context edge-admin@edge  -l app.kubernetes.io/name=oai-nr-ue-40mhz -o jsonpath='{.items[*].metadata.name}')
 UPF_POD=$(kubectl get pods -n oai-core --context=edge-admin@edge -l workload.nephio.org/oai=upf -o jsonpath='{.items[*].metadata.name}')
 UPF_tun0_IP_ADDR=$(kubectl exec -it $UPF_POD -n oai-core -c upf-edge --context edge-admin@edge -- ip -f inet addr show tun0 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p')
-kubectl exec -it $UE_POD -n oai-ue --context edge-admin@edge -- ping -c 3 $UPF_tun0_IP_ADDR
+kubectl exec -it $UE_POD -n oai-ue --context edge-admin@edge -- ping -I oaitun_ue1 -c 3 $UPF_tun0_IP_ADDR
 ```
 
 
