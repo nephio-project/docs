@@ -96,7 +96,7 @@ sudo NEPHIO_DEBUG=false   \
      bash
 ```
 
-**Other K8s Distributions**
+**Pre-installed K8s Cluster**
 
 Log onto your VM and run the following command:
 
