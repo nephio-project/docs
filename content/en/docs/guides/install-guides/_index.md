@@ -188,4 +188,4 @@ ssh <user>@<vm-address>
   * Install on GCE
   * [Explore sandbox environment](/content/en/docs/guides/install-guides/explore-sandbox.md)
 * [Bring-Your-Own-Cluster](/content/en/docs/guides/install-guides/install-on-byoc.md) 
-* [Install using vagrant on windows (for development)](/content/en/docs/guides/install-guides/demo-vagrant-windows.md) 
+* [Install using vagrant on Windows (for development)](/content/en/docs/guides/install-guides/demo-vagrant-windows.md) 

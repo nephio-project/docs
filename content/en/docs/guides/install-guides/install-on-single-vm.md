@@ -116,7 +116,7 @@ kpt live apply cluster-capi-kind-docker-templates --reconcile-timeout 15m --outp
 
 ## Installing Packages
 
-Management or workload cluster both need config-sync, root-sync and a cluster git repository to manage packages. 
+The management or workload cluster both need config-sync, root-sync and a cluster git repository to manage packages. 
 
 ### Install Config-sync
 
@@ -131,7 +131,7 @@ kpt live apply configsync --reconcile-timeout=15m --output=table
 
 ### Create Git Repository
 
-If you are using Gitea then you can use the following steps
+If you are using Gitea then you can use the following steps:
 
 ```bash
 kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/distros/sandbox/repository@main <cluster-name>
@@ -143,9 +143,12 @@ kpt live apply <cluster-name> --reconcile-timeout=15m --output=table
 **Note**: 
 
 * For management cluster you have to name the repository as `mgmt`.
-* In the `repository` package by default Gitea address is `172.18.0.200:3000` in `repository/set-values.yaml` 
-change this to your Gitea address
-* `repository/token-configsync.yaml` and `repository/token-porch.yaml` are responsible for creating secrets with the help of Nephio token controller for accessing git instance for root-sync. You would need the name of config-sync token to provide it to root-sync.
+* In the `repository` package the default Gitea address is `172.18.0.200:3000`. 
+In `repository/set-values.yaml` change this to your Gitea address.
+* `repository/token-configsync.yaml` and `repository/token-porch.yaml` are 
+responsible for creating secrets with the help of the Nephio token controller 
+for accessing the git instance for root-sync. 
+You would need the name of the config-sync token to provide it to root-sync.
 
 ### Install Root-sync
 
@@ -155,7 +158,7 @@ Get the Root-sync kpt package and edit it:
 kpt pkg get https://github.com/nephio-project/catalog.git/nephio/optional/rootsync@main
 ```
 
-Change `./rootsync/rootsync.yaml` and point `spec.git.repo` to the edge git repository and the  
+Change `./rootsync/rootsync.yaml` and point `spec.git.repo` to the edge git repository: 
 
 ```yaml
  spec:
@@ -168,9 +171,9 @@ Change `./rootsync/rootsync.yaml` and point `spec.git.repo` to the edge git repo
       name: mgmt-access-token-configsync
 ```
 
-If need credentials to access repository your repository then 
-copy the token name from previous section and provide it in 
-`./rootsync/rootsync.yaml`
+If you need credentials to access your repository then 
+copy the token name from the previous section and provide it in 
+`./rootsync/rootsync.yaml`:
 
 ```yaml
 spec:
@@ -183,7 +186,7 @@ spec:
       name: <TOKEN-NAME>
 ```
 
-Deploy the modified root-sync
+Deploy the modified root-sync:
 
 ```bash
 kpt live init rootsync
@@ -191,7 +194,7 @@ kpt live apply rootsync --reconcile-timeout=15m --output=table
 ```
 
 If the output of `kubectl get rootsyncs.configsync.gke.io -A` 
-is similar as below then root-sync is properly configured. 
+is similar to the following then root-sync is properly configured. 
 
 ```console
 kubectl get rootsyncs.configsync.gke.io -A

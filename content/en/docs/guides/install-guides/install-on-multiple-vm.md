@@ -11,7 +11,7 @@ weight: 7
   * 8 GB RAM
   * Kubernetes version 1.26+
   * `kubectl` [installed ](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
-  * **Ingress/Load Balancer**: [MetalLB](https://metallb.universe.tf/), but only internally to the VM.
+  * **Ingress/Load Balancer**: [MetalLB](https://metallb.universe.tf/), but only internally to the VM
 * Cluster Edge
   * 2 vCPU 1 NODE
   * 4 GB RAM
@@ -47,7 +47,9 @@ curl -fsSL https://raw.githubusercontent.com/nephio-project/test-infra/main/e2e/
 
 ## Manual Installation of the Edge cluster using kpt
 
-All the workload clusters need config-sync, root-sync and a cluster git repository to manage packages. Below steps you have to repeat for each workload cluster:
+All the workload clusters need config-sync, root-sync 
+and a cluster git repository to manage packages. 
+The below steps have to be repeated for each workload cluster:
 
 ### Install Config-sync
 
@@ -64,9 +66,10 @@ kpt live apply configsync --reconcile-timeout=15m --output=table
 
 Create a repository for your cluster either in your git provider or in gitea. 
 
-If you want to use Github or Gitlab then follow below steps
+If you want to use GitHub or GitLab then follow below steps
 
-Get a [GitHub token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#fine-grained-personal-access-tokens) if your repository is private, or allow Porch to make modifications.
+Get a [GitHub token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#fine-grained-personal-access-tokens) if your repository is private,
+to allow Porch to make modifications.
 
 Register the edge repository using kpt cli or nephio web-ui.
 

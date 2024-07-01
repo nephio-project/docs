@@ -116,9 +116,10 @@ KCC, or AWS Controllers for Kubernetes. You can provision more than one.
 
 ### Load Balancer
 
-The R1 and R2 demo environments uses [MetalLB](https://metallb.universe.tf/), but if you are running in a cloud, you
-probably do not need anything special here. However, depending on your choice of
-GitOps tool and Git provider, some of the packages may need customization to
+The R1 and R2 demo environments use [MetalLB](https://metallb.universe.tf/), 
+but if you are running in a cloud, you probably do not need anything special here. 
+However, depending on your choice of GitOps tool and Git provider, 
+some of the packages may need customization to
 provision or use a well-known load balancer IP or DNS name.
 
 ### Gateway or Ingress

@@ -38,7 +38,7 @@ kpt live apply resource-backend --reconcile-timeout=15m --output=table
 ## Setup a Downstream Git Repository 
 
 Nephio needs a git repository (as a source of truth) to store the packages 
-which are getting deployed or already deployed on the cluster. Either you can 
+which are getting deployed or are already deployed on the cluster. Either you can 
 use Github/Gitlab or Gitea. If you want to use [Gitea](https://about.gitea.com/), 
 then you can follow below steps:
 
@@ -49,5 +49,5 @@ kpt live init gitea
 kpt live apply gitea --reconcile-timeout 15m --output=table
 ```
 
-You can find gitea ip-address via `kubectl get svc -n gitea` 
+You can find the Gitea ip-address via `kubectl get svc -n gitea` 
 and use port `3000` to access it with login `nephio` and password `secret`.

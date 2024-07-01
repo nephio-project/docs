@@ -48,12 +48,12 @@ To install the Nephio Operators, repeat the `kpt` steps, but for that package:
 kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/core/nephio-operator@main
 ```
 
-Nephio Operator package by default uses Gitea instance at `172.18.0.200:3000` as 
-git repository. Change it to point to your git instance in  
+The Nephio Operator package by default uses the Gitea instance at `172.18.0.200:3000` as 
+the git repository. Change it to point to your git instance in  
 `nephio-operator/app/controller/deployment-token-controller.yaml` and 
 `nephio-operator/app/controller/deployment-controller.yaml`
 
-You also need to create a secret with your Git instance credentials 
+You also need to create a secret with your Git instance credentials: 
 
 ```bash
 kubectl apply -f  - <<EOF
@@ -79,7 +79,7 @@ kpt live apply nephio-operator --reconcile-timeout=15m --output=table
 
 ## Management Cluster GitOps Tool
 
-GitOps tool (ConfigSync) is installed to allow
+A GitOps tool (ConfigSync) is installed to allow
 GitOps-based application of packages on the management cluster itself. It is
 not needed if you only want to provision network functions, but it
 is used extensively in the cluster provisioning workflows.
@@ -108,6 +108,6 @@ kpt live init stock-repos
 kpt live apply stock-repos --reconcile-timeout=15m --output=table
 ```
 
-## Webui (Optional)
+## WebUI (Optional)
 
-Nephio webui is optional and to install it you can follow this [document](/content/en/docs/guides/install-guides/webui.md)  
+Nephio WebUI is optional and to install it you can follow this [document](/content/en/docs/guides/install-guides/webui.md)  
