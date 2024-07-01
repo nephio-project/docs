@@ -10,4 +10,4 @@ This page is draft and the separation of the content to different categories is 
 
 
 * [Nephio install guides](./install-guides/): Help in installing Nephio in different environments
-* [Nephio user guides](/content/en/docs/guides/user-guides/_index.md_): Help in understanding the basics of Nephio and provides examples to deploy Network Functions (NF) via Nephio. 
+* [Nephio user guides](./user-guides/): Help in understanding the basics of Nephio and provides examples to deploy Network Functions (NF) via Nephio. 
