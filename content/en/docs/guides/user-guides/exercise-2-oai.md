@@ -790,7 +790,7 @@ metadata:
 spec:
   upstream:
     repo: catalog-workloads-oai-ran
-    package: pkg-example-ue-bp-20MHz
+    package: pkg-example-ue-bp-20mhz
     revision: v1 # To be updated when catalog is tagged
   downstream:
     repo: edge
