@@ -789,7 +789,7 @@ metadata:
   name: oai-ue-20mhz
 spec:
   upstream:
-    repo: oai-ran-bp
+    repo: catalog-workloads-oai-ran
     package: pkg-example-ue-bp-20MHz
     revision: v1 # To be updated when catalog is tagged
   downstream:
@@ -966,7 +966,7 @@ metadata:
   name: oai-ue-40mhz
 spec:
   upstream:
-    repo: oai-ran-bp
+    repo: catalog-workloads-oai-ran
     package: pkg-example-ue-bp-40mhz
     revision: v1 # To be updated when catalog is tagged
   downstream:
