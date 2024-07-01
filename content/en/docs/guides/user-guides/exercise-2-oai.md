@@ -956,6 +956,7 @@ echo o1 stats | nc -N $O1_IP 9090
 </details>
 
 You can see `nrcelldu3gpp:bSChannelBwUL` as 40.
+
 Note: Sometimes, It might happen that the Bandwidth doesn't reconfigure (to 40) after running the o1-commands. If that's the case, re-run the o1-commands.
 
 
