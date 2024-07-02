@@ -711,15 +711,15 @@ The output is similar to:
 9496.571150 [GNB_APP] I [gNB 0] Received NGAP_REGISTER_GNB_CNF: associated AMF 1
 ```
 
-### Check Stats via telnet O1 Module
+### Check Stats via telnet Module
 Make sure you have installed `netcat`.
 ```bash
 sudo apt update && sudo apt install netcat
 ```
 
 ```bash
-O1_IP=$(kubectl get svc oai-gnb-du-o1-telnet-lb -n oai-ran-du --context edge-admin@edge -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
-echo o1 stats | nc -N  $O1_IP 9090
+TELNET_IP=$(kubectl get svc oai-gnb-du-telnet-lb -n oai-ran-du --context edge-admin@edge -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
+echo o1 stats | nc -N  $TELNET_IP 9090
 ```
 
 <details>
@@ -791,7 +791,7 @@ spec:
   upstream:
     repo: catalog-workloads-oai-ran
     package: pkg-example-ue-bp-20mhz
-    revision: v1 # To be updated when catalog is tagged
+    revision: main # To be updated when catalog is tagged to (v3.0.0)
   downstream:
     repo: edge
     package: oai-ran-ue-20mhz
@@ -870,10 +870,10 @@ rtt min/avg/max/mdev = 7.572/10.584/14.680/3.001 ms
 
 For now the extra interfaces which are created using inter-connectivity script does not perform natting to have internet access.
 
-## Step 9: Reconfiguring Bandwidth using O1-Telnet (20Mhz to 40Mhz)
-1. Get the O1-Ip:
+## Step 9: Reconfiguring Bandwidth using Telnet-Service (20Mhz to 40Mhz)
+1. Get the Telnet-Ip:
 ```bash
-O1_IP=$(kubectl get svc oai-gnb-du-o1-telnet-lb -n oai-ran-du --context edge-admin@edge -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
+TELNET_IP=$(kubectl get svc oai-gnb-du-telnet-lb -n oai-ran-du --context edge-admin@edge -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
 ```
 2. Delete the 20Mhz-Ue Package
 ```bash
@@ -888,19 +888,19 @@ done
 
 3. Stop the L1
 ```bash
-echo o1 stop_modem | nc -N $O1_IP 9090
+echo o1 stop_modem | nc -N $TELNET_IP 9090
 ```
 4. Reconfigure bandwidth
 ```bash
-echo o1 bwconfig 40 | nc -N $O1_IP 9090
+echo o1 bwconfig 40 | nc -N $TELNET_IP 9090
 ```
 5. Start L1
 ```bash
-echo o1 start_modem | nc -N $O1_IP 9090
+echo o1 start_modem | nc -N $TELNET_IP 9090
 ```
 6. Check the reconfigured bandwidth
 ```bash
-echo o1 stats | nc -N $O1_IP 9090 
+echo o1 stats | nc -N $TELNET_IP 9090 
 ```
 
 <details>
@@ -957,7 +957,7 @@ echo o1 stats | nc -N $O1_IP 9090
 
 You can see `nrcelldu3gpp:bSChannelBwUL` as 40.
 
-Note: Sometimes, It might happen that the Bandwidth doesn't reconfigure (to 40) after running the o1-commands. If that's the case, re-run the o1-commands.
+Note: Sometimes, It might happen that the Bandwidth doesn't reconfigure (to 40) after running the telnet-commands. If that's the case, re-run the telnet-commands.
 
 
 ### Reconnect UE (40 Mhz)
@@ -971,7 +971,7 @@ spec:
   upstream:
     repo: catalog-workloads-oai-ran
     package: pkg-example-ue-bp-40mhz
-    revision: v1 # To be updated when catalog is tagged
+    revision: main # To be updated when catalog is tagged to (v3.0.0)
   downstream:
     repo: edge
     package: oai-ran-ue-40mhz
