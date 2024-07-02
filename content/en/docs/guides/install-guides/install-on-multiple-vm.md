@@ -22,24 +22,6 @@ weight: 7
 
 ## Installation of the management cluster
 
-### Automatic installation of the management cluster using the sandbox Ansible script
-
-Override the default Ansible values and run the installation script in 
-`test-infra\e2e\provision\init.sh` by changing the k8s.context with your
-
-```
-kubectl config get-contexts
-```
-
-then run:
-
-```bash
-export NEPHIO_USER=$USER
-export ANSIBLE_CMD_EXTRA_VAR_LIST="k8s.context=kind-kind kind.enabled=false host_min_vcpu=4 host_min_cpu_ram=8"
-
-curl -fsSL https://raw.githubusercontent.com/nephio-project/test-infra/main/e2e/provision/init.sh | sudo -E bash
-```
-
 ### Manual Installation of the management cluster using kpt
 
 - [Common Dependencies](/content/en/docs/guides/install-guides/common-dependencies.md)
