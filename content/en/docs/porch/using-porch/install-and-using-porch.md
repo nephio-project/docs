@@ -1,29 +1,24 @@
-# Starting with Porch Tutorial
+---
+title: "Install and use Porch"
+type: docs
+weight: 3
+description: "A tutorial to install and use Porch"
+---
 
-This tutorial is a guide to installing and using Porch. It is based on the [Porch demo produced by Tal Liron of Google](https://github.com/tliron/klab/tree/main/environments/porch-demo). Users should be very comfortable with using `git`, `docker`, and `kubernetes`.
+This tutorial is a guide to installing and using Porch. It is based on the
+[Porch demo produced by Tal Liron of Google](https://github.com/tliron/klab/tree/main/environments/porch-demo). Users
+should be very comfortable with using `git`, `docker`, and `kubernetes`.
 
-# Table of Contents
-1. [Prerequisites](#Prerequisites)
-2. [Create the Kind clusters for management and edge1](#Create-the-Kind-clusters-for-management-and-edge1)
-3. [Install MetalLB on the management cluster](#Install-MetalLB-on-the-management-cluster)
-4. [Deploy and set up gitea on the management cluster](#Deploy-and-set-up-gitea-on-the-management-cluster)
-5. [Create repositories on Gitea for `management` and `edge1`](#Create-repositories-on-Gitea-for-management-and-edge1)
-6. [Install Porch](#Install-Porch)
-7. [Connect the Gitea repositories to Porch](#Connect-the-Gitea-repositories-to-Porch)
-8. [Configure configsync on the workload cluster](#Configure-configsync-on-the-workload-cluster)
-9. [Exploring the Porch resources](#Exploring-the-Porch-resources)
-10. [The porchctl command](#The-porchctl-command)
-11. [Creating a blueprint in Porch](#Creating-a-blueprint-in-Porch)
-12. [Deploying a blueprint onto a workload cluster](#Deploying-a-blueprint-onto-a-workload-cluster)
-13. [Deploying using Package Variant Sets](#Deploying-using-Package-Variant-Sets)
-
-See also [the Nephio Learning Resource](https://github.com/nephio-project/docs/blob/main/learning.md) page for background help and information.
+See also [the Nephio Learning Resource](https://github.com/nephio-project/docs/blob/main/learning.md) page for
+background help and information.
 
 ## Prerequisites
 
-The tutorial can be executed on a Linux VM or directly on a laptop. It has been verified to execute on a Macbook Pro M1 machine and an Ubuntu 20.04 VM.
+The tutorial can be executed on a Linux VM or directly on a laptop. It has been verified to execute on a Macbook Pro M1
+machine and an Ubuntu 20.04 VM.
 
 The following software should be installed prior to running through the tutorial:
+
 1. [git](https://git-scm.com/)
 2. [Docker](https://www.docker.com/get-started/)
 3. [kubectl](https://kubernetes.io/docs/reference/kubectl/)
@@ -35,7 +30,7 @@ The following software should be installed prior to running through the tutorial
 
 ## Clone the repo and cd into the tutorial
 
-```
+```bash
 git clone https://github.com/nephio-project/porch.git
 
 cd porch/docs/tutorials/starting-with-porch/
@@ -45,21 +40,21 @@ cd porch/docs/tutorials/starting-with-porch/
 
 Create the clusters:
 
-```
+```bash
 kind create cluster --config=kind_management_cluster.yaml
 kind create cluster --config=kind_edge1_cluster.yaml
 ```
 
 Output the kubectl config for the clusters:
 
-```
+```bash
 kind get kubeconfig --name=management > ~/.kube/kind-management-config
 kind get kubeconfig --name=edge1 > ~/.kube/kind-edge1-config
 ```
 
 Toggling kubectl between the clusters:
 
-```
+```bash
 export KUBECONFIG=~/.kube/kind-management-config
 
 export KUBECONFIG=~/.kube/kind-edge1-config
@@ -68,7 +63,8 @@ export KUBECONFIG=~/.kube/kind-edge1-config
 ## Install MetalLB on the management cluster
 
 Install the MetalLB load balancer on the management cluster to expose services:
-```
+
+```bash
 export KUBECONFIG=~/.kube/kind-management-config
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.12/config/manifests/metallb-native.yaml
 kubectl wait --namespace metallb-system \
@@ -78,18 +74,21 @@ kubectl wait --namespace metallb-system \
 ```
 
 Check the subnet that is being used by the `kind` network in docker
-```
+
+```bash
 docker network inspect kind | grep Subnet
 ```
 
 Sample output:
-```
+
+```yaml
 "Subnet": "172.18.0.0/16",
 "Subnet": "fc00:f853:ccd:e793::/64"
 ```
 
 Edit the `metallb-conf.yaml` file and ensure the `spec.addresses` range is in the IPv4 subnet being used by the `kind` network in docker.
-```
+
+```yaml
 ...
 spec:
   addresses:
@@ -98,7 +97,8 @@ spec:
 ```
 
 Apply the MetalLB configuration:
-```
+
+```bash
 kubectl apply -f metallb-conf.yaml
 ```
 
@@ -106,7 +106,7 @@ kubectl apply -f metallb-conf.yaml
 
 Get the gitea kpt package:
 
-```
+```bash
 export KUBECONFIG=~/.kube/kind-management-config
 
 cd kpt_packages
@@ -115,7 +115,8 @@ kpt pkg get https://github.com/nephio-project/catalog/tree/main/distros/sandbox/
 ```
 
 Comment out the preconfigured IP address from the `gitea/service-gitea.yaml` file in the gitea Kpt package:
-```
+
+```bash
 11c11
 <     metallb.universe.tf/loadBalancerIPs: 172.18.0.200
 ---
@@ -123,7 +124,8 @@ Comment out the preconfigured IP address from the `gitea/service-gitea.yaml` fil
 ```
 
 Now render, init and apply the Gitea Kpt package:
-```
+
+```bash
 kpt fn render gitea
 kpt live init gitea # You only need to do this command once
 kpt live apply gitea
@@ -131,12 +133,13 @@ kpt live apply gitea
 
 Once the package is applied, all the gitea pods should come up and you should be able to reach the Gitea UI on the exposed IP Address/port of the gitea service.
 
-```
+```bash
 kubectl get svc -n gitea gitea
 
 NAME    TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                       AGE
 gitea   LoadBalancer   10.96.243.120   172.18.255.200   22:31305/TCP,3000:31102/TCP   10m
 ```
+
 The UI is available at http://172.18.255.200:3000 in the example above.
 
 To login to Gitea, use the credentials `nephio:secret`.
@@ -149,14 +152,16 @@ On the gitea UI, click the '+' opposite "Repositories" and fill in the form for 
 - Description: Something appropriate
  
 Alternatively, we can create the repos via curl:
-```
+
+```bash
 curl -k -H "content-type: application/json" "http://nephio:secret@172.18.255.200:3000/api/v1/user/repos" --data '{"name":"management"}'
 
 curl -k -H "content-type: application/json" "http://nephio:secret@172.18.255.200:3000/api/v1/user/repos" --data '{"name":"edge1"}'
 ```
 
 Check the repos:
-```
+
+```bash
  curl -k -H "content-type: application/json" "http://nephio:secret@172.18.255.200:3000/api/v1/user/repos" | grep -Po '"name": *\K"[^"]*"'
 ```
 
@@ -164,7 +169,7 @@ Now initialize both repos with an initial commit.
 
 Initialize the `management` repo
 
-```
+```bash
 cd ../repos
 git clone http://172.18.255.200:3000/nephio/management
 cd management
@@ -185,7 +190,7 @@ cd ..
 
 Initialize the `edge1` repo
 
-```
+```bash
 git clone http://172.18.255.200:3000/nephio/edge1
 cd edge1
 
@@ -206,7 +211,8 @@ cd ../../
 ## Install Porch
 
 We will use the Porch Kpt package from Nephio catalog repo.
-```
+
+```bash
 cd kpt_packages
 
 kpt pkg get https://github.com/nephio-project/catalog/tree/main/nephio/core/porch
@@ -214,13 +220,15 @@ kpt pkg get https://github.com/nephio-project/catalog/tree/main/nephio/core/porc
 
 Now we can install porch. We render the kpt package and then init and apply it.
 
-```
+```bash
 kpt fn render porch
 kpt live init porch # You only need to do this command once
 kpt live apply porch
 ```
+
 Check that the Porch PODs are running on the management cluster:
-```
+
+```bash
 kubectl get pod -n porch-system
 NAME                                 READY   STATUS    RESTARTS   AGE
 function-runner-7994f65554-nrzdh     1/1     Running   0          81s
@@ -228,8 +236,10 @@ function-runner-7994f65554-txh9l     1/1     Running   0          81s
 porch-controllers-7fb4497b77-2r2r6   1/1     Running   0          81s
 porch-server-68bfdddbbf-pfqsm        1/1     Running   0          81s
 ```
+
 Check that the Porch CRDs and other resources have been created:
-```
+
+```bash
 kubectl api-resources | grep porch   
 packagerevs                                    config.porch.kpt.dev/v1alpha1          true         PackageRev
 packagevariants                                config.porch.kpt.dev/v1alpha1          true         PackageVariant
@@ -245,13 +255,13 @@ packages                                       porch.kpt.dev/v1alpha1           
 
 Create a demo namespace:
 
-```
+```bash
 kubectl create namespace porch-demo
 ```
 
 Create a secret for the Gitea credentials in the demo namespace:
 
-```
+```bash
 kubectl create secret generic gitea \
     --namespace=porch-demo \
     --type=kubernetes.io/basic-auth \
@@ -260,12 +270,14 @@ kubectl create secret generic gitea \
 ```
 
 Now, define the Gitea repositories in Porch:
-```
+
+```bash
 kubectl apply -f porch-repositories.yaml
 ```
 
 Check that the repositories have been correctly created:
-```
+
+```bash
 kubectl get repositories -n porch-demo
 NAME                  TYPE   CONTENT   DEPLOYMENT   READY   ADDRESS
 edge1                 git    Package   true         True    http://172.18.255.200:3000/nephio/edge1.git
@@ -275,9 +287,10 @@ management            git    Package   false        True    http://172.18.255.20
 
 ## Configure configsync on the workload cluster
 
-Configsync is installed on the `edge1` cluster so that it syncs the contents of the `edge1` repository onto the `edge1` workload cluster. We will use the configsync package from Nephio.
+Configsync is installed on the `edge1` cluster so that it syncs the contents of the `edge1` repository onto the `edge1`
+workload cluster. We will use the configsync package from Nephio.
 
-```
+```bash
 export KUBECONFIG=~/.kube/kind-edge1-config
 
 cd kpt_packages
@@ -289,7 +302,8 @@ kpt live apply configsync
 ```
 
 Check that the configsync PODs are up and running:
-```
+
+```bash
 kubectl get pod -n config-management-system
 NAME                                          READY   STATUS    RESTARTS   AGE
 config-management-operator-6946b77565-f45pc   1/1     Running   0          118m
@@ -298,12 +312,13 @@ reconciler-manager-5b5d8557-gnhb2             2/2     Running   0          118m
 
 Now, we need to set up a Rootsync CR to synchronize the `edge1` repo:
 
-```
+```bash
 kpt pkg get https://github.com/nephio-project/catalog/tree/main/nephio/optional/rootsync
 ```
 
 Edit the `rootsync/package-context.yaml` file to set the name of the cluster/repo we are syncing from/to:
-```
+
+```bash
 9c9
 <   name: example-rootsync
 ---
@@ -311,12 +326,15 @@ Edit the `rootsync/package-context.yaml` file to set the name of the cluster/rep
 ```
 
 Render the package. This configures the `rootsync/rootsync.yaml` file in the Kpt package:
-```
+
+```bash
 kpt fn render rootsync
 ```
 
-Edit the `rootsync/rootsync.yaml` file to set the IP address of Gitea and to turn off authentication for accessing gitea:
-```
+Edit the `rootsync/rootsync.yaml` file to set the IP address of Gitea and to turn off authentication for accessing
+gitea:
+
+```bash
 11c11
 <     repo: http://172.18.0.200:3000/nephio/example-cluster-name.git
 ---
@@ -333,31 +351,36 @@ Edit the `rootsync/rootsync.yaml` file to set the IP address of Gitea and to tur
 ```
 
 Initialize and apply rootsync:
-```
+
+```bash
 export KUBECONFIG=~/.kube/kind-edge1-config
 
 kpt live init rootsync # This command is only needed once
 kpt live apply rootsync
 ```
+
 Check that the RootSync CR is created:
-```
+
+```bash
 kubectl get rootsync -n config-management-system
 NAME    RENDERINGCOMMIT                            RENDERINGERRORCOUNT   SOURCECOMMIT                               SOURCEERRORCOUNT   SYNCCOMMIT                                 SYNCERRORCOUNT
 edge1   613eb1ad5632d95c4336894f8a128cc871fb3266                         613eb1ad5632d95c4336894f8a128cc871fb3266                      613eb1ad5632d95c4336894f8a128cc871fb3266   
 ```
 
 Check that Configsync is synchronized with the repo on the management cluster:
-```
+
+```bash
 kubectl get pod -n config-management-system -l app=reconciler
 NAME                                     READY   STATUS    RESTARTS   AGE
 root-reconciler-edge1-68576f878c-92k54   4/4     Running   0          2d17h
 
 kubectl logs -n config-management-system root-reconciler-edge1-68576f878c-92k54 -c git-sync -f
-```
-<details open>
-<summary>Produces output similar to this</summary>
 
 ```
+
+The result should be similar to:
+
+```bash
 INFO: detected pid 1, running init handler
 I0105 17:50:11.472934      15 cmd.go:48] "level"=5 "msg"="running command" "cwd"="" "cmd"="git config --global gc.autoDetach false"
 I0105 17:50:11.493046      15 cmd.go:48] "level"=5 "msg"="running command" "cwd"="" "cmd"="git config --global gc.pruneExpire now"
@@ -401,12 +424,12 @@ I0108 11:04:05.981750      15 cmd.go:48] "level"=5 "msg"="running command" "cwd"
 I0108 11:04:06.079536      15 main.go:1065] "level"=1 "msg"="no update required" "rev"="HEAD" "local"="385295a2143f10a6cda0cf4609c45d7499185e01" "remote"="385295a2143f10a6cda0cf4609c45d7499185e01"
 I0108 11:04:06.079599      15 main.go:585] "level"=1 "msg"="next sync" "wait_time"=15000000000
 ```
-</details>
 
 ## Exploring the Porch resources
 
 We have configured three repositories in Porch:
-```
+
+```bash
 kubectl get repositories -n porch-demo
 NAME                  TYPE   CONTENT   DEPLOYMENT   READY   ADDRESS
 edge1                 git    Package   true         True    http://172.18.255.200:3000/nephio/edge1.git
@@ -414,16 +437,19 @@ external-blueprints   git    Package   false        True    https://github.com/n
 management            git    Package   false        True    http://172.18.255.200:3000/nephio/management.git
 ```
 
-A repository is a CR of the Porch Repository CRD. You can examine the 'repositories.config.porch.kpt.dev' CRD with either of the following commands (both of which are rather verbose):
-```
+A repository is a CR of the Porch Repository CRD. You can examine the 'repositories.config.porch.kpt.dev' CRD with
+either of the following commands (both of which are rather verbose):
+
+```bash
 kubectl get crd -n porch-system repositories.config.porch.kpt.dev -o yaml
 kubectl describe crd -n porch-system repositories.config.porch.kpt.dev 
 ```
+
 You can of course examine any other CRD using the commands above and changing the CRD name/namespace.
 
 The full list of Nephio CRDs is as below:
 
-```
+```bash
 kubectl api-resources --api-group=porch.kpt.dev         
 NAME                       SHORTNAMES   APIVERSION               NAMESPACED   KIND
 functions                               porch.kpt.dev/v1alpha1   true         Function
@@ -432,10 +458,9 @@ packagerevisions                        porch.kpt.dev/v1alpha1   true         Pa
 packages                                porch.kpt.dev/v1alpha1   true         Package
 ```
 
-<details>
-<summary>The PackageRevision CRD is used to keep track of revision (or version) of each package found in the repos.</summary>
+The PackageRevision CRD is used to keep track of revision (or version) of each package found in the repos.
 
-```
+```bash
 kubectl get packagerevision -n porch-demo
 NAME                                                           PACKAGE              WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
 external-blueprints-922121d0bcdd56bfa8cae6c375720e2b5f358ab0   free5gc-cp           main            main       false    Published   external-blueprints
@@ -467,12 +492,11 @@ external-blueprints-16142d8d23c1b8e868a9524a1b21634c79b432d5   pkg-example-upf-b
 external-blueprints-60ef45bb8f55b63556e7467f16088325022a7ece   pkg-example-upf-bp   v4              v4         false    Published   external-blueprints
 external-blueprints-7757966cc7b965f1b9372370a4b382c8375a2b40   pkg-example-upf-bp   v5              v5         true     Published   external-blueprints
 ```
-</details>
 
-<details>
-<summary>The PackageRevisionResources resource is an API Aggregation resource that Porch uses to wrap the GET URL for the package on its repo.</summary>
+The PackageRevisionResources resource is an API Aggregation resource that Porch uses to wrap the GET URL for the package
+on its repo.
 
-```
+```bash
 kubectl get packagerevisionresources  -n porch-demo
 NAME                                                           PACKAGE              WORKSPACENAME   REVISION   REPOSITORY            FILES
 external-blueprints-922121d0bcdd56bfa8cae6c375720e2b5f358ab0   free5gc-cp           main            main       external-blueprints   28
@@ -504,15 +528,16 @@ external-blueprints-16142d8d23c1b8e868a9524a1b21634c79b432d5   pkg-example-upf-b
 external-blueprints-60ef45bb8f55b63556e7467f16088325022a7ece   pkg-example-upf-bp   v4              v4         external-blueprints   17
 external-blueprints-7757966cc7b965f1b9372370a4b382c8375a2b40   pkg-example-upf-bp   v5              v5         external-blueprints   17
 ```
-</details>
 
 Let's examine the `free5gc-cp v1` package.
 
-<details>
-<summary>The PackageRevision CR name for free5gc-cp v1 is external-blueprints-dabbc422fdf0b8e5942e767d929b524e25f7eef9.</summary>
+The PackageRevision CR name for free5gc-cp v1 is external-blueprints-dabbc422fdf0b8e5942e767d929b524e25f7eef9.
 
-```
+```bash
 kubectl get packagerevision -n porch-demo external-blueprints-dabbc422fdf0b8e5942e767d929b524e25f7eef9 -o yaml
+```
+
+```yaml
 apiVersion: porch.kpt.dev/v1alpha1
 kind: PackageRevision
 metadata:
@@ -534,13 +559,17 @@ status:
   publishedBy: dnaleksandrov@gmail.com
   upstreamLock: {}
 ```
-</details>
+
+Getting the PackageRevisionResources pulls the package from its repository with each file serialized into a name-value
+map of resources in it's spec.
 
 <details>
-<summary>Getting the PackageRevisionResources pulls the package from its repository with each file serialized into a name-value map of resources in it's spec.</summary>
+<summary>Open this to see the command and the result</summary>
 
-```
+```bash
 kubectl get packagerevisionresources -n porch-demo external-blueprints-dabbc422fdf0b8e5942e767d929b524e25f7eef9 -o yaml
+```
+```yaml
 apiVersion: porch.kpt.dev/v1alpha1
 kind: PackageRevisionResources
 metadata:
@@ -1267,19 +1296,18 @@ status:
 
 ## The porchctl command
 
-The `porchtcl` command is an administration command for acting on Porch `Repository` (repo) and `PackageRevision` (rpkg) CRs. See its [documentation for usage information](https://github.com/nephio-project/porch/blob/main/docs/porchctl-cli-guide.md).
+The `porchtcl` command is an administration command for acting on Porch `Repository` (repo) and `PackageRevision` (rpkg)
+CRs. See its [documentation for usage information](porchctl-cli-guide.md).
 
-<details>
-<summary>Check that <code>porchctl</code> lists our repos:</summary>
+Check that <code>porchctl</code> lists our repos:</summary>
 
-```
+```bash
 porchctl repo -n porch-demo get
 NAME                  TYPE   CONTENT   DEPLOYMENT   READY   ADDRESS
 edge1                 git    Package   true         True    http://172.18.255.200:3000/nephio/edge1.git
 external-blueprints   git    Package   false        True    https://github.com/nephio-project/free5gc-packages.git
 management            git    Package   false        True    http://172.18.255.200:3000/nephio/management.git
 ```
-</details>
 
 <details>
 <summary>Check that <code>porchctl</code> lists our remote packages (PackageRevisions):</summary>
@@ -1609,15 +1637,24 @@ network-function-auto-namespace-85bc658d67-rbzt6   1/1     Running   0          
 
 ### Simple PackageVariantSet
 
-The PackageVariant CR is defined in the [simple-variant.yaml](simple-variant.yaml) file. In this very simple PackageVariant, the `network-function` package in the `management` repo is cloned into the `edge1` repo as the `network-function-b` and `network-function-c` package variants.
+The PackageVariant CR is defined in the
+[simple-variant.yaml](https://github.com/nephio-project/porch/blob/main/docs/tutorials/starting-with-porch/simple-variant.yaml)
+file. In this very simple PackageVariant, the `network-function` package in the `management` repo is cloned into the
+`edge1` repo as the `network-function-b` and `network-function-c` package variants.
 
-> **_NOTE:_**  This simple package variant does not specify any configuration changes. Normally, as well as cloning and renaming, configuration changes would be applied on a package variant.
 
-> Use `kubectl explain PackageVariantSet` to get help on the structure of the PackageVariantSet CRD.
+{{% alert title="Note" color="primary" %}}
+
+This simple package variant does not specify any configuration changes. Normally, as well as cloning and renaming,
+configuration changes would be applied on a package variant.
+
+Use `kubectl explain PackageVariantSet` to get help on the structure of the PackageVariantSet CRD.
+
+{{% /alert %}}
 
 Applying the PackageVariantSet creates the new packages as draft packages:
 
-```
+```bash
 kubectl apply -f simple-variant.yaml
 
 kubectl get PackageRevisions -n porch-demo | grep -v 'external-blueprints'
@@ -1638,8 +1675,10 @@ NAME                                             PACKAGE              WORKSPACEN
 edge1-ee14f7ce850ddb0a380cf201d86f48419dc291f4   network-function-c   packagevariant-1              false    Draft       edge1
 ```
 
-We can see that our two new packages are created as draft packages on the edge1 repo. We can also examine the PacakgeVariant CRs that have been created:
-```
+We can see that our two new packages are created as draft packages on the edge1 repo. We can also examine the
+PacakgeVariant CRs that have been created:
+
+```bash
 kubectl get PackageVariant -n porch-demo
 NAMESPACE                      NAME                                                READY   STATUS    RESTARTS        AGE
 network-function-a             network-function-9779fc9f5-2tswc                    1/1     Running   0               19h
@@ -1647,10 +1686,10 @@ network-function-b             network-function-9779fc9f5-6zwhh                 
 network-function-c             network-function-9779fc9f5-h7nsb                    1/1     Running   0               41s
 ```
 
-<details>
-<summary>It is also interesting to examine the yaml of the PackageVariant:</summary>
 
-```
+It is also interesting to examine the yaml of the PackageVariant:
+
+```yaml
 kubectl get PackageVariant -n porch-demo -o yaml
 apiVersion: v1
 items:
@@ -1740,11 +1779,11 @@ kind: List
 metadata:
   resourceVersion: ""
 ```
-</details>
 
-We now want to customize and deploy our two packages. To do this we must pull the pacakges locally, render the kpt functions, and then push the rendered packages back up to the `edge1` repo.
+We now want to customize and deploy our two packages. To do this we must pull the pacakges locally, render the kpt
+functions, and then push the rendered packages back up to the `edge1` repo.
 
-```
+```bash
 porchctl rpkg pull edge1-a31b56c7db509652f00724dd49746660757cd98a tmp_packages_for_deployment/edge1-network-function-b --namespace=porch-demo
 kpt fn eval --image=gcr.io/kpt-fn/set-namespace:v0.4.1 tmp_packages_for_deployment/edge1-network-function-b -- namespace=network-function-b
 porchctl rpkg push edge1-a31b56c7db509652f00724dd49746660757cd98a tmp_packages_for_deployment/edge1-network-function-b --namespace=porch-demo
@@ -1758,7 +1797,7 @@ Check that the namespace has been updated on the two packages in the `edge1` rep
 
 Now our two packages are ready for deployment:
 
-```
+```bash
 porchctl rpkg propose edge1-a31b56c7db509652f00724dd49746660757cd98a --namespace=porch-demo
 edge1-a31b56c7db509652f00724dd49746660757cd98a proposed
 
@@ -1772,8 +1811,10 @@ porchctl rpkg approve edge1-ee14f7ce850ddb0a380cf201d86f48419dc291f4 --namespace
 edge1-ee14f7ce850ddb0a380cf201d86f48419dc291f4 approved
 ```
 
-We can now check that the `network-function-b` and `network-function-c` packages are deployed on the edge1 cluster and that the pods are running
-```
+We can now check that the `network-function-b` and `network-function-c` packages are deployed on the edge1 cluster and
+that the pods are running
+
+```bash
 export KUBECONFIG=~/.kube/kind-edge1-config
 
 kubectl get pod -A | egrep '(NAMESPACE|network-function)'
@@ -1785,23 +1826,36 @@ network-function-c             network-function-9779fc9f5-h7nsb                 
 
 ### Using a PackageVariantSet to automatically set the package name and package namespace
 
-The PackageVariant CR is defined in the [name-namespace-variant.yaml](name-namespace-variant.yaml) file. In this PackageVariant, the `network-function-auto-namespace` package in the `management` repo is cloned into the `edge1` repo as the `network-function-auto-namespace-x` and `network-function-auto-namespace-y` package variants, similar to the PackageVariant in `simple-variant.yaml`.
+The PackageVariant CR is defined in the
+[name-namespace-variant.yaml](https://github.com/nephio-project/porch/blob/main/docs/tutorials/starting-with-porch/name-namespace-variant.yaml)
+file. In this PackageVariant, the `network-function-auto-namespace` package in the `management` repo is cloned into the
+`edge1` repo as the `network-function-auto-namespace-x` and `network-function-auto-namespace-y` package variants,
+similar to the PackageVariant in `simple-variant.yaml`.
 
 Here note the extra `template` section provided for the repositories in the PackageVariant:
 
-```
+```yaml
 template:
   downstream:
     packageExpr: "target.package + '-cumulus'"
 ```
 
-This template means that each package in the `spec.targets.repositories..packageNames` list will have the suffix `-cumulus` added to its name. This allows us to automatically generate unique package names. Applying the PackageVariantSet also automatically sets a unique namespace for each network function because applying the PackageVariantSet automatically triggers the Kpt pipeline in the `network-function-auto-namespace` Kpt package to gerenate unique namespaces for each deployed package.
+This template means that each package in the `spec.targets.repositories..packageNames` list will have the suffix
+`-cumulus` added to its name. This allows us to automatically generate unique package names. Applying the
+PackageVariantSet also automatically sets a unique namespace for each network function because applying the
+PackageVariantSet automatically triggers the Kpt pipeline in the `network-function-auto-namespace` Kpt package to
+gerenate unique namespaces for each deployed package.
 
-> Many other mutatinos can be performed using a PackageVariantSet. Use `kubectl explain PackageVariantSet` to get help on the structure of the PackageVariantSet CRD to see the various mutations that are possible.
+{{% alert title="Note" color="primary" %}}
+
+Many other mutatinos can be performed using a PackageVariantSet. Use `kubectl explain PackageVariantSet` to get help on
+the structure of the PackageVariantSet CRD to see the various mutations that are possible.
+
+{{% /alert %}}
 
 Applying the PackageVariantSet creates the new packages as draft packages:
 
-```
+```bash
 kubectl apply -f name-namespace-variant.yaml 
 packagevariantset.config.porch.kpt.dev/network-function-auto-namespace created
 
@@ -1817,6 +1871,7 @@ edge1-77dbfed49b6cb0723b7c672b224de04c0cead67e                 network-function-
 management-f9a6f2802111b9e81c296422c03aae279725f6df            network-function-auto-namespace                  v1                 main       false    Published   management
 management-c97bc433db93f2e8a3d413bed57216c2a72fc7e3            network-function-auto-namespace                  v1                 v1         true     Published   management
 ```
+
 Note that the suffix `x-cumulonimbus` and `y-cumulonimbus` has been palced on the package names.
 
 Examine the `edge1` repo on Giea and you should see two new draft branches.
@@ -1826,15 +1881,20 @@ Examine the `edge1` repo on Giea and you should see two new draft branches.
 
 In these packages, you will see that:
 
-1. The package name has been generated as `network-function-auto-namespace-x-cumulonimbus` and `network-function-auto-namespace-y-cumulonimbus`in all files in the packages
-2. The namespace has been generated as `network-function-auto-namespace-x-cumulonimbus` and `network-function-auto-namespace-y-cumulonimbus` respectively in the `demployment.yaml` files
-3. The PackageVariant has set the `data.name` field as `network-function-auto-namespace-x-cumulonimbus` and `network-function-auto-namespace-y-cumulonimbus` respectively in the `pckage-context.yaml` files
+1. The package name has been generated as `network-function-auto-namespace-x-cumulonimbus` and
+   `network-function-auto-namespace-y-cumulonimbus`in all files in the packages
+2. The namespace has been generated as `network-function-auto-namespace-x-cumulonimbus` and
+   `network-function-auto-namespace-y-cumulonimbus` respectively in the `demployment.yaml` files
+3. The PackageVariant has set the `data.name` field as `network-function-auto-namespace-x-cumulonimbus` and
+   `network-function-auto-namespace-y-cumulonimbus` respectively in the `pckage-context.yaml` files
 
-Note that this has all been performed automatically; weh have not had to perform the `porchctl rpkg pull/kpt fn render/porchctl rpkg push` combination of commands to make these chages as we had to in the `simple-variant.yaml` case above.
+Note that this has all been performed automatically; weh have not had to perform the
+`porchctl rpkg pull/kpt fn render/porchctl rpkg push` combination of commands to make these chages as we had to in the
+`simple-variant.yaml` case above.
 
 Now, let us explore the packages further:
 
-```
+```bash
 porchctl -n porch-demo rpkg get --name network-function-auto-namespace-x-cumulonimbus
 NAME                                             PACKAGE                                          WORKSPACENAME      REVISION   LATEST   LIFECYCLE   REPOSITORY
 edge1-009659a8532552b86263434f68618554e12f4f7c   network-function-auto-namespace-x-cumulonimbus   packagevariant-1              false    Draft       edge1
@@ -1844,8 +1904,10 @@ NAME                                             PACKAGE                        
 edge1-77dbfed49b6cb0723b7c672b224de04c0cead67e   network-function-auto-namespace-y-cumulonimbus   packagevariant-1              false    Draft       edge1
 ```
 
-We can see that our two new packages are created as draft packages on the edge1 repo. We can also examine the PacakgeVariant CRs that have been created:
-```
+We can see that our two new packages are created as draft packages on the edge1 repo. We can also examine the
+PacakgeVariant CRs that have been created:
+
+```bash
 kubectl get PackageVariant -n porch-demo
 NAME                                                              AGE
 network-function-auto-namespace-edge1-network-function-35079f9f   3m41s
@@ -1854,10 +1916,9 @@ network-function-edge1-network-function-b                         38m
 network-function-edge1-network-function-c                         38m
 ```
 
-<details>
-<summary>It is also interesting to examine the yaml of a PackageVariant:</summary>
+It is also interesting to examine the yaml of a PackageVariant:
 
-```
+```yaml
 kubectl get PackageVariant -n porch-demo network-function-auto-namespace-edge1-network-function-35079f9f -o yaml
 apiVersion: config.porch.kpt.dev/v1alpha1
 kind: PackageVariant
@@ -1901,11 +1962,9 @@ status:
   downstreamTargets:
   - name: edge1-009659a8532552b86263434f68618554e12f4f7c
 ```
-</details>
-
 Our two packages are ready for deployment:
 
-```
+```bash
 porchctl rpkg propose edge1-009659a8532552b86263434f68618554e12f4f7c --namespace=porch-demo
 edge1-009659a8532552b86263434f68618554e12f4f7c proposed
 
@@ -1921,7 +1980,7 @@ edge1-77dbfed49b6cb0723b7c672b224de04c0cead67e approved
 
 We can now check that the packages are deployed on the edge1 cluster and that the pods are running
 
-```
+```bash
 export KUBECONFIG=~/.kube/kind-edge1-config
 
 kubectl get pod -A | egrep '(NAMESPACE|network-function)'

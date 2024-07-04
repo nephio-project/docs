@@ -60,12 +60,13 @@ IMAGE_TAG=$(git rev-parse --short HEAD) make push-images
 
 ## Running Locally
 
-Follow [running-locally.md](../running-porch/running-locally.md) to run Porch locally.
+Follow the [Running Porch Locally](../running-porch/running-locally.md) guide to run Porch locally.
 
 ## Debugging
 
-To debug Porch, run Porch locally [running-locally.md](../running-porch/running-locally.md), exit porch server running in the shell,
-and launch Porch under the debugger. VSCode debug session is pre-configured in [launch.json](https://github.com/nephio-project/porch/blob/main/.vscode/launch.json).
+To debug Porch, run Porch locally [running-locally.md](../running-porch/running-locally.md), exit porch server running
+in the shell, and launch Porch under the debugger. VSCode debug session is pre-configured in
+[launch.json](https://github.com/nephio-project/porch/blob/main/.vscode/launch.json).
 
 Update the launch arguments to your needs.
 
@@ -73,8 +74,8 @@ Update the launch arguments to your needs.
 
 Some useful code pointers:
 
-* Porch REST API handlers in [registry/porch](https://github.com/nephio-project/porch/tree/main/pkg/registry/porch), for example
-  [packagerevision.go](https://github.com/nephio-project/porch/tree/main/pkg/registry/porch/packagerevision.go)
+* Porch REST API handlers in [registry/porch](https://github.com/nephio-project/porch/tree/main/pkg/registry/porch),
+  for example [packagerevision.go](https://github.com/nephio-project/porch/tree/main/pkg/registry/porch/packagerevision.go)
 * Background task handling cache updates in [background.go](https://github.com/nephio-project/porch/tree/main/pkg/registry/porch/background.go)
 * Git repository integration in [pkg/git](https://github.com/nephio-project/porch/tree/main/pkg/git)
 * OCI repository integration in [pkg/oci](https://github.com/nephio-project/porch/tree/main/pkg/oci)

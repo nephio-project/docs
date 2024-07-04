@@ -116,8 +116,6 @@ spec:
 " | kubectl apply -f -
 ```
 
-You can start [using Porch](guides/porch-user-guide.md).
-
 ## Run Custom Build of Porch
 
 To run custom build of Porch, you will need additional [prerequisites](#prerequisites).
@@ -145,8 +143,7 @@ IMAGE_TAG=$(git rev-parse --short HEAD) make push-and-deploy-no-sa
 ```
 
 If you want to use different repository, you can set `IMAGE_REPO` variable
-(see [Makefile](https://github.com/GoogleContainerTools/kpt/blob/main/porch/Makefile#L28)
-for details).
+(see [Makefile](https://github.com/nephio-project/porch/blob/main/Makefile#L32) for details).
 
 The `make push-and-deploy-no-sa` target will install Porch but not Config Sync.
 You can install Config Sync in your k8s cluster manually following the
@@ -162,9 +159,6 @@ As above, you can verify that Porch is running by querying the `api-resources`:
 ```sh
 kubectl api-resources | grep porch
 ```
-
-And start [using Porch](guides/porch-user-guide.md) if the Porch resources are
-available.
 
 ### Workload Identity
 
@@ -266,6 +260,3 @@ As above, you can verify that Porch is running by querying the `api-resources`:
 ```sh
 kubectl api-resources | grep porch
 ```
-
-And start [using Porch](guides/porch-user-guide.md) if the Porch resources are
-available.
