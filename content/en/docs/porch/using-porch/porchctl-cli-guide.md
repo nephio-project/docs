@@ -1,5 +1,5 @@
 ---
-title: "Using the CLI of Porch"
+title: "Using the Porch CLI"
 type: docs
 weight: 3
 description: 
