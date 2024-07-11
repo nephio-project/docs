@@ -78,12 +78,14 @@ kpt live init <cluster-name>
 kpt live apply <cluster-name> --reconcile-timeout=15m --output=table
 ```
 
-**Note**: 
+{{% alert title="Note" color="primary" %}} 
 
 * For management cluster you have to name the repository as `mgmt`.
 * In the `repository` package by default gitea address is `172.18.0.200:3000` in `repository/set-values.yaml` 
 change this to your git address.
 * `repository/token-configsync.yaml` and `repository/token-porch.yaml` are responsible for creating secrets with the help of Nephio token controller for accessing git instance for root-sync. You would need the name of config-sync token to provide it to root-sync.
+
+{{% /alert %}}
 
 ### Install Root-sync
 

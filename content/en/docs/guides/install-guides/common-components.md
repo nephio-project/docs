@@ -12,8 +12,11 @@ This page is draft and the separation of the content to different categories is 
 {{% /pageinfo %}}
 
 
-> **_NOTE:_** If you want to use a version other than that at the tip of Nephio `catalog` repo, then replace the `@main` suffix on the package URLs on the `kpt pkg get` commands below with the tag of the version you wish to use.
+{{% alert title="Note" color="primary" %}}
 
+If you want to use a version other than that at the tip of Nephio `catalog` repo, then replace the `@main` suffix on the package URLs on the `kpt pkg get` commands below with the tag of the version you wish to use.
+
+{{% /alert %}}
 
 ## Porch
 

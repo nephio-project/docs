@@ -337,8 +337,12 @@ gcloud anthos config controller create nephio-cc \
     --full-management
 ```
 
-Note that Config Controller clusters are always regional and are not available in all regions. See the link above for a
+{{% alert title="Note" color="primary" %}}
+
+The Config Controller clusters are always regional and are not available in all regions. See the link above for a
 list of available regions. The Config Controller creation may take up to fifteen minutes.
+
+{{% /alert %}}
 
 
 The output is similar to:
@@ -1376,9 +1380,13 @@ demonstrate how to build out Nephio-based networks on GCP.
 
 ## Next Steps
 
-Note that the exercises using free5gc rely on Multus and on the gtp5g kernel module, neither of which are installed on
+{{% alert title="Note" color="primary" %}}
+
+The exercises using free5gc rely on Multus and on the gtp5g kernel module, neither of which are installed on
 GKE nodes. Therefore, the free5gc workloads cannot be run on this installation. You will need to alter the exercises to\
 use workloads that do not rely on that functionality in order to experiment with Nephio features.
+
+{{% /alert %}}
 
 * Step through the [Free5GC](/content/en/docs/guides/user-guides/exercise-1-free5gc.md) and
 [OAI](/content/en/docs/guides/user-guides/exercise-2-oai.md) exercises

@@ -30,7 +30,11 @@ The network configuration is illustrated in the following figure:
 
 ![nephio-r1-5g-network.png](/static/images/user-guides/nephio-r1-5g-network.png)
 
-Note that for simplicity, only one edge cluster is represented.
+{{% alert title="Note" color="primary" %}}
+
+For simplicity, only one edge cluster is represented.
+
+{{% /alert %}}
 
 Additionally, you can use Nephio to change the capacity requirement for the UPF and SMF NFs and see how the free5GC
 operator translates that into increased memory and CPU requirements for the underlying workload.
@@ -52,8 +56,13 @@ Management cluster via Nephio; the mgmt-staging repository is just used internal
 process.
 
 Use the session just started on the VM to run these commands:
-(Note: After fresh `docker` install, verify `docker` supplementary group is loaded by executing `id | grep docker`.
-If not, logout and login to the VM or execute the `newgrp docker` to ensure the `docker` supplementary group is loaded.)
+
+{{% alert title="Note" color="primary" %}}
+
+After fresh `docker` install, verify `docker` supplementary group is loaded by executing `id | grep docker`.
+If not, logout and login to the VM or execute the `newgrp docker` to ensure the `docker` supplementary group is loaded.
+
+{{% /alert %}}
 
 ```bash
 kubectl get repositories
@@ -818,9 +827,11 @@ PING 172.0.0.1 (172.0.0.1) from 10.1.0.2 uesimtun0: 56(84) bytes of data.
 rtt min/avg/max/mdev = 6.280/7.586/8.896/1.011 ms
 ```
 
+{{% alert title="Note" color="primary" %}}
 
+Our DNN does not actually provide access to the internet, so you won't be able to reach the other sites.
 
-Note that our DNN does not actually provide access to the internet, so you won't be able to reach the other sites.
+{{% /alert %}}
 
 ## Step 9: Change the Capacities of the UPF and SMF NFs
 

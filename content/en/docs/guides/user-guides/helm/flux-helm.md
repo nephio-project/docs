@@ -51,7 +51,11 @@ Click through the `Next` button until you are through all the steps, leaving all
 At this point, we can take a closer look at the contents of the kpt package which contains the relevant kubernetes
 resources to deploy the controllers.
 
-**_NOTE:_**  We are deploying into the `flux-system` namespace by default.
+{{% alert title="Note" color="primary" %}}
+
+We are deploying into the `flux-system` namespace by default.
+
+{{% /alert %}}
 
 Finally, we need to `propose` and then `approve` the pkg to initialize the deployment.
 
@@ -123,8 +127,12 @@ source repo and the package to be deployed.
 
 ![Add acm pkg](/static/images/user-guides/add-deploy-onlinebout-select.png)
 
-**_NOTE:_**  The overrides online-boutique-values ConfigMap in the package refers to the default values.yaml for the
+{{% alert title="Note" color="primary" %}}
+
+The overrides online-boutique-values ConfigMap in the package refers to the default values.yaml for the
 chart and can be customized prior to pkg approval.
+
+{{% /alert %}}
 
 Shortly thereafter, you should see the online boutique components deployed in the online-boutique namespace:
 
