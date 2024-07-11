@@ -1832,7 +1832,7 @@ file. In this PackageVariant, the `network-function-auto-namespace` package in t
 `edge1` repo as the `network-function-auto-namespace-x` and `network-function-auto-namespace-y` package variants,
 similar to the PackageVariant in `simple-variant.yaml`.
 
-Here note the extra `template` section provided for the repositories in the PackageVariant:
+An extra `template` section provided for the repositories in the PackageVariant:
 
 ```yaml
 template:
@@ -1872,7 +1872,11 @@ management-f9a6f2802111b9e81c296422c03aae279725f6df            network-function-
 management-c97bc433db93f2e8a3d413bed57216c2a72fc7e3            network-function-auto-namespace                  v1                 v1         true     Published   management
 ```
 
-Note that the suffix `x-cumulonimbus` and `y-cumulonimbus` has been palced on the package names.
+{{% alert title="Note" color="primary" %}}
+
+The suffix `x-cumulonimbus` and `y-cumulonimbus` has been palced on the package names.
+
+{{% /alert %}}
 
 Examine the `edge1` repo on Giea and you should see two new draft branches.
 
@@ -1888,7 +1892,7 @@ In these packages, you will see that:
 3. The PackageVariant has set the `data.name` field as `network-function-auto-namespace-x-cumulonimbus` and
    `network-function-auto-namespace-y-cumulonimbus` respectively in the `pckage-context.yaml` files
 
-Note that this has all been performed automatically; weh have not had to perform the
+This has all been performed automatically; we have not had to perform the
 `porchctl rpkg pull/kpt fn render/porchctl rpkg push` combination of commands to make these chages as we had to in the
 `simple-variant.yaml` case above.
 
