@@ -44,8 +44,12 @@ But the easiest way is to force the port-forwarding as shown before:
 
 ## Notes
 
-> **Warning**: For low-end machines (less then 8T32GB), you will need to modify
+{{% alert title="Warning" color="warning" %}}
+
+For low-end machines (less then 8T32GB), you will need to modify
 the Vagrant file. This is not recommended!
+
+{{% /alert %}}
 
 - In the Vagrant file "./Vagrantfile", there are *CPUS & RAM* parameters in
   `config.vm.provider`, it's possible to override them at runtime:

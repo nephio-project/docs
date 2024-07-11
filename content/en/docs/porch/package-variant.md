@@ -91,10 +91,13 @@ The simple clone operation is shown in *Figure 1*.
 | :---: | :---: |
 | *Figure 1: Basic Package Cloning* | *Legend* |
 
+{{% alert title="Note" color="primary" %}}
 
-Note that *proposal* and *approval* are not handled by the package variant controller. Those are left to humans or other
+*Proposal* and *approval* are not handled by the package variant controller. Those are left to humans or other
 controllers. The exception is the proposal of deletion (there is no concept of a "Draft" deletion), which the package
 variant control will do, depending upon the specified deletion policy.
+
+{{% /alert %}}
 
 ### PackageRevision Metadata
 
@@ -180,11 +183,14 @@ protocol for facilitating this dance:
 | :---: |
 | *Figure 4: Configuration Injection* |
 
+{{% alert title="Note" color="primary" %}}
 
-Note that because we are injecting data *from the Kubernetes cluster*, we can also monitor that data for changes. For
+Because we are injecting data *from the Kubernetes cluster*, we can also monitor that data for changes. For
 each resource we inject, the package variant controller will establish a Kubernetes "watch" on the resource (or perhaps
 on the collection of such resources). A change to that resource will result in a new Draft package with the updated
 configuration injected.
+
+{{% /alert %}}
 
 There are a number of additional details that will be described in the detailed design below, along with the specific
 API definition.
@@ -375,9 +381,13 @@ When creating or updating a package, the package variant controller will ensure 
 - All of the key-value pairs in `spec.packageContext.data` exist in the `data` field of the ConfigMap.
 - None of the keys listed in `spec.packageContext.removeKeys` exist in the ConfigMap.
 
-Note that if a user adds a key via PackageVariant, then changes the PackageVariant to no longer add that key, it will
+{{% alert title="Note" color="primary" %}}
+
+If a user adds a key via PackageVariant, then changes the PackageVariant to no longer add that key, it will
 NOT be removed automatically, unless the user also lists the key in the `removeKeys` list. This avoids the need to track
 which keys were added by PackageVariant.
+
+{{% /alert %}}
 
 Similarly, if a user manually adds a key in the downstream that is also listed in the `removeKeys` field, the package
 variant controller will remove that key the next time it needs to update the downstream package. There will be no
@@ -538,12 +548,16 @@ package, it is considered an error and should prevent generation of the Draft:
 
 This will result in the condition `Ready` being set to `False`.
 
-Note that whether or not all `required` injection points are fulfilled does not affect the *PackageVariant* conditions,
+{{% alert title="Note" color="primary" %}}
+
+Whether or not all `required` injection points are fulfilled does not affect the *PackageVariant* conditions,
 only the *PackageRevision* conditions.
+
+{{% /alert %}}
 
 **A Further Note on Selectors**
 
-Note that by allowing the use of GVK, not just name, in the selector, more precision in selection is enabled. This is a
+By allowing the use of GVK, not just name, in the selector, more precision in selection is enabled. This is a
 way to constrain the injections that will be done. That is, if the package has 10 different objects with
 `config-injection` annotation, the PackageVariant could say it only wants to replace certain GVKs, allowing better
 control.

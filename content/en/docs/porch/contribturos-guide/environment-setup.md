@@ -45,8 +45,13 @@ Porch.
 
 The [`./scripts/setup-dev-env.sh`](https://github.com/nephio-project/porch/blob/main/scripts/setup-dev-env.sh) setup
 script automatically builds a porch development environment.
-Please note that this is only one of many possible ways of building a working porch development environment so feel free
+
+{{% alert title="Note" color="primary" %}}
+
+This is only one of many possible ways of building a working porch development environment so feel free
 to customize it to suit your needs.
+
+{{% /alert %}}
 
 The setup script will perform the following steps:
 

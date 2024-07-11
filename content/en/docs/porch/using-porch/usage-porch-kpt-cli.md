@@ -50,10 +50,14 @@ Porch server manages the following resources:
 4. `functions`: function resource represents a KRM function discovered in a repository registered with Porch. Functions
    are only supported with OCI repositories.
 
-Note that `packagerevisions` and `packagerevisionresources` represent different _views_ of the same underlying KRM
+{{% alert title="Note" color="primary" %}}
+
+`packagerevisions` and `packagerevisionresources` represent different _views_ of the same underlying KRM
 configuration package. `packagerevisions` represents the package metadata, and `packagerevisionresources` represents the
 package content. The matching resources share the same `name` (as well as API group and version:
 `porch.kpt.dev/v1alpha1`) and differ in resource kind (`PackageRevision` and `PackageRevisionResources` respectively).
+
+{{% /alert %}}
 
 ## Repository Registration
 

@@ -28,7 +28,11 @@ gcloud compute instances create --machine-type e2-standard-16 \
                                     nephio-r2-e2e
 ```
 
-**NOTE**: e2-standard-16 is recommended and e2-standard-8 is minimum. 
+{{% alert title="Note" color="primary" %}}
+
+e2-standard-16 is recommended and e2-standard-8 is minimum.
+
+{{% /alert %}}
 
 ### Follow the Installation on GCE
 

@@ -61,8 +61,12 @@ This will:
 * build Porch binary and run it locally
 * configure Porch as the extension apiserver
 
-**Note:** this command does not build and start the Porch k8s controllers. Those
+{{% alert title="Note" color="primary" %}}
+
+This command does not build and start the Porch k8s controllers. Those
 are not required for basic package orchestration but are required for deploying packages.
+
+{{% /alert %}}
 
 You can also run the commands individually which can be useful when developing,
 in particular building and running Porch extension apiserver.
