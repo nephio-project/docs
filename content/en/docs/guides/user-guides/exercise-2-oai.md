@@ -716,21 +716,282 @@ The output is similar to:
 9496.571150 [GNB_APP] I [gNB 0] Received NGAP_REGISTER_GNB_CNF: associated AMF 1
 ```
 
+### Check Stats via telnet Module
+Make sure you have installed `netcat`.
+```bash
+sudo apt update && sudo apt install netcat
+```
 
+```bash
+TELNET_IP=$(kubectl get svc oai-gnb-du-telnet-lb -n oai-ran-du --context edge-admin@edge -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
+echo o1 stats | nc -N  $TELNET_IP 9090
+```
 
-## Step 7: Deploy UE
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+{
+  "o1-config": {
+    "BWP": {
+      "dl": [{
+        "bwp3gpp:isInitialBwp": true,
+        "bwp3gpp:numberOfRBs": 51,
+        "bwp3gpp:startRB": 0,
+        "bwp3gpp:subCarrierSpacing": 30
+      }],
+      "ul": [{
+        "bwp3gpp:isInitialBwp": true,
+        "bwp3gpp:numberOfRBs": 51,
+        "bwp3gpp:startRB": 0,
+        "bwp3gpp:subCarrierSpacing": 30
+      }]
+    },
+    "NRCELLDU": {
+      "nrcelldu3gpp:ssbFrequency": 630048,
+      "nrcelldu3gpp:arfcnDL": 629436,
+      "nrcelldu3gpp:bSChannelBwDL": 20,
+      "nrcelldu3gpp:arfcnUL": 629436,
+      "nrcelldu3gpp:bSChannelBwUL": 20,
+      "nrcelldu3gpp:nRPCI": 0,
+      "nrcelldu3gpp:nRTAC": 1,
+      "nrcelldu3gpp:mcc": "001",
+      "nrcelldu3gpp:mnc": "01",
+      "nrcelldu3gpp:sd": 16777215,
+      "nrcelldu3gpp:sst": 1
+    },
+    "device": {
+      "gnbId": 3584,
+      "gnbName": "du-rfsim",
+      "vendor": "OpenAirInterface"
+    }
+  },
+  "O1-Operational": {
+    "frame-type": "tdd",
+    "band-number": 78,
+    "num-ues": 0,
+    "ues": [    ],
+    "load": 0,
+    "ues-thp": [
+    ]
+  }
+}
+OK
+```
+</details>
+
+Notice the block `O1-Operational` you will see the number of connected UEs, present load at the gNB and the DL/UL RLC `throughput` in `Kbps`.
+
+## Step 7: Deploy UE (20 Mhz)
 
 If all three links are configured then you can proceed with deploying the UE `PackageVariants`
 
 ```bash
-kubectl create -f test-infra/e2e/tests/oai/005-ue.yaml
+kubectl apply -f - <<EOF
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: PackageVariant
+metadata:
+  name: oai-ue-20mhz
+spec:
+  upstream:
+    repo: catalog-workloads-oai-ran
+    package: pkg-example-ue-bp-20mhz
+    revision: main # To be updated when catalog is tagged to (v3.0.0)
+  downstream:
+    repo: edge
+    package: oai-ran-ue-20mhz
+  annotations:
+    approval.nephio.org/policy: initial
+  injectors:
+  - name: edge
+EOF
 ```
 
 
 The output is similar to:
 
 ```console
-packagevariant.config.porch.kpt.dev/oai-ue created
+packagevariant.config.porch.kpt.dev/oai-ue-20mhz created
+```
+
+
+The UE will be deployed in the Edge cluster. It might take 2-3 mins for the ue to get deployed.To verify that the UE is deployed you can use the below command
+
+```bash
+kubectl get pods -n oai-ue --context edge-admin@edge
+```
+
+
+The output is similar to:
+
+```console
+NAME                              READY   STATUS    RESTARTS   AGE
+oai-nr-ue-20mhz-f587d48b9-b4dx2   1/1     Running   0          21s
+```
+
+
+To verify if the UE is successfully connected you can use the below command
+
+```bash
+UE_POD=$(kubectl get pods -n oai-ue --context edge-admin@edge  -l app.kubernetes.io/name=oai-nr-ue-20mhz -o jsonpath='{.items[*].metadata.name}')
+kubectl logs -n oai-ue $UE_POD -c nr-ue --context edge-admin@edge | grep "REGISTRATION ACCEPT"
+kubectl logs -n oai-ue $UE_POD -c nr-ue --context edge-admin@edge | grep "Interface oaitun_ue1 successfully configured"
+```
+
+
+The output is similar to:
+
+```console
+791595.646099 [NAS] I [UE] Received REGISTRATION ACCEPT message
+791596.901105 [OIP] I Interface oaitun_ue1 successfully configured, ip address 10.1.0.2, mask 255.255.255.0 broadcast address 10.1.0.255
+```
+
+
+## Step 8: Test the End to End Connectivity
+
+To perform the end to end connectivity test you can ping from the UE to the UPF.
+
+```bash
+UE_POD=$(kubectl get pods -n oai-ue --context edge-admin@edge  -l app.kubernetes.io/name=oai-nr-ue-20mhz -o jsonpath='{.items[*].metadata.name}')
+UPF_POD=$(kubectl get pods -n oai-core --context=edge-admin@edge -l workload.nephio.org/oai=upf -o jsonpath='{.items[*].metadata.name}')
+UPF_tun0_IP_ADDR=$(kubectl exec -it $UPF_POD -n oai-core -c upf-edge --context edge-admin@edge -- ip -f inet addr show tun0 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p')
+kubectl exec -it $UE_POD -n oai-ue --context edge-admin@edge -- ping -I oaitun_ue1 -c 3 $UPF_tun0_IP_ADDR
+```
+
+
+The output is similar to:
+
+```console
+PING 10.1.0.1 (10.1.0.1) 56(84) bytes of data.
+64 bytes from 10.1.0.1: icmp_seq=1 ttl=64 time=9.50 ms
+64 bytes from 10.1.0.1: icmp_seq=2 ttl=64 time=7.57 ms
+64 bytes from 10.1.0.1: icmp_seq=3 ttl=64 time=14.7 ms
+
+--- 10.1.0.1 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2002ms
+rtt min/avg/max/mdev = 7.572/10.584/14.680/3.001 ms
+```
+
+
+For now the extra interfaces which are created using inter-connectivity script does not perform natting to have internet access.
+
+## Step 9: Reconfiguring Bandwidth using Telnet-Service (20Mhz to 40Mhz)
+1. Get the Telnet-Ip:
+```bash
+TELNET_IP=$(kubectl get svc oai-gnb-du-telnet-lb -n oai-ran-du --context edge-admin@edge -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
+```
+2. Delete the 20Mhz-Ue Package
+```bash
+kubectl delete packageVariants oai-ue-20mhz
+pkgList=$(kpt alpha rpkg get| grep oai-ran-ue-20mhz| grep edge| awk '{print $1;}')
+for pkg in $pkgList
+do
+ kpt alpha rpkg propose-delete $pkg -ndefault
+ kpt alpha rpkg delete $pkg -ndefault
+done
+```
+
+3. Stop the L1
+```bash
+echo o1 stop_modem | nc -N $TELNET_IP 9090
+```
+4. Reconfigure bandwidth
+```bash
+echo o1 bwconfig 40 | nc -N $TELNET_IP 9090
+```
+5. Start L1
+```bash
+echo o1 start_modem | nc -N $TELNET_IP 9090
+```
+6. Check the reconfigured bandwidth
+```bash
+echo o1 stats | nc -N $TELNET_IP 9090 
+```
+
+<details>
+<summary>The output is similar to:</summary>
+
+```console
+ {
+  "o1-config": {
+    "BWP": {
+      "dl": [{
+        "bwp3gpp:isInitialBwp": true,
+        "bwp3gpp:numberOfRBs": 106,
+        "bwp3gpp:startRB": 0,
+        "bwp3gpp:subCarrierSpacing": 30
+      }],
+      "ul": [{
+        "bwp3gpp:isInitialBwp": true,
+        "bwp3gpp:numberOfRBs": 106,
+        "bwp3gpp:startRB": 0,
+        "bwp3gpp:subCarrierSpacing": 30
+      }]
+    },
+    "NRCELLDU": {
+      "nrcelldu3gpp:ssbFrequency": 641280,
+      "nrcelldu3gpp:arfcnDL": 640008,
+      "nrcelldu3gpp:bSChannelBwDL": 40,
+      "nrcelldu3gpp:arfcnUL": 640008,
+      "nrcelldu3gpp:bSChannelBwUL": 40,
+      "nrcelldu3gpp:nRPCI": 0,
+      "nrcelldu3gpp:nRTAC": 1,
+      "nrcelldu3gpp:mcc": "001",
+      "nrcelldu3gpp:mnc": "01",
+      "nrcelldu3gpp:sd": 16777215,
+      "nrcelldu3gpp:sst": 1
+    },
+    "device": {
+      "gnbId": 3584,
+      "gnbName": "du-rfsim",
+      "vendor": "OpenAirInterface"
+    }
+  },
+  "O1-Operational": {
+    "frame-type": "tdd",
+    "band-number": 78,
+    "num-ues": 0,
+    "ues": [    ],
+    "load": 0,
+    "ues-thp": [
+    ]
+  }
+}
+```
+</details>
+
+You can see `nrcelldu3gpp:bSChannelBwUL` as 40.
+
+Note: Sometimes, It might happen that the Bandwidth doesn't reconfigure (to 40) after running the telnet-commands. If that's the case, re-run the telnet-commands.
+
+
+### Reconnect UE (40 Mhz)
+```bash
+kubectl apply -f - <<EOF
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: PackageVariant
+metadata:
+  name: oai-ue-40mhz
+spec:
+  upstream:
+    repo: catalog-workloads-oai-ran
+    package: pkg-example-ue-bp-40mhz
+    revision: main # To be updated when catalog is tagged to (v3.0.0)
+  downstream:
+    repo: edge
+    package: oai-ran-ue-40mhz
+  annotations:
+    approval.nephio.org/policy: initial
+  injectors:
+  - name: edge
+EOF
+```
+
+
+The output is similar to:
+
+```console
+packagevariant.config.porch.kpt.dev/oai-ue-40mhz created
 ```
 
 
@@ -744,15 +1005,15 @@ kubectl get pods -n oai-ue --context edge-admin@edge
 The output is similar to:
 
 ```console
-NAME                         READY   STATUS    RESTARTS   AGE
-oai-nr-ue-78846cf68c-rxkkz   1/1     Running   0          32m
+NAME                              READY   STATUS    RESTARTS   AGE
+oai-nr-ue-40mhz-6b545c5c57-gwzdf   1/1     Running   0          16s
 ```
 
 
 To verify if the UE is successfully connected you can use the below command
 
 ```bash
-UE_POD=$(kubectl get pods -n oai-ue --context edge-admin@edge  -l app.kubernetes.io/name=oai-nr-ue -o jsonpath='{.items[*].metadata.name}')
+UE_POD=$(kubectl get pods -n oai-ue --context edge-admin@edge  -l app.kubernetes.io/name=oai-nr-ue-40mhz -o jsonpath='{.items[*].metadata.name}')
 kubectl logs -n oai-ue $UE_POD -c nr-ue --context edge-admin@edge | grep "REGISTRATION ACCEPT"
 kubectl logs -n oai-ue $UE_POD -c nr-ue --context edge-admin@edge | grep "Interface oaitun_ue1 successfully configured"
 ```
@@ -761,17 +1022,17 @@ kubectl logs -n oai-ue $UE_POD -c nr-ue --context edge-admin@edge | grep "Interf
 The output is similar to:
 
 ```console
-24908.869517 [NAS] I [UE] Received REGISTRATION ACCEPT message
-24910.122107 [OIP] I Interface oaitun_ue1 successfully configured, ip address 10.2.0.2, mask 255.255.255.0 broadcast address 10.2.0.255
+791595.646099 [NAS] I [UE] Received REGISTRATION ACCEPT message
+791596.901105 [OIP] I Interface oaitun_ue1 successfully configured, ip address 10.1.0.2, mask 255.255.255.0 broadcast address 10.1.0.255
 ```
 
 
-## Step 8: Test the End to End Connectivity
+### Test the End to End Connectivity (40 Mhz)
 
 To perform the end to end connectivity test you can ping from the UE to the UPF.
 
 ```bash
-UE_POD=$(kubectl get pods -n oai-ue --context edge-admin@edge  -l app.kubernetes.io/name=oai-nr-ue -o jsonpath='{.items[*].metadata.name}')
+UE_POD=$(kubectl get pods -n oai-ue --context edge-admin@edge  -l app.kubernetes.io/name=oai-nr-ue-40mhz -o jsonpath='{.items[*].metadata.name}')
 UPF_POD=$(kubectl get pods -n oai-core --context=edge-admin@edge -l workload.nephio.org/oai=upf -o jsonpath='{.items[*].metadata.name}')
 UPF_tun0_IP_ADDR=$(kubectl exec -it $UPF_POD -n oai-core -c upf-edge --context edge-admin@edge -- ip -f inet addr show tun0 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p')
 kubectl exec -it $UE_POD -n oai-ue --context edge-admin@edge -- ping -I oaitun_ue1 -c 3 $UPF_tun0_IP_ADDR
@@ -781,15 +1042,12 @@ kubectl exec -it $UE_POD -n oai-ue --context edge-admin@edge -- ping -I oaitun_u
 The output is similar to:
 
 ```console
-PING 10.2.0.1 (10.2.0.1) from 10.2.0.2 oaitun_ue1: 56(84) bytes of data.
-64 bytes from 10.2.0.1: icmp_seq=1 ttl=64 time=10.9 ms
-64 bytes from 10.2.0.1: icmp_seq=2 ttl=64 time=12.1 ms
-64 bytes from 10.2.0.1: icmp_seq=3 ttl=64 time=11.3 ms
+PING 10.1.0.1 (10.1.0.1) 56(84) bytes of data.
+64 bytes from 10.1.0.1: icmp_seq=1 ttl=64 time=9.50 ms
+64 bytes from 10.1.0.1: icmp_seq=2 ttl=64 time=7.57 ms
+64 bytes from 10.1.0.1: icmp_seq=3 ttl=64 time=14.7 ms
 
---- 10.2.0.1 ping statistics ---
+--- 10.1.0.1 ping statistics ---
 3 packets transmitted, 3 received, 0% packet loss, time 2002ms
-rtt min/avg/max/mdev = 10.869/11.435/12.093/0.503 ms
+rtt min/avg/max/mdev = 7.572/10.584/14.680/3.001 ms
 ```
-
-
-For now the extra interfaces which are created using inter-connectivity script does not perform natting to have internet access.
