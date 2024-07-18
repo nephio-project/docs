@@ -5,8 +5,7 @@ description: >
 weight: 2
 ---
 
-Be sure you have followed the [installation guide](/content/en/docs/guides/install-guides/_index.md)
-before trying these exercises.
+Be sure you have followed the [installation guide](/content/en/docs/guides/install-guides/_index.md) before trying these exercises.
 
 These exercises will take you from a system with only the Nephio Management cluster setup to a deployment with:
 
@@ -126,8 +125,7 @@ regional   docker         Provisioned   34m   v1.26.3
 ```
 
 
-To access the API server of that cluster, you need to retrieve the `kubeconfig` file by pulling it from the Kubernetes
-Secret and decode the base64 encoding:
+To access the API server of that cluster, you need to retrieve the `kubeconfig` file by pulling it from the Kubernetes Secret and decode the base64 encoding:
 
 ```bash
 kubectl get secret core-kubeconfig -o jsonpath='{.data.value}' | base64 -d > $HOME/.kube/core-kubeconfig
@@ -136,8 +134,7 @@ kubectl get secret edge-kubeconfig -o jsonpath='{.data.value}' | base64 -d > $HO
 export KUBECONFIG=$HOME/.kube/config:$HOME/.kube/regional-kubeconfig:$HOME/.kube/core-kubeconfig:$HOME/.kube/edge-kubeconfig
 ```
 
-To retain the KUBECONFIG environment variable permanently across sessions for the
-user, add it to the `~/.bash_profile` and source the `~/.bash_profile` file
+To retain the KUBECONFIG environment variable permanently across sessions for the user, add it to the `~/.bash_profile` and source the `~/.bash_profile` file
 
 You can then use it to access the Workload cluster directly:
 
@@ -162,8 +159,7 @@ resource-group-system          Active   32m
 ```
 
 
-You should also check that the KinD clusters have come up fully with `kubectl get machinesets`. You should see READY and
-AVAILABLE replicas.
+You should also check that the KinD clusters have come up fully with `kubectl get machinesets`. You should see READY and AVAILABLE replicas.
 
 ```bash
 kubectl get machinesets
@@ -173,10 +169,10 @@ kubectl get machinesets
 The output is similar to:
 
 ```console
-NAME                        CLUSTER    REPLICAS   READY   AVAILABLE   AGE   VERSION
-core-md-0-q9mxp-mstdp       core       1          1       1           35m   v1.26.3
-edge-md-0-v44mh-pbs9k       edge       1          1       1           35m   v1.26.3
-regional-md-0-hm5n8-wts7m   regional   1          1       1           35m   v1.26.3
+NAME                        CLUSTER    REPLICAS   READY   AVAILABLE   AGE     VERSION
+core-md-0-fwksw-fqmq7       core       1          1       1           2m28s   v1.26.3
+edge-md-0-2z48t-bktd2       edge       1          1       1           2m28s   v1.26.3
+regional-md-0-mwnzd-4kl4h   regional   1          1       1           2m28s   v1.26.3
 ```
 
 
@@ -219,20 +215,16 @@ Run 'containerlab version upgrade' to upgrade or go check other installation opt
 ```
 
 
-You will also need to configure the nodes for the VLANs. Again, this will be automated in a future release that
-addresses node setup and inter-cluster networking. For now, you must run a script that creates them in each of the
+You will also need to configure the nodes for the VLANs. Again, this will be automated in a future release that addresses node setup and inter-cluster networking. For now, you must run a script that creates them in each of the
 worker nodes.
 
 ```bash
 ./test-infra/e2e/provision/hacks/vlan-interfaces.sh
 ```
 
-Finally, you want to configure the resource backend to be aware of these clusters. The resource backend is an IP address
-and VLAN index management system. It is included for demonstration purposes to show how Nephio package specialization
-can interact with external systems to fully configure packages. But it needs to be configured to match our topology.
+Finally, you want to configure the resource backend to be aware of these clusters. The resource backend is an IP address and VLAN index management system. It is included for demonstration purposes to show how Nephio package specialization can interact with external systems to fully configure packages. But it needs to be configured to match our topology.
 
-First, you will apply a package to define the high-level networks for attaching our workloads. The Nephio package
-specialization pipeline will determine the exact VLAN tags and IP addresses for those attachments based on the specific
+First, you will apply a package to define the high-level networks for attaching our workloads. The Nephio package specialization pipeline will determine the exact VLAN tags and IP addresses for those attachments based on the specific
 clusters. There is a predefined PackageVariant in the tests directory for this:
 
 ```bash
@@ -261,10 +253,7 @@ secret/srl.nokia.com created
 ```
 
 
-The predefined PackageVariant package defines certain resources that exist for the entire topology. However, you also
-need to configure the resource backend for our particular topology. This will likely be automated in the future, but for
-now you can just directly apply the configuration you have created that matches this test topology. Within this step
-also the credentials and information is provided to configure the network device, that aligns with the topology.
+The predefined PackageVariant package defines certain resources that exist for the entire topology. However, you also need to configure the resource backend for our particular topology. This will likely be automated in the future, but for now you can just directly apply the configuration you have created that matches this test topology. Within this step also the credentials and information is provided to configure the network device, that aligns with the topology.
 
 ```bash
 ./test-infra/e2e/provision/hacks/network-topo.sh
@@ -284,8 +273,7 @@ It might take a couple of seconds for the networks to come up. To list the netwo
 kubectl get networks.infra.nephio.org
 ```
 
-
-The output is similar to:
+Wait for the the output to be similar as below:
 
 ```console
 NAME           READY
@@ -308,64 +296,46 @@ After the networks are successfully configured lets configure metallb ip-address
 <summary>The output is similar to:</summary>
 
 ```console
-21:58:35 - INFO: looking for packagerev default/mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b using /home/ubuntu/.kube/config
-21:58:35 - INFO: Found packagerev default/mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b
+12:47:00 - INFO: looking for packagerev default/mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b using /home/ubuntu/.kube/config
+12:47:00 - INFO: found packagerev default/mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b using /home/ubuntu/.kube/config
 [RUNNING] "gcr.io/kpt-fn/search-replace:v0.2"
-[PASS] "gcr.io/kpt-fn/search-replace:v0.2" in 2.5s
+[PASS] "gcr.io/kpt-fn/search-replace:v0.2" in 2.8s
   Results:
     [info] spec.addresses[0]: Mutated field value to "172.18.16.0/20"
 [RUNNING] "gcr.io/kpt-fn/set-annotations:v0.1.4"
-[PASS] "gcr.io/kpt-fn/set-annotations:v0.1.4" in 3.1s
-21:58:42 - INFO: looking for Update.*packagerevisionresources/mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b, log entry in porch server(porch-server-68bfdddbbf-pmnmd)
-21:58:42 - INFO: Found Update.*packagerevisionresources/mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b, log entry in porch server
+[PASS] "gcr.io/kpt-fn/set-annotations:v0.1.4" in 4.6s
+mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b pushed
 mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b proposed
-21:58:43 - INFO: looking for Update.*packagerevisions/mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b, log entry in porch server(porch-server-68bfdddbbf-pmnmd)
-21:58:43 - INFO: Found Update.*packagerevisions/mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b, log entry in porch server
+packagerevision.porch.kpt.dev/mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b condition met
+12:47:14 - INFO: approving package mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b update
 mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b approved
-21:58:46 - INFO: looking for Update.*/mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b.*/approval log entry in porch server(porch-server-68bfdddbbf-pmnmd)
-21:58:46 - INFO: Found Update.*/mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b.*/approval log entry in porch server
+12:47:16 - INFO: approved package mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b update
+packagerevision.porch.kpt.dev/mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b condition met
+12:47:16 - INFO: published package mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b update
 ~
-21:58:48 - INFO: looking for packagerev default/mgmt-staging-0c11427319b42b1f9e85f27ad22f82d27c9978a3 using /home/ubuntu/.kube/config
-21:58:48 - INFO: Found packagerev default/mgmt-staging-0c11427319b42b1f9e85f27ad22f82d27c9978a3
+12:47:19 - INFO: looking for packagerev default/mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722 using /home/ubuntu/.kube/config
+12:47:19 - INFO: found packagerev default/mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722 using /home/ubuntu/.kube/config
 [RUNNING] "gcr.io/kpt-fn/search-replace:v0.2"
-[PASS] "gcr.io/kpt-fn/search-replace:v0.2" in 300ms
-  Results:
-    [info] spec.addresses[0]: Mutated field value to "172.18.32.0/20"
-[RUNNING] "gcr.io/kpt-fn/set-annotations:v0.1.4"
-[PASS] "gcr.io/kpt-fn/set-annotations:v0.1.4" in 1.3s
-21:58:51 - INFO: looking for Update.*packagerevisionresources/mgmt-staging-0c11427319b42b1f9e85f27ad22f82d27c9978a3, log entry in porch server(porch-server-68bfdddbbf-pmnmd)
-21:58:51 - INFO: Found Update.*packagerevisionresources/mgmt-staging-0c11427319b42b1f9e85f27ad22f82d27c9978a3, log entry in porch server
-mgmt-staging-0c11427319b42b1f9e85f27ad22f82d27c9978a3 proposed
-21:58:52 - INFO: looking for Update.*packagerevisions/mgmt-staging-0c11427319b42b1f9e85f27ad22f82d27c9978a3, log entry in porch server(porch-server-68bfdddbbf-pmnmd)
-21:58:52 - INFO: Found Update.*packagerevisions/mgmt-staging-0c11427319b42b1f9e85f27ad22f82d27c9978a3, log entry in porch server
-mgmt-staging-0c11427319b42b1f9e85f27ad22f82d27c9978a3 approved
-21:58:55 - INFO: looking for Update.*/mgmt-staging-0c11427319b42b1f9e85f27ad22f82d27c9978a3.*/approval log entry in porch server(porch-server-68bfdddbbf-pmnmd)
-21:58:55 - INFO: Found Update.*/mgmt-staging-0c11427319b42b1f9e85f27ad22f82d27c9978a3.*/approval log entry in porch server
-~
-21:58:57 - INFO: looking for packagerev default/mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722 using /home/ubuntu/.kube/config
-21:58:57 - INFO: Found packagerev default/mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722
-[RUNNING] "gcr.io/kpt-fn/search-replace:v0.2"
-[PASS] "gcr.io/kpt-fn/search-replace:v0.2" in 200ms
+[PASS] "gcr.io/kpt-fn/search-replace:v0.2" in 800ms
   Results:
     [info] spec.addresses[0]: Mutated field value to "172.18.48.0/20"
 [RUNNING] "gcr.io/kpt-fn/set-annotations:v0.1.4"
-[PASS] "gcr.io/kpt-fn/set-annotations:v0.1.4" in 1.3s
-21:59:00 - INFO: looking for Update.*packagerevisionresources/mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722, log entry in porch server(porch-server-68bfdddbbf-pmnmd)
-21:59:00 - INFO: Found Update.*packagerevisionresources/mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722, log entry in porch server
+[PASS] "gcr.io/kpt-fn/set-annotations:v0.1.4" in 1.4s
+mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722 pushed
 mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722 proposed
-21:59:01 - INFO: looking for Update.*packagerevisions/mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722, log entry in porch server(porch-server-68bfdddbbf-pmnmd)
-21:59:01 - INFO: Found Update.*packagerevisions/mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722, log entry in porch server
+packagerevision.porch.kpt.dev/mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722 condition met
+12:47:25 - INFO: approving package mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722 update
 mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722 approved
-21:59:04 - INFO: looking for Update.*/mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722.*/approval log entry in porch server(porch-server-68bfdddbbf-pmnmd)
-21:59:04 - INFO: Found Update.*/mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722.*/approval log entry in porch server
+12:47:26 - INFO: approved package mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722 update
+packagerevision.porch.kpt.dev/mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722 condition met
+12:47:27 - INFO: published package mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601722 update
 ~
 ```
 </details>
 
 ## Step 3: Deploy Dependencies, MySQL database, OAI Core and RAN Operator in the Workload clusters
 
-Now you will need to deploy the MySQL database required by OAI UDR network function, OAI Core and RAN operators across the Workload clusters. To do this, you use `PackageVariant` and `PackageVariantSet`. Later uses an objectSelector to select the WorkloadCluster resources previously added to the Management cluster when you had deployed the nephio-workload-cluster packages (manually as well as via
-PackageVariantSet).
+Now you will need to deploy the MySQL database required by OAI UDR network function, OAI Core and RAN operators across the Workload clusters. To do this, you use `PackageVariant` and `PackageVariantSet`. Later uses an objectSelector to select the WorkloadCluster resources previously added to the Management cluster when you had deployed the nephio-workload-cluster packages (manually as well as via PackageVariantSet).
 
 ```bash
 kubectl apply -f test-infra/e2e/tests/oai/002-database.yaml
@@ -511,15 +481,12 @@ oai-upf-operator-75cbc869cb-67lf9   1/1     Running   0          16m
 
 ## Step 5: Deploy the Core Network Functions
 
-You can start by deploying the core network functions which the operator will instantiate. For now, you will use
-individual `PackageVariants` targeting the Core and Edge cluster. In the future, you could put all of these resources into
-yet-another-package - a "topology" package - and deploy them all as a unit. Or you can use a topology controller to
-create them. But for now, let's do each manually.
+You can start by deploying the core network functions which the operator will instantiate. For now, you will use individual `PackageVariants` targeting the Core and Edge cluster. In the future, you could put all of these resources into
+yet-another-package - a "topology" package - and deploy them all as a unit. Or you can use a topology controller to create them. But for now, let's do each manually.
 
 ```bash
 kubectl create -f test-infra/e2e/tests/oai/003-core-network.yaml
 ```
-
 
 The output is similar to:
 
@@ -534,7 +501,7 @@ packagevariant.config.porch.kpt.dev/oai-upf-edge created
 ```
 
 
-All the NFs will wait for NRF to come up and then they will register to NRF. SMF has a dependency on UPF which is described by `dependency.yaml` file in SMF package. It will wait till the time UPF is deployed. It takes around ~20 mins for the whole core network to come up. NRF is exposing its service via metallb external ip-address. In case metallb ip-address pool is not properly defined in the previous section, then UPF will not be able to register to NRF and in this case SMF and UPF will not be able to communicate. 
+All the NFs will wait for NRF to come up and then they will register to NRF. SMF has a dependency on UPF which is described by `dependency.yaml` file in SMF package. It will wait till the time UPF is deployed. It takes around ~800 seconds for the whole core network to come up. NRF is exposing its service via metallb external ip-address. In case metallb ip-address pool is not properly defined in the previous section, then UPF will not be able to register to NRF and in this case SMF and UPF will not be able to communicate. 
 
 ### Check Core Network Deployment
 
@@ -607,7 +574,6 @@ content-length: 58
 [2024-01-25 16:54:21.817] [upf_n4 ] [info] Received SX HEARTBEAT REQUEST
 ```
 
-
 In the logs you should see `Received SX HEARTBEAT REQUEST` statement. If that is present then SMF and UPF are sharing PFCP heartbeats.
 
 ## Step 6: Deploy RAN Network Functions
@@ -618,7 +584,6 @@ If the core network functions are running and configured properly then you can s
 kubectl create -f test-infra/e2e/tests/oai/004-ran-network.yaml
 ```
 
-
 The output is similar to:
 
 ```console
@@ -627,8 +592,7 @@ packagevariant.config.porch.kpt.dev/oai-du created
 packagevariant.config.porch.kpt.dev/oai-cuup created
 ```
 
-
-Wait for ~20 mins for the RAN network functions to come up.
+Wait for ~1500 seconds for the RAN network functions to come up.
 
 ### Check RAN Deployment
 
@@ -646,7 +610,6 @@ NAME                             READY   STATUS    RESTARTS   AGE
 oai-gnb-cu-cp-588f76c5f9-9fp54   1/1     Running   0          10m
 ```
 
-
 ```bash
 kubectl get pods -n oai-ran-cuup --context edge-admin@edge
 ```
@@ -658,7 +621,6 @@ The output is similar to:
 NAME                             READY   STATUS    RESTARTS   AGE
 oai-gnb-cu-up-75475f949b-j6chc   1/1     Running   0          9m
 ```
-
 
 ```bash
 kubectl get pods -n oai-ran-du --context edge-admin@edge
@@ -678,28 +640,27 @@ To check that RAN network functions are properly deployed it is important to che
 To verify E1 link between CU-CP and CU-UP is properly configured you can run the below commands
 
 ```bash
-kubectl logs -n oai-ran-cucp --context=regional-admin@regional -l app.kubernetes.io/name=oai-gnb-cu-cp --tail=-1 | grep "e1ap_send_SETUP_RESPONSE"
+kubectl logs -n oai-ran-cucp --context=regional-admin@regional -l app.kubernetes.io/name=oai-gnb-cu-cp --tail=-1 | grep "Accepting new CU-UP ID"
 ```
 
 
 The output is similar to:
 
 ```console
-9890.462425 [E1AP] I e1ap_send_SETUP_RESPONSE: Sending ITTI message to SCTP Task
+7792.449954 [NR_RRC] I Accepting new CU-UP ID 3584 name oai-cu-up (assoc_id 8)
 ```
-
 
 To verify F1 link between CU-CP and DU is properly configured you can run the below commands
 
 ```bash
-kubectl logs -n oai-ran-cucp --context=regional-admin@regional -l app.kubernetes.io/name=oai-gnb-cu-cp --tail=-1 | grep "Cell Configuration ok"
+kubectl logs -n oai-ran-cucp --context=regional-admin@regional -l app.kubernetes.io/name=oai-gnb-cu-cp --tail=-1 | grep "DU uses RRC version"
 ```
 
 
 The output is similar to:
 
 ```console
-9887.922215 [F1AP] I Cell Configuration ok (assoc_id 6)
+7424.185965 [RRC] I DU uses RRC version 17.3.0
 ```
 
 
@@ -716,8 +677,6 @@ The output is similar to:
 9496.571150 [GNB_APP] I [gNB 0] Received NGAP_REGISTER_GNB_CNF: associated AMF 1
 ```
 
-
-
 ## Step 7: Deploy UE
 
 If all three links are configured then you can proceed with deploying the UE `PackageVariants`
@@ -726,20 +685,17 @@ If all three links are configured then you can proceed with deploying the UE `Pa
 kubectl create -f test-infra/e2e/tests/oai/005-ue.yaml
 ```
 
-
 The output is similar to:
 
 ```console
 packagevariant.config.porch.kpt.dev/oai-ue created
 ```
 
-
-The UE will be deployed in the Edge cluster. To verify that the UE is deployed you can use the below command
+The UE will be deployed in the Edge cluster in ~300 seconds. To verify that the UE is deployed you can use the below command
 
 ```bash
 kubectl get pods -n oai-ue --context edge-admin@edge
 ```
-
 
 The output is similar to:
 

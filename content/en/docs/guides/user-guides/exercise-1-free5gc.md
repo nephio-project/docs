@@ -1006,8 +1006,7 @@ edge02-be05d7134eca3e02fecd63c4e4031f728d5f0e84                      free5gc-upf
 ```
 
 
-Additionally you can check the Gitea edge01 repository (accessible at http://localhost:3000/nephio/edge01) for new
-commits to see how Porch interacts with packages stored in Git repositories.
+Additionally you can check the Gitea edge01 repository (accessible at http://localhost:3000/nephio/edge01) for new commits to see how Porch interacts with packages stored in Git repositories.
 
 ![Commits in Gitea made by porch](/static/images/user-guides/gitea-porch.png)
 
@@ -1025,8 +1024,7 @@ After the package is approved, the results can be observed in Nephio Web UI. Hea
 Inside the package, you can see that the throughput values for UPF have been modified, reflecting the changes you made
 with the CLI.
 
-You can also scale NFs vertically using the Nephio Web UI. For practice you can scale the UPF on the second edge
-cluster. Once again, navigate to the Web UI and choose the `edge02` repository in the Deployments section.
+You can also scale NFs vertically using the Nephio Web UI. For practice you can scale the UPF on the second edge cluster. Once again, navigate to the Web UI and choose the `edge02` repository in the Deployments section.
 
 ![Edge02 Deployments](/static/images/user-guides/UPF-Capacity-5.png)
 
@@ -1050,5 +1048,6 @@ After saving the changes to the file, propose the draft package and approve it.
 
 ![New revision](/static/images/user-guides/UPF-Capacity-12.png)
 
-After a few minutes, the revision for the UPF deployment will change, and the changes will be reflected in the `edge-02`
-cluster.
+After a few minutes, the revision for the UPF deployment will change, and the changes will be reflected in the `edge-02` cluster.
+
+**NOTE**: You will observe that the UPF NFDeployment on the workload clusters is updated and synced with Gitea. The UPF pod will not reflect the new information. This is because the Nephio free5gc operator is not updating the pod with new configuration. 

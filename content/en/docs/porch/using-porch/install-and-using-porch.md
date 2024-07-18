@@ -1637,11 +1637,30 @@ network-function-auto-namespace-85bc658d67-rbzt6   1/1     Running   0          
 
 ### Simple PackageVariantSet
 
-The PackageVariant CR is defined in the
-[simple-variant.yaml](https://github.com/nephio-project/porch/blob/main/docs/tutorials/starting-with-porch/simple-variant.yaml)
-file. In this very simple PackageVariant, the `network-function` package in the `management` repo is cloned into the
-`edge1` repo as the `network-function-b` and `network-function-c` package variants.
+The PackageVariant CR is defined as:
 
+```yaml
+apiVersion: config.porch.kpt.dev/v1alpha2
+kind: PackageVariantSet
+
+metadata:
+  name: network-function
+  namespace: porch-demo
+
+spec:
+  upstream:
+    repo: management
+    package: network-function
+    revision: v1
+  targets:
+  -  repositories:
+      - name: edge1
+        packageNames:
+        - network-function-b
+        - network-function-c
+```
+
+In this very simple PackageVariant, the `network-function` package in the `management` repo is cloned into the `edge1` repo as the `network-function-b` and `network-function-c` package variants.
 
 {{% alert title="Note" color="primary" %}}
 
@@ -1826,11 +1845,32 @@ network-function-c             network-function-9779fc9f5-h7nsb                 
 
 ### Using a PackageVariantSet to automatically set the package name and package namespace
 
-The PackageVariant CR is defined in the
-[name-namespace-variant.yaml](https://github.com/nephio-project/porch/blob/main/docs/tutorials/starting-with-porch/name-namespace-variant.yaml)
-file. In this PackageVariant, the `network-function-auto-namespace` package in the `management` repo is cloned into the
-`edge1` repo as the `network-function-auto-namespace-x` and `network-function-auto-namespace-y` package variants,
-similar to the PackageVariant in `simple-variant.yaml`.
+The PackageVariant CR defined as:
+
+```yaml
+apiVersion: config.porch.kpt.dev/v1alpha2
+kind: PackageVariantSet
+metadata:
+  name: network-function-auto-namespace
+  namespace: porch-demo
+spec:
+  upstream:
+    repo: management
+    package: network-function-auto-namespace
+    revision: v1
+  targets:
+  - repositories:
+    - name: edge1
+      packageNames:
+      - network-function-auto-namespace-x
+      - network-function-auto-namespace-y
+    template:
+      downstream:
+        packageExpr: "target.package + '-cumulonimbus'"
+```
+
+
+In this PackageVariant, the `network-function-auto-namespace` package in the `management` repo is cloned into the `edge1` repo as the `network-function-auto-namespace-x` and `network-function-auto-namespace-y` package variants, similar to the PackageVariant in `simple-variant.yaml`.
 
 An extra `template` section provided for the repositories in the PackageVariant:
 

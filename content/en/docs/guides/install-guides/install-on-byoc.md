@@ -22,7 +22,7 @@ your environment and choices.
  - `kubectl` [installed ](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)on your workstation
  - `kpt` [installed](https://kpt.dev/installation/kpt-cli) on your workstation
    (version v1.0.0-beta.43 or later)
- - `porchctl` [installed](https://github.com/nephio-project/porch/blob/main/docs/porchctl-cli-guide.md) on your workstation
+ - `porchctl` [installed](/content/en/docs/porch/using-porch/porchctl-cli-guide.md) on your workstation
  - Sudo-less `docker`, `podman`, or `nerdctl`. If using `podman` or `nerdctl`,
    you must set the
 [`KPT_FN_RUNTIME`](https://kpt.dev/reference/cli/fn/render/?id=environment-variables)
@@ -73,12 +73,7 @@ choices you need to make among various dependencies and components.
 ### Git Providers
 
 Nephio can support multiple Git providers for the repositories that contain
-packages. In R1 and R2, only Gitea repositories can be provisioned directly by Nephio;
-other Git providers will require manual provisioning of new repositories. But
-most Git providers can be supported (via standard Git protocols) as repositories
-for packages for read and write. It is also perfectly fine to use multiple
-providers; in the R1 demo environment, GitHub is used for upstream external
-repositories while Gitea is used for the workload cluster repositories.
+packages. In R1, R2 and R3 only Gitea repositories can be provisioned directly by Nephio; other Git providers will require manual provisioning of new repositories. But most Git providers can be supported (via standard Git protocols) as repositories for packages for read and write. It is also perfectly fine to use multiple providers; in the R1 demo environment, GitHub is used for upstream external repositories while Gitea is used for the workload cluster repositories.
 
 A non-exhaustive list of options:
 
@@ -99,9 +94,7 @@ documented in the specific environment instructions.
 
 ### GitOps Tool
 
-As configured in the R1 and R2 reference implementation, Nephio relies on ConfigSync.
-However, it is possible to configure it to use a different GitOps tool, such as
-Flux or ArgoCD to apply packages to the clusters.
+As configured in the R1, R2 and R3 reference implementation, Nephio relies on ConfigSync. However, it is possible to configure it to use a different GitOps tool, such as Flux or ArgoCD to apply packages to the clusters.
 
 ### Cluster Provisioner
 
@@ -116,11 +109,7 @@ KCC, or AWS Controllers for Kubernetes. You can provision more than one.
 
 ### Load Balancer
 
-The R1 and R2 demo environments use [MetalLB](https://metallb.universe.tf/), 
-but if you are running in a cloud, you probably do not need anything special here. 
-However, depending on your choice of GitOps tool and Git provider, 
-some of the packages may need customization to
-provision or use a well-known load balancer IP or DNS name.
+The R1, R2 amd R3 demo environments use [MetalLB](https://metallb.universe.tf/), but if you are running in a cloud, you probably do not need anything special here. However, depending on your choice of GitOps tool and Git provider, some of the packages may need customization to provision or use a well-known load balancer IP or DNS name.
 
 ### Gateway or Ingress
 
