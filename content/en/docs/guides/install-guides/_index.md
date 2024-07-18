@@ -27,8 +27,8 @@ gcloud compute instances create --machine-type e2-standard-16 \
                                     --boot-disk-size 200GB \
                                     --image-family=ubuntu-2004-lts \
                                     --image-project=ubuntu-os-cloud \
-                                    --metadata=startup-script-url=https://raw.githubusercontent.com/nephio-project/test-infra/v2.0.0/e2e/provision/init.sh,nephio-test-infra-branch=v2.0.0 \
-                                    nephio-r2-e2e
+                                    --metadata=startup-script-url=https://raw.githubusercontent.com/nephio-project/test-infra/v3.0.0/e2e/provision/init.sh,nephio-test-infra-branch=v3.0.0 \
+                                    nephio-r3-e2e
 ```
 
 {{% alert title="Note" color="primary" %}}
@@ -43,7 +43,7 @@ If you want to watch the progress of the installation, give it about 30 seconds 
 then ssh in and tail the startup script execution:
 
 ```bash
-gcloud compute ssh ubuntu@nephio-r2-e2e -- \
+gcloud compute ssh ubuntu@nephio-r3-e2e -- \
                 sudo journalctl -u google-startup-scripts.service --follow
 ```
 
@@ -63,12 +63,9 @@ Order or create a VM with the following specification:
 
 **Configure a Route for Kubernetes**
 
-In some installations, the IP range used by Kubernetes in the sandbox can clash with the IP address used by your VPN. In
-such cases, the VM will become unreachable during the sandbox installation. If you have this situation, add the route
-below on your VM.
+In some installations, the IP range used by Kubernetes in the sandbox can clash with the IP address used by your VPN. In such cases, the VM will become unreachable during the sandbox installation. If you have this situation, add the route below on your VM.
 
-Log onto your VM and run the following commands,
-replacing **\<interface-name\>** and **\<interface-gateway-ip\>** with your VMs values:
+Log onto your VM and run the following commands, replacing **\<interface-name\>** and **\<interface-gateway-ip\>** with your VMs values:
 
 ```bash
 sudo bash -c 'cat << EOF > /etc/netplan/99-cloud-init-network.yaml
@@ -93,9 +90,9 @@ The commands below use default values for the GitHub path, GitHub branch/tag, us
 Log onto your VM and run the following command :
 
 ```bash
-wget -O - https://raw.githubusercontent.com/nephio-project/test-infra/v2.0.0/e2e/provision/init.sh |  \
+wget -O - https://raw.githubusercontent.com/nephio-project/test-infra/v3.0.0/e2e/provision/init.sh |  \
 sudo NEPHIO_DEBUG=false   \
-     NEPHIO_BRANCH=v2.0.0 \
+     NEPHIO_BRANCH=v3.0.0 \
      NEPHIO_USER=ubuntu   \
      bash
 ```
@@ -105,9 +102,9 @@ sudo NEPHIO_DEBUG=false   \
 Log onto your VM and run the following command:
 
 ```bash
-wget -O - https://raw.githubusercontent.com/nephio-project/test-infra/v2.0.0/e2e/provision/init.sh |  \
+wget -O - https://raw.githubusercontent.com/nephio-project/test-infra/v3.0.0/e2e/provision/init.sh |  \
 sudo NEPHIO_DEBUG=false   \
-     NEPHIO_BRANCH=v2.0.0 \
+     NEPHIO_BRANCH=v3.0.0 \
      NEPHIO_USER=ubuntu   \
      DOCKERHUB_USERNAME=username \
      DOCKERHUB_TOKEN=password \
@@ -126,7 +123,7 @@ The following environment variables can be used to configure the installation:
 | DOCKERHUB_USERNAME     | alpha-num string |                    | Specifies the dockerhub username                                             |
 | DOCKERHUB_TOKEN        | alpha-num string |                    | Specifies the password or token                                              |
 | NEPHIO_REPO            | URL              | https://github.com/nephio-project/test-infra.git | URL of the repository to be used for installation |
-| NEPHIO_BRANCH          | branch or tag    | main/v2.0.0               | Tag or branch name to use in NEPHIO_REPO                                     |
+| NEPHIO_BRANCH          | branch     | main/v3.0.0               | Tag or branch name to use in NEPHIO_REPO                                     |
 | DOCKER_REGISTRY_MIRRORS | list of URLs in JSON format |        | List of docker registry mirrors in JSON format, or empty for no mirrors to be set. Example value: ``["https://docker-registry-remote.mycompany.com", "https://docker-registry-remote2.mycompany.com"]`` |
 | K8S_CONTEXT            | K8s context      | kind-kind          | Kubernetes context for existing non-kind cluster (gathered from `kubectl config get-contexts`, for example "kubernetes-admin@kubernetes") |
 
@@ -144,7 +141,7 @@ Once it is completed, ssh in and port forward the port to the UI (7007) and to G
 Using GCE:
 
 ```bash
-gcloud compute ssh ubuntu@nephio-r2-e2e -- \
+gcloud compute ssh ubuntu@nephio-r3-e2e -- \
                 -L 7007:localhost:7007 \
                 -L 3000:172.18.0.200:3000 \
                 kubectl port-forward --namespace=nephio-webui svc/nephio-webui 7007
@@ -160,8 +157,7 @@ ssh <user>@<vm-address> \
 ```
 
 You can now navigate to:
-- [http://localhost:7007/config-as-data](http://localhost:7007/config-as-data) to
-browse the Nephio Web UI
+- [http://localhost:7007/config-as-data](http://localhost:7007/config-as-data) to browse the Nephio Web UI
 - [http://localhost:3000/nephio](http://localhost:3000/nephio) to browse the Gitea UI
 
 ## Open Terminal
@@ -172,7 +168,7 @@ would fail if you try to open a second ssh connection with that setting).
 Using GCE:
 
 ```bash
-gcloud compute ssh ubuntu@nephio-r2-e2e
+gcloud compute ssh ubuntu@nephio-r3-e2e
 ```
 
 Using a VM:

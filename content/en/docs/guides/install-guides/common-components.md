@@ -14,7 +14,16 @@ This page is draft and the separation of the content to different categories is 
 
 {{% alert title="Note" color="primary" %}}
 
-If you want to use a version other than that at the tip of Nephio `catalog` repo, then replace the `@main` suffix on the package URLs on the `kpt pkg get` commands below with the tag of the version you wish to use.
+If you want to use a version other than that of `v3.0.0` of Nephio `catalog` repo, then replace the `@origin/v3.0.0` suffix on the package URLs on the `kpt pkg get` commands below with the tag/branch of the version you wish to use.
+
+While using KPT you can [either pull a branch or a tag](https://kpt.dev/book/03-packages/01-getting-a-package) from a git repository. By default it pulls the tag. In case, you have branch with the same name as a tag then to:
+
+```bash
+#pull a branch 
+kpt pkg get --for-deployment <git-repository>@origin/v3.0.0
+#pull a tag
+kpt pkg get --for-deployment <git-repository>@v3.0.0
+```
 
 {{% /alert %}}
 
@@ -30,7 +39,7 @@ Fetch the package using `kpt`, and run any `kpt` functions, and then apply the
 package:
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/catalog/nephio/core/porch@main
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog/nephio/core/porch@origin/v3.0.0
 kpt fn render porch
 kpt live init porch
 kpt live apply porch --reconcile-timeout=15m --output=table
@@ -48,7 +57,7 @@ Nephio.
 To install the Nephio Operators, repeat the `kpt` steps, but for that package:
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/core/nephio-operator@main
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/core/nephio-operator@origin/v3.0.0
 ```
 
 The Nephio Operator package by default uses the Gitea instance at `172.18.0.200:3000` as 
@@ -92,7 +101,7 @@ To install it on the management cluster, we again follow the same process.
 Later, we will configure it to point to the `mgmt` repository:
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/core/configsync@main
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/core/configsync@origin/v3.0.0
 kpt fn render configsync
 kpt live init configsync
 kpt live apply configsync --reconcile-timeout=15m --output=table
@@ -105,7 +114,7 @@ be installed via a package for convenience. This will install repository
 resources pointing directly to the GitHub repositories, with read-only access.
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/optional/stock-repos@main
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/optional/stock-repos@origin/v3.0.0
 kpt fn render stock-repos
 kpt live init stock-repos
 kpt live apply stock-repos --reconcile-timeout=15m --output=table

@@ -24,8 +24,8 @@ gcloud compute instances create --machine-type e2-standard-16 \
                                     --boot-disk-size 200GB \
                                     --image-family=ubuntu-2004-lts \
                                     --image-project=ubuntu-os-cloud \
-                                    --metadata=startup-script-url=https://raw.githubusercontent.com/nephio-project/test-infra/v2.0.0/e2e/provision/init.sh,nephio-test-infra-branch=v2.0.0 \
-                                    nephio-r2-e2e
+                                    --metadata=startup-script-url=https://raw.githubusercontent.com/nephio-project/test-infra/v3.0.0/e2e/provision/init.sh,nephio-test-infra-branch=v3.0.0 \
+                                    nephio-r3-e2e
 ```
 
 {{% alert title="Note" color="primary" %}}
@@ -41,7 +41,7 @@ seconds to reach a network accessible state, and then ssh in and tail the
 startup script execution:
 
 ```bash
-gcloud compute ssh ubuntu@nephio-r2-e2e -- \
+gcloud compute ssh ubuntu@nephio-r3-e2e -- \
                 sudo journalctl -u google-startup-scripts.service --follow
 ```
 
@@ -51,7 +51,7 @@ Once it is completed, ssh in and port forward the port to the UI (7007) and to
 Gitea's HTTP interface, if desired (3000):
 
 ```bash
-gcloud compute ssh ubuntu@nephio-r2-e2e -- \
+gcloud compute ssh ubuntu@nephio-r3-e2e -- \
                 -L 7007:localhost:7007 \
                 -L 3000:172.18.0.200:3000 \
                 kubectl port-forward --namespace=nephio-webui svc/nephio-webui 7007
@@ -69,7 +69,7 @@ without the port forwarding (which would fail if you try to open a second ssh
 connection with that setting).
 
 ```bash
-gcloud compute ssh ubuntu@nephio-r2-e2e
+gcloud compute ssh ubuntu@nephio-r3-e2e
 ```
 
 ## Next Steps
