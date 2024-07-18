@@ -22,7 +22,7 @@ your environment and choices.
  - `kubectl` [installed ](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)on your workstation
  - `kpt` [installed](https://kpt.dev/installation/kpt-cli) on your workstation
    (version v1.0.0-beta.43 or later)
- - `porchctl` [installed](https://github.com/nephio-project/porch/blob/main/docs/porchctl-cli-guide.md) on your workstation
+ - `porchctl` [installed](/content/en/docs/porch/using-porch/porchctl-cli-guide.md) on your workstation
  - Sudo-less `docker`, `podman`, or `nerdctl`. If using `podman` or `nerdctl`,
    you must set the
 [`KPT_FN_RUNTIME`](https://kpt.dev/reference/cli/fn/render/?id=environment-variables)
