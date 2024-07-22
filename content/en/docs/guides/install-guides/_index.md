@@ -99,7 +99,9 @@ sudo NEPHIO_DEBUG=false   \
 
 **Pre-installed K8s Cluster**
 
-Log onto your VM and run the following command:
+Log onto your VM/System and run the following command:
+(NOTE: The VM or System should be able to access the K8S API server via the kubeconfig file and have docker installed.
+Docker is needed to run the KRM container functions specified in rootsync and repository packages.)
 
 ```bash
 wget -O - https://raw.githubusercontent.com/nephio-project/test-infra/v3.0.0/e2e/provision/init.sh |  \
