@@ -208,10 +208,7 @@ enable = false
   # desc = "Discuss development issues around the project"
 
 # Add your release versions here
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/R3
 [[params.versions]]
   version = "main"
   url = "https://docs.nephio.org/docs/"
