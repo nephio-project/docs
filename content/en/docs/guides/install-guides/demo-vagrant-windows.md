@@ -5,12 +5,16 @@ description: >
 weight: 6
 ---
 
-# Nephio demo on Windows
+{{% pageinfo %}}
+This page is draft and the separation of the content to different categories is not clearly done. 
+{{% /pageinfo %}}
 
-## Steps:
-- install git
-- install virtualbox
-- install [vagrant](https://developer.hashicorp.com/vagrant/docs/installation)
+
+## Steps
+
+- Install git
+- Install virtualbox
+- Install [vagrant](https://developer.hashicorp.com/vagrant/docs/installation)
 - open git bash
 - `git clone https://github.com/nephio-project/test-infra.git && cd test-infra/e2e/provision`
 - `vagrant up`
@@ -32,7 +36,7 @@ But the easiest way is to force the port-forwarding as shown before:
 
 `vagrant ssh -- -L 7007:localhost:7007 -L 3000:172.18.0.200:3000`
 
-## Tests were done on:
+## Tests were done on
 
 1. Laptop: Windows 11 i7-10750H (16 T) 32GB ram (8VCPU 32GB)
 
@@ -40,8 +44,12 @@ But the easiest way is to force the port-forwarding as shown before:
 
 ## Notes
 
-**Warning**: For low-end machines (less then 8T32GB), you will need to modify
+{{% alert title="Warning" color="warning" %}}
+
+For low-end machines (less then 8T32GB), you will need to modify
 the Vagrant file. This is not recommended!
+
+{{% /alert %}}
 
 - In the Vagrant file "./Vagrantfile", there are *CPUS & RAM* parameters in
   `config.vm.provider`, it's possible to override them at runtime:

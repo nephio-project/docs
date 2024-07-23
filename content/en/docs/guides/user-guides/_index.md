@@ -1,7 +1,7 @@
 ---
 title: Nephio user guides
 description: >
-  Nephio R1 User Guide
+  Nephio User Guide
 weight: 2
 ---
 
@@ -277,7 +277,7 @@ The diagram below depicts deployment at the high level.
 * Watcher agent
 
 #### Workloads
-* Workload  operators ( eg: free5gc operator)
+* Workload  operators (eg: free5gc operator)
 * Workload controllers (eg: free5gc smf/upf/amf controllers)
 
 ## General Workflow
@@ -329,8 +329,7 @@ The diagram below depicts deployment at the high level.
 ## Troubleshooting and Workarounds
 
 On the demo VM, the `test-infra/e2e/provision/hacks` directory contains some
-workaround scripts. Also, please see the Release Notes
-[known issues](/content/en/docs/release-notes/R2.md#known-issues-and-workarounds).
+workaround scripts. Also, please see the Release Notes [known issues](/content/en/docs/release-notes/R2.md#known-issues-and-workarounds).
 
 ## Next Steps
 

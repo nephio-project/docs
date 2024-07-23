@@ -5,8 +5,6 @@ description: >
 weight: 5
 ---
 
-#   Frequently Asked Questions on the Nephio Documentation system
-
 1. How do I check the documentation links on the documentation before I check in my changes?
 
     Install and run *linkspector*

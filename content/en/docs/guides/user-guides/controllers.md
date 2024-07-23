@@ -40,9 +40,9 @@ be enabled in upper case. Therefore, to enable the `bootstrap-packages` reconcil
 pass the `ENABLE_BOOTSTRAPPACKAGES` to the nephio controller. Reconcilers are
 disabled by default.
 
-<details>
-<summary>You can see what reconcilers are enabled on the Nephio Controller using
-`kubectl`.</summary>
+
+You can see what reconcilers are enabled on the Nephio Controller using
+`kubectl`.
 
 ```bash
 $ kubectl describe pod -n nephio-system nephio-controller-6565fd695d-44kld
@@ -69,8 +69,6 @@ Containers:
       ENABLE_NETWORKS:            true
       CLIENT_PROXY_ADDRESS:       resource-backend-controller-grpc-svc.backend-system.svc.cluster.local:9999
 ```
-
-</details>
 
 To check that the reconcilers are actually deployed, you can examine the logs
 from the Nephio Controller. The log rolls over so you may need to redeploy the

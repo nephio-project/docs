@@ -22,7 +22,7 @@ weight: 7
 
 Before reading this, please read [the kpt book](https://kpt.dev/book/).
 
-## kpt pkg get
+### kpt pkg get
 
 The `kpt pkg get --for-deployment
 https://<repo-path>/<repo-pkg-name>@<repo-pkg-name>/<pkg-version>
@@ -115,7 +115,7 @@ metadata: # kpt-merge: capi-kubeadm/leader-election-rolebinding
     internal.kpt.dev/upstream-identifier: 'rbac.authorization.k8s.io|RoleBinding|capi-kubeadm|leader-election-rolebinding'
 ```
 
-## kpt fn render
+### kpt fn render
 
 The `kpt fn render <local-pkg-name>` runs kpt functions on a local package, thus
 applying local changes to the package.
@@ -124,7 +124,7 @@ In the Nephio sandbox installation, kpt fn render only acts on the `repository` 
 `rootsync` kpt packages from
 [nephio-example-packages](https://github.com/nephio-project/nephio-example-packages).
 
-### repository package
+#### repository package
 
 The `repository` package has a kpt function written in
 [starlark](https://github.com/bazelbuild/starlark), which is invoked by a
@@ -161,7 +161,7 @@ following transformations on the repositories:
   - the `metadata.name` field gets the value of
     `<local-pkg-name>-access-token-porch`
 
-### rootsync Package
+#### rootsync Package
 
 The `rootsync` package also has a kpt function written in
 [starlark](https://github.com/bazelbuild/starlark) specified in the
@@ -174,7 +174,7 @@ The `rootsync` package also has a kpt function written in
   - the `spec.git.secretRef.name` field gets the value of
     `<local-pkg-name>-access-token-configsync`
 
-## kpt live init
+### kpt live init
 
 The `kpt live init <local-pkg-name>` initializes a local package, making it
 ready for application to a cluster. This command creates a `resourcegroup.yaml`
@@ -189,7 +189,7 @@ metadata:
   labels:
     cli-utils.sigs.k8s.io/inventory-id: 0123456789abcdef0123456789abcdef01234567-0123456789abcdef012
 ```
-# porchctl rpkg for Workload clusters
+## porchctl rpkg for Workload clusters
 
 The `porchctl rpkg` suite of commands that act on `Repository` resources on the
 kubernetes cluster in scope. The packages in the `Repository` resources are
@@ -207,8 +207,7 @@ nephio-example-packages   git    Package   false        True    https://github.c
 
 To see all the remote packages that are available:
 
-<details>
-<summary>$ porchctl rpkg get</summary>
+$ porchctl rpkg get
 
 ```bash
 NAME                                                               PACKAGE                              WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
@@ -244,10 +243,9 @@ nephio-example-packages-fb6e4adecc13c50da838953ece623cf04de21884   ueransim     
 nephio-example-packages-dc0b55fb7a17d107e834417a2c9d8fb37f36d7cb   vlanindex                            v1              v1         true     Published   nephio-example-packages
 ```
 
-</details>
 
-<details>
-<summary>To see the versions of a particular package:</summary>
+
+To see the versions of a particular package:
 
 ```bash
 $ porchctl rpkg get --name nephio-workload-cluster
@@ -263,9 +261,7 @@ nephio-example-packages-0fbaccf6c5e75a3eff7976a523bb4f42bb0118ce   nephio-worklo
 nephio-example-packages-7895e28d847c0296a204007ed577cd2a4222d1ea   nephio-workload-cluster   v8              v8         true     Published   nephio-example-packages
 ```
 
-</details>
-
-## Create the Workload cluster package
+### Create the Workload cluster package
 
 The Workload cluster package contains `PackageVariant` files for configuring the
 new cluster.
@@ -301,7 +297,7 @@ During the clone operation, the command above performs the following operations:
 
 We now have a draft blueprint package for our workload cluster ready for further configuration.
 
-## Configure the Package
+### Configure the Package
 
 We follow the instructions in the [installation README
 file](https://github.com/nephio-project/test-infra/tree/main/e2e/provision).
@@ -354,7 +350,7 @@ mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 proposed
 Proposing the package changes the name of the `drafts/regional/v1` to
 `proposed/regional/v1`. There are no changes to the content of the branch.
 
-## Approve the Package and Trigger Configsync
+### Approve the Package and Trigger Configsync
 
 Approving the package triggers `configsync`, which triggers creation of the new
 workload cluster using all the `PackageVariant` components specified in the
@@ -367,7 +363,7 @@ mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 approved
 
 The new cluster comes up after a number of minutes.
 
-# Transformations in the Workload cluster creation
+## Transformations in the Workload cluster creation
 
 Approving the `regional` Workload cluster package in the `mgmt` repository
 triggered configsync to apply the `PackageVariant` configurations in the
@@ -376,7 +372,7 @@ by one.
 
 In the text below, let's assume we are creating a workload cluster called `lambda`.
 
-## pv-cluster.yaml: creates the Workload cluster
+### pv-cluster.yaml: creates the Workload cluster
 
 In the text below, let's assume we are creating a workload cluster called `lambda`.
 
@@ -398,7 +394,7 @@ The `PackageVariant` specified in `pv-cluster.yaml` is executed and:
 2. Applies the `lambda-cluster` kpt package to create the kind cluster for the
    workload cluster
 
-### Package transformations
+#### Package transformations
 
 During creation of the package variant kpt package, the following transformations occur:
 
@@ -469,34 +465,34 @@ During creation of the package variant kpt package, the following transformation
 6. The `lambda-cluster` package is now ready to go. It is proposed and approved and the process of cluster creation
    commences.
 
-### Cluster Creation
+#### Cluster Creation
 
 TBD.
 
-## pv-rootsync.yaml:
+### pv-rootsync.yaml:
 
 TBD.
 
-## pv-repo.yaml: create the workload cluster repository
+### pv-repo.yaml: create the workload cluster repository
 
 TBD.
 
-## pv-configsync.yaml:
+### pv-configsync.yaml:
 
 TBD.
 
-## pv-kindnet.yaml:
+### pv-kindnet.yaml:
 
 TBD.
 
-## pv-local-path-provisioner.yaml:
+### pv-local-path-provisioner.yaml:
 
 TBD.
 
-## pv-multus.yaml:
+### pv-multus.yaml:
 
 TBD.
 
-## pv-vlanindex.yaml:
+### pv-vlanindex.yaml:
 
 TBD.

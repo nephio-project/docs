@@ -11,7 +11,7 @@ The installation has done a good job of installing a complex software stack with
 
 ![Software Installed by the Nephio Sandbox Installation](/static/images/install-guides/ManagementCluster.png)
 
-# Components Installed on the VM Itself
+## Components Installed on the VM Itself
 
 The following components are installed on the VM itself. These components are installed directly on the VM by the
 Ansible install scripts.
@@ -28,7 +28,7 @@ Ansible install scripts.
 The Ansible install scripts use kind to create the Management cluster. Once the Management KinD cluster is created, the
 install uses kpt packages to install the remainder of the software.
 
-# Components Installed on the Management KinD cluster
+## Components Installed on the Management KinD cluster
 
 Everything is installed on the Management KinD cluster by Ansible scripts using kpt packages.
 
@@ -58,8 +58,7 @@ You can examine the contents of any rendered kpt packager by examining the conte
 └── resource-backend
 
 ```
-<details>
- <summary>You can check the status of an applied kpt package using a "kpt live status package_dir" command.</summary>
+You can check the status of an applied kpt package using a "kpt live status package_dir" command.
  
 ```bash
 kpt live status /tmp/kpt-pkg/nephio-controllers/
@@ -98,9 +97,8 @@ inventory-38069595/customresourcedefinition.apiextensions.k8s.io//smfdeployments
 inventory-38069595/customresourcedefinition.apiextensions.k8s.io//upfdeployments.workload.nephio.org is Current: CRD is established
 inventory-38069595/namespace//nephio-system is Current: Resource is current
 ```
-</details>
 
-## Base Components
+### Base Components
 
 The following base components are installed on the Management cluster. Base components are the infrastructure components
 that are needed for the Nephio sandbox, which Nephio uses out of the box. In real world installations, alternative
@@ -116,7 +114,7 @@ components that provide the same functionality may be used.
 | IPAM         | A reference backend system to allocate and manage IP addresses     |
 | VLAN         | A reference backend system used to allocate and manage VLANs       |
 
-## Specific Components
+### Specific Components
 
 The following specific components are installed on the Management cluster. The specific components are Nephio components
 and components from [Google Container Tools](https://github.com/GoogleContainerTools) that Nephio uses heavily and
@@ -129,10 +127,9 @@ interacts closely with.
 | Nephio Controllers | The Nephio controllers, which implement the Nephio functionality to fetch, manipulate, and deploy NFs                                                        |
 | Nephio WebUI       | The Nephio web client                                                                                                                                        |
 
-# Some Useful Commands
+## Some Useful Commands
 
-<details>
-<summary>Easily get the kubeconfig for a CAPI KinD cluster:</summary>
+Easily get the kubeconfig for a CAPI KinD cluster:
 
 ```bash
 get_capi_kubeconfig regional
@@ -141,11 +138,8 @@ get_capi_kubeconfig regional
 will create a file `regional-kubeconfig` used to connect to that
 cluster.
 
-</details>
-
-<details>
-<summary>You can query docker to see the docker images running KinD
-clusters:</summary>
+You can query docker to see the docker images running KinD
+clusters:
 
 ```bash
 docker ps
@@ -157,10 +151,7 @@ The output is similar to:
 CONTAINER ID   IMAGE                  COMMAND                  CREATED      STATUS      PORTS                       NAMES
 350b4a7e29f8   kindest/node:v1.27.1   "/usr/local/bin/entr…"   4 days ago   Up 4 days   127.0.0.1:44695->6443/tcp   kind-control-plane
 ```
-</details>
-
-<details>
-<summary>Querying running KinD clusters after the install produces output similar to:</summary>
+Querying running KinD clusters after the install produces output similar to:
 
 ```bash
 kind get clusters
@@ -171,10 +162,8 @@ The output is similar to:
 ```console
 kind
 ```
-</details>
 
-<details>
-<summary>Querying the k8s pods running after the install produces output similar to:</summary>
+Querying the k8s pods running after the install produces output similar to:
 
 ```bash
 kubectl get pods -A --field-selector=metadata.namespace!=kube-system
@@ -211,10 +200,9 @@ porch-system                        porch-controllers-646dfb5f6-lxthk           
 porch-system                        porch-server-69445b4d58-mkqqt                                   1/1     Running   28 (41m ago)   41h
 resource-group-system               resource-group-controller-manager-6c9d56d88-njjr6               3/3     Running   6 (105m ago)   41h
 ```
-</details>
 
-<details>
-<summary>Querying the repositories that exist after the install produces output similar to:</summary>
+
+Querying the repositories that exist after the install produces output similar to:
 
 ```bash
 kubectl get repositories
@@ -229,4 +217,4 @@ mgmt                      git    Package   true         True    http://172.18.0.
 mgmt-staging              git    Package   false        True    http://172.18.0.200:3000/nephio/mgmt-staging.git
 nephio-example-packages   git    Package   false        True    https://github.com/nephio-project/nephio-example-packages.git
 ```
-</details>
+

@@ -51,7 +51,11 @@ Click through the `Next` button until you are through all the steps, leaving all
 At this point, we can take a closer look at the contents of the kpt package which contains the relevant kubernetes
 resources to deploy the controllers.
 
-**_NOTE:_**  We are deploying into the `flux-system` namespace by default.
+{{% alert title="Note" color="primary" %}}
+
+We are deploying into the `flux-system` namespace by default.
+
+{{% /alert %}}
 
 Finally, we need to `propose` and then `approve` the pkg to initialize the deployment.
 
@@ -68,15 +72,15 @@ Shortly thereafter, you should see flux helm and source controllers in the flux-
 ```bash
 kubectl get po --context edge02-admin@edge02 -n flux-system
 ```
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                                 READY   STATUS    RESTARTS   AGE
 helm-controller-cccc87cc-zqnd6       1/1     Running   0          6m20s
 source-controller-5756bf7d48-hprkn   1/1     Running   0          6m20s
 ```
-</details>
+
 
 
 ### Deploying the onlineboutique-flux pkg
@@ -123,16 +127,20 @@ source repo and the package to be deployed.
 
 ![Add acm pkg](/static/images/user-guides/add-deploy-onlinebout-select.png)
 
-**_NOTE:_**  The overrides online-boutique-values ConfigMap in the package refers to the default values.yaml for the
+{{% alert title="Note" color="primary" %}}
+
+The overrides online-boutique-values ConfigMap in the package refers to the default values.yaml for the
 chart and can be customized prior to pkg approval.
+
+{{% /alert %}}
 
 Shortly thereafter, you should see the online boutique components deployed in the online-boutique namespace:
 
 ```bash
 kubectl get po --context edge02-admin@edge02 -n online-boutique
 ```
-<details>
-<summary>The output is similar to:</summary>
+
+The output is similar to:
 
 ```console
 NAME                                     READY   STATUS    RESTARTS   AGE
@@ -149,4 +157,3 @@ recommendationservice-c58857d6-qwrkd     1/1     Running   0          37s
 redis-cart-7495b4ff99-gbq4m              1/1     Running   0          37s
 shippingservice-6f65f85b8b-j5c28         1/1     Running   0          37s
 ```
-</details>
