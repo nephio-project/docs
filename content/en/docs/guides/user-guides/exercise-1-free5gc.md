@@ -47,11 +47,8 @@ The network configuration is illustrated in the following figure:
 
 For simplicity, only one edge cluster is represented.
 
-<<<<<<< HEAD
-=======
 {{% /alert %}}
 
->>>>>>> origin/R3
 Additionally, you can use Nephio to change the capacity requirement for the UPF and SMF NFs and see how the free5GC
 operator translates that into increased memory and CPU requirements for the underlying workload.
 
