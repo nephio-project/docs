@@ -3,7 +3,7 @@ title: Start
 description: Documentation of the Nephio project
 menu: {main: {weight: 10}}
 ---
-{{< blocks/cover title="Welcome to the Nephio documentation" image_anchor="top" height="full" >}}
+{{< blocks/cover title="Welcome to Release 3 of Nephio" image_anchor="top" height="full" >}}
 <a class="btn btn-lg btn-primary me-3 mb-4" href="https://nephio.org/">
   Homepage <i class="fas fa-arrow-alt-circle-right ms-2"></i>
 </a>
@@ -28,8 +28,7 @@ and network functions across large scale edge deployments."
 {{% blocks/section type="row" %}}
 
 {{% blocks/feature icon="fas fa-rocket" title="R3" %}}
-Welcome to the Release 3 of Nephio. This release is under ongoing development together with its documentation. It is
-possible to experience some incompleteness ;)
+Welcome to the Release 3 (R3) of Nephio. Please use the documentation links below to learn more about Nephio R3.
 {{% /blocks/feature %}}
 
 {{% blocks/feature icon="fab fa-wikipedia-w" title="Wiki" %}}

@@ -34,7 +34,7 @@ is part of the "Kubernetes Everywhere" principle).
 As a community, we should try to use a common set of terminology for different types of configuration. See
 [docs#4](https://github.com/nephio-project/nephio/issues/266).
 
-## Configuration as Data
+# Configuration as Data
 Configuration as Data is an approach to management of configuration (incl. configuration of infrastructure, policy,
 services, applications, etc.) which:
 
@@ -44,8 +44,8 @@ services, applications, etc.) which:
 * abstracts configuration file structure and storage from operations that act upon the configuration data; clients
   manipulating configuration data don’t need to directly interact with storage (git, container images)
 
-Source of definition and more information about Configuration as Data can be found in the [kpt documentation](/content/en/docs/porch/config-as-data.md).
-
+Source of definition and more information about Configuration as Data can be found in the
+[kpt documentation](/content/en/docs/porch/config-as-data.md).
 ## Controller
 This term comes from Kubernetes where
 [controller](https://kubernetes.io/docs/reference/glossary/?fundamental=true#term-controller) is defined as a control
@@ -298,6 +298,7 @@ although we also use it to refer to the external representation of that object
 Also see [REST](https://en.wikipedia.org/wiki/Representational_state_transfer).
 
 ## Specializer
+
 This refers to a software component that runs in the Nephio Management cluster,
 and could be considered a type of [controller](#controller). However, it
 specifically watches for `PackageRevision` resources in a Draft state, and

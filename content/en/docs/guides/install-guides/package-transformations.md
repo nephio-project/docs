@@ -5,7 +5,20 @@ description: >
 weight: 7
 ---
 
-## Vanilla kpt for the Management cluster
+# Table of Contents
+
+- [Vanilla kpt for the Management cluster](#vanilla-kpt-for-the-management-cluster)
+  - [kpt pkg get](#kpt-pkg-get)
+  - [kpt fn render](#kpt-fn-render)
+  - [kpt live init](#kpt-live-init)
+- [porchctl rpkg for the Workload clusters](#porchctl-rpkg-for-workload-clusters)
+  - [Create workload cluster package](#create-the-workload-cluster-package)
+  - [Configure the package](#configure-the-package)
+  - [Propose the package](#propose-the-package)
+  - [Approve the package and trigger configsync](#approve-the-package-and-trigger-configsync)
+- [Transformations in the Workload cluster creation](#transformations-in-the-workload-cluster-creation)
+
+# Vanilla kpt for the Management cluster
 
 Before reading this, please read [the kpt book](https://kpt.dev/book/).
 

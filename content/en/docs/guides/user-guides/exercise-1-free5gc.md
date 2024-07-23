@@ -5,6 +5,19 @@ description: >
 weight: 2
 ---
 
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Create the Regional cluster](#step-1-create-the-regional-cluster)
+- [Check the Regional cluster installation](#step-2-check-the-regional-cluster-installation)
+- [Deploy two Edge clusters](#step-3-deploy-two-edge-clusters)
+- [Deploy free5GC control plane functions](#step-4-deploy-free5gc-control-plane-functions)
+- [Deploy free5GC Operator in the Workload clusters](#step-5-deploy-free5gc-operator-in-the-workload-clusters)
+- [Check free5GC Operator deployment](#step-6-check-free5gc-operator-deployment)
+- [Deploy AMF, SMF and UPF](#step-7-deploy-the-amf-smf-and-upf-nfs)
+- [Deploy UERANSIM](#step-8-deploy-ueransim)
+- [Change the Capacities of the UPF and SMF NFs](#step-9-change-the-capacities-of-the-upf-and-smf-nfs)
+
 ## Introduction
 
 Be sure you have followed the [installation guide](/content/en/docs/guides/install-guides/_index.md)
@@ -595,7 +608,7 @@ kubectl apply -f test-infra/e2e/tests/free5gc/006-regional-free5gc-amf.yaml
 kubectl apply -f test-infra/e2e/tests/free5gc/006-regional-free5gc-smf.yaml
 ```
 
-Free5gc requires that the SMF and AMF NFs be explicitly configured with information about each UPF. Therefore, the AMF
+Free5GC requires that the SMF and AMF NFs be explicitly configured with information about each UPF. Therefore, the AMF
 and SMF packages will remain in an "unready" state until the UPF packages have all been published.
 
 ### Check UPF deployment
