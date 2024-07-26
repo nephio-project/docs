@@ -1,11 +1,11 @@
 ---
-title: "Setting up the environment"
+title: "Setting up a local environment"
 type: docs
 weight: 2
 description:
 ---
 
-This tutorial gives short instructions on how to set up a development environment for Porch. It outlines the steps to
+This tutorial gives short instructions on how to set up a development environment for Porch on your local machine. It outlines the steps to
 get a [kind](https://kind.sigs.k8s.io/) cluster up and running to which a Porch instance running in Visual Studio Code
 can connect to and interact with. If you are not familiar with how porch works, it is highly recommended that you go
 through the [Starting with Porch tutorial](../using-porch/install-and-using-porch.md) before going through this one.
