@@ -43,7 +43,7 @@ sudo usermod -a -G docker ubuntu
 
 3. Log out of your VM and log in again so that the group changes on the `ubuntu` user are picked up.
 
-```
+```bash
 > exit
 
 > ssh ubuntu@thevmhostname
