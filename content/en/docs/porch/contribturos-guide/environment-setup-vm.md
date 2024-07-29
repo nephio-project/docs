@@ -83,7 +83,7 @@ go install -v github.com/go-delve/delve/cmd/dlv@latest
 
 7. Clone Porch onto the VM
 
-```
+```bash
 mkdir -p git/github/nephio-project
 cd ~/git/github/nephio-project
 
