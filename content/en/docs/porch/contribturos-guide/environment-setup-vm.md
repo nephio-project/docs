@@ -66,7 +66,7 @@ echo 'fi'                                 >> ~/.profile
 
 5. Log out of your VM and log in again so that the `go` is added to your path. Verify that `go` is in the path:
 
-```
+```bash
 > exit
 
 > ssh ubuntu@thevmhostname
