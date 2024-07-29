@@ -98,7 +98,7 @@ cd porch
 sed -i "s/^KIND_CONTEXT_NAME ?= porch-test$/KIND_CONTEXT_NAME ?= "$(kind get clusters)"/" Makefile
 ```
 
-You have now set up the VM so that it can be used for remove debugging of Porch.
+You have now set up the VM so that it can be used for remote debugging of Porch.
 
 ## Getting started with actual development
 
