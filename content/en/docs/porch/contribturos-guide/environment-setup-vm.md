@@ -16,7 +16,7 @@ through the [Starting with Porch tutorial](../using-porch/install-and-using-porc
 [Installation on a single VM](../../guides/install-guides/install-on-single-vm.md). In short, log onto your VM and give the command
 below:
 
-```
+```bash
 wget -O - https://raw.githubusercontent.com/nephio-project/test-infra/main/e2e/provision/init.sh |  \
 sudo NEPHIO_DEBUG=false   \
      NEPHIO_BRANCH=main \
