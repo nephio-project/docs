@@ -77,7 +77,7 @@ go version go1.22.5 linux/amd64
 
 6. Install `go delve` for debugging on the VM:
 
-```
+```bash
 go install -v github.com/go-delve/delve/cmd/dlv@latest
 ```
 
