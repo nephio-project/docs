@@ -53,7 +53,7 @@ ubuntu adm dialout cdrom floppy sudo audio dip video plugdev syslog netdev lxd d
 
 4. Install `go` so that you can build Porch on the VM:
 
-```
+```bash
 wget -O - https://go.dev/dl/go1.22.5.linux-amd64.tar.gz | sudo tar -C /usr/local -zxvf -
 
 echo ''                                   >> ~/.profile
