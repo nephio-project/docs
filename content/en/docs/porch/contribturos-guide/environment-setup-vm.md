@@ -26,7 +26,7 @@ sudo NEPHIO_DEBUG=false   \
 
 2. Set up your VM for development (optional but recommended step).
 
-```
+```bash
 echo ''                                         >> ~/.bashrc
 echo 'source <(kubectl completion bash)'        >> ~/.bashrc
 echo 'source <(kpt completion bash)'            >> ~/.bashrc
