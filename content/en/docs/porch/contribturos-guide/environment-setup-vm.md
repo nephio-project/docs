@@ -94,7 +94,7 @@ cd porch
 
 8. Change the Kind cluster name in the Porch Makefile to match the Kind cluster name on the VM:
 
-```
+```bash
 sed -i "s/^KIND_CONTEXT_NAME ?= porch-test$/KIND_CONTEXT_NAME ?= "$(kind get clusters)"/" Makefile
 ```
 
