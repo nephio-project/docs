@@ -98,6 +98,21 @@ cd porch
 sed -i "s/^KIND_CONTEXT_NAME ?= porch-test$/KIND_CONTEXT_NAME ?= "$(kind get clusters)"/" Makefile
 ```
 
+9. Expose the Porch function runner so that the Nephio server running in VSCode can access it
+
+```bash
+kubectl expose svc -n porch-system function-runner --name=xfunction-runner --type=LoadBalancer --load-balancer-ip='172.18.0.202'
+```
+
+10. Set the `KUBECONFIG` and `FUNCTION_RUNNER_IP` environment variables in the `.profile` file
+You **must** do this step before connecting with VSCode because VSCode caches the environment on the server. If you want to change the values of these variables subsequently, you must restart the VM server.
+
+```bash
+echo ''                                              >> ~/.profile
+echo 'export KUBECONFIG="/home/ubuntu/.kube/config"' >> ~/.profile
+echo 'export FUNCTION_RUNNER_IP="172.18.0.202"'      >> ~/.profile
+```
+
 You have now set up the VM so that it can be used for remove debugging of Porch.
 
 ## Setting up VSCode
@@ -142,4 +157,3 @@ You have now set up VSCode so that it can be used for remove debugging of Porch.
 ## Getting started with actual development
 
 You can find a detailed description of the actual development process [here](dev-process.md).
-
