@@ -1,7 +1,7 @@
 ---
 title: "Install and use Porch"
 type: docs
-weight: 3
+weight: 1
 description: "A tutorial to install and use Porch"
 ---
 
