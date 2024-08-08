@@ -123,7 +123,26 @@ NF Deployment Lifecycle Management services implemented using Nephio capabilitie
 {{% alert title="Note" color="primary" %}}
 
 In R3 Nephio use cases and component architectures have been defined for the Deploy O-RAN NF use case.
+In R3 ,NFO supports OAI O-RAN NF deployments using below REST API's.
+##  input will be packagevariant of OAI NF.
 
+##### NFO API For OAI DU NF Deployment:
+
+    POST: BASE_URL/nfo/api/v1/operator/du/
+    GET: BASE_URL/nfo/api/v1/operator/du/
+    DELETE: BASE_URL/nfo/api/v1/operator/du/
+
+##### NFO API For OAI CU_CP NF Deployment:
+
+    POST: BASE_URL/nfo/api/v1/operator/cucp/
+    GET: BASE_URL/nfo/api/v1/operator/cucp/
+    DELETE: BASE_URL/nfo/api/v1/operator/cucp/
+
+##### NFO API For OAI CU_UP NF Deployment:
+
+    POST: BASE_URL/nfo/api/v1/operator/cuup/
+    GET: BASE_URL/nfo/api/v1/operator/cuup/
+    DELETE: BASE_URL/nfo/api/v1/operator/cuup/
 {{% /alert %}}
 
 ##### Deploy O-RAN NF
