@@ -139,7 +139,9 @@ gcloud services enable krmapihosting.googleapis.com \
     serviceusage.googleapis.com \
     iam.googleapis.com \
     gkehub.googleapis.com \
-    anthosconfigmanagement.googleapis.com
+    anthosconfigmanagement.googleapis.com \
+    anthos.googleapis.com \
+    sourcerepo.googleapis.com
 ```
 
 
