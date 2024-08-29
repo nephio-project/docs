@@ -2,7 +2,7 @@
 title: Minimal Environment install for development
 description: >
   How to set up a minimal environment for development in the Nephio project.
-weight: 5
+weight: 2
 ---
 
 The following environment install works on a MacBook Pro M1 or via SSH to Ubuntu 22.04 to get the nephio-operators running in vscode talking to a local kind cluster running in Docker. Note that depending on what part of Nephio you are working on, you may wish to install less or more of the components below. It should work on other environments with appropriate tweaking.

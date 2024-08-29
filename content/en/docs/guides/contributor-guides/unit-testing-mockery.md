@@ -2,7 +2,7 @@
 title: Unit Test mocking using Mockery
 description: >
   How to set up and use Mockery for unit testing in Nephio.
-weight: 5
+weight: 3
 ---
 
 This guide describes how to use [testify](https://pkg.go.dev/github.com/stretchr/testify) and [mockery](https://vektra.github.io/mockery/latest/) for writing, mocking, and executing unit tests.
