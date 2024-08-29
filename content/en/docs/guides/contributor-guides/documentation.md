@@ -43,7 +43,8 @@ Add the *area/docs* and the *documentation* labels to the issues created for the
   ```
 * Colors to be used when creating figures are [here](https://color.adobe.com/Nephio-secondary-colors-color-theme-0bbcdea2-0533-4ab3-812f-f752f30b5b40/)
 * If you add any commands to the content inline surround the comand with backticks (\` \`), like \`ls -la\`
-* Do not surround IP addresses, domain names or any other identifyers with backticks
+* Do not surround IP addresses, domain names or any other identifyers with backticks. Use italics (\* \*) to mark any
+  inline IP address, domain name, file name, file location or similar.
 * Whenever possible define the type of code for your code blocks
   * \```bash for all shell blocks
   * \```golang for all Go blocks
