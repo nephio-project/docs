@@ -116,7 +116,7 @@ params.search.algolia = false
 
 #Enable offline search with Lunr.js
 
-offlineSearch = false
+offlineSearch = true
 offlineSearchSummaryLength = 70
 offlineSearchMaxResults = 10
 
