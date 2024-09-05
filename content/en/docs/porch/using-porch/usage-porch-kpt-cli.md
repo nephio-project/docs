@@ -1,7 +1,7 @@
 ---
 title: "Using Porch with the kpt CLI"
 type: docs
-weight: 4
+weight: 3
 description: 
 ---
 
