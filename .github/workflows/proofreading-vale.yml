@@ -10,6 +10,5 @@ jobs:
       - uses: errata-ai/vale-action@reviewdog
         with:
           files: content
-        with:
           # github-pr-check, github-pr-review, github-check
           reporter: github-pr-check
