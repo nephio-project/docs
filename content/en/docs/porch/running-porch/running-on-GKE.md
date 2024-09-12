@@ -129,17 +129,14 @@ git clone https://github.com/GoogleContainerTools/kpt.git "${GOPATH}/src/github.
 repository.
 
 If your use case doesn't require Porch to interact with GCP container registries, you can build and deploy Porch by
-running the following command. It will build and push Porch Docker images into (by default) Google Container Registry
-named (example shown is the Porch server image):
-
-`gcr.io/YOUR-PROJECT-ID/porch-server:SHORT-COMMIT-SHA`
-
+running the `gcr.io/YOUR-PROJECT-ID/porch-server:SHORT-COMMIT-SHA` command. It will build and push Porch Docker images into (by default) Google Container Registry
+named (example shown is the Porch server image).
 
 ```bash
 IMAGE_TAG=$(git rev-parse --short HEAD) make push-and-deploy-no-sa
 ```
 
-If you want to use different repository, you can set `IMAGE_REPO` variable
+If you want to use a different repository, you can set `IMAGE_REPO` variable
 (see [Makefile](https://github.com/nephio-project/porch/blob/main/Makefile#L32) for details).
 
 The `make push-and-deploy-no-sa` target will install Porch but not Config Sync. You can install Config Sync in your k8s
