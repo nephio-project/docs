@@ -14,4 +14,4 @@ jobs:
           files: all
           # github-pr-check, github-pr-review, github-check
           reporter: github-pr-check
-          token: ${{secrets.VALE_GITHUB_TOKEN}}
+          token: ${{secrets.GITHUB_TOKEN}}
