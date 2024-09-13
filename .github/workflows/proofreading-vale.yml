@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: errata-ai/vale-action@reviewdog
         with:
-          files: content
+          files: all
           # github-pr-check, github-pr-review, github-check
           reporter: github-pr-check
           token: ${{secrets.VALE_GITHUB_TOKEN}}
