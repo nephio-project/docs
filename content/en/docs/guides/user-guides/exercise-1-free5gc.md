@@ -786,7 +786,7 @@ kubectl apply -f test-infra/e2e/tests/free5gc/007-edge01-ueransim.yaml
 ```
 
 You can check to see if the simulated UE is up and running by checking the UERANSIM deployment. First, you can use the
-get_capi_kubeconfig` shortcut to retrieve the kubeconfig for the edge01 cluster, and then query that cluster for the
+`get_capi_kubeconfig` shortcut to retrieve the kubeconfig for the edge01 cluster, and then query that cluster for the
 UERANSIM pods.
 
 ```bash
@@ -927,7 +927,7 @@ The output is similar to:
 ```
 
 
-Observe the changes to the UPF configuration using the kpt pkg diff command.
+Observe the changes to the UPF configuration using the `kpt pkg diff` command.
 
 ```bash
 kpt pkg diff /tmp/upf-scale-package | grep linkThroughput

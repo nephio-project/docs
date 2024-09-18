@@ -133,7 +133,7 @@ The following environment variables can be used to configure the installation:
 
 Monitor the installation on your terminal.
 
-Log onto your VM using ssh on another terminal and use commands *docker* and *kubectl* to monitor the installation.
+Log onto your VM using ssh on another terminal and use commands `docker` and `kubectl` to monitor the installation.
 
 ## Access to the User Interfaces
 
