@@ -9,18 +9,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
-      - uses: tibdex/github-app-token@v2
-        id: generate-token
+
+      - name: Harden Runner
+        uses: step-security/harden-runner@91182cccc01eb5e619899d80e4e971d6181294a7 # v2.10.1
         with:
-          app_id: ${{ secrets.HELPER_APP_ID }}
-          private_key: ${{ secrets.HELPER_APP_KEY }}
+          egress-policy: audit
+
 
       - name: Run Vale
-        uses: errata-ai/vale-action@reviewdog
+        uses: errata-ai/vale-action@91ac403e8d26f5aa1b3feaa86ca63065936a85b6 # reviewdog
         with:
           files: '["content", "README.md"]'
           # github-pr-check, github-pr-review, github-check
           reporter: github-pr-check
-          token: ${{ steps.generate-token.outputs.token }}
+          token: ${{secrets.VALE_GITHUB_TOKEN}}
