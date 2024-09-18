@@ -192,9 +192,7 @@ mgmt-staging              git    Package   false        True    http://172.18.0.
 nephio-example-packages   git    Package   false        True    https://github.com/nephio-project/nephio-example-packages.git
 ```
 
-To see all the remote packages that are available:
-
-$ porchctl rpkg get
+To see all the remote packages that are available use the `$ porchctl rpkg get` command.
 
 ```bash
 NAME                                                               PACKAGE                              WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
@@ -297,12 +295,12 @@ NAME                                           PACKAGE  WORKSPACENAME REVISION L
 mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868  regional v1                     false  Draft     mgmt
 ```
 
-2. Pull the package to get a local copy of it
+2. Pull the package to get a local copy of it:
 
 ```bash
 porchctl rpkg pull -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 regional
 ```
-3. Set the Nephio labels on the package
+3. Set the Nephio labels on the package:
 
 ```bash
 kpt fn eval --image gcr.io/kpt-fn/set-labels:v0.2.0 regional -- "nephio.org/site-type=regional" "nephio.org/region=us-west1"
@@ -379,16 +377,16 @@ The `PackageVariant` specified in `pv-cluster.yaml` is executed and:
    package called `lambda-cluster` in the gitea `mgmt` repository on your management
    cluster.
 2. Applies the `lambda-cluster` kpt package to create the kind cluster for the
-   workload cluster
+   workload cluster.
 
 #### Package transformations
 
 During creation of the package variant kpt package, the following transformations occur:
 
 1. It creates a `drafts/lambda-cluster/v1` branch on the `mgmt` repository
-2. It does the equivalent of a [kpt pkg get](#kpt-pkg-get) on the `cluster-capi-kind` package into a directory called
+2. It does the equivalent of a [`kpt pkg get`](#kpt-pkg-get) on the `cluster-capi-kind` package into a directory called
    `lambda-cluster` on that branch, with the same transformations on package files carried out as the
-   [kpt pkg get](#kpt-pkg-get) command above, this content is checked into the new branch in the initial commit
+   [`kpt pkg get`](#kpt-pkg-get) command above, this content is checked into the new branch in the initial commit
 3. The pipeline specified in the `Kptfile`of the `cluster-capi-kind` package specifies an `apply-replacements` specified
    in the `apply-replacements.yaml` file in the package and uses the value of the
    `workload-cluster.yaml:spec.clusterName` field set in 2. above (which is the workload cluster name). This has the

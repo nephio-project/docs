@@ -356,7 +356,7 @@ packagevariant.config.porch.kpt.dev/oai-ran-operator-regional created
 
 ## Step 4: Check Database and Operator Deployment
 
-Within five minutes of applying the RAN, Core Operator, and database Packages, you should see `oai-core` and `oai-cn-operators` namespaces on the Core workload cluster, :
+Within five minutes of applying the RAN, Core Operator, and database Packages, you should see `oai-core` and `oai-cn-operators` namespaces on the Core workload cluster:
 
 ```bash
 kubectl get ns --context core-admin@core
