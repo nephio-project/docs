@@ -15,28 +15,22 @@ through the [Starting with Porch tutorial](../using-porch/install-and-using-porc
 As your Dev environment, you can run the code on a remote VM and use the
 [VSCode Remote SSH](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)
 plugin to connect to it.
-TODO: re-check WSL2 + Docker Desktop setup
 
 {{% /alert %}}
 
 ## Extra steps for MacOS users
 
 The script the `make deployment-config` target to generate the deployment files for porch. The scripts called by this
-make target use recent `bash` additions and expect the gnu version of the `sed` command. MacOS comes with `bash` 3.x.x
-by default and with a version of `sed` that is incompatible with gnu `sed`. TODO: check if sed is indeed still used.
+make target use recent `bash` additions. MacOS comes with `bash` 3.x.x
 
 1. Install `bash` 4.x.x or better of `bash` using homebrew, see
    [this this post for details](https://apple.stackexchange.com/questions/193411/update-bash-to-version-4-0-on-osx)
-2. Install `gsed` using homebrew, see
-   [this post for details](https://stackoverflow.com/questions/4247068/sed-command-with-i-option-failing-on-mac-but-works-on-linux)
-3. `sudo ln -s /opt/homebrew/bin/gsed /opt/homebrew/bin/sed` create a soft link for `sed` from `gsed`
-4. Ensure that `/opt/homebrew/bin` is earlier in your path than `/bin` and `/usr/bin`
+2. Ensure that `/opt/homebrew/bin` is earlier in your path than `/bin` and `/usr/bin`
 
 {{% alert title="Note" color="primary" %}}
 
-The changes above **permanently** change the `bash` version and `sed` for **all** applications and may cause side
-effects. You may wish to revert the changes (particularly the `sed-->gsed` soft link) when you complete your work on
-Porch.
+The changes above **permanently** change the `bash` version for **all** applications and may cause side
+effects. 
 
 {{% /alert %}}
 

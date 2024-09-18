@@ -121,6 +121,7 @@ it is manageable via Nephio.
 Please use the documentation links below to learn more about Nephio, or check out our [Learning Nephio](https://wiki.nephio.org/display/HOME/Learning+with+Nephio+R1) series. The video series includes a [demo video](https://youtu.be/mFl71sy2Pdc) and short articles about different aspects of Nephio.
 
 ## User Documentation
+
 * [Release Notes for each Nephio release](https://docs.nephio.org/docs/release-notes/)
 * [Demo Sandbox Environment Installation](https://docs.nephio.org/docs/guides/install-guides/)
 * [User Guide](https://docs.nephio.org/docs/guides/user-guides/)
@@ -130,4 +131,3 @@ Please use the documentation links below to learn more about Nephio, or check ou
 * [Developer Documentation](https://github.com/nephio-project/nephio)
 * [Developer Guide](https://docs.nephio.org/docs/guides/contributor-guides/)
 * [Project Resources](https://github.com/nephio-project/docs/blob/main/resources.md)
-
