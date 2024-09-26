@@ -17,10 +17,14 @@ make generate
 
 Porch comprises of several software components:
 
-* [api](https://github.com/nephio-project/porch/tree/main/api): Definition of the KRM API supported by the Porch extension apiserver
-* [porchctl](https://github.com/nephio-project/porch/tree/main/cmd/porchctl): CLI command tool for administration of Porch `Repository` and `PackageRevision` custom resources.
-* [apiserver](https://github.com/nephio-project/porch/tree/main/pkg/apiserver): The Porch apiserver implementation, REST handlers, Porch `main` function
-* [engine](https://github.com/nephio-project/porch/tree/main/pkg/engine): Core logic of Package Orchestration - operations on package contents
+* [api](https://github.com/nephio-project/porch/tree/main/api): Definition of the KRM API supported by the Porch
+  extension apiserver
+* [porchctl](https://github.com/nephio-project/porch/tree/main/cmd/porchctl): CLI command tool for administration of
+  Porch `Repository` and `PackageRevision` custom resources.
+* [apiserver](https://github.com/nephio-project/porch/tree/main/pkg/apiserver): The Porch apiserver implementation, REST
+  handlers, Porch `main` function
+* [engine](https://github.com/nephio-project/porch/tree/main/pkg/engine): Core logic of Package Orchestration -
+  operations on package contents
 * [func](https://github.com/nephio-project/porch/tree/main/func): KRM function evaluator microservice; exposes gRPC API
 * [repository](https://github.com/nephio-project/porch/blob/main/pkg/repository): Repository integration package
 * [git](https://github.com/nephio-project/porch/tree/main/pkg/git): Integration with Git repository.
@@ -108,6 +112,5 @@ then run test suite against the Porch instance.
 ## VSCode
 
 [VSCode](https://code.visualstudio.com/) works really well for editing and debugging.
-Because Porch is comprises of multiple go modules, there is a pre-configured
-multi-folder workspace in [porch.code-workspace](https://github.com/nephio-project/porch/blob/main/porch.code-workspace).
-Open it in VSCode (File / Open Workspace from File) to use Workspace Folders.
+Just open VSCode from the root folder of the Porch repository and it will work fine. The folder contains the needed
+configuration to Launch different functions of Proch.

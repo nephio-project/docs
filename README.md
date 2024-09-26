@@ -131,5 +131,3 @@ Please use the documentation links below to learn more about Nephio, or check ou
 * [Developer Documentation](https://github.com/nephio-project/nephio)
 * [Developer Guide](https://docs.nephio.org/docs/guides/contributor-guides/)
 * [Project Resources](https://github.com/nephio-project/docs/blob/main/resources.md)
-
-

@@ -127,7 +127,7 @@ packages                                         porch.kpt.dev/v1alpha1         
 To connect Porch to Gitea, follow [step 7 in the Starting with Porch](../using-porch/install-and-using-porch.md)
 tutorial to create the repositories in Porch.
 
-You will notice logging messages in VSCode when you run the command `kubectl apply -f porch-repositories.yaml` command.
+You will notice logging messages in VSCode when you run the `kubectl apply -f porch-repositories.yaml` command.
 
 You can check that your locally running Porch server has created the repositories by running the `porchctl` command:
 

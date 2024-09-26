@@ -34,7 +34,7 @@ Everything is installed on the Management KinD cluster by Ansible scripts using 
 
 The install unpacks each kpt package in the */tmp* directory. It then applies the kpt functions to the packages and
 applies the packages to the Management KinD cluster. This allows the user to check the status of the kpt packages in
-the cluster using the *kpt live status* command on the unpacked packages in the */tmp* directory.
+the cluster using the `kpt live status` command on the unpacked packages in the */tmp* directory.
 
 The rendered kpt packages containing components are unpacked in the */tmp/kpt-pkg* directory. The rendered kpt packages
 that create the *mgmt* and *mgmt-staging* repositories are unpacked in the */tmp/repository* directory. The rendered kpt
@@ -58,7 +58,7 @@ You can examine the contents of any rendered kpt packager by examining the conte
 └── resource-backend
 
 ```
-You can check the status of an applied kpt package using a "kpt live status package_dir" command.
+You can check the status of an applied kpt package using a `kpt live status package_dir` command.
  
 ```bash
 kpt live status /tmp/kpt-pkg/nephio-controllers/
