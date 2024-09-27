@@ -33,7 +33,7 @@ The following software should be installed prior to running through the tutorial
 ```bash
 git clone https://github.com/nephio-project/porch.git
 
-cd porch/docs/tutorials/starting-with-porch/
+cd porch/examples/config/tutorials/starting-with-porch/
 ```
 
 ## Create the Kind clusters for management and edge1
