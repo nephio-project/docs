@@ -54,7 +54,16 @@ Once installed, you need to prepare the management cluster for zero touch provis
 
 ## Install Nephio
 
-### OpenShift Package Repository
+### Option 1: Using init.sh (as a Pre-installed K8s Cluster)
+
+If using init.sh directly to deploy Nephio management components, as one would for a generic K8s Cluster, there are some prerequisites to consider:
+- A default StorageClass must be configured providing persistent storage for PVCs (for instance through the LVMS Operator and an LVMCluster)
+- [Security Context Constraits](https://github.com/nephio-project/catalog/tree/main/distros/openshift/security-context-constraints) must be applied for successful Nephio component deployment
+
+Follow the steps present in the [Install Guide](/content/en/docs/guides/install-guides/_index.md) for a Pre-installed K8s Cluster to install manaement components
+
+
+### Option 2: Using Blueprints Nephio OpenShift Repo OpenShift Package Repository
 
 A repository of OpenShift-installation specific packages must be used to deploy Nephio. This repository contains
 packages derived from the standard Nephio R1 packages, but with OpenShift-specific modifications.
@@ -73,7 +82,7 @@ oc apply -f https://raw.githubusercontent.com/openshift-telco/blueprints-nephio-
 This will take care of applying the [common dependencies](/content/en/docs/guides/install-guides/common-dependencies.md)
 and the [common components](/content/en/docs/guides/install-guides/common-components.md)
 
-### Access the Nephio
+### Access the Nephio WebUI
 
 - Get the Nephio URL:
   ```bash
