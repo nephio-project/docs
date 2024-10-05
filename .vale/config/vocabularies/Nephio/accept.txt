@@ -49,3 +49,6 @@ VM
 VMs
 VSCode
 VSphere
+
+# Nephio contributors mentioned in the docs
+Tal Liron
