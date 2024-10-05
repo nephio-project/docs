@@ -1,4 +1,5 @@
 # Accepted words (other acronyms must be explained)
+Ansible
 API
 APIs
 apiserver
@@ -7,6 +8,7 @@ ASNs
 [Aa]utoscaling
 cabundle
 [Cc]onfigmap
+[Cc]loudified
 CLI
 CRD
 CRDs
@@ -17,6 +19,7 @@ Gitea
 GitHub
 GitLab
 Graphviz
+[Hh]ostname
 [Hh]omebrew
 [Kk]pt
 [Kk]ptfile
@@ -30,8 +33,14 @@ NFDeployment
 NFs
 [Mm]akefile
 Multus
+[Mm]ultivendor
+[Mm]ulticloud
+OAuth
 OCI
 [Oo]nboarding
+[Oo]nboarded
+Okta
+[Pp]arameterization
 parameterRef
 passwordless
 [Pp]kgserver
@@ -44,11 +53,15 @@ sudo
 TLS
 [Tt]riage
 [Tt]ko
+[Tt]oolchain
 [Uu]ntar
+VirtualBox
 VM
 VMs
-VSCode
-VSphere
+VS Code
+vSphere
+WebUI
+xApps
 
 # Nephio contributors mentioned in the docs
 Tal Liron
