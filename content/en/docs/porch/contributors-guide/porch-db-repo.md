@@ -346,7 +346,7 @@ repository.config.porch.kpt.dev "db-repo" deleted
 
 ```
 
-Check the repo is erased int he DB:
+Check the repo is erased in the DB:
 ```
 porch=# select * from repositories;
  namespace | repo_name | updated | updatedby | deployment 
