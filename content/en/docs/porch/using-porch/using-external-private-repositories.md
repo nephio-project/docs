@@ -45,7 +45,7 @@ volumes:
       name: pod-cache-config
   - name: docker-config
     secret:
-      secretName: <secret-name>
+      secretName: <SECRET_NAME>
 ```
 
 You may specify your desired `mountPath:` so long as the function runner can access it.
