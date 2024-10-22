@@ -17,8 +17,8 @@ To enable the Porch function runner to communicate with authenticated private re
 kubectl create secret generic <SECRET_NAME> --from-file=.dockerconfigjson=/path/to/your/config.json --type=kubernetes.io/dockerconfigjson --dry-run=client -o yaml -n porch-system
 ```
 
-{{% alert title="Warning" color="primary" %}}
-Note: The secret should be in the same namespace as the function runner deployment which by default is the *porch-system* namespace.
+{{% alert title="Note" color="primary" %}}
+The secret should be in the same namespace as the function runner deployment which by default is the *porch-system* namespace.
 {{% /alert %}}
 
 This should generate a secret template similar to the one below which you can add to the *2-function-runner.yaml* file present on the Porch deployment found [here](https://github.com/nephio-project/catalog/tree/main/nephio/core/porch)
@@ -55,8 +55,8 @@ volumes:
 
 You may specify your desired `mountPath:` so long as the function runner can access it.
 
-{{% alert title="Warning" color="primary" %}}
-Note: The chosen `mountPath:` should use its own directory if placed in an existing directory so that it does not overwrite access permissions of the existing directory. For example if you wish to mount on `/var/tmp` you should use `mountPath: /var/tmp/<SUB_DIRECTORY>` etc.
+{{% alert title="Note" color="primary" %}}
+The chosen `mountPath:` should use its own directory if placed in an existing directory so that it does not overwrite access permissions of the existing directory. For example if you wish to mount on `/var/tmp` you should use `mountPath: /var/tmp/<SUB_DIRECTORY>` etc.
 {{% /alert %}}
 
 Lastly you must add the `--registry-auth-secret-path` to the function runner arguments, giving the path of the secret file mount.
