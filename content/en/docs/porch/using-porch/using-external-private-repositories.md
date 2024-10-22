@@ -53,7 +53,7 @@ volumes:
 
 You may specify your desired `mountPath:` so long as the function runner can access it.
 
-Note the chosen `mountPath:` should use its own directory if placed in an existing directory so that it does not overwrite access permissions of the existing directory. `e.g.` if you wish to mount on `/var/tmp` you should use `mountPath: /var/tmp/<SUB_DIRECTORY>` etc.
+Note the chosen `mountPath:` should use its own directory if placed in an existing directory so that it does not overwrite access permissions of the existing directory. For example if you wish to mount on `/var/tmp` you should use `mountPath: /var/tmp/<SUB_DIRECTORY>` etc.
 
 Lastly you must add the `--registry-auth-secret-path` to the function runner arguments, giving the path of the secret file mount.
 
@@ -66,4 +66,4 @@ command:
   - --pod-namespace=porch-fn-system
 ```
 
-With this last step, if your Porch package uses a custom kpt function image stored in a private registry (e.g. `- image: ghcr.io/private-registry/set-namespace:customv2`), the function runner will now use the secret info as an `imagePullSecret` for the function pods as documented [here](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/).
+With this last step, if your Porch package uses a custom kpt function image stored in a private registry (For example `- image: ghcr.io/private-registry/set-namespace:customv2`), the function runner will now use the secret info as an `imagePullSecret` for the function pods as documented [here](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/).
