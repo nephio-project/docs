@@ -6,7 +6,7 @@ weight: 4
 ---
 
 {{% pageinfo %}}
-This page is draft and the separation of the content to different categories is not clearly done. 
+This page is draft and the separation of the content to different categories is not done. 
 {{% /pageinfo %}}
 
 In this guide, you will set up Nephio running in a single VM with:
@@ -14,7 +14,7 @@ In this guide, you will set up Nephio running in a single VM with:
 - **Management Cluster**: [kind](https://kind.sigs.k8s.io/)
 - **Cluster Provisioner**: [Cluster API](https://cluster-api.sigs.k8s.io/)
 - **Workload Clusters**: kind
-- **Gitops Tool**: ConfigSync
+- **GitOps Tool**: ConfigSync
 - **Git Provider**: Gitea running in the Nephio management cluster will be the
   git provider for cluster deployment repositories. Some external repositories
   will be on GitHub.
@@ -104,8 +104,9 @@ kpt live init cluster-capi-infrastructure-docker
 kpt live apply cluster-capi-infrastructure-docker --reconcile-timeout 15m --output=table
 ```
 
-The last step is required for defining cluster, machine and kubeadmin templates for controller and worker docker
-machines. These templates define the kubelet args, etcd and coreDNS configuration and image repository as other things.
+The last step is required for defining cluster, machine and kubeadm templates for controller and worker docker
+machines. These templates define the kubelet arguments, etcd and coreDNS configuration and image repository as other
+things.
 
 ```bash
 kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/infra/capi/cluster-capi-kind-docker-templates@@origin/v3.0.0

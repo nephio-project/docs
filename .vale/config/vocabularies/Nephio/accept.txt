@@ -18,13 +18,17 @@ gcloud
 Gitea
 GitHub
 GitLab
+GitOps
 Graphviz
 [Hh]ostname
 [Hh]omebrew
 [Kk]pt
 [Kk]ptfile
+kubeadm
 kubectl
+kubelet
 Kubernetes
+Libvirt
 [Nn]amespace
 Nephio
 NF
@@ -55,6 +59,7 @@ TLS
 [Tt]ko
 [Tt]oolchain
 [Uu]ntar
+vCPU
 VirtualBox
 VM
 VMs
