@@ -50,6 +50,8 @@ volumes:
 
 You may specify your desired `mountPath:` so long as the function runner can access it.
 
+Note the chosen `mountPath:` should use its own directory if placed in an existing directory so that it does not overwrite access permissions of the existing directory.
+
 Lastly you must add the `--registry-auth-secret-path` to the function runner arguments, giving the path of the secret file mount.
 
 ```yaml
