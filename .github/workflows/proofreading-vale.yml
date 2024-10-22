@@ -17,7 +17,9 @@ jobs:
         uses: step-security/harden-runner@91182cccc01eb5e619899d80e4e971d6181294a7 # v2.10.1
         with:
           egress-policy: audit
-
+      - name: Install prerequisites
+        run: | 
+            sudo apt-get --allow-releaseinfo-change update -y && sudo apt-get install -y python3-sphinx
       - name: Run Vale
         uses: errata-ai/vale-action@91ac403e8d26f5aa1b3feaa86ca63065936a85b6 # reviewdog
         env:
