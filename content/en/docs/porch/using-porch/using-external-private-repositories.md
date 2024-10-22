@@ -7,7 +7,7 @@ description: ""
 
 To enable the Porch function runner to communicate with authenticated private registries, we must:
 
-1. Create a kubernetes secret using the a docker `config.json` file.
+1. Create a kubernetes secret using a docker `config.json` file.
 2. Mount this new secret as a volume on the function runner.
 3. Provide this secret mount path to the function runner using the argument `--registry-auth-secret-path`
 
