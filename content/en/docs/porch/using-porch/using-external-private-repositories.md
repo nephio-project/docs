@@ -14,8 +14,10 @@ To enable the Porch function runner to communicate with authenticated private re
  A quick way to generate this secret for your use using your docker `config.json` would be to run the following.
 
 ```bash
-kubectl create secret generic <SECRET_NAME> --from-file=.dockerconfigjson=/path/to/your/config.json --type=kubernetes.io/dockerconfigjson --dry-run=client -o yaml
+kubectl create secret generic <SECRET_NAME> --from-file=.dockerconfigjson=/path/to/your/config.json --type=kubernetes.io/dockerconfigjson --dry-run=client -o yaml -n porch-system
 ```
+
+Note This secret should be in the same namespace as the function runner deployment which by default is the *porch-system* namespace.
 
 This should generate a secret template similar to the one below which you can add to the `2-function-runner.yaml` file present on the Porch deployment found [here](https://github.com/nephio-project/catalog/tree/main/nephio/core/porch)
 
@@ -27,6 +29,7 @@ kind: Secret
 metadata:
   creationTimestamp: null
   name: <SECRET_NAME>
+  namespace: porch-system
 type: kubernetes.io/dockerconfigjson
 ```
 
