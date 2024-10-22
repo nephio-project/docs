@@ -7,11 +7,11 @@ description: ""
 
 To enable the Porch function runner to communicate with authenticated private registries, we must:
 
-1. Create a kubernetes secret using a docker `config.json` file.
+1. Create a kubernetes secret using a docker *config.json* file.
 2. Mount this new secret as a volume on the function runner.
 3. Provide this secret mount path to the function runner using the argument `--registry-auth-secret-path`
 
- A quick way to generate this secret for your use using your docker `config.json` would be to run the following.
+ A quick way to generate this secret for your use using your docker *config.json* would be to run the following.
 
 ```bash
 kubectl create secret generic <SECRET_NAME> --from-file=.dockerconfigjson=/path/to/your/config.json --type=kubernetes.io/dockerconfigjson --dry-run=client -o yaml -n porch-system
@@ -19,7 +19,7 @@ kubectl create secret generic <SECRET_NAME> --from-file=.dockerconfigjson=/path/
 
 Note This secret should be in the same namespace as the function runner deployment which by default is the *porch-system* namespace.
 
-This should generate a secret template similar to the one below which you can add to the `2-function-runner.yaml` file present on the Porch deployment found [here](https://github.com/nephio-project/catalog/tree/main/nephio/core/porch)
+This should generate a secret template similar to the one below which you can add to the *2-function-runner.yaml* file present on the Porch deployment found [here](https://github.com/nephio-project/catalog/tree/main/nephio/core/porch)
 
 ```yaml
 apiVersion: v1
@@ -33,7 +33,7 @@ metadata:
 type: kubernetes.io/dockerconfigjson
 ```
 
-Next you must mount the secret as a volume on the function runner in the `2-function-runner.yaml` as follows
+Next you must mount the secret as a volume on the function runner in the *2-function-runner.yaml* as follows
 
 ```yaml
     volumeMounts:
