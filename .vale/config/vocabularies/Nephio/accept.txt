@@ -1,5 +1,6 @@
 # Accepted words (other acronyms must be explained)
 Ansible
+Anthos
 API
 APIs
 apiserver
@@ -12,7 +13,9 @@ cabundle
 CLI
 CRD
 CRDs
+Crossplane
 Dockerfile
+envtest
 [Ee]tcd
 gcloud
 Gitea
@@ -28,6 +31,7 @@ kubeadm
 kubectl
 kubelet
 Kubernetes
+Kustomize
 Libvirt
 [Nn]amespace
 Nephio
@@ -50,17 +54,23 @@ passwordless
 [Pp]kgserver
 [Pp]orch
 [Pp]orchctl
+Postgres
 [Rr]pkg
+rootsync
+starlark
 stdout
 stderr
-sudo
+[Ss]udo
 TLS
 [Tt]riage
 [Tt]ko
 [Tt]oolchain
+URIs
 [Uu]ntar
 vCPU
 VirtualBox
+VLAN
+VLANs
 VM
 VMs
 VS Code

@@ -7,10 +7,10 @@ weight: 7
 ---
 
 
-When used with the Web UI running in a GKE cluster, the users authorization roles will be automatically synchronized
+When used with the WebUI running in a GKE cluster, the users authorization roles will be automatically synchronized
 based upon their IAM roles in GCP.
 
-If you are not exposing the webui on a load balancer IP address, but are instead using `kubectl port-forward`, you
+If you are not exposing the WebUI on a load balancer IP address, but are instead using `kubectl port-forward`, you
 should use `http`, `localhost` and `7007` for the `SCHEME`, `HOSTNAME` and `PORT`; otherwise, use the scheme, DNS name
 and port as it will be seen by your browser. You can leave the port off if it is 443 for HTTPS or 80 for HTTP.
 
@@ -49,7 +49,7 @@ kubectl create secret generic -n nephio-webui nephio-google-oauth-client --from-
 
 ## Enable Google OAuth
 
-The webui package has a function that will configure the package for authentication with different services. Edit the
+The WebUI package has a function that will configure the package for authentication with different services. Edit the
 `set-auth.yaml` file to set the `authProvider` field to `google` or run this command:
 
 ```bash
@@ -57,7 +57,7 @@ kpt fn eval nephio-webui --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-nam
 ```
 ## Enable OIDC with Google
 
-The webui package has a function that will configure the package for authentication with different services. Edit the
+The WebUI package has a function that will configure the package for authentication with different services. Edit the
 `set-auth.yaml` file to set the `authProvider` field to `oidc` and the `oidcTokenProvider` to `google`, or run these
 commands:
 

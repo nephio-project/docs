@@ -6,7 +6,8 @@ weight: 7
 ---
 
 ## Prerequisites
-* Cluster Management (master)
+
+* Cluster Management (controller)
   * 4 vCPU
   * 8 GB RAM
   * Kubernetes version 1.26+
@@ -46,14 +47,14 @@ kpt live apply configsync --reconcile-timeout=15m --output=table
 
 ### Create Git Repository
 
-Create a repository for your cluster either in your git provider or in gitea. 
+Create a repository for your cluster either in your git provider or in Gitea. 
 
 If you want to use GitHub or GitLab then follow below steps
 
 Get a [GitHub token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#fine-grained-personal-access-tokens) if your repository is private,
 to allow Porch to make modifications.
 
-Register the edge repository using kpt cli or nephio web-ui.
+Register the edge repository using kpt CLI or Nephio WebUI.
 
 ```bash
 GITHUB_USERNAME=<Github Username>
@@ -81,7 +82,7 @@ kpt live apply <cluster-name> --reconcile-timeout=15m --output=table
 {{% alert title="Note" color="primary" %}} 
 
 * For management cluster you have to name the repository as `mgmt`.
-* In the `repository` package by default gitea address is `172.18.0.200:3000` in `repository/set-values.yaml` 
+* In the `repository` package by default Gitea address is `172.18.0.200:3000` in `repository/set-values.yaml` 
 change this to your git address.
 * `repository/token-configsync.yaml` and `repository/token-porch.yaml` are responsible for creating secrets with the help of Nephio token controller for accessing git instance for root-sync. You would need the name of config-sync token to provide it to root-sync.
 
