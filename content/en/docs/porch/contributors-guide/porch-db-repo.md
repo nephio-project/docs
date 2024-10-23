@@ -24,7 +24,7 @@ Follow the steps in [Setting up a local environment](environment-setup.md) guide
 Postgres is configured to store its data on an external mount at `/tmp/porch/postgres`. Clear old Postgresql data if it already exists:
 
 ```
-rm -f /tmp/porch/postgresql/*
+rm -fr /tmp/porch/postgresql/*
 ```
 
 From the root of Porch run the command:
