@@ -121,7 +121,7 @@ repositories:
   - the *spec.description* field gets the value of *<local-pkg-name> repository*
 2. In the file *repo-porch.yaml*
   - the *metadata.name* field gets the value of *<local-pkg-name>*
-  - the *spec.git.repo* field gets the value of *`"http://172.18.0.200:3000/nephio/<local-pkg-name>.git*
+  - the *spec.git.repo* field gets the value of *http://172.18.0.200:3000/nephio/<local-pkg-name>.git*
   - the *spec.git.secretRef.name* field gets the value of *<local-pkg-name>-access-token-porch*
   - if the *<local-pkg-name>* is called *mgmt-staging*, then the following extra changes are made:
     - the *spec.deployment* field is set to *false* (it defaults to *true*)
@@ -139,7 +139,7 @@ in the *set-values.yaml* file. It makes the following transformations on reposit
 
 1. In the file *rootsync.yaml*
   - the *metadata.name* field gets the value of *<local-pkg-name>*
-  - the *spec.git.repo* field gets the value of *"http://172.18.0.200:3000/nephio/<local-pkg-name>.git*
+  - the *spec.git.repo* field gets the value of *http://172.18.0.200:3000/nephio/<local-pkg-name>.git*
   - the *spec.git.secretRef.name* field gets the value of *<local-pkg-name>-access-token-configsync*
 
 ### kpt live init

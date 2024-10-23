@@ -9,6 +9,7 @@ ASNs
 [Aa]utoscaling
 cabundle
 [Cc]onfigmap
+Codegen
 [Cc]loudified
 CLI
 CRD
@@ -57,6 +58,7 @@ passwordless
 Postgres
 [Rr]pkg
 rootsync
+SDK
 starlark
 stdout
 stderr
