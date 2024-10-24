@@ -62,7 +62,7 @@ kubectl get repositories
 
 The output is similar to:
 
-```console
+```bash
 NAME                        TYPE   CONTENT   DEPLOYMENT   READY   ADDRESS
 catalog-distros-sandbox     git    Package   false        True    https://github.com/nephio-project/catalog.git
 catalog-infra-capi          git    Package   false        True    https://github.com/nephio-project/catalog.git
@@ -86,14 +86,16 @@ kubectl apply -f test-infra/e2e/tests/oai/001-infra.yaml
 
 The output is similar to:
 
-```console
+```bash
 packagevariant.config.porch.kpt.dev/oai-core-clusters-mgmt-core created
 packagevariantset.config.porch.kpt.dev/oai-regional-clusters created
 packagevariantset.config.porch.kpt.dev/oai-edge-clusters created
 ```
 
 
-It will take around 15 mins to create the three clusters. You can check the progress by looking at commits made in gitea `mgmt` and `mgmt-staging` repository. After couple of minutes you should see three independent repositories (Core, Regional and Edge) for each workload cluster.
+It will take around 15 minutess to create the three clusters. You can check the progress by looking at commits made in
+Gitea `mgmt` and `mgmt-staging` repository. After couple of minutes you should see three independent repositories (Core,
+Regional and Edge) for each workload cluster.
 
 You can also look at the state of `packagerevisions` for the three packages. You can use the below command
 
@@ -117,7 +119,7 @@ kubectl get clusters.cluster.x-k8s.io
 
 The output is similar to:
 
-```console
+```bash
 NAME       CLUSTERCLASS   PHASE         AGE   VERSION
 core       docker         Provisioned   34m   v1.26.3
 edge       docker         Provisioned   34m   v1.26.3
@@ -145,7 +147,7 @@ kubectl get ns --context core-admin@core
 
 The output is similar to:
 
-```console
+```bash
 NAME                           STATUS   AGE
 config-management-monitoring   Active   33m
 config-management-system       Active   33m
@@ -168,7 +170,7 @@ kubectl get machinesets
 
 The output is similar to:
 
-```console
+```bash
 NAME                        CLUSTER    REPLICAS   READY   AVAILABLE   AGE     VERSION
 core-md-0-fwksw-fqmq7       core       1          1       1           2m28s   v1.26.3
 edge-md-0-2z48t-bktd2       edge       1          1       1           2m28s   v1.26.3
@@ -176,7 +178,8 @@ regional-md-0-mwnzd-4kl4h   regional   1          1       1           2m28s   v1
 ```
 
 
-Once all the clusters are ready, it is necessary to connect them. For now you are using the [containerlab tool](https://containerlab.dev/). Eventually, the inter-cluster networking will be automated as well.
+Once all the clusters are ready, it is necessary to connect them. For now you are using the
+[Containerlab tool](https://containerlab.dev/). Eventually, the inter-cluster networking will be automated as well.
 
 ```bash
 export E2EDIR=${E2EDIR:-$HOME/test-infra/e2e}
@@ -188,7 +191,7 @@ export TESTDIR=${TESTDIR:-$HOME/test-infra/e2e/tests/oai}
 
 The output is similar to:
 
-```console
+```bash
 {"workers":["core-md-0-q9mxp-mstdp-6mtvg","edge-md-0-v44mh-pbs9k-t9dq9","regional-md-0-hm5n8-wts7m-5wttp"]}
 INFO[0000] Containerlab v0.42.0 started                 
 INFO[0000] Parsing & checking topology file: clab-topo.gotmpl 
@@ -234,7 +237,7 @@ kubectl apply -f test-infra/e2e/tests/oai/001-network.yaml
 
 The output is similar to:
 
-```console
+```bash
 packagevariant.config.porch.kpt.dev/network created
 ```
 
@@ -248,7 +251,7 @@ kubectl apply -f test-infra/e2e/tests/oai/001-secret.yaml
 
 The output is similar to:
 
-```console
+```bash
 secret/srl.nokia.com created
 ```
 
@@ -262,7 +265,7 @@ The predefined PackageVariant package defines certain resources that exist for t
 
 The output is similar to:
 
-```console
+```bash
 rawtopology.topo.nephio.org/nephio created
 ```
 
@@ -273,9 +276,9 @@ It might take a couple of seconds for the networks to come up. To list the netwo
 kubectl get networks.infra.nephio.org
 ```
 
-Wait for the the output to be similar as below:
+Wait for the output to be similar as below:
 
-```console
+```bash
 NAME           READY
 vpc-cu-e1      True
 vpc-cudu-f1    True
@@ -285,7 +288,8 @@ vpc-ran        True
 ```
 
 
-After the networks are successfully configured lets configure metallb ip-address pool for each workload cluster. Some workloads in the workload cluster require metallb to expose their services.
+After the networks are successfully configured lets configure MetalLB ip-address pool for each workload cluster. Some
+workloads in the workload cluster require MetalLB to expose their services.
 
 
 ```bash
@@ -295,7 +299,7 @@ After the networks are successfully configured lets configure metallb ip-address
 <details>
 <summary>The output is similar to:</summary>
 
-```console
+```bash
 12:47:00 - INFO: looking for packagerev default/mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b using /home/ubuntu/.kube/config
 12:47:00 - INFO: found packagerev default/mgmt-staging-7ad404ab9e0e02af747501c6ce9c2c183d02694b using /home/ubuntu/.kube/config
 [RUNNING] "gcr.io/kpt-fn/search-replace:v0.2"
@@ -345,7 +349,7 @@ kubectl apply -f test-infra/e2e/tests/oai/002-operators.yaml
 
 The output is similar to:
 
-```console
+```bash
 packagevariantset.config.porch.kpt.dev/oai-common created
 packagevariant.config.porch.kpt.dev/oai-cp-operators created
 packagevariant.config.porch.kpt.dev/oai-up-operators created
@@ -365,7 +369,7 @@ kubectl get ns --context core-admin@core
 
 The output is similar to:
 
-```console
+```bash
 kubectl get ns --context core-admin@core
 NAME                           STATUS   AGE
 config-management-monitoring   Active   89m
@@ -391,7 +395,7 @@ kubectl get pods -n oai-core --context core-admin@core
 
 The output is similar to:
 
-```console
+```bash
 NAME                     READY   STATUS    RESTARTS   AGE
 mysql-7dd4cc6945-lqwcv   1/1     Running   0          7m12s
 ```
@@ -406,7 +410,7 @@ kubectl get pods -n oai-cn-operators --context core-admin@core
 
 The output is similar to:
 
-```console
+```bash
 NAME                                 READY   STATUS    RESTARTS   AGE
 oai-amf-operator-7cfcfdcf8f-m5b4h    1/1     Running   0          11m
 oai-ausf-operator-746b56b745-zdfmc   1/1     Running   0          11m
@@ -426,7 +430,7 @@ kubectl get ns --context regional-admin@regional
 
 The output is similar to:
 
-```console
+```bash
 NAME                           STATUS   AGE
 config-management-monitoring   Active   98m
 config-management-system       Active   98m
@@ -448,7 +452,7 @@ kubectl get ns --context edge-admin@edge
 
 The output is similar to:
 
-```console
+```bash
 NAME                           STATUS   AGE
 config-management-monitoring   Active   98m
 config-management-system       Active   98m
@@ -473,7 +477,7 @@ kubectl get pods -n oai-cn-operators --context edge-admin@edge
 
 The output is similar to:
 
-```console
+```bash
 NAME                                READY   STATUS    RESTARTS   AGE
 oai-upf-operator-75cbc869cb-67lf9   1/1     Running   0          16m
 ```
@@ -490,7 +494,7 @@ kubectl create -f test-infra/e2e/tests/oai/003-core-network.yaml
 
 The output is similar to:
 
-```console
+```bash
 packagevariant.config.porch.kpt.dev/oai-nrf created
 packagevariant.config.porch.kpt.dev/oai-udm created
 packagevariant.config.porch.kpt.dev/oai-ausf created
@@ -501,7 +505,7 @@ packagevariant.config.porch.kpt.dev/oai-upf-edge created
 ```
 
 
-All the NFs will wait for NRF to come up and then they will register to NRF. SMF has a dependency on UPF which is described by `dependency.yaml` file in SMF package. It will wait till the time UPF is deployed. It takes around ~800 seconds for the whole core network to come up. NRF is exposing its service via metallb external ip-address. In case metallb ip-address pool is not properly defined in the previous section, then UPF will not be able to register to NRF and in this case SMF and UPF will not be able to communicate. 
+All the NFs will wait for NRF to come up and then they will register to NRF. SMF has a dependency on UPF which is described by `dependency.yaml` file in SMF package. It will wait till the time UPF is deployed. It takes around ~800 seconds for the whole core network to come up. NRF is exposing its service via MetalLB external ip-address. In case MetalLB ip-address pool is not properly defined in the previous section, then UPF will not be able to register to NRF and in this case SMF and UPF will not be able to communicate. 
 
 ### Check Core Network Deployment
 
@@ -514,7 +518,7 @@ kubectl get pods -n oai-core --context core-admin@core
 
 The output is similar to:
 
-```console
+```bash
 NAME                        READY   STATUS    RESTARTS   AGE
 amf-core-84b5cf67c7-7lzs5   1/1     Running   0          42m
 ausf-core-7885cb865-pw525   1/1     Running   0          52m
@@ -535,7 +539,7 @@ kubectl get pods -n oai-core --context edge-admin@edge
 
 The output is similar to:
 
-```console
+```bash
 NAME                        READY   STATUS    RESTARTS   AGE
 upf-edge-55ccb4f9d7-868k6   1/1     Running   0          30m
 ```
@@ -551,7 +555,7 @@ kubectl logs -n oai-core --context=edge-admin@edge -l workload.nephio.org/oai=up
 
 The output is similar to:
 
-```console
+```bash
 * Connection state changed (HTTP/2 confirmed)
 * Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
 * Using Stream ID: 1 (easy handle 0x622000382900)
@@ -586,7 +590,7 @@ kubectl create -f test-infra/e2e/tests/oai/004-ran-network.yaml
 
 The output is similar to:
 
-```console
+```bash
 packagevariant.config.porch.kpt.dev/oai-cucp created
 packagevariant.config.porch.kpt.dev/oai-du created
 packagevariant.config.porch.kpt.dev/oai-cuup created
@@ -605,7 +609,7 @@ kubectl get pods -n oai-ran-cucp --context regional-admin@regional
 
 The output is similar to:
 
-```console
+```bash
 NAME                             READY   STATUS    RESTARTS   AGE
 oai-gnb-cu-cp-588f76c5f9-9fp54   1/1     Running   0          10m
 ```
@@ -617,7 +621,7 @@ kubectl get pods -n oai-ran-cuup --context edge-admin@edge
 
 The output is similar to:
 
-```console
+```bash
 NAME                             READY   STATUS    RESTARTS   AGE
 oai-gnb-cu-up-75475f949b-j6chc   1/1     Running   0          9m
 ```
@@ -629,7 +633,7 @@ kubectl get pods -n oai-ran-du --context edge-admin@edge
 
 The output is similar to:
 
-```console
+```bash
 NAME                          READY   STATUS    RESTARTS   AGE
 oai-gnb-du-6cb4cc5fcd-zvlrq   1/1     Running   0          9m
 ```
@@ -646,7 +650,7 @@ kubectl logs -n oai-ran-cucp --context=regional-admin@regional -l app.kubernetes
 
 The output is similar to:
 
-```console
+```bash
 7792.449954 [NR_RRC] I Accepting new CU-UP ID 3584 name oai-cu-up (assoc_id 8)
 ```
 
@@ -659,7 +663,7 @@ kubectl logs -n oai-ran-cucp --context=regional-admin@regional -l app.kubernetes
 
 The output is similar to:
 
-```console
+```bash
 7424.185965 [RRC] I DU uses RRC version 17.3.0
 ```
 
@@ -673,7 +677,7 @@ kubectl logs -n oai-ran-cucp --context=regional-admin@regional -l app.kubernetes
 
 The output is similar to:
 
-```console
+```bash
 9496.571150 [GNB_APP] I [gNB 0] Received NGAP_REGISTER_GNB_CNF: associated AMF 1
 ```
 
@@ -687,7 +691,7 @@ kubectl create -f test-infra/e2e/tests/oai/005-ue.yaml
 
 The output is similar to:
 
-```console
+```bash
 packagevariant.config.porch.kpt.dev/oai-ue created
 ```
 
@@ -699,7 +703,7 @@ kubectl get pods -n oai-ue --context edge-admin@edge
 
 The output is similar to:
 
-```console
+```bash
 NAME                         READY   STATUS    RESTARTS   AGE
 oai-nr-ue-78846cf68c-rxkkz   1/1     Running   0          32m
 ```
@@ -716,7 +720,7 @@ kubectl logs -n oai-ue $UE_POD -c nr-ue --context edge-admin@edge | grep "Interf
 
 The output is similar to:
 
-```console
+```bash
 24908.869517 [NAS] I [UE] Received REGISTRATION ACCEPT message
 24910.122107 [OIP] I Interface oaitun_ue1 successfully configured, ip address 10.2.0.2, mask 255.255.255.0 broadcast address 10.2.0.255
 ```
@@ -736,7 +740,7 @@ kubectl exec -it $UE_POD -n oai-ue --context edge-admin@edge -- ping -I oaitun_u
 
 The output is similar to:
 
-```console
+```bash
 PING 10.2.0.1 (10.2.0.1) from 10.2.0.2 oaitun_ue1: 56(84) bytes of data.
 64 bytes from 10.2.0.1: icmp_seq=1 ttl=64 time=10.9 ms
 64 bytes from 10.2.0.1: icmp_seq=2 ttl=64 time=12.1 ms
@@ -748,4 +752,4 @@ rtt min/avg/max/mdev = 10.869/11.435/12.093/0.503 ms
 ```
 
 
-For now the extra interfaces which are created using inter-connectivity script does not perform natting to have internet access.
+For now the extra interfaces which are created using inter-connectivity script does not perform NAT to have internet access.
