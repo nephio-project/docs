@@ -32,3 +32,4 @@ jobs:
           fail_on_error: false
           filter_mode: nofilter
           token: ${{secrets.VALE_GITHUB_TOKEN}}
+          continue-on-error: true
