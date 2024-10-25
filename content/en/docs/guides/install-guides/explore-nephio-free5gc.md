@@ -33,7 +33,7 @@ tasks such as
 ## The structure of the repository
 
 1. [Operator](https://github.com/nephio-project/free5gc/tree/main/free5gc-operator)
- * Binding metrics and hcheck ports
+ * Binding metrics and check the health of ports
  * Registering UPF SMF AMF deployments
  * Reconciler and Setup (Creating Controllers)
 
