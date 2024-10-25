@@ -7,7 +7,8 @@ The documentation is served from [docs.nephio.org](https://docs.nephio.org/) and
 
 ## Status of the documentation
 
-In R2 release, a Hugo / Docsy based documentation site was introduced for the Nephio documentation. Hugo / Docsy uses the Markdown files hosted in the Github repo to generate the documentation website. We are still working on the restructuring the content and finalizing the look and feel of the website.
+In R2 release, a Hugo / Docsy based documentation site was introduced for the Nephio documentation. Hugo / Docsy uses
+the Markdown files hosted in the GitHub repo to generate the documentation website.
 
 ## How to contribute to the documentation
 

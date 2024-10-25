@@ -14,10 +14,10 @@ are used by Kubernetes to enforce the desired state of a Custom Resource (CR).
 
 The Nephio Controller deploys multiple reconcilers and also supports pluggable reconcilers. To plug into the Nephio
 controller, a reconciler must implement the
-[nephio reconcilerinterface](https://github.com/nephio-project/nephio/tree/main/controllers/pkg/reconcilers/reconciler-interface).
+[Nephio reconciler interface](https://github.com/nephio-project/nephio/tree/main/controllers/pkg/reconcilers/reconciler-interface).
 Reconcilers register with the Nephio reconciler interface when they start up.
 
-The reconcilers below are currently deployed by default in the nephio controller:
+The reconcilers below are currently deployed by default in the Nephio controller:
 
 ```bash
 ./controllers/pkg/reconcilers/token/reconciler.go
@@ -33,12 +33,10 @@ The reconcilers below are currently deployed by default in the nephio controller
 
 ## Enabling Reconcilers
 
-To enable a particular reconciler, you pass an environment variable to the
-Nephio Controller at startup. The environment variable is of the form
-`ENABLE_<RECONCILER>` where `<RECONCILER>` is the name of the reconciler to
-be enabled in upper case. Therefore, to enable the `bootstrap-packages` reconciler,
-pass the `ENABLE_BOOTSTRAPPACKAGES` to the nephio controller. Reconcilers are
-disabled by default.
+To enable a particular reconciler, you pass an environment variable to the Nephio Controller at startup. The environment
+variable is of the form `ENABLE_<RECONCILER>` where `<RECONCILER>` is the name of the reconciler to be enabled in upper
+case. Therefore, to enable the `bootstrap-packages` reconciler, pass the `ENABLE_BOOTSTRAPPACKAGES` to the Nephio
+controller. Reconcilers are disabled by default.
 
 
 You can see what reconcilers are enabled on the Nephio Controller using

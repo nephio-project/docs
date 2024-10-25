@@ -5,7 +5,7 @@ description: >
 weight: 7
 ---
 
-If you are not exposing the webui on a load balancer IP address, but are instead using `kubectl port-forward`, you
+If you are not exposing the WebUI on a load balancer IP address, but are instead using `kubectl port-forward`, you
 should use `localhost` and `7007` for the `HOSTNAME` and `PORT`; otherwise, use the DNS name and port as it will be seen
 by your browser.
 
@@ -26,8 +26,8 @@ documentation:
 
    - App integration name: Nephio Web UI (or any other name you wish)
    - Grant type: Authorization Code & Refresh Token
-   - Sign-in redirect URIs: http://HOSTNAME:PORT/api/auth/okta/handler/frame
-   - Sign-out redirect URIs: http://HOSTNAME:PORT
+   - Sign-in redirect URIs: *http://HOSTNAME:PORT/api/auth/okta/handler/frame*
+   - Sign-out redirect URIs: *http://HOSTNAME:PORT*
    - Controlled access: (select as appropriate)
    - Click Save
 
@@ -38,13 +38,13 @@ container environment.
 
 In the secret, use these keys:
 
-| Key            | Description                                                 |
-| -------------- | ----------------------------------------------------------- |
-| client-id      | The client ID that you generated on Okta, e.g. 3abe134ejxzF21HU74c1 |
-| client-secret  | The client secret shown for the Application.                |
-| audience       | The Okta domain shown for the Application, e.g. https://www.okta.com/company/ |
-| auth-server-id | The authorization server ID for the Application (optional)  |
-| idp            | The identity provider for the application, e.g. 0oaulob4BFVa4zQvt0g3 (optional) |
+| Key              | Description                                                                     |
+| ---------------- | ------------------------------------------------------------------------------- |
+| *client-id*      | The client ID that you generated on Okta, e.g. 3abe134ejxzF21HU74c1             |
+| *client-secret*  | The client secret shown for the Application.                                    |
+| *audience*       | The Okta domain shown for the Application, e.g. *https://www.okta.com/company/* |
+| *auth-server-id* | The authorization server ID for the Application (optional)                      |
+| *idp*            | The identity provider for the application, e.g. 0oaulob4BFVa4zQvt0g3 (optional) |
 
 This can be done via a secrets manager or by manually provision the secret (replacing the placeholders here):
 
@@ -60,7 +60,7 @@ kubectl create secret generic -n nephio-webui nephio-okta-oauth-client \
 
 ## Enable the WebUI Auth Provider
 
-The webui package has a function that will configure the package for authentication with different services. Edit the
+The WebUI package has a function that will configure the package for authentication with different services. Edit the
 `set-auth.yaml` file to set the `authProvider` field to `oidc` and the `oidcTokenProvider` to `okta`, or run these
 commands:
 

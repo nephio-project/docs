@@ -11,6 +11,7 @@ ignorePatterns:
   - pattern: "^http://localhost.*$"
   - pattern: "^http://HOSTNAME:PORT.*$"
   - pattern: "172\\.18\\.255\\.200"
+  - pattern: "172\\.18\\.0\\.200"
 replacementPatterns:
   - pattern: ".md#.*$"
     replacement: ".md"

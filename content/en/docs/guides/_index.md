@@ -5,7 +5,7 @@ weight: 2
 ---
 
 {{% pageinfo %}}
-This page is draft and the separation of the content to different categories is not clearly done. 
+This page is draft and the separation of the content to different categories is not done. 
 {{% /pageinfo %}}
 
 

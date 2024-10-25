@@ -104,15 +104,15 @@ The following base components are installed on the Management cluster. Base comp
 that are needed for the Nephio sandbox, which Nephio uses out of the box. In real world installations, alternative
 components that provide the same functionality may be used.
 
-| Component    | Purpose                                                            |
-| ------------ | -------------------------------------------------------------------|
-| Metal LB     | Used to load balances requests to the cluster                      |
-| Cert Manager | Used for certificate management                                    |
-| Gitea        | Used to allow creation and management of local git repos by Nephio |
-| Postgres     | Used by Gitea to store repositories                                |
-| Cluster API  | Used to deploy Workload clusters                                   |
-| IPAM         | A reference backend system to allocate and manage IP addresses     |
-| VLAN         | A reference backend system used to allocate and manage VLANs       |
+| Component    | Purpose                                                                   |
+| ------------ | --------------------------------------------------------------------------|
+| Metal LB     | Used to load balances requests to the cluster                             |
+| Cert Manager | Used for certificate management                                           |
+| Gitea        | Used to allow creation and management of local git repositories by Nephio |
+| Postgres     | Used by Gitea to store repositories                                       |
+| Cluster API  | Used to deploy Workload clusters                                          |
+| IPAM         | A reference backend system to allocate and manage IP addresses            |
+| VLAN         | A reference backend system used to allocate and manage VLANs              |
 
 ### Specific Components
 
@@ -120,16 +120,16 @@ The following specific components are installed on the Management cluster. The s
 and components from [Google Container Tools](https://github.com/GoogleContainerTools) that Nephio uses heavily and
 interacts closely with.
 
-| Component          | Purpose                                                                                                                                                      |
-| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Porch              | Google Container Tools Package Orchestration Server, provides an API used by Nephio to work with packages in git repos                                       |
-| ConfigSync         | Google Container Tools Configuration Synchronization, used by Nephio to deploy configurations from repos from the Management cluster onto Workload clusters  |
+| Component          | Purpose                                                                                         |
+| ------------------ | ------------------------------------------------------------------------------------------------|
+| Porch              | Google Container Tools Package Orchestration Server, provides an API used by Nephio to work with packages in git repositries                                       |
+| ConfigSync         | Google Container Tools Configuration Synchronization, used by Nephio to deploy configurations from repositories from the Management cluster onto Workload clusters  |
 | Nephio Controllers | The Nephio controllers, which implement the Nephio functionality to fetch, manipulate, and deploy NFs                                                        |
 | Nephio WebUI       | The Nephio web client                                                                                                                                        |
 
 ## Some Useful Commands
 
-Easily get the kubeconfig for a CAPI KinD cluster:
+Get the kubeconfig for a CAPI KinD cluster:
 
 ```bash
 get_capi_kubeconfig regional

@@ -10,7 +10,7 @@ weight: 5
 The Nephio documentation is built with the .md / Hugo / Docsy / Netlify framework.
 
 * **.md:** The documentation itself is written in Markdown (,md) with some Hugo and Docsy related extensions. The .md
-  files are stored and managed in a Git repo in [nephio-project/docs](https://github.com/nephio-project/docs).
+  files are stored and managed in a Git repository in [nephio-project/docs](https://github.com/nephio-project/docs).
 * **Hugo:** [Hugo](https://gohugo.io/) is used to render the documentation fo static html pages.
 * **Docsy:** [Docsy](https://www.docsy.dev/) is a theme for Hugo what we use to provide the basic structure and look
   and feel of the documentation.

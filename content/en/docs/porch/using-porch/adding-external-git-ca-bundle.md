@@ -6,8 +6,8 @@ description: ""
 ---
 
 To enable the porch server to communicate with a custom git deployment over HTTPS, we must:
-1. Provide a additional args flag `use-git-cabundle=true` to the porch-server deployment.
-2. Provide an additional kubernetes secret containing the relevant certificate chain in the form of a cabundle.
+1. Provide an additional arguments flag `use-git-cabundle=true` to the porch-server deployment.
+2. Provide an additional Kubernetes secret containing the relevant certificate chain in the form of a cabundle.
 
 The secret itself must meet the following criteria:
 
@@ -19,13 +19,13 @@ For example, a Git Repository is hosted over HTTPS at the following URL:
 
 `https://my-gitlab.com/joe.bloggs/blueprints.git`
 
-Before creating the new Repository in the **gitlab** namespace, we must create a secret that fulfils the criteria above.
+Before creating the new Repository in the **GitLab** namespace, we must create a secret that fulfils the criteria above.
 
 `kubectl create secret generic gitlab-ca-bundle --namespace=gitlab --from-file=ca.crt`
 
 Which would produce the following:
 
-```
+```yaml
 apiVersion: v1
 kind: Secret
 metadata:

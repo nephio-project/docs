@@ -28,7 +28,7 @@ To check whether `kubectl` is configured with your Porch cluster (or local insta
 kubectl api-resources | grep porch
 ```
 
-You should see the following four resourceds listed:
+You should see the following four resources listed:
 
 ```bash
 repositories                  config.porch.kpt.dev/v1alpha1          true         Repository
@@ -168,7 +168,7 @@ Therefore, the names of the Kubernetes resources representing package revisions 
 {{% /alert %}}
 
 
-Simple filtering of package revisions by name (substring) and revision (exact match) is supported by the CLI using
+Filtering of package revisions by name (substring) and revision (exact match) is supported by the CLI using
 `--name` and `--revision` flags:
 
 ```bash
@@ -452,8 +452,8 @@ emphasize that Config Sync is the deploying mechanism and that configuration is 
 target as a means of deployment) and include:
 
 * `create` - Creates a sync of a package in the deployment cluster.
-* `del` - Deletes the package RootSync.
-* `get` - Gets a RootSync resource with which package was deployed.
+* `del` - Deletes the package rootsync.
+* `get` - Gets a rootsync resource with which package was deployed.
 
 ```bash
 # Make sure Config Sync is configured to use multirepo mode
@@ -472,7 +472,7 @@ $ kpt alpha sync create -ndefault \
   --package=deployments-11ca1db650fa4bfa33deeb7f488fbdc50cdb3b82 \
   sync-istions-clone
 
-Created RootSync config-management-system/sync-istions-clone
+Created rootsync config-management-system/sync-istions-clone
 
 # Get the status of the sync resource
 $ kpt alpha sync get sync-istions-clone -oyaml

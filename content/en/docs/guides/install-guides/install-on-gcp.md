@@ -10,7 +10,7 @@ In this guide, you will set up Nephio with:
 - **Management Cluster**: GKE Standard with auto scaling enabled
 - **Cluster Provisioner**: Kubernetes Config Connector (KCC), hosted as a managed service via Config Controller (CC).
 - **Workload Clusters**: GKE
-- **Gitops Tool**: Config Sync
+- **GitOps Tool**: Config Sync
 - **Git Provider**: Google Cloud Source Repositories will be the git provider for cluster deployment repositories. Some
   external repositories will be on GitHub.
 - **Web UI Auth**: Google OAuth 2.0
@@ -506,7 +506,7 @@ Project [your-nephio-project-id] repository [config-control] was cloned to [/hom
 
 
 Before you start adding things to that repository, set up Config Sync to pull configurations from there by creating a
-RootSync in Config Controller. There is a package available to help properly configure the RootSync:
+rootsync in Config Controller. There is a package available to help properly configure the rootsync:
 
 ```bash
 kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/distros/gcp/cc-rootsync@main
@@ -583,7 +583,7 @@ Successfully executed 2 function(s) in 1 package(s).
 
 In the sandbox exercises, you may have used `kpt live apply` to apply the package at this point. In this case, there are
 restrictions in Config Controller that interfere with the operation of `kpt live`. So, instead, you can just directly
-apply the RootSync resources with `kubectl`:
+apply the rootsync resources with `kubectl`:
 
 ```bash
 kubectl apply -f cc-rootsync/rootsync.yaml
@@ -687,9 +687,9 @@ kubectl describe rootsync -n config-management-system root-sync
 Name:         root-sync
 Namespace:    config-management-system
 Labels:       <none>
-Annotations:  internal.kpt.dev/upstream-identifier: configsync.gke.io|RootSync|config-management-system|root-sync
+Annotations:  internal.kpt.dev/upstream-identifier: configsync.gke.io|rootsync|config-management-system|root-sync
 API Version:  configsync.gke.io/v1beta1
-Kind:         RootSync
+Kind:         rootsync
 Metadata:
   Creation Timestamp:  2023-09-11T16:31:50Z
   Generation:          1
@@ -888,7 +888,7 @@ Customized package for deployment.
 
 
 Create a local commit, but do not push it to the upstream repository yet. As before, this is just to allow `git diff`
-to easily identify the you make later.
+to identify the changes you make later.
 
 ```bash
 git add nephio-mgmt/
@@ -1226,8 +1226,7 @@ Record addition appended to transaction at [transaction.yaml].
 
 
 
-Execute the transaction to store the record. Depending on your DNS
-configuration, it may take some time to be resolvable.
+Run the transaction to store the record. Depending on your DNS configuration, it may take some time to be resolvable.
 
 ```bash
 gcloud dns record-sets transaction execute --zone=$MANAGED_ZONE
@@ -1253,8 +1252,8 @@ shown below:
 
 ## Some Exercises
 
-As a an exercise to get started, you can create edge clusters by using `kubectl`
-to apply the following following PackageVariantSet to your management cluster:
+As a an exercise to get started, you can create edge clusters by using `kubectl` to apply the following
+PackageVariantSet to your management cluster:
 
 ```yaml
 apiVersion: config.porch.kpt.dev/v1alpha2

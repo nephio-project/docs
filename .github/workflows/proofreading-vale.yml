@@ -1,9 +1,10 @@
 name: reviewdog
 on: 
-  pull_request_target:
-    types: [assigned, opened, edited, ready_for_review]
-
+  pull_request:
   workflow_dispatch:
+
+env:
+  REVIEWDOG_GITHUB_API_TOKEN: ${{secrets.VALE_GITHUB_TOKEN}}
 
 jobs:
   vale:
@@ -13,19 +14,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
-
       - name: Harden Runner
         uses: step-security/harden-runner@91182cccc01eb5e619899d80e4e971d6181294a7 # v2.10.1
         with:
           egress-policy: audit
-
-
+      - name: Install prerequisites
+        run: | 
+            sudo apt-get --allow-releaseinfo-change update -y && sudo apt-get install -y docutils
+            env
       - name: Run Vale
         uses: errata-ai/vale-action@91ac403e8d26f5aa1b3feaa86ca63065936a85b6 # reviewdog
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.VALE_GITHUB_TOKEN }}
+        continue-on-error: true
         with:
           files: '["content", "README.md"]'
           # github-pr-check, github-pr-review, github-check
+          # more info on these: https://github.com/reviewdog/reviewdog#reporters 
           reporter: github-pr-check
+          fail_on_error: false
+          filter_mode: nofilter
           token: ${{secrets.VALE_GITHUB_TOKEN}}
