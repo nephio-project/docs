@@ -73,7 +73,7 @@ At the high level, the Core CaD functionality comprises:
   * package repository management
   * package discovery, authoring and lifecycle management
 
-* [kpt][] - a Git-native, schema-aware, extensible client-side tool for managing KRM packages
+* [kpt][] - a Git-native, schema-aware, extendable client-side tool for managing KRM packages
 * a GitOps-based deployment mechanism (for example [Config Sync][]), which distributes and deploys configuration, and
   provides observability of the status of deployed resources
 * a task-specific UI supporting repository management, package discovery, authoring, and lifecycle
@@ -401,8 +401,7 @@ Orchestration service.
 
 ## User Guide
 
-Find the Porch User Guide in a dedicated
-[document](https://github.com/kptdev/kpt/blob/main/site/guides/porch-user-guide.md).
+Find the Porch User Guide in a dedicated [document](using-porch/usage-porch-kpt-cli).
 
 ## Open Issues/Questions
 

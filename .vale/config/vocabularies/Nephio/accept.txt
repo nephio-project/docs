@@ -13,6 +13,9 @@ Codegen
 [Cc]loudified
 Containerlab
 CLI
+CR
+CRs
+CRs
 CRD
 CRDs
 Crossplane
@@ -26,6 +29,9 @@ GitHub
 GitLab
 GitOps
 Graphviz
+GRPC
+GVK
+GVKs
 [Hh]ostname
 [Hh]omebrew
 html
@@ -38,6 +44,7 @@ kubelet
 Kubernetes
 Kustomize
 Libvirt
+MacBook
 MetalLB
 [Nn]amespace
 Nephio
@@ -50,6 +57,7 @@ NFs
 Multus
 [Mm]ultivendor
 [Mm]ulticloud
+Nginx
 OAuth
 OCI
 [Oo]nboarding
@@ -59,6 +67,7 @@ Okta
 parameterRef
 passwordless
 [Pp]kgserver
+Podman
 [Pp]orch
 [Pp]orchctl
 Postgres
@@ -73,6 +82,9 @@ TLS
 [Tt]riage
 [Tt]ko
 [Tt]oolchain
+UI
+UIs
+URI
 URIs
 [Uu]ntar
 vCPU
@@ -85,6 +97,8 @@ VS Code
 vSphere
 WebUI
 xApps
+YAML
 
 # Nephio contributors mentioned in the docs
-Tal Liron
+Tal
+Liron
