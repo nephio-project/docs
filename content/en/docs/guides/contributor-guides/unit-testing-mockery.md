@@ -10,11 +10,11 @@ This guide will help folks come up to speed on using testify and mockery.
 
 ## How Mockery works
 
-The [mockery documentation](https://vektra.github.io/mockery/latest/#why-mockery) describes why you would use and how to use Mockery. In a nutshell, Mockery generates mock implementations for interfaces in `go`, which you can then use instead of real implementations when unit testing.
+The [mockery documentation](https://vektra.github.io/mockery/latest/#why-mockery) describes why you would use and how to use Mockery. In a nutshell, Mockery generates mock implementations for interfaces in go, which you can then use instead of real implementations when unit testing.
 
 ## Mockery support in Nephio `make`
 
-The `make` files in Nephio repos containing `go` code have targets to support mockery.
+The `make` files in Nephio repos containing go code have targets to support mockery.
 
 The [default-mockery.mk](https://github.com/nephio-project/nephio/blob/main/default-mockery.mk) file in the root of Nephio repos is included in Nephio `make` runs.
 
@@ -27,13 +27,13 @@ The targets above must be run explicitly.
 
 Run `make install-mockery` to install mockery in your container runtime (docker, podman etc) or locally if you have no container runtime running. You need only run this target once unless you need to reinstall Mockery for whatever reason.
 
-Run `make generate-mocks` to generate the mocked implementation of the go interfaces specified in '.mockery.yaml' files. You need to run this target each time an interface that you are mocking changes or whenever you change the contents of a `.mockery.yaml` file. You can run `make generate-mocks` in the repo root to generate or re-generate all interfaces or in subdirectories containing a `Makefile` to generate or regenerate only the interfaces in that subdirectory and its children.
+Run `make generate-mocks` to generate the mocked implementation of the go interfaces specified in *.mockery.yaml* files. You need to run this target each time an interface that you are mocking changes or whenever you change the contents of a *.mockery.yaml* file. You can run `make generate-mocks` in the repo root to generate or re-generate all interfaces or in subdirectories containing a Makefile to generate or regenerate only the interfaces in that subdirectory and its children.
 
-The generate-mocks target looks for `.mockery.yaml` files in the repo and it runs the mockery mock generator on each `.mockery.yaml` file it finds. This has the nice effect of allowing `.mockery.yaml` files to be in either the root of the repo or in subdirectories, so the choice of placement of `.mockery.yaml` files is left to the developer.
+The generate-mocks target looks for *.mockery.yaml`* files in the repo and it runs the mockery mock generator on each *.mockery.yaml* file it finds. This has the nice effect of allowing *.mockery.yaml* files to be in either the root of the repo or in subdirectories, so the choice of placement of *.mockery.yaml* files is left to the developer.
 
 ## The .mockery.yaml file
 
-The `.mockery.yaml` file specifies which mock implementations Mockery should generate and also controls how that generation is performed. Here we just give an overview of `mockery.yaml`. For full details consult the [configuration](https://github.com/vektra/mockery/blob/master/docs/configuration.md) section of the Mockery documentation.
+The *.mockery.yaml* file specifies which mock implementations Mockery should generate and also controls how that generation is performed. Here we just give an overview of *mockery.yaml*. For full details consult the [configuration](https://github.com/vektra/mockery/blob/master/docs/configuration.md) section of the Mockery documentation.
 
 ### Example 1
 
@@ -53,7 +53,7 @@ We provide a list of the packages for which we want to generate mocks. In this e
 6.          dir: "{{.InterfaceDir}}"
 ```
 
-We want mocks to be generated for the `GiteaClient` go interface (line 4). The `{{.InterfaceDir}}` parameter (line 6) asks Mockery to generate the mock file in the same directory as the interface is located.
+We want mocks to be generated for the GiteaClien go interface (line 4). The {{.InterfaceDir}} parameter (line 6) asks Mockery to generate the mock file in the same directory as the interface is located.
 
 ### Example 2
 
@@ -80,14 +80,14 @@ Lines 2 to 7 are as explained in Example 1 above.
 8.  sigs.k8s.io/controller-runtime/pkg/client:
 ```
 
-Generate mocks for the external package `sigs.k8s.io/controller-runtime/pkg/client`.
+Generate mocks for the external package *sigs.k8s.io/controller-runtime/pkg/client*.
 
 ```
  9.    interfaces:
 10.      Client:
 ```
 
-Generate a mock implementation of the go interface `Client` in the external package `sigs.k8s.io/controller-runtime/pkg/client`.
+Generate a mock implementation of the go interface Client in the external package *sigs.k8s.io/controller-runtime/pkg/client*.
 
 ```
 11.        config:
@@ -95,7 +95,7 @@ Generate a mock implementation of the go interface `Client` in the external pack
 13.          outpkg: "mocks"
 ```
 
-Create the mocks for the `Client` interface in the `mocks/external/client` directory and cal the output package `mocks`.
+Create the mocks for the Client interface in the *mocks/external/client* directory and cal the output package *mocks*.
 
 ## The generated mock implementation
 
@@ -107,7 +107,7 @@ We can treat this generated file as a black box and we do not have to know the d
 
 The [mockery utils](https://github.com/nephio-project/nephio/tree/main/testing/mockeryutils) package is a utility package that you can use to initialize your mocks and to define some common fields for your tests.
 
-[mockeryutils-types.go](https://github.com/nephio-project/nephio/blob/main/testing/mockeryutils/mockeryutils-types.go) contains the `MockHelper` struct, which allows you to control the behaviour of a mock.
+[mockeryutils-types.go](https://github.com/nephio-project/nephio/blob/main/testing/mockeryutils/mockeryutils-types.go) contains the MockHelper struct, which allows you to control the behaviour of a mock.
 
 ```
 type MockHelper struct {
@@ -117,15 +117,15 @@ type MockHelper struct {
 }
 ```
 
-The `MockHelper` struct is used to configure a mocked method to expect and return a certain set of arguments. We pass instances of this struct to the mocked interface during tests.
+The MockHelper struct is used to configure a mocked method to expect and return a certain set of arguments. We pass instances of this struct to the mocked interface during tests.
 
-[mockeryutils.go](https://github.com/nephio-project/nephio/blob/main/testing/mockeryutils/mockeryutils-types.go) contains the `InitMocks` function, which initializes your mocks for you before a test.
+[mockeryutils.go](https://github.com/nephio-project/nephio/blob/main/testing/mockeryutils/mockeryutils-types.go) contains the InitMocks function, which initializes your mocks for you before a test.
 
 ```
 func InitMocks(mocked *mock.Mock, mocks []MockHelper)
 ```
 
-For the given `mocked` interface, the function initializes the `mocks` as specified in the given `MockHelper` array.
+For the given mocked interface, the function initializes the mocks as specified in the given MockHelper array.
 
 ## Using the mock implementation in unit tests
 
@@ -151,7 +151,7 @@ type repoTest struct {
 	wantErr bool
 }
 ```
-The code above allows us to specify input data and the expected outcome for tests. Each test is specified as an instance of the `repoTest` struct. For each test, we specify its fields and arguments, and specify the mocking for the test.
+The code above allows us to specify input data and the expected outcome for tests. Each test is specified as an instance of the repoTest struct. For each test, we specify its fields and arguments, and specify the mocking for the test.
 
 ```
 func TestUpsertRepo(t *testing.T)
@@ -194,7 +194,7 @@ This is the specification of an array of tests that we will run.
 }
 ```
 
-The code above specifies a single test and is an instance of the `tests` array. We specify the fields, arguments, and mocks for the test. In this case, we mock three functions on our GiteaClient interface: `GetMyUserInfo`, `GetRepo`, and `CreateRepo`. We specify the arguments we expect for each function and specify what the function should return if it receives correct arguments. Of course, if the mocked function receives incorrect arguments, it will report an error. The `wantErr` value indicates if we expect the `upsertRepo` function being tested to succeed or fail.
+The code above specifies a single test and is an instance of the tests array. We specify the fields, arguments, and mocks for the test. In this case, we mock three functions on our GiteaClient interface: GetMyUserInfo, GetRepo, and CreateRepo. We specify the arguments we expect for each function and specify what the function should return if it receives correct arguments. Of course, if the mocked function receives incorrect arguments, it will report an error. The wantErr value indicates if we expect the upsertRepo function being tested to succeed or fail.
 
 ```
 for _, tt := range tests {
@@ -214,7 +214,7 @@ for _, tt := range tests {
 }
 ```
 
-The code above executes the tests. We run a reconciler `r` and initialize our tests using the local `initMockeryTests()` function. We then call the `upsertRepo` function to test it and check the result.
+The code above executes the tests. We run a reconciler `r` and initialize our tests using the local initMockeryTests() function. We then call the upsertRepo function to test it and check the result.
 
 ```
 func initMockeryMocks(tt *repoTest) {
@@ -225,4 +225,4 @@ func initMockeryMocks(tt *repoTest) {
 }
 ```
 
-The `initMockeryMocks` local function calls the `mockeryutils.InitMocks` to initialize the mocks for the tests.
+The initMockeryMocks local function calls the mockeryutils.InitMocks to initialize the mocks for the tests.

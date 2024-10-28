@@ -25,7 +25,7 @@ In this guide, you will set up Nephio with:
 ## Prerequisites
 
 - A Red Hat Account and access to https://console.redhat.com/openshift/
-- OpenShift cli client `oc`. [Download here](https://console.redhat.com/openshift/downloads)
+- OpenShift cli client *oc*. [Download here](https://console.redhat.com/openshift/downloads)
 
 ## Setup the Management Cluster
 
@@ -90,8 +90,8 @@ and the [common components](/content/en/docs/guides/install-guides/common-compon
   ```
 
 - Login
-    - user: gitea
-    - password: password
+    - user: *gitea*
+    - password: *password*
 
 ## Install edge clusters
 

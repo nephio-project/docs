@@ -26,7 +26,7 @@ Then, we can utilize the flux Custom Resources defined in another test kpt packa
 
 Access the Nephio Web UI and execute the following:
 
-We will deploy the `flux-helm-controllers` pkg from the `nephio-example-packages`  repo to the `edge02` workload
+We will deploy the *flux-helm-controllers* pkg from the *nephio-example-packages*  repo to the *edge02* workload
 cluster.
 
 * **Step 1**
@@ -41,8 +41,8 @@ cluster.
 
 ![Install flux controllers - Step 3](/static/images/user-guides/flux-controller-selection.png)
 
-Click through the `Next` button until you are through all the steps, leaving all options as `default`, then click
-`Create Deployment`.
+Click through the ***Next** button until you are through all the steps, leaving all options as default, then click
+**Create Deployment**.
 
 * **Step 4**
 
@@ -53,11 +53,11 @@ resources to deploy the controllers.
 
 {{% alert title="Note" color="primary" %}}
 
-We are deploying into the `flux-system` namespace by default.
+We are deploying into the flux-system namespace by default.
 
 {{% /alert %}}
 
-Finally, we need to `propose` and then `approve` the pkg to initialize the deployment.
+Finally, we need to propose and then approve the pkg to initialize the deployment.
 
 * **Step 5**
 
@@ -85,8 +85,8 @@ source-controller-5756bf7d48-hprkn   1/1     Running   0          6m20s
 
 ### Deploying the onlineboutique-flux pkg
 
-To make the demo kpt packages available in Nephio, we need to register a new `External Blueprints`repository.  We can do
-this via kubectl towards the management cluster.
+To make the demo kpt packages available in Nephio, we need to register a new *External Blueprints* repository.  We can do
+this via `kubectl` towards the management cluster.
 
 ```bash
 cat << EOF | kubectl apply -f - 
@@ -109,7 +109,7 @@ spec:
 
 EOF
 ```
-The new repository should now have been added to the `External Blueprints` section of the UI.
+The new repository should now have been added to the **External Blueprints** section of the UI.
 
 ![External Blueprints UI](/static/images/user-guides/external-bp-repos.png)
 

@@ -20,16 +20,16 @@ plugin to connect to it.
 
 ## Extra steps for MacOS users
 
-The script the `make deployment-config` target to generate the deployment files for porch. The scripts called by this
-make target use recent `bash` additions. MacOS comes with `bash` 3.x.x
+The script the make deployment-config target to generate the deployment files for porch. The scripts called by this
+make target use recent *bash* additions. MacOS comes with *bash* 3.x.x
 
-1. Install `bash` 4.x.x or better of `bash` using homebrew, see
+1. Install *bash* 4.x.x or better of *bash* using homebrew, see
    [this this post for details](https://apple.stackexchange.com/questions/193411/update-bash-to-version-4-0-on-osx)
-2. Ensure that `/opt/homebrew/bin` is earlier in your path than `/bin` and `/usr/bin`
+2. Ensure that */opt/homebrew/bin* is earlier in your path than */bin* and */usr/bin*
 
 {{% alert title="Note" color="primary" %}}
 
-The changes above **permanently** change the `bash` version for **all** applications and may cause side
+The changes above **permanently** change the *bash* version for **all** applications and may cause side
 effects. 
 
 {{% /alert %}}
@@ -37,7 +37,7 @@ effects.
 
 ## Setup the environment automatically
 
-The [`./scripts/setup-dev-env.sh`](https://github.com/nephio-project/porch/blob/main/scripts/setup-dev-env.sh) setup
+The [*./scripts/setup-dev-env.sh*](https://github.com/nephio-project/porch/blob/main/scripts/setup-dev-env.sh) setup
 script automatically builds a porch development environment.
 
 {{% alert title="Note" color="primary" %}}
@@ -50,9 +50,9 @@ to customize it to suit your needs.
 The setup script will perform the following steps:
 
 1. Install a kind cluster. The name of the cluster is read from the PORCH_TEST_CLUSTER environment variable, otherwise
-   it defaults to `porch-test`. The configuration of the cluster is taken from
+   it defaults to porch-test. The configuration of the cluster is taken from
    [here](https://github.com/nephio-project/porch/blob/main/deployments/local/kind_porch_test_cluster.yaml).
-1. Install the MetalLB load balancer into the cluster, in order to allow `LoadBalancer` typed Services to work properly.
+1. Install the MetalLB load balancer into the cluster, in order to allow LoadBalancer typed Services to work properly.
 1. Install the Gitea git server into the cluster. This can be used to test porch during development, but it is not used
    in automated end-to-end tests. Gitea is exposed to the host via port 3000. The GUI is accessible via
    <http://localhost:3000/nephio>, or <http://172.18.255.200:3000/nephio> (username: nephio, password: secret).
@@ -63,7 +63,7 @@ The setup script will perform the following steps:
    
    {{% /alert %}}
 1. Generate the PKI resources (key pairs and certificates) required for end-to-end tests.
-1. Build the porch CLI binary. The result will be generated as `.build/porchctl`.
+1. Build the porch CLI binary. The result will be generated as *.build/porchctl*.
 
 That's it! If you want to run the steps manually, please use the code of the script as a detailed description.
 
@@ -72,7 +72,7 @@ script is interrupted for any reason, and you run it again it should effectively
 
 ## Extra manual steps
 
-Copy the `.build/porchctl` binary (that was built by the setup script) to somewhere in your $PATH, or add the `.build`
+Copy the *.build/porchctl* binary (that was built by the setup script) to somewhere in your $PATH, or add the *.build*
 directory to your PATH.
 
 ## Build and deploy porch
@@ -143,7 +143,7 @@ external-blueprints   git    Package   false        True    https://github.com/n
 management            git    Package   false        True    http://172.18.255.200:3000/nephio/management.git
 ```
 
-You can also check the repositories using kubectl.
+You can also check the repositories using *kubectl*.
 
 ```bash
 kubectl get  repositories -n porch-demo

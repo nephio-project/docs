@@ -11,7 +11,7 @@ When used with the Web UI running in a GKE cluster, the users authorization role
 based upon their IAM roles in GCP.
 
 If you are not exposing the webui on a load balancer IP address, but are instead using `kubectl port-forward`, you
-should use `http`, `localhost` and `7007` for the `SCHEME`, `HOSTNAME` and `PORT`; otherwise, use the scheme, DNS name
+should use *http*, *localhost* and *7007* for the SCHEME, HOSTNAME and PORT; otherwise, use the scheme, DNS name
 and port as it will be seen by your browser. You can leave the port off if it is 443 for HTTPS or 80 for HTTP.
 
 ## Creating an OAuth 2.0 Client ID
@@ -22,17 +22,17 @@ client ID and secret:
 1. Sign in to the [Google Console](https://console.cloud.google.com)
 2. Select or create a new project from the dropdown menu on the top bar
 3. Navigate to [APIs & Services > Credentials](https://console.cloud.google.com/apis/credentials)
-4. Click **Create Credentials** and choose `OAuth client ID`
+4. Click **Create Credentials** and choose **OAuth client ID**
 5. Configure an OAuth consent screen, if required
 
-   - For scopes, select `openid`, `auth/userinfo.email`, `auth/userinfo.profile`, and `auth/cloud-platform`.
+   - For scopes, select *openid*, *auth/userinfo.email*, *auth/userinfo.profile*, and *auth/cloud-platform*.
    - Add any users that will want access to the UI if using External user type
 
-6. Set **Application Type** to `Web Application` with these settings:
+6. Set **Application Type** to *Web Application* with these settings:
 
-   - *Name*: Nephio Web UI (or any other name you wish)
-   - *Authorized JavaScript origins*: `SCHEME`://`HOSTNAME`:`PORT`
-   - *Authorized redirect URIs*: `SCHEME`://`HOSTNAME`:`PORT`/api/auth/google/handler/frame
+   - **Name**: Nephio Web UI (or any other name you wish)
+   - **Authorized JavaScript origins**: SCHEME://HOSTNAME:PORT
+   - **Authorized redirect URIs**: SCHEME://HOSTNAME:PORT/api/auth/google/handler/frame
 
 7. Click Create
 8. Copy the client ID and client secret displayed
@@ -49,16 +49,16 @@ kubectl create secret generic -n nephio-webui nephio-google-oauth-client --from-
 
 ## Enable Google OAuth
 
-The webui package has a function that will configure the package for authentication with different services. Edit the
-`set-auth.yaml` file to set the `authProvider` field to `google` or run this command:
+The *webui* package has a function that will configure the package for authentication with different services. Edit the
+*set-auth.yaml* file to set the authProvider field to *google* or run the following command:
 
 ```bash
 kpt fn eval nephio-webui --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name set-auth -- 'by-path=authProvider' 'put-value=google'
 ```
 ## Enable OIDC with Google
 
-The webui package has a function that will configure the package for authentication with different services. Edit the
-`set-auth.yaml` file to set the `authProvider` field to `oidc` and the `oidcTokenProvider` to `google`, or run these
+The *webui* package has a function that will configure the package for authentication with different services. Edit the
+*set-auth.yaml* file to set the authProvider field to *oidc* and the oidcTokenProvider to *google*, or run the following
 commands:
 
 ```bash
