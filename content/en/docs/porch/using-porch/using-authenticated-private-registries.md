@@ -11,6 +11,21 @@ To enable the Porch function runner to pull kpt function images from authenticat
 2. Mounting this new secret as a volume on the function runner.
 3. Providing the path of the mounted secret to the function runner using the argument `--registry-auth-secret-path`
 
+An example template of what a docker *config.json* file looks like is as follows below. The base64 encoded value `bXlfdXNlcm5hbWU6bXlfcGFzc3dvcmQ=` of the `auth` key decodes to `my_username:my_password` which is the format used by the config when authenticating.
+
+```json
+{
+    "auths": {
+        "https://index.docker.io/v1/": {
+            "auth": "bXlfdXNlcm5hbWU6bXlfcGFzc3dvcmQ="
+        },
+        "ghcr.io": {
+            "auth": "bXlfdXNlcm5hbWU6bXlfcGFzc3dvcmQ="
+        }
+    }
+}
+```
+
 A quick way to generate this secret for your use using your docker *config.json* would be to run the following command:
 
 ```bash
