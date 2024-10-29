@@ -59,7 +59,7 @@ You may specify your desired `mountPath:` so long as the function runner can acc
 The chosen `mountPath:` should use its own directory if placed in an existing directory so that it does not overwrite access permissions of the existing directory. for example, if you wish to mount on `/var/tmp` you should use `mountPath: /var/tmp/<SUB_DIRECTORY>` etc.
 {{% /alert %}}
 
-Lastly you must add the `--registry-auth-secret-path` to the arguments of the function-runner Deployment object in the *2-function-runner.yaml* file: , giving the path of the secret file mount:
+Lastly you must add the `--registry-auth-secret-path` to the arguments of the function-runner Deployment object in the *2-function-runner.yaml* file, giving the path of the secret file mount:
 
 ```yaml
 command:
