@@ -36,7 +36,7 @@ kubectl create secret generic <SECRET_NAME> --from-file=.dockerconfigjson=/path/
 The secret must be in the same namespace as the function runner deployment. By default, this is the *porch-system* namespace.
 {{% /alert %}}
 
-This should generate a secret template, similar to the one below, which you can add to the *2-function-runner.yaml* file in the Porch catalog package found here [here](https://github.com/nephio-project/catalog/tree/main/nephio/core/porch)
+This should generate a secret template, similar to the one below, which you can add to the *2-function-runner.yaml* file in the Porch catalog package found [here](https://github.com/nephio-project/catalog/tree/main/nephio/core/porch)
 
 ```yaml
 apiVersion: v1
