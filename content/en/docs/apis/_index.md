@@ -64,8 +64,8 @@ flowchart TD
 
 ```
 
-The detailed API description is [here](topology-and-networking/)
+A detailed API description can be found [here](topology-and-networking/).
 
 ## Porch
 
-The detailed API description of Porch can be found [here](porch/).
+A detailed API description of Porch can be found [here](porch/).
