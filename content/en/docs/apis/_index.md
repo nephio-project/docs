@@ -7,17 +7,17 @@ description: Reference for the Nephio models and APIs
 
 ## Overview
 
-Nephio APIs primarily consist of a collection of Go API objects, CRDs and other KRM types,
+Nephio APIs consist primarily of a collection of Go API objects, CRDs, and other KRM types,
 specified and maintained in the [Nephio API repository](https://github.com/nephio-project/api).
-This page aims to give a high level overview of the objects that are available and their
+This section aims to give a high-level overview of the objects that are available and their
 relationships, and is based on an
 [original document](https://docs.google.com/document/d/1-5nlpY4FbuhWtdKTvIqPOv4bWmA6zx6TdHoEfk9Jc_Q/edit)
 developed by Tal Liron.
 
-The aim is to keep these diagrams as simple as possible for now and only convey the important aspects of the modelled entities. As such they are intended to give a high-level overview of the entities and relationships that can be accessed and modified via the Nephio API, and provide reference to detailed documentation, generated from the code, where available.
+The aim is to keep the diagram below as simple as possible for now and only convey the important aspects of the modeled entities. As such, they are intended to give a high-level overview of the entities and relationships that can be accessed and modified via the Nephio API, and provide reference to detailed documentation, generated from the code, where available.
 
 
-## Topology and Network APIs
+## Topology and network APIs
 
 This is a high-level overview of the Nephio models and their relationships, with links to the relevant API documentation where available, and to the source code where not.
 
@@ -68,4 +68,4 @@ The detailed API description is [here](topology-and-networking/)
 
 ## Porch
 
-The detailed API description of Porch is [here](porch/)
+The detailed API description of Porch can be found [here](porch/).
