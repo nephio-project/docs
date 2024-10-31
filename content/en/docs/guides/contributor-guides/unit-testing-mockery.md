@@ -53,7 +53,7 @@ We provide a list of the packages for which we want to generate mocks. In this e
 6.          dir: "{{.InterfaceDir}}"
 ```
 
-We want mocks to be generated for the GiteaClien go interface (line 4). The {{.InterfaceDir}} parameter (line 6) asks Mockery to generate the mock file in the same directory as the interface is located.
+We want mocks to be generated for the GiteaClient go interface (line 4). The {{.InterfaceDir}} parameter (line 6) asks Mockery to generate the mock file in the same directory as the interface is located.
 
 ### Example 2
 

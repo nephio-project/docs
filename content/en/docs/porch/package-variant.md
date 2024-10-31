@@ -1130,7 +1130,7 @@ the following variables are available:
 | target         | The target object (details vary; see below).                 |
 
 There is one expression that is an exception to the table above. Since the repository value corresponds to the
-Repository of the downstream, we must first evaluate the `ownstream.repoExpr expression to find that repository. 
+Repository of the downstream, we must first evaluate the `downstream.repoExpr expression to find that repository. 
 Thus, for that expression only, repository is not a valid variable.
 
 There is one more variable available across all CEL expressions: the target variable. This variable has a meaning that
