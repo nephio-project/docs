@@ -188,7 +188,7 @@ Follow the steps below to enable Open Telemetry/Jaeger tracing on your Porch dep
 1. Apply the Porch deployment.yaml manifest for Jaeger.
 
 ```
-kubectl apply -f kubectl apply -f https://raw.githubusercontent.com/nephio-project/porch/refs/heads/main/deployments/tracing/deployment.yaml
+kubectl apply -f https://raw.githubusercontent.com/nephio-project/porch/refs/heads/main/deployments/tracing/deployment.yaml
 ```
 
 2. Add the environment variable `OTEL` to the porch-server manifest:
@@ -199,8 +199,8 @@ kubectl edit deployment -n porch-system porch-server
 
 ```
 env:
-   - name: OTEL
-   value: otel://jaeger-oltp:4317
+- name: OTEL
+  value: otel://jaeger-oltp:4317
 ```
 
 3. Set up port forwarding of the Jaeger http port to your local machine:
