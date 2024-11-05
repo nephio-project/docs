@@ -243,7 +243,7 @@ In `.vscode/launch.json`:
 In a shell:
 
 ```
-EXPORT OTEL="otel://localhost:4317"
+export OTEL="otel://localhost:4317"
 ```
 
 4. Open the Jaeger UI in your browser at http://localhost:16686
