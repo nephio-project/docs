@@ -179,7 +179,7 @@ and running the [setup script](https://github.com/nephio-project/porch/blob/main
 
 You can find a detailed description of the actual development process [here](dev-process.md).
 
-## Enabling Open Telementry/Jaeger tracing
+## Enabling Open Telemetry/Jaeger tracing
 
 ### Enabling tracing on a Porch deployment
 
