@@ -179,3 +179,74 @@ and running the [setup script](https://github.com/nephio-project/porch/blob/main
 
 You can find a detailed description of the actual development process [here](dev-process.md).
 
+## Enabling Open Telementry/Jaeger tracing
+
+### Enabling tracing on a Porch deployment
+
+Follow the steps below to enable Open Telemetry/Jaeger tracing on your Porch deployment.
+
+1. Apply the Porch deployment.yaml manifest for Jaeger.
+
+```
+kubectl apply -f kubectl apply -f https://raw.githubusercontent.com/nephio-project/porch/refs/heads/main/deployments/tracing/deployment.yaml
+```
+
+2. Add the environment variable `OTEL` to the porch-server manifest:
+
+```
+kubectl edit deployment -n porch-system porch-server
+```
+
+```
+env:
+   - name: OTEL
+   value: otel://jaeger-oltp:4317
+```
+
+3. Set up port forwarding of the Jaeger http port to your local machine:
+
+```
+kubectl port-forward -n porch-system service/jaeger-http 16686
+```
+
+4. Open the Jaeger UI in your browser at http://localhost:16686
+
+### Enable tracing on a local Porch server
+
+Follow the steps below to enable Open Telemetry/Jaeger tracing on a porch server running locally on your machine, such as in VSCode.
+
+1. Download the Jaeger binary tarball for your local machine architecture from [the Jaeger download page](https://www.jaegertracing.io/download/#binaries) and untar the tarball in some suitable directory.
+
+2. Run Jaeger:
+
+```
+cd jaeger
+./jaeger-all-in-one
+```
+
+3. Configure the Porch server to output Open Telemetry traces:
+
+Set the `OTEL` environment variable to point at the Jaeger server
+
+In `.vscode/launch.json`:
+
+```
+"env": {
+   ...
+   ...
+"OTEL": "otel://localhost:4317",
+   ...
+   ...
+}
+```
+
+In a shell:
+
+```
+EXPORT OTEL="otel://localhost:4317"
+```
+
+4. Open the Jaeger UI in your browser at http://localhost:16686
+
+5. Run the Porch Server.
+
