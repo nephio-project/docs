@@ -228,7 +228,7 @@ cd jaeger
 
    Set the *OTEL* environment variable to point at the Jaeger server
 
-In *.vscode/launch.json*:
+   In *.vscode/launch.json*:
 
 ```bash
 "env": {
