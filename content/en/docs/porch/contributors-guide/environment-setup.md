@@ -226,7 +226,7 @@ cd jaeger
 
 3. Configure the Porch server to output Open Telemetry traces:
 
-Set the *OTEL* environment variable to point at the Jaeger server
+   Set the *OTEL* environment variable to point at the Jaeger server
 
 In *.vscode/launch.json*:
 
