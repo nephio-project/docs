@@ -246,7 +246,7 @@ In a shell:
 export OTEL="otel://localhost:4317"
 ```
 
-4. Open the Jaeger UI in your browser at http://localhost:16686
+4. Open the Jaeger UI in your browser at *http://localhost:16686*
 
 5. Run the Porch Server.
 
