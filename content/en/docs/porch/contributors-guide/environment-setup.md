@@ -197,7 +197,7 @@ kubectl apply -f https://raw.githubusercontent.com/nephio-project/porch/refs/hea
 kubectl edit deployment -n porch-system porch-server
 ```
 
-```
+```bash
 env:
 - name: OTEL
   value: otel://jaeger-oltp:4317
