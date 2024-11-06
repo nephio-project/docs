@@ -193,7 +193,7 @@ kubectl apply -f https://raw.githubusercontent.com/nephio-project/porch/refs/hea
 
 2. Add the environment variable *OTEL* to the porch-server manifest:
 
-```
+```bash
 kubectl edit deployment -n porch-system porch-server
 ```
 
