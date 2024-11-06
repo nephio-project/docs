@@ -242,7 +242,7 @@ In `.vscode/launch.json`:
 
 In a shell:
 
-```
+```bash
 export OTEL="otel://localhost:4317"
 ```
 
