@@ -185,7 +185,7 @@ You can find a detailed description of the actual development process [here](dev
 
 Follow the steps below to enable Open Telemetry/Jaeger tracing on your Porch deployment.
 
-1. Apply the Porch deployment.yaml manifest for Jaeger.
+1. Apply the Porch *deployment.yaml* manifest for Jaeger.
 
 ```
 kubectl apply -f https://raw.githubusercontent.com/nephio-project/porch/refs/heads/main/deployments/tracing/deployment.yaml
