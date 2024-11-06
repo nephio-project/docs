@@ -213,7 +213,7 @@ kubectl port-forward -n porch-system service/jaeger-http 16686
 
 ### Enable tracing on a local Porch server
 
-Follow the steps below to enable Open Telemetry/Jaeger tracing on a porch server running locally on your machine, such as in VSCode.
+Follow the steps below to enable Open Telemetry/Jaeger tracing on a porch server running locally on your machine, such as in VS Code.
 
 1. Download the Jaeger binary tarball for your local machine architecture from [the Jaeger download page](https://www.jaegertracing.io/download/#binaries) and untar the tarball in some suitable directory.
 
