@@ -219,7 +219,7 @@ Follow the steps below to enable Open Telemetry/Jaeger tracing on a porch server
 
 2. Run Jaeger:
 
-```
+```bash
 cd jaeger
 ./jaeger-all-in-one
 ```
