@@ -209,7 +209,7 @@ env:
 kubectl port-forward -n porch-system service/jaeger-http 16686
 ```
 
-4. Open the Jaeger UI in your browser at http://localhost:16686
+4. Open the Jaeger UI in your browser at *http://localhost:16686*
 
 ### Enable tracing on a local Porch server
 
