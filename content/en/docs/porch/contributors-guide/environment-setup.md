@@ -205,7 +205,7 @@ env:
 
 3. Set up port forwarding of the Jaeger http port to your local machine:
 
-```
+```bash
 kubectl port-forward -n porch-system service/jaeger-http 16686
 ```
 
