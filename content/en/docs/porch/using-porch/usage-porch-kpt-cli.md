@@ -6,7 +6,7 @@ description:
 ---
 
 
-This document is focused on using Porch via the `kpt` CLI.
+This document is focused on using Porch via the *kpt* CLI.
 
 Installation of Porch, including prerequisites, is covered in a [dedicated document](install-and-using-porch.md).
 
@@ -14,15 +14,15 @@ Installation of Porch, including prerequisites, is covered in a [dedicated docum
 
 To use Porch, you will need:
 
-* [`kpt`](https://kpt.dev)
-* [`kubectl`](https://kubernetes.io/docs/tasks/tools/#kubectl)
-* [`gcloud`](https://cloud.google.com/sdk/gcloud) (if running on GKE)
+* [*kpt*](https://kpt.dev)
+* [*kubectl*](https://kubernetes.io/docs/tasks/tools/#kubectl)
+* [*gcloud*](https://cloud.google.com/sdk/gcloud) (if running on GKE)
 
-Make sure that your `kubectl` context is set up for `kubectl` to interact with the correct Kubernetes instance (see
+Make sure that your *kubectl* context is set up for *kubectl* to interact with the correct Kubernetes instance (see
 [installation instructions](install-and-using-porch.md) or the [running-locally](../running-porch/running-locally.md)
 guide for details).
 
-To check whether `kubectl` is configured with your Porch cluster (or local instance), run:
+To check whether *kubectl* is configured with your Porch cluster (or local instance), run:
 
 ```bash
 kubectl api-resources | grep porch
@@ -41,21 +41,21 @@ functions                     porch.kpt.dev/v1alpha1                 true       
 
 Porch server manages the following resources:
 
-1. `repositories`: a repository (Git or OCI) can be registered with Porch to support discovery or management of KRM
+1. **repositories**: a repository (Git or OCI) can be registered with Porch to support discovery or management of KRM
    configuration packages in those repositories, or discovery of KRM functions in those repositories.
-2. `packagerevisions`: a specific revision of a KRM configuration package managed by Porch in one of the registered
-   repositories. This resource represents a _metadata view_ of the KRM configuration package.
-3. `packagerevisionresources`: this resource represents the contents of the configuration package (KRM resources
+2. **packagerevisions**: a specific revision of a KRM configuration package managed by Porch in one of the registered
+   repositories. This resource represents a metadata view of the KRM configuration package.
+3. **packagerevisionresources**: this resource represents the contents of the configuration package (KRM resources
    contained in the package)
-4. `functions`: function resource represents a KRM function discovered in a repository registered with Porch. Functions
+4. **functions**: function resource represents a KRM function discovered in a repository registered with Porch. Functions
    are only supported with OCI repositories.
 
 {{% alert title="Note" color="primary" %}}
 
-`packagerevisions` and `packagerevisionresources` represent different _views_ of the same underlying KRM
-configuration package. `packagerevisions` represents the package metadata, and `packagerevisionresources` represents the
-package content. The matching resources share the same `name` (as well as API group and version:
-`porch.kpt.dev/v1alpha1`) and differ in resource kind (`PackageRevision` and `PackageRevisionResources` respectively).
+packagerevisions and packagerevisionresources represent different views of the same underlying KRM
+configuration package. packagerevisions represents the package metadata, and packagerevisionresources represents the
+package content. The matching resources share the same name (as well as API group and version:
+*porch.kpt.dev/v1alpha1*) and differ in resource kind (*PackageRevision* and *PackageRevisionResources* respectively).
 
 {{% /alert %}}
 
@@ -93,7 +93,7 @@ $ kpt alpha repo register \
 All command line flags supported:
 
 * `--directory` - Directory within the repository where to look for packages.
-* `--branch` - Branch in the repository where finalized packages are committed (defaults to `main`).
+* `--branch` - Branch in the repository where finalized packages are committed (defaults to *main*).
 * `--name` - Name of the package repository Kubernetes resource. If unspecified, will default to the name portion (last
   segment) of the repository URL (`blueprint` in the example above)
 * `--description` - Brief description of the package repository.
@@ -102,9 +102,9 @@ All command line flags supported:
 * `--repo-basic-username` - Username for repository authentication using basic auth.
 * `--repo-basic-password` - Password for repository authentication using basic auth.
 
-Additionally, common `kubectl` command line flags for controlling aspects of
+Additionally, common *kubectl* command line flags for controlling aspects of
 interaction with the Kubernetes apiserver, logging, and more (this is true for
-all `kpt` CLI commands which interact with Porch).
+all *kpt* CLI commands which interact with Porch).
 
 Use the `kpt alpha repo get` command to query registered repositories:
 
@@ -116,7 +116,7 @@ blueprints   git   Package              True   https://github.com/platkrm/bluepr
 deployments  git   Package  true        True   https://github.com/platkrm/deployments.git
 ```
 
-The `kpt alpha <group> get` commands support common `kubectl`
+The `kpt alpha <group> get` commands support common *kubectl*
 [flags](https://kubernetes.io/docs/reference/kubectl/cheatsheet/#formatting-output) to format output, for example
 `kpt alpha repo get --output=yaml`.
 
@@ -129,7 +129,7 @@ $ kpt alpha repo unregister deployments --namespace default
 ## Package Discovery And Introspection
 
 The `kpt alpha rpkg` command group contains commands for interacting with packages managed by the Package Orchestration
-service. the `r` prefix used in the command group name stands for 'remote'.
+service. the r prefix used in the command group name stands for 'remote'.
 
 The `kpt alpha rpkg get` command list the packages in registered repositories:
 
@@ -145,16 +145,16 @@ blueprints-421a5b5e43b03bc697d96f471929efc6ba3f54b3  istions  v2             v2 
 ...
 ```
 
-The `LATEST` column indicates whether the package revision is the latest among the revisions of the same package. In the
-output above, `v2` is the latest revision of `istions` package and `v1` is the latest revision of `basens` package.
+The LATEST column indicates whether the package revision is the latest among the revisions of the same package. In the
+output above, v2 is the latest revision of *istions* package and v1 is the latest revision of *basens* package.
 
-The `LIFECYCLE` column indicates the lifecycle stage of the package revision, one of: `Published`, `Draft` or
-`Proposed`.
+The LIFECYCLE column indicates the lifecycle stage of the package revision, one of: Published, Draft or
+Proposed.
 
-The `REVISION` column indicates the revision of the package. Revisions are assigned when a package is `Published` and
-starts at `v1`.
+The REVISION column indicates the revision of the package. Revisions are assigned when a package is Published and
+starts at v1.
 
-The `WORKSPACENAME` column indicates the workspace name of the package. The workspace name is assigned when a draft
+The WORKSPACENAME column indicates the workspace name of the package. The workspace name is assigned when a draft
 revision is created and is used as the branch name for proposed and draft package revisions. The workspace name must be
 must be unique among package revisions in the same package.
 
@@ -169,7 +169,7 @@ Therefore, the names of the Kubernetes resources representing package revisions 
 
 
 Simple filtering of package revisions by name (substring) and revision (exact match) is supported by the CLI using
-`--name` and `--revision` flags:
+--name and --revision flags:
 
 ```bash
 $ kpt alpha rpkg get --name istio --revision=v2
@@ -178,7 +178,7 @@ NAME                                                 PACKAGE  WORKSPACENAME  REV
 blueprints-421a5b5e43b03bc697d96f471929efc6ba3f54b3  istions  v2             v2        true    Published  blueprints
 ```
 
-The common `kubectl` flags that control output format are available as well:
+The common *kubectl* flags that control output format are available as well:
 
 ```bash
 $ kpt alpha rpkg get blueprints-421a5b5e43b03bc697d96f471929efc6ba3f54b3 -ndefault -oyaml
@@ -201,7 +201,7 @@ spec:
 
 The `kpt alpha rpkg pull` command can be used to read the package resources.
 
-The command can be used to print the package revision resources as `ResourceList` to `stdout`, which enables
+The command can be used to print the package revision resources as ResourceList to stdout, which enables
 [chaining](https://kpt.dev/book/04-using-functions/02-imperative-function-execution?id=chaining-functions-using-the-unix-pipe)
 evaluation of functions on the package revision pulled from the Package Orchestration server.
 
@@ -258,7 +258,7 @@ deployments-c32b851b591b860efda29ba0e006725c8c1f7764  new-package  v1           
 ...
 ```
 
-The new package is created in the `Draft` lifecycle stage. This is true also for all commands that create new package
+The new package is created in the Draft lifecycle stage. This is true also for all commands that create new package
 revision (`init`, `clone` and `copy`).
 
 Additional flags supported by the `kpt alpha rpkg init` command are:
@@ -270,7 +270,7 @@ Additional flags supported by the `kpt alpha rpkg init` command are:
 * `--site` - Link to page with information about the package.
 
 
-Use `kpt alpha rpkg clone` command to create a _downstream_ package by cloning an _upstream_ package:
+Use `kpt alpha rpkg clone` command to create a *downstream* package by cloning an *upstream* package:
 
 ```bash
 $ kpt alpha rpkg clone blueprints-421a5b5e43b03bc697d96f471929efc6ba3f54b3 istions-clone \
@@ -307,11 +307,11 @@ The flags supported by the `kpt alpha rpkg clone` command are:
   package is located.
 * `--ref` - Ref in the upstream repository where the upstream package is
   located. This can be a branch, tag, or SHA.
-* `--repository` - Repository to which package will be cloned (downstream
+* `--repository` - Repository to which package will be cloned (*downstream*
   repository).
 * `--workspace` - Workspace to assign to the downstream package.
 * `--strategy` - Update strategy that should be used when updating this package;
-  one of: `resource-merge`, `fast-forward`, `force-delete-replace`.
+  one of: resource-merge, fast-forward, force-delete-replace.
 
 
 The `kpt alpha rpkg copy` command can be used to create a new revision of an existing package. It is a means to
@@ -328,7 +328,7 @@ NAME                                                  PACKAGE   WORKSPACENAME   
 blueprints-bf11228f80de09f1a5dd9374dc92ebde3b503689   istions   v3                         false    Draft       blueprints
 ```
 
-The `kpt alpha rpkg push` command can be used to update the resources (package contents) of a package _draft_:
+The `kpt alpha rpkg push` command can be used to update the resources (package contents) of a package *draft*:
 
 ```bash
 $ kpt alpha rpkg pull \
@@ -376,9 +376,9 @@ blueprints-bf11228f80de09f1a5dd9374dc92ebde3b503689 deleted
 
 ## Package Lifecycle and Approval Flow
 
-Authoring is performed on the package revisions in the _Draft_ lifecycle stage. Before a package can be deployed or
-cloned, it must be _Published_. The approval flow is the process by which the package is advanced from _Draft_ state
-through _Proposed_ state and finally to _Published_ lifecycle stage.
+Authoring is performed on the package revisions in the Draft lifecycle stage. Before a package can be deployed or
+cloned, it must be Published. The approval flow is the process by which the package is advanced from Draft state
+through Proposed state and finally to Published lifecycle stage.
 
 The commands used to manage package lifecycle stages include:
 
@@ -386,7 +386,7 @@ The commands used to manage package lifecycle stages include:
 * `approve` - Approves a proposal to finalize a package revision.
 * `reject`  - Rejects a proposal to finalize a package revision
 
-In the [Authoring Packages](#authoring-packages) section above we created several _draft_ packages and in this section
+In the [Authoring Packages](#authoring-packages) section above we created several draft packages and in this section
 we will create proposals for publishing some of them.
 
 ```bash
@@ -416,7 +416,7 @@ deployments-11ca1db650fa4bfa33deeb7f488fbdc50cdb3b82   istions-clone   v1       
 deployments-c32b851b591b860efda29ba0e006725c8c1f7764   new-package     v1                         false    Proposed    deployments
 ```
 
-At this point, a person in _platform administrator_ role, or even an automated process, will review and either approve
+At this point, a person in platform administrator role, or even an automated process, will review and either approve
 or reject the proposals. To aid with the decision, the platform administrator may inspect the package contents using the
 commands above, such as `kpt alpha rpkg pull`.
 
@@ -442,12 +442,12 @@ deployments-11ca1db650fa4bfa33deeb7f488fbdc50cdb3b82   istions-clone   v1       
 deployments-c32b851b591b860efda29ba0e006725c8c1f7764   new-package     v1                         false    Draft       deployments
 ```
 
-Observe that the rejected proposal returned the package revision back to _Draft_ lifecycle stage. The package whose
-proposal was approved is now in _Published_ state.
+Observe that the rejected proposal returned the package revision back to Draft lifecycle stage. The package whose
+proposal was approved is now in Published state.
 
 ## Deploying a Package
 
-Commands used in the context of deploying a package include are in the `kpt alpha sync` command group (named `sync` to
+Commands used in the context of deploying a package include are in the `kpt alpha sync` command group (named sync to
 emphasize that Config Sync is the deploying mechanism and that configuration is being synchronized with the actuation
 target as a means of deployment) and include:
 

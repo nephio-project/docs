@@ -14,7 +14,7 @@ This page is draft and the separation of the content to different categories is 
 
 {{% alert title="Note" color="primary" %}}
 
-If you want to use a version other than that of `v3.0.0` of Nephio `catalog` repo, then replace the `@origin/v3.0.0` suffix on the package URLs on the `kpt pkg get` commands below with the tag/branch of the version you wish to use.
+If you want to use a version other than that of v3.0.0 of Nephio *catalog* repo, then replace the *@origin/v3.0.0* suffix on the package URLs on the `kpt pkg get` commands below with the tag/branch of the version you wish to use.
 
 While using KPT you can [either pull a branch or a tag](https://kpt.dev/book/03-packages/01-getting-a-package) from a git repository. By default it pulls the tag. In case, you have branch with the same name as a tag then to:
 
@@ -60,10 +60,10 @@ To install the Nephio Operators, repeat the `kpt` steps, but for that package:
 kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/core/nephio-operator@origin/v3.0.0
 ```
 
-The Nephio Operator package by default uses the Gitea instance at `172.18.0.200:3000` as 
+The Nephio Operator package by default uses the Gitea instance at *172.18.0.200:3000* as 
 the git repository. Change it to point to your git instance in  
-`nephio-operator/app/controller/deployment-token-controller.yaml` and 
-`nephio-operator/app/controller/deployment-controller.yaml`
+*nephio-operator/app/controller/deployment-token-controller.yaml* and 
+*nephio-operator/app/controller/deployment-controller.yaml*.
 
 You also need to create a secret with your Git instance credentials: 
 
@@ -98,7 +98,7 @@ is used extensively in the cluster provisioning workflows.
 
 Different GitOps tools may be used, but these instructions only cover ConfigSync.
 To install it on the management cluster, we again follow the same process.
-Later, we will configure it to point to the `mgmt` repository:
+Later, we will configure it to point to the *mgmt* repository:
 
 ```bash
 kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/core/configsync@origin/v3.0.0

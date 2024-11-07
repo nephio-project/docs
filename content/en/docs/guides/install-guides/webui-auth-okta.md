@@ -6,7 +6,7 @@ weight: 7
 ---
 
 If you are not exposing the webui on a load balancer IP address, but are instead using `kubectl port-forward`, you
-should use `localhost` and `7007` for the `HOSTNAME` and `PORT`; otherwise, use the DNS name and port as it will be seen
+should use *localhost* and *7007* for the HOSTNAME and PORT; otherwise, use the DNS name and port as it will be seen
 by your browser.
 
 ## Creating an Okta Application
@@ -15,21 +15,21 @@ Adapted from the [Backstage](https://backstage.io/docs/auth/okta/provider#create
 documentation:
 
 1. Log into Okta (generally company.okta.com)
-2. Navigate to Menu >> Applications >> Applications >> Create App Integration
+2. Navigate to **Menu** >> **Applications** >> **Applications** >> **Create App Integration**
 3. Fill out the Create a new app integration form:
 
-   - Sign-in method: OIDC - OpenID Connect
-   - Application type: Web Application
-   - Click Next
+   - **Sign-in method**: OIDC - OpenID Connect
+   - **Application type**: Web Application
+   - Click **Next**
 
 4. Fill out the New Web App Integration form:
 
-   - App integration name: Nephio Web UI (or any other name you wish)
-   - Grant type: Authorization Code & Refresh Token
-   - Sign-in redirect URIs: http://HOSTNAME:PORT/api/auth/okta/handler/frame
-   - Sign-out redirect URIs: http://HOSTNAME:PORT
-   - Controlled access: (select as appropriate)
-   - Click Save
+   - **App integration name**: Nephio Web UI (or any other name you wish)
+   - **Grant type**: Authorization Code & Refresh Token
+   - **Sign-in redirect URIs**: http://HOSTNAME:PORT/api/auth/okta/handler/frame
+   - **Sign-out redirect URIs**: http://HOSTNAME:PORT
+   - **Controlled access**: (select as appropriate)
+   - Click **Save**
 
 ## Create the Secret in the Cluster
 
@@ -60,8 +60,8 @@ kubectl create secret generic -n nephio-webui nephio-okta-oauth-client \
 
 ## Enable the WebUI Auth Provider
 
-The webui package has a function that will configure the package for authentication with different services. Edit the
-`set-auth.yaml` file to set the `authProvider` field to `oidc` and the `oidcTokenProvider` to `okta`, or run these
+The *webui* package has a function that will configure the package for authentication with different services. Edit the
+*set-auth.yaml* file to set the authProvider field to *oidc* and the oidcTokenProvider to *okta*, or run the following
 commands:
 
 ```bash

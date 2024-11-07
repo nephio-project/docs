@@ -31,27 +31,27 @@ In addition to the general prerequisites, you will need:
 
 - A GCP account. This account should have enough privileges to create projects, enable APIs in those projects, and
   create the necessary resources.
-- [Google Cloud CLI](https://cloud.google.com/sdk/docs) (`gcloud`) installed and set up on your workstation.
+- [Google Cloud CLI](https://cloud.google.com/sdk/docs) (*gcloud*) installed and set up on your workstation.
 - git installed on your workstation.
 
 ## Setup Your Environment
 
-To make the instructions (and possibly your life) simpler, you can create a `gcloud` configuration and a project for
+To make the instructions (and possibly your life) simpler, you can create a *gcloud* configuration and a project for
 Nephio.
 
 In the commands below, several environment variables are used. You can set them to appropriate values for you. Set
-`LOCATION` to a region to create a regional Nephio management cluster, or to a zone to create a zonal cluster. Regional
+*LOCATION* to a region to create a regional Nephio management cluster, or to a zone to create a zonal cluster. Regional
 clusters have increased availability but higher resource demands.
 
-- `PROJECT` is an existing project ID, or the ID to use for a new project.
-- `ACCOUNT` should be your Google account mentioned in the prerequisites.
-- `REGION` is the region for your Config Controller. See [this link] for the list of supported regions.
-- `LOCATION` is the location (region or zone) for your Nephio management cluster as well as any workload clusters you
+- *PROJECT* is an existing project ID, or the ID to use for a new project.
+- *ACCOUNT* should be your Google account mentioned in the prerequisites.
+- *REGION* is the region for your Config Controller. See [this link] for the list of supported regions.
+- *LOCATION* is the location (region or zone) for your Nephio management cluster as well as any workload clusters you
   create. Setting this will not limit you to this location, but it will be what is used in this guide. Note that Config
   Controller is always regional.
-- `WEBUIFQDN` is the fully qualified domain name you would like to use for the web UI.
-- `MANAGED_ZONE` is the GCP name for the zone where you will put the DNS entry for `WEBUIFQDN`. Note that it is not the
-  domain name, but rather the managed zone name used in GCP - for example, `my-zone-name`, not `myzone.example.com`.
+- *WEBUIFQDN* is the fully qualified domain name you would like to use for the web UI.
+- *MANAGED_ZONE* is the GCP name for the zone where you will put the DNS entry for *WEBUIFQDN*. Note that it is not the
+  domain name, but rather the managed zone name used in GCP - for example, *my-zone-name*, not *myzone.example.com*.
 
 Set the environment variables:
 
@@ -64,7 +64,7 @@ WEBUIFQDN=nephio.example.com
 MANAGED_ZONE=your-managed-zone-name
 ```
 
-First, create the configuration. You can view and switch between `gcloud` configurations with
+First, create the configuration. You can view and switch between *gcloud* configurations with
 `gcloud config configurations list` and `gcloud config configurations activate`.
 
 ```bash
@@ -116,7 +116,7 @@ method for selecting and assigning billing accounts.  See the
 [project billing account documentation](https://cloud.google.com/billing/docs/how-to/modify-project#how-to-change-ba),
 or consult with the GCP administrators in your organization.
 
-Next, set the new project as the default in your `gcloud` configuration:
+Next, set the new project as the default in your *gcloud* configuration:
 
 ```bash
 gcloud config set project $PROJECT
@@ -262,7 +262,7 @@ gcloud projects add-iam-policy-binding ${PROJECT} \
 
 The Porch SA will also be used for synchronizing GKE Fleet information to the
 Nephio cluster, for use in our deployments. For this, it needs the
-`roles/gkehub.viewer` role:
+*roles/gkehub.viewer* role:
 
 ```bash
 gcloud projects add-iam-policy-binding ${PROJECT} \
@@ -380,7 +380,7 @@ If not, you should retrieve the credentials with:
 gcloud anthos config controller get-credentials nephio-cc --location $REGION
 ```
 
-There is one more step - granting privileges to the CC cluster to manage GCP resources in this project. With `kubectl`
+There is one more step - granting privileges to the CC cluster to manage GCP resources in this project. With *kubectl*
 pointing at the CC cluster, retrieve the service account email address used by CC:
 
 ```bash
@@ -398,7 +398,7 @@ service-NNNNNNNNNNNN@gcp-sa-yakima.iam.gserviceaccount.com
 
 
 
-Grant that service account `roles/editor`, which allows full management access to the project, except for IAM and a few
+Grant that service account *roles/editor*, which allows full management access to the project, except for IAM and a few
 other things:
 
 ```bash
@@ -453,8 +453,8 @@ version: 1
 
 
 
-The service account also needs to create Cloud Source Repositories which is not par of the `roles/editor`, role. So, add
-the `roles/source.admin` role as well:
+The service account also needs to create Cloud Source Repositories which is not par of the *roles/editor*, role. So, add
+the *roles/source.admin* role as well:
 
 ```bash
 gcloud projects add-iam-policy-binding $PROJECT \
@@ -465,7 +465,7 @@ gcloud projects add-iam-policy-binding $PROJECT \
 
 
 Granting IAM privileges is not necessary for this setup, but if you did want to use separate service accounts per
-workload cluster, you would need to grant those privileges as well (`roles/owner` for example).
+workload cluster, you would need to grant those privileges as well (*roles/owner* for example).
 
 ## Setting Up GitOps for Config Controller
 
@@ -536,7 +536,7 @@ Customized package for deployment.
 
 
 
-You need to add your project ID to your clone of the package. You can manually edit the `gcp-context.yaml` or run the
+You need to add your project ID to your clone of the package. You can manually edit the *gcp-context.yaml* or run the
 following command:
 
 ```bash
@@ -602,14 +602,14 @@ Config Sync will now synchronize that repository to your Config Controller.
 
 ## Provisioning Your Management Cluster
 
-You will use CC to provision the Nephio management cluster and associated resources, by way of the `config-control`
+You will use CC to provision the Nephio management cluster and associated resources, by way of the *config-control*
 repository. The [cc-cluster-gke-std-csr-cs](https://github.com/nephio-project/catalog/tree/main/infra/gcp/cc-cluster-gke-std-csr-cs)
 package uses CC to create a cluster and a cloud source repository, add the cluster to a fleet, and install and configure
-Config Sync on the cluster to point to the new repository.  This is similar to what the `nephio-workload-cluster`
+Config Sync on the cluster to point to the new repository.  This is similar to what the *nephio-workload-cluster*
 package does in the Sandbox exercises, except that it uses GCP services to create the repository and bootstrap Config
 Sync, rather than Nephio controllers.
 
-First, pull the cluster package into your clone of the `config-control`
+First, pull the cluster package into your clone of the *config-control*
 repository:
 
 ```bash
@@ -626,7 +626,7 @@ git commit -m "Initial clone of GKE package"
 ```
 
 Next, configure the package for your environment. Specifically, you need to add your project ID and location to your
-clone of the package. You can manually edit the `gcp-context.yaml` or run the following commands:
+clone of the package. You can manually edit the *gcp-context.yaml* or run the following commands:
 
 ```bash
 kpt fn eval nephio --image gcr.io/kpt-fn/search-replace:v0.2.0 --match-name gcp-context -- 'by-path=data.project-id' "put-value=${PROJECT}"
@@ -674,7 +674,7 @@ To check the status, use the console:
 
 ![Console Packages](/static/images/install-guides/gcp-console-packages.png)
 
-Alternatively, you can use `kubectl` to view the status of the `root-sync`:
+Alternatively, you can use `kubectl` to view the status of the *root-sync*:
 
 ```bash
 kubectl describe rootsync -n config-management-system root-sync
@@ -771,8 +771,8 @@ nephio                us-central1  1.27.3-gke.100  34.xxx.xx.xx  e2-medium     1
 
 
 
-Once the management cluster is `RUNNING`, retrieve the credentials and
-store them as a `kubectl` context:
+Once the management cluster is RUNNING, retrieve the credentials and
+store them as a *kubectl* context:
 
 ```bash
 gcloud container clusters get-credentials --location $LOCATION nephio
@@ -800,7 +800,7 @@ If the context is not current, use this command to make it current:
 kubectl config use-context "gke_${PROJECT}_${LOCATION}_nephio"
 ```
 
-As a final step, return to the `nephio-install` directory as your current
+As a final step, return to the *nephio-install* directory as your current
 working directory:
 
 ```bash
@@ -827,8 +827,8 @@ nephio           your-nephio-project-id  https://source.developers.google.com/p/
 
 
 
-Ensure your current working directory is `nephio-install`, and then clone the
-`nephio` repository locally:
+Ensure your current working directory is *nephio-install*, and then clone the
+*nephio* repository locally:
 
 ```bash
 gcloud source repos clone nephio
@@ -845,7 +845,7 @@ Project [your-nephio-project-id] repository [nephio] was cloned to [/home/your-u
 
 
 
-Navigate to that directory, and pull out the `nephio-mgmt` package, which
+Navigate to that directory, and pull out the *nephio-mgmt* package, which
 contains all the necessary Nephio components as subpackages:
 - Porch
 - Nephio Controllers
@@ -1027,7 +1027,7 @@ set up OAuth. In particular you need to [create the client ID](/content/en/docs/
 and the [secret](/content/en/docs/guides/install-guides/webui-auth-gcp.md#create-the-secret-in-the-cluster)
 manually.
 
-The `nephio-webui` subpackage in `nephio-mgmt` is already set up for
+The *nephio-webui* subpackage in *nephio-mgmt* is already set up for
 Google OAuth 2.0; you can follow the instructions in the linked document if you
 prefer OIDC.
 
@@ -1146,12 +1146,12 @@ To https://source.developers.google.com/p/your-nephio-project-id/nephio
 
 ## Accessing Nephio
 
-Accessing Nephio with `kubectl` or `kpt` can be done from your workstation, so long as you use the context for the
+Accessing Nephio with *kubectl* or *kpt* can be done from your workstation, so long as you use the context for the
 Nephio management cluster.
 
 To access the WebUI, you need to create a DNS entry pointing to the load balancer IP serving the Ingress resources. The
 Ingress included in the Web UI package will use Cert Manager to automatically generate a self-signed certificate for the
-`WEBUIFQDN` value.
+*WEBUIFQDN* value.
 
 Find the IP address using this command:
 
@@ -1169,7 +1169,7 @@ The output is similar to:
 
 
 
-You will need to add this as an `A` record for the name you used in `WEBUIFQDN`. If you are using Google Cloud DNS for
+You will need to add this as an **A** record for the name you used in *WEBUIFQDN*. If you are using Google Cloud DNS for
 that zone, first find the managed zone name:
 
 ```bash
@@ -1188,8 +1188,8 @@ your-managed-zone-name                 example.com.                             
 
 
 
-In this case, you would use `your-managed-zone-name`, which is the name for the
-`example.com.` zone.
+In this case, you would use *your-managed-zone-name*, which is the name for the
+*example.com.* zone.
 
 Start a transaction to add a record set:
 
@@ -1206,7 +1206,7 @@ Transaction started [transaction.yaml].
 
 
 
-Add the specific IP address as an A record, with the fully-qualified domain name
+Add the specific IP address as an **A** record, with the fully-qualified domain name
 of the site:
 
 ```bash

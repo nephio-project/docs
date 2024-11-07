@@ -15,7 +15,7 @@ to simulate a topology with a Nephio management cluster and three workload clust
 
 ### GCE Prerequisites
 
-You will need an account in GCP and `gcloud` installed on your local environment.
+You will need an account in GCP and *gcloud* installed on your local environment.
 
 ### Create a Virtual Machine on GCE
 
@@ -64,7 +64,7 @@ browse the Nephio Web UI
 
 ## Open Terminal
 
-You will probably want a second ssh window open to run `kubectl` commands, etc.,
+You will probably want a second ssh window open to run *kubectl* commands, etc.,
 without the port forwarding (which would fail if you try to open a second ssh
 connection with that setting).
 

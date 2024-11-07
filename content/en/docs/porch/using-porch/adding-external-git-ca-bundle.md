@@ -11,15 +11,13 @@ To enable the porch server to communicate with a custom git deployment over HTTP
 
 The secret itself must meet the following criteria:
 
-- exist in the same `namespace` as the Repository CR (Custom Resource) that requires it
-- be named specifically `<namespace>-ca-bundle`
-- have a Data key named `ca.crt` containing the relevant ca certificate (chain)
+- exist in the same namespace as the Repository CR (Custom Resource) that requires it
+- be named specifically \<namespace\>-ca-bundle
+- have a Data key named *ca.crt* containing the relevant ca certificate (chain)
 
-For example, a Git Repository is hosted over HTTPS at the following URL:
+For example, a Git Repository is hosted over HTTPS at the *https://my-gitlab.com/joe.bloggs/blueprints.git* URL:
 
-`https://my-gitlab.com/joe.bloggs/blueprints.git`
-
-Before creating the new Repository in the **gitlab** namespace, we must create a secret that fulfils the criteria above.
+Before creating the new Repository in the *gitlab* namespace, we must create a secret that fulfils the criteria above.
 
 `kubectl create secret generic gitlab-ca-bundle --namespace=gitlab --from-file=ca.crt`
 
