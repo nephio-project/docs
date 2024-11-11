@@ -109,7 +109,7 @@ then run test suite against the Porch instance.
 * `make` or `make all`: builds and runs Porch [locally](../running-porch/running-locally.md)
 * `make test`: runs tests
 
-## VSCode
+## VS Code
 
 [VS Code](https://code.visualstudio.com/) works really well for editing and debugging.
 Just open VSCode from the root folder of the Porch repository and it will work fine. The folder contains the needed
