@@ -247,7 +247,6 @@ packagerevs                                    config.porch.kpt.dev/v1alpha1    
 packagevariants                                config.porch.kpt.dev/v1alpha1          true         PackageVariant
 packagevariantsets                             config.porch.kpt.dev/v1alpha2          true         PackageVariantSet
 repositories                                   config.porch.kpt.dev/v1alpha1          true         Repository
-functions                                      porch.kpt.dev/v1alpha1                 true         Function
 packagerevisionresources                       porch.kpt.dev/v1alpha1                 true         PackageRevisionResources
 packagerevisions                               porch.kpt.dev/v1alpha1                 true         PackageRevision
 packages                                       porch.kpt.dev/v1alpha1                 true         Package
@@ -454,7 +453,6 @@ The full list of Nephio CRDs is as below:
 ```bash
 kubectl api-resources --api-group=porch.kpt.dev         
 NAME                       SHORTNAMES   APIVERSION               NAMESPACED   KIND
-functions                               porch.kpt.dev/v1alpha1   true         Function
 packagerevisionresources                porch.kpt.dev/v1alpha1   true         PackageRevisionResources
 packagerevisions                        porch.kpt.dev/v1alpha1   true         PackageRevision
 packages                                porch.kpt.dev/v1alpha1   true         Package

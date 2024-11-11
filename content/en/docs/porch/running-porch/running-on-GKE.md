@@ -96,7 +96,6 @@ Expected output will include:
 
 ```bash
 repositories                                   config.porch.kpt.dev/v1alpha1          true         Repository
-functions                                      porch.kpt.dev/v1alpha1                 true         Function
 packagerevisionresources                       porch.kpt.dev/v1alpha1                 true         PackageRevisionResources
 packagerevisions                               porch.kpt.dev/v1alpha1                 true         PackageRevision
 ```
