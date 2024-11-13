@@ -125,7 +125,7 @@ command:
 
 The `--enable-private-registry`, `--registry-auth-secret-path` and `--registry-auth-secret-name` arguments have default values of *false*, */var/tmp/auth-secret/.dockerconfigjson* and *auth-secret* respectively; however, these should be overridden to enable the functionality and match user specifications.
 
-The `--enable-tls-registry` and `--tls-secret-path` arguments have default values of *false* and */var/tmp/tls-secret/* respectively; however these should be configured by the user and are only necessary when the user has a private TLS registry.
+The *--enable-tls-registry* and *--tls-secret-path* arguments have default values of *false* and */var/tmp/tls-secret/* respectively; however these should be configured by the user and are only necessary when the user has a private TLS registry.
 
 {{% alert title="Note" color="primary" %}}
 It is vital that the user has configured the node which the function runner is operating on with the certificate information which is used in the `<TLS_SECRET_NAME>`. If this is not configured correctly even if the certificate is correct the function runner will be able to pull the image but the krm function pod spun up to run the function will error out with a *x509 certificate signed by unknown authority*.
