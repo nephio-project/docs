@@ -11,7 +11,7 @@ To enable the Porch function runner to pull kpt function images from authenticat
 Please note sections 4, 5 and 6 are only required if your private registries are set up to use TLS with either self signed or custom/local CA's
 {{% /alert %}}
 
-1. Creating a kubernetes secret using a JSON file according to the Docker config schema, containing valid credentials for each authenticated registry.
+1. Creating a Kubernetes secret using a JSON file according to the Docker config schema, containing valid credentials for each authenticated registry.
 2. Mounting this new secret as a volume on the function runner.
 3. Enabling the external registries feature, providing the path and name of the mounted secret to the function runner using the arguments `--enable-private-registry`, `--registry-auth-secret-path` and `--registry-auth-secret-name` respectively.
 4. Creating a Kubernetes secret using the TLS information for the registry you wish to use.
