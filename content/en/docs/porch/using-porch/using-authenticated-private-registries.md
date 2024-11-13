@@ -13,7 +13,7 @@ Please note sections 4, 5 and 6 are only required if your private registries are
 
 1. Creating a Kubernetes secret using a JSON file according to the Docker config schema, containing valid credentials for each authenticated registry.
 2. Mounting this new secret as a volume on the function runner.
-3. Enabling the external registries feature, providing the path and name of the mounted secret to the function runner using the arguments `--enable-private-registry`, `--registry-auth-secret-path` and `--registry-auth-secret-name` respectively.
+3. Enabling the external registries feature, providing the path and name of the mounted secret to the function runner using the arguments *--enable-private-registry*, *--registry-auth-secret-path* and *--registry-auth-secret-name* respectively.
 4. Creating a Kubernetes secret using the TLS information for the registry you wish to use.
 5. Mounting the secret containing the registries TLS information to the function runner similarly to step 2.
 6. Enabling the TLS feature and providing the path of the mounted secret to the funtion runner using the arguments `--enable-private-registry` and `--tls-secret-path` respectively.
