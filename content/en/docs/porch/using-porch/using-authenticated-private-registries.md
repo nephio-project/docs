@@ -128,7 +128,7 @@ The `--enable-private-registry`, `--registry-auth-secret-path` and `--registry-a
 The *--enable-tls-registry* and *--tls-secret-path* arguments have default values of *false* and */var/tmp/tls-secret/* respectively; however these should be configured by the user and are only necessary when the user has a private TLS registry.
 
 {{% alert title="Note" color="primary" %}}
-It is vital that the user has configured the node which the function runner is operating on with the certificate information which is used in the `<TLS_SECRET_NAME>`. If this is not configured correctly even if the certificate is correct the function runner will be able to pull the image but the krm function pod spun up to run the function will error out with a *x509 certificate signed by unknown authority*.
+It is vital that the user has configured the node which the function runner is operating on with the certificate information which is used in the *<TLS_SECRET_NAME>*. If this is not configured correctly even if the certificate is correct the function runner will be able to pull the image but the krm function pod spun up to run the function will error out with a *x509 certificate signed by unknown authority*.
 {{% /alert %}}
 
 With this last step, if your Porch package uses a custom kpt function image stored in an authenticated private registry (for example `- image: ghcr.io/private-registry/set-namespace:customv2`), the function runner will now use the secret info to replicate your secret on the `porch-fn-system` namespace and specify it as an `imagePullSecret` for the function pods, as documented [here](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/).
