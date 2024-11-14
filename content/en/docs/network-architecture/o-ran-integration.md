@@ -109,7 +109,8 @@ As of this release, the O-RAN Alliance has not specified O2ims provisioning inte
 The primary role of the NFO and DMS services is to provide for the lifecycle management of the cloud deployments for O-RAN NFs. These services have identified the following O-Cloud capabilities that are planned to be developed using Nephio capabilities:
 
 - NF Deployment Lifecycle Management
-
+- NF Termination Lifecycle Management
+- 
 #### NF Deployment Lifecycle Management
 
 ##### Introduction
@@ -123,7 +124,8 @@ NF Deployment Lifecycle Management services implemented using Nephio capabilitie
 {{% alert title="Note" color="primary" %}}
 
 In R3 Nephio use cases and component architectures have been defined for the Deploy O-RAN NF use case.
-In R3 ,NFO supports OAI O-RAN NF deployments using below REST API's.
+In R3 ,NFO supports OAI O-RAN(OCU-CP,OCU-UP,ODU) NF deployments using below REST API's.
+
 ##  input will be packagevariant of OAI NF.
 
 ##### NFO API For OAI DU NF Deployment:
