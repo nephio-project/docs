@@ -31,17 +31,17 @@ After issuing this command you are expected to start the porch API server locall
 
 The simplest way to run the porch API server is to launch it in a VSCode IDE, as described by the following process:
 
-1. Open the `porch.code-workspace` file in the root of the porch git repo.
+1. Open the *porch.code-workspace* file in the root of the porch git repo.
 
-1. Edit your local `.vscode/launch.json` file as follows: Change the `--kubeconfig` argument of the `Launch Server` configuration to point to a KUBECONFIG file that is set to the kind cluster as the current context. 
+1. Edit your local *.vscode/launch.json* file as follows: Change the `--kubeconfig` argument of the Launch Server configuration to point to a *KUBECONFIG* file that is set to the kind cluster as the current context. 
 
 {{% alert title="Note" color="primary" %}}
 
-  If your current KUBECONFIG environment variable already points to the porch-test kind cluster, then you don't have to touch anything.
+  If your current *KUBECONFIG* environment variable already points to the porch-test kind cluster, then you don't have to touch anything.
 
   {{% /alert %}}
 
-1. Launch the Porch server locally in VSCode by selecting the "Launch Server" configuration on the VSCode "Run and Debug" window. For more information please refer to the [VSCode debugging documentation](https://code.visualstudio.com/docs/editor/debugging).
+1. Launch the Porch server locally in VSCode by selecting the **Launch Server** configuration on the VSCode **Run and Debug** window. For more information please refer to the [VSCode debugging documentation](https://code.visualstudio.com/docs/editor/debugging).
 
 ### Check to ensure that the API server is serving requests:
 
@@ -129,7 +129,7 @@ curl https://localhost:4443/apis/porch.kpt.dev/v1alpha1 -k
 
 ## Troubleshoot the porch controllers
 
-There are several ways to develop, test and troubleshoot the porch controllers (i.e. PackageVariant, PackageVariantSet). In this chapter we describe an option where every other parts of porch is running in the porch-test kind cluster, but the process hosting all porch controllers is running locally on your machine.
+There are several ways to develop, test and troubleshoot the porch controllers (i.e. *ackageVariant*, *PackageVariantSet*). In this chapter we describe an option where every other parts of porch is running in the porch-test kind cluster, but the process hosting all porch controllers is running locally on your machine.
 
 The following command will rebuild and deploy porch, except the porch-controllers component:
 
@@ -137,7 +137,7 @@ The following command will rebuild and deploy porch, except the porch-controller
 make run-in-kind-no-controllers
 ```
 
-After issuing this command you are expected to start the porch controllers process locally on your machine (outside of the kind cluster); probably in your IDE, potentially in a debugger. If you are using VS Code you can use the "Launch Controllers" configuration that is defined in the [launch.json](https://github.com/nephio-project/porch/blob/main/.vscode/launch.json) file of the porch git repo.
+After issuing this command you are expected to start the porch controllers process locally on your machine (outside of the kind cluster); probably in your IDE, potentially in a debugger. If you are using VS Code you can use the **Launch Controllers** configuration that is defined in the [launch.json](https://github.com/nephio-project/porch/blob/main/.vscode/launch.json) file of the porch git repo.
 
 ## Run the unit tests
 
@@ -147,7 +147,7 @@ make test
 
 ## Run the end-to-end tests
 
-To run the end-to-end tests against the Kubernetes API server where KUBECONFIG points to, simply issue:
+To run the end-to-end tests against the Kubernetes API server where *KUBECONFIG* points to, simply issue:
 
 ```bash
 make test-e2e
@@ -182,7 +182,7 @@ E2E=1 go test -v ./test/e2e/cli -run TestPorch/rpkg-lifecycle
 
 The `make run-in-kind`, `make run-in-kind-no-server` and `make run-in-kind-no-controller` commands can be executed right after each other. No clean-up or restart is required between them. The make scripts will intelligently do the necessary changes in your current porch deployment in kind (e.g. removing or re-adding the porch API server).
 
-You can always find the configuration of your current deployment in `.build/deploy`.
+You can always find the configuration of your current deployment in *.build/deploy*.
 
 You can always use `make test` and `make test-e2e` to test your current setup, no matter which of the above detailed configurations it is.
 

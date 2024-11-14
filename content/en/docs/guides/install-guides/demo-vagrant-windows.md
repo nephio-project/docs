@@ -51,10 +51,10 @@ the Vagrant file. This is not recommended!
 
 {{% /alert %}}
 
-- In the Vagrant file "./Vagrantfile", there are *CPUS & RAM* parameters in
-  `config.vm.provider`, it's possible to override them at runtime:
+- In the Vagrant file *./Vagrantfile*, there are *CPUS & RAM* parameters in
+  the *config.vm.provider*, it's possible to override them at runtime:
   - On Linux, or the Git Bash on Windows we can use a one-liner command `CPUS=16
   MEMORY=32768 vagrant up`
 
-- In the Ansible "./playbooks/roles/bootstrap/tasks/prechecks.yml" file, there
+- In the Ansible *./playbooks/roles/bootstrap/tasks/prechecks.yml* file, there
   are the checks for *CPUS & RAM*

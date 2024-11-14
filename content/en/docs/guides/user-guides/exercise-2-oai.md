@@ -34,7 +34,7 @@ The network configuration is illustrated in the following figure:
 
 To perform these exercises, you will need:
 
-- Access to the installed demo VM environment and can login as the `ubuntu` user to have access to the necessary files.
+- Access to the installed demo VM environment and can login as the ubuntu user to have access to the necessary files.
 - Access to the Nephio UI as described in the installation guide
 
 Access to Gitea, used in the demo environment as the Git provider, is optional.
@@ -50,8 +50,8 @@ Use the session just started on the VM to run these commands:
 
 {{% alert title="Note" color="primary" %}}
 
-After fresh `docker` install, verify `docker` supplementary group is loaded by executing `id | grep docker`.
-If not, logout and login to the VM or execute the `newgrp docker` to ensure the `docker` supplementary group is loaded.
+After fresh docker install, verify docker supplementary group is loaded by executing `id | grep docker`.
+If not, logout and login to the VM or execute the `newgrp docker` to ensure the docker supplementary group is loaded.
 
 {{% /alert %}}
 
@@ -77,7 +77,7 @@ oai-core-packages           git    Package   false        True    https://github
 ```
 
 
-Since those are Ready, you can deploy packages from these repositories. You can use our pre-defined `PackageVariantSets` for creating workload clusters
+Since those are Ready, you can deploy packages from these repositories. You can use our pre-defined *PackageVariantSets* for creating workload clusters
 
 ```bash
 kubectl apply -f test-infra/e2e/tests/oai/001-infra.yaml
@@ -93,15 +93,15 @@ packagevariantset.config.porch.kpt.dev/oai-edge-clusters created
 ```
 
 
-It will take around 15 mins to create the three clusters. You can check the progress by looking at commits made in gitea `mgmt` and `mgmt-staging` repository. After couple of minutes you should see three independent repositories (Core, Regional and Edge) for each workload cluster.
+It will take around 15 mins to create the three clusters. You can check the progress by looking at commits made in gitea *mgmt* and *mgmt-staging* repository. After couple of minutes you should see three independent repositories (Core, Regional and Edge) for each workload cluster.
 
-You can also look at the state of `packagerevisions` for the three packages. You can use the below command
+You can also look at the state of packagerevisions for the three packages. You can use the below command
 
 ```bash
 kubectl get packagerevisions | grep -E 'core|regional|edge' | grep mgmt
 ```
 
-While you are checking you will see `LIFECYCLE` will change from Draft to Published. Once packages are Published then the clusters will start getting deployed.
+While you are checking you will see *LIFECYCLE* will change from Draft to Published. Once packages are Published then the clusters will start getting deployed.
 
 ## Step 2: Check the status of the workload clusters
 
@@ -125,7 +125,7 @@ regional   docker         Provisioned   34m   v1.26.3
 ```
 
 
-To access the API server of that cluster, you need to retrieve the `kubeconfig` file by pulling it from the Kubernetes Secret and decode the base64 encoding:
+To access the API server of that cluster, you need to retrieve the *kubeconfig* file by pulling it from the Kubernetes Secret and decode the base64 encoding:
 
 ```bash
 kubectl get secret core-kubeconfig -o jsonpath='{.data.value}' | base64 -d > $HOME/.kube/core-kubeconfig
@@ -134,7 +134,7 @@ kubectl get secret edge-kubeconfig -o jsonpath='{.data.value}' | base64 -d > $HO
 export KUBECONFIG=$HOME/.kube/config:$HOME/.kube/regional-kubeconfig:$HOME/.kube/core-kubeconfig:$HOME/.kube/edge-kubeconfig
 ```
 
-To retain the KUBECONFIG environment variable permanently across sessions for the user, add it to the `~/.bash_profile` and source the `~/.bash_profile` file
+To retain the KUBECONFIG environment variable permanently across sessions for the user, add it to the *~/.bash_profile* and source the *~/.bash_profile* file
 
 You can then use it to access the Workload cluster directly:
 
@@ -225,7 +225,7 @@ worker nodes.
 Finally, you want to configure the resource backend to be aware of these clusters. The resource backend is an IP address and VLAN index management system. It is included for demonstration purposes to show how Nephio package specialization can interact with external systems to fully configure packages. But it needs to be configured to match our topology.
 
 First, you will apply a package to define the high-level networks for attaching our workloads. The Nephio package specialization pipeline will determine the exact VLAN tags and IP addresses for those attachments based on the specific
-clusters. There is a predefined PackageVariant in the tests directory for this:
+clusters. There is a predefined *PackageVariant* in the tests directory for this:
 
 ```bash
 kubectl apply -f test-infra/e2e/tests/oai/001-network.yaml
@@ -253,7 +253,7 @@ secret/srl.nokia.com created
 ```
 
 
-The predefined PackageVariant package defines certain resources that exist for the entire topology. However, you also need to configure the resource backend for our particular topology. This will likely be automated in the future, but for now you can just directly apply the configuration you have created that matches this test topology. Within this step also the credentials and information is provided to configure the network device, that aligns with the topology.
+The predefined *PackageVariant* package defines certain resources that exist for the entire topology. However, you also need to configure the resource backend for our particular topology. This will likely be automated in the future, but for now you can just directly apply the configuration you have created that matches this test topology. Within this step also the credentials and information is provided to configure the network device, that aligns with the topology.
 
 ```bash
 ./test-infra/e2e/provision/hacks/network-topo.sh
@@ -335,7 +335,7 @@ packagerevision.porch.kpt.dev/mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601
 
 ## Step 3: Deploy Dependencies, MySQL database, OAI Core and RAN Operator in the Workload clusters
 
-Now you will need to deploy the MySQL database required by OAI UDR network function, OAI Core and RAN operators across the Workload clusters. To do this, you use `PackageVariant` and `PackageVariantSet`. Later uses an objectSelector to select the WorkloadCluster resources previously added to the Management cluster when you had deployed the nephio-workload-cluster packages (manually as well as via PackageVariantSet).
+Now you will need to deploy the MySQL database required by OAI UDR network function, OAI Core and RAN operators across the Workload clusters. To do this, you use *PackageVariant* and *PackageVariantSet*. Later uses an objectSelector to select the WorkloadCluster resources previously added to the Management cluster when you had deployed the *nephio-workload-cluster* packages (manually as well as via *PackageVariantSet*).
 
 ```bash
 kubectl apply -f test-infra/e2e/tests/oai/002-database.yaml
@@ -356,7 +356,7 @@ packagevariant.config.porch.kpt.dev/oai-ran-operator-regional created
 
 ## Step 4: Check Database and Operator Deployment
 
-Within five minutes of applying the RAN, Core Operator, and database Packages, you should see `oai-core` and `oai-cn-operators` namespaces on the Core workload cluster:
+Within five minutes of applying the RAN, Core Operator, and database Packages, you should see oai-core and oai-cn-operators namespaces on the Core workload cluster:
 
 ```bash
 kubectl get ns --context core-admin@core
@@ -382,7 +382,7 @@ resource-group-system          Active   88m
 ```
 
 
-In the namespace `oai-core` you can check MySQL pod
+In the namespace oai-core you can check MySQL pod
 
 ```bash
 kubectl get pods -n oai-core --context core-admin@core
@@ -397,7 +397,7 @@ mysql-7dd4cc6945-lqwcv   1/1     Running   0          7m12s
 ```
 
 
-In the `oai-cn-operators` namespace you should see control plane network function operators
+In the oai-cn-operators namespace you should see control plane network function operators
 
 ```bash
 kubectl get pods -n oai-cn-operators --context core-admin@core
@@ -464,7 +464,7 @@ resource-group-system          Active   97m
 ```
 
 
-In edge cluster in `oai-cn-operators` namespace you will see only oai-upf network function.
+In edge cluster in oai-cn-operators namespace you will see only oai-upf network function.
 
 ```bash
 kubectl get pods -n oai-cn-operators --context edge-admin@edge
@@ -481,7 +481,7 @@ oai-upf-operator-75cbc869cb-67lf9   1/1     Running   0          16m
 
 ## Step 5: Deploy the Core Network Functions
 
-You can start by deploying the core network functions which the operator will instantiate. For now, you will use individual `PackageVariants` targeting the Core and Edge cluster. In the future, you could put all of these resources into
+You can start by deploying the core network functions which the operator will instantiate. For now, you will use individual *PackageVariants* targeting the Core and Edge cluster. In the future, you could put all of these resources into
 yet-another-package - a "topology" package - and deploy them all as a unit. Or you can use a topology controller to create them. But for now, let's do each manually.
 
 ```bash
@@ -501,7 +501,7 @@ packagevariant.config.porch.kpt.dev/oai-upf-edge created
 ```
 
 
-All the NFs will wait for NRF to come up and then they will register to NRF. SMF has a dependency on UPF which is described by `dependency.yaml` file in SMF package. It will wait till the time UPF is deployed. It takes around ~800 seconds for the whole core network to come up. NRF is exposing its service via metallb external ip-address. In case metallb ip-address pool is not properly defined in the previous section, then UPF will not be able to register to NRF and in this case SMF and UPF will not be able to communicate. 
+All the NFs will wait for NRF to come up and then they will register to NRF. SMF has a dependency on UPF which is described by *dependency.yaml* file in SMF package. It will wait till the time UPF is deployed. It takes around ~800 seconds for the whole core network to come up. NRF is exposing its service via metallb external ip-address. In case metallb ip-address pool is not properly defined in the previous section, then UPF will not be able to register to NRF and in this case SMF and UPF will not be able to communicate. 
 
 ### Check Core Network Deployment
 
@@ -574,11 +574,11 @@ content-length: 58
 [2024-01-25 16:54:21.817] [upf_n4 ] [info] Received SX HEARTBEAT REQUEST
 ```
 
-In the logs you should see `Received SX HEARTBEAT REQUEST` statement. If that is present then SMF and UPF are sharing PFCP heartbeats.
+In the logs you should see **Received SX HEARTBEAT REQUEST** statement. If that is present then SMF and UPF are sharing PFCP heartbeats.
 
 ## Step 6: Deploy RAN Network Functions
 
-If the core network functions are running and configured properly then you can start by deploying RAN network function `PackageVariants`.
+If the core network functions are running and configured properly then you can start by deploying RAN network function *PackageVariants*.
 
 ```bash
 kubectl create -f test-infra/e2e/tests/oai/004-ran-network.yaml
@@ -679,7 +679,7 @@ The output is similar to:
 
 ## Step 7: Deploy UE
 
-If all three links are configured then you can proceed with deploying the UE `PackageVariants`
+If all three links are configured then you can proceed with deploying the UE *PackageVariants*
 
 ```bash
 kubectl create -f test-infra/e2e/tests/oai/005-ue.yaml

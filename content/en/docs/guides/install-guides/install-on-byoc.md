@@ -19,11 +19,11 @@ Regardless of the specific choices you make, you will need the following
 prerequisites. This is in addition to any prerequisites that are specific to
 your environment and choices.
  - a Linux workstation with internet access
- - `kubectl` [installed ](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)on your workstation
- - `kpt` [installed](https://kpt.dev/installation/kpt-cli) on your workstation
+ - *kubectl* [installed ](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)on your workstation
+ - *kpt* [installed](https://kpt.dev/installation/kpt-cli) on your workstation
    (version v1.0.0-beta.43 or later)
- - `porchctl` [installed](/content/en/docs/porch/using-porch/porchctl-cli-guide.md) on your workstation
- - Sudo-less `docker`, `podman`, or `nerdctl`. If using `podman` or `nerdctl`,
+ - *porchctl* [installed](/content/en/docs/porch/using-porch/porchctl-cli-guide.md) on your workstation
+ - Sudo-less *docker*, *podman*, or *nerdctl*. If using *podman* or *nerdctl*,
    you must set the
 [`KPT_FN_RUNTIME`](https://kpt.dev/reference/cli/fn/render/?id=environment-variables)
 environment variable.
@@ -31,12 +31,12 @@ environment variable.
 As part of all installations, you will create or utilize an existing Kubernetes
 management cluster. The management cluster must have internet access, and must
 be a non-EOL Kubernetes version. Additionally:
- - Your default `kubectl` context should point to the cluster
+ - Your default *kubectl* context should point to the cluster
  - You will need cluster administrator privileges (in particular you will need
    to be able to create namespaces and other cluster-scoped resources).
 
-You will use `kpt` for most of the installation packages in these instructions,
-though you could also use `kubectl` directly to apply the resources, once they
+You will use *kpt* for most of the installation packages in these instructions,
+though you could also use *kubectl* directly to apply the resources, once they
 are configured.
 
 After installing the prerequisites, create a local directory on your
@@ -49,7 +49,7 @@ cd nephio-install
 ```
 
 The instructions for setting up the opinionated installations will assume you
-have installed the prerequisites and created the `nephio-install` directory.
+have installed the prerequisites and created the *nephio-install* directory.
 
 ## Opinionated Installations
 
@@ -118,12 +118,12 @@ Ingress or Gateway is recommended.
 
 ### Nephio WebUI Authentication and Authorization
 
-In the default configuration, the Nephio WebUI *is wide open with no
-authentication*. The webui itself authenticates to the cluster using a static
+In the default configuration, the Nephio WebUI **is wide open with no
+authentication**. The webui itself authenticates to the cluster using a static
 service account, which is bound to the cluster admin role. Any user accessing
-the webui is *acting as a cluster admin*.
+the webui is **acting as a cluster admin**.
 
-This configuration is designed for *testing and development only*. You must not
+This configuration is designed for **testing and development only**. You must not
 use this configuration in any other situation, and even for testing and
 development it must not be exposed on the internet (for example, via a
 LoadBalancer service, Ingress, or Route).

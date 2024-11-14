@@ -18,28 +18,28 @@ Ansible install scripts.
 
 | Component | Purpose                                                                                  |
 | --------- | ---------------------------------------------------------------------------------------- |
-| docker    | Used to host Kubernetes clusters created by KinD                                         |
-| kind      | Used to create clusters in docker                                                        |
-| kubectl   | Used to control clusters created by KinD                                                 |
-| kpt       | Used to install packages (software and metadata) on k8s clusters                         |
-| cni       | Used to implement the k8s network model for the KinD clusters                            |
-| gtp5g     | A Linux module that supports the 3GPP GPRS tunneling protocol (required by free5gc NFs)  |
+| *docker*    | Used to host Kubernetes clusters created by KinD                                         |
+| *kind*      | Used to create clusters in docker                                                        |
+| *kubectl*   | Used to control clusters created by KinD                                                 |
+| *kpt*       | Used to install packages (software and metadata) on k8s clusters                         |
+| *cni*       | Used to implement the k8s network model for the KinD clusters                            |
+| *gtp5g*     | A Linux module that supports the 3GPP GPRS tunneling protocol (required by free5gc NFs)  |
 
 The Ansible install scripts use kind to create the Management cluster. Once the Management KinD cluster is created, the
-install uses kpt packages to install the remainder of the software.
+install uses *kpt* packages to install the remainder of the software.
 
 ## Components Installed on the Management KinD cluster
 
-Everything is installed on the Management KinD cluster by Ansible scripts using kpt packages.
+Everything is installed on the Management KinD cluster by Ansible scripts using *kpt* packages.
 
-The install unpacks each kpt package in the */tmp* directory. It then applies the kpt functions to the packages and
-applies the packages to the Management KinD cluster. This allows the user to check the status of the kpt packages in
+The install unpacks each *kpt* package in the */tmp* directory. It then applies the *kpt* functions to the packages and
+applies the packages to the Management KinD cluster. This allows the user to check the status of the *kpt* packages in
 the cluster using the `kpt live status` command on the unpacked packages in the */tmp* directory.
 
-The rendered kpt packages containing components are unpacked in the */tmp/kpt-pkg* directory. The rendered kpt packages
-that create the *mgmt* and *mgmt-staging* repositories are unpacked in the */tmp/repository* directory. The rendered kpt
-package containing the rootsync configuration for the *mgmt* repository is unpacked in the */tmp/rootsync* directory.
-You can examine the contents of any rendered kpt packager by examining the contents of these directories.
+The rendered *kpt* packages containing components are unpacked in the */tmp/kpt-pkg* directory. The rendered *kpt* packages
+that create the *mgmt* and *mgmt-staging* repositories are unpacked in the */tmp/repository* directory. The rendered *kpt*
+package containing the *rootsync* configuration for the *mgmt* repository is unpacked in the */tmp/rootsync* directory.
+You can examine the contents of any rendered *kpt* packager by examining the contents of these directories.
 
 ```bash
 /tmp/kpt-pkg/                           /tmp/repository     /tmp/rootsync/
@@ -58,7 +58,7 @@ You can examine the contents of any rendered kpt packager by examining the conte
 └── resource-backend
 
 ```
-You can check the status of an applied kpt package using a `kpt live status package_dir` command.
+You can check the status of an applied *kpt* package using a `kpt live status package_dir` command.
  
 ```bash
 kpt live status /tmp/kpt-pkg/nephio-controllers/
@@ -129,13 +129,13 @@ interacts closely with.
 
 ## Some Useful Commands
 
-Easily get the kubeconfig for a CAPI KinD cluster:
+Easily get the *kubeconfig* for a CAPI KinD cluster:
 
 ```bash
 get_capi_kubeconfig regional
 ```
 
-will create a file `regional-kubeconfig` used to connect to that
+will create a file *regional-kubeconfig* used to connect to that
 cluster.
 
 You can query docker to see the docker images running KinD

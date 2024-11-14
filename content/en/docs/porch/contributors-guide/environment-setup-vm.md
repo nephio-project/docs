@@ -41,7 +41,7 @@ sudo usermod -a -G syslog ubuntu
 sudo usermod -a -G docker ubuntu
 ```
 
-3. Log out of your VM and log in again so that the group changes on the `ubuntu` user are picked up.
+3. Log out of your VM and log in again so that the group changes on the *ubuntu* user are picked up.
 
 ```bash
 > exit
@@ -51,7 +51,7 @@ sudo usermod -a -G docker ubuntu
 ubuntu adm dialout cdrom floppy sudo audio dip video plugdev syslog netdev lxd docker
 ```
 
-4. Install `go` so that you can build Porch on the VM:
+4. Install *go* so that you can build Porch on the VM:
 
 ```bash
 wget -O - https://go.dev/dl/go1.22.5.linux-amd64.tar.gz | sudo tar -C /usr/local -zxvf -
@@ -64,7 +64,7 @@ echo '    PATH="/usr/local/go/bin:$PATH"' >> ~/.profile
 echo 'fi'                                 >> ~/.profile 
 ```
 
-5. Log out of your VM and log in again so that the `go` is added to your path. Verify that `go` is in the path:
+5. Log out of your VM and log in again so that the *go* is added to your path. Verify that *go* is in the path:
 
 ```bash
 > exit
@@ -75,7 +75,7 @@ echo 'fi'                                 >> ~/.profile
 go version go1.22.5 linux/amd64
 ```
 
-6. Install `go delve` for debugging on the VM:
+6. Install *go delve* for debugging on the VM:
 
 ```bash
 go install -v github.com/go-delve/delve/cmd/dlv@latest
@@ -104,7 +104,7 @@ sed -i "s/^KIND_CONTEXT_NAME ?= porch-test$/KIND_CONTEXT_NAME ?= "$(kind get clu
 kubectl expose svc -n porch-system function-runner --name=xfunction-runner --type=LoadBalancer --load-balancer-ip='172.18.0.202'
 ```
 
-10. Set the `KUBECONFIG` and `FUNCTION_RUNNER_IP` environment variables in the `.profile` file
+10. Set the KUBECONFIG and FUNCTION_RUNNER_IP environment variables in the *.profile* file
 You **must** do this step before connecting with VSCode because VSCode caches the environment on the server. If you want to change the values of these variables subsequently, you must restart the VM server.
 
 ```bash
@@ -127,7 +127,7 @@ documentation.
 1. Use the **Connect to a remote host** instructions on the
 [Remote Development using SSH](https://code.visualstudio.com/docs/remote/ssh) page to connect to your VM.
 
-2. Click **Open Folder** and browse to the Porch code on the vm, `/home/ubuntu/git/github/nephio-project/porch` in this case:
+2. Click **Open Folder** and browse to the Porch code on the vm, */home/ubuntu/git/github/nephio-project/porch* in this case:
 
 ![Browse to Porch code](/static/images/porch/contributor/01_VSCodeOpenPorchFolder.png)
 
@@ -135,12 +135,12 @@ documentation.
 
 ![Porch code is open](/static/images/porch/contributor/02_VSCodeConnectedPorch.png)
 
-4. We now need to install support for `go` debugging in VSCode. Trigger this by launching a debug configuration in VSCode.
+4. We now need to install support for *go* debugging in VSCode. Trigger this by launching a debug configuration in VSCode.
 Here we use the **Launch Override Server** configuration.
 
 ![Launch the Override Server VSCode debug configuration](/static/images/porch/contributor/03_LaunchOverrideServer.png)
 
-5. VSCode complains that `go` debugging is not supported, click the **Install go Extension** button. 
+5. VSCode complains that *go* debugging is not supported, click the **Install go Extension** button. 
 
 ![VSCode go debugging not supported message](/static/images/porch/contributor/04_GoDebugNotSupportedPopup.png)
 
