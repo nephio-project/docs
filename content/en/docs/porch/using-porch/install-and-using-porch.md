@@ -7,7 +7,7 @@ description: "A tutorial to install and use Porch"
 
 This tutorial is a guide to installing and using Porch. It is based on the
 [Porch demo produced by Tal Liron of Google](https://github.com/tliron/klab/tree/main/environments/porch-demo). Users
-should be comfortable with using `git`, `docker`, and `kubernetes`.
+should be very comfortable with using *git*, *docker*, and *kubernetes*.
 
 See also [the Nephio Learning Resource](https://github.com/nephio-project/docs/blob/main/learning.md) page for
 background help and information.
@@ -33,7 +33,7 @@ The following software should be installed prior to running through the tutorial
 ```bash
 git clone https://github.com/nephio-project/porch.git
 
-cd porch/docs/tutorials/starting-with-porch/
+cd porch/examples/tutorials/starting-with-porch/
 ```
 
 ## Create the Kind clusters for management and edge1
@@ -45,14 +45,14 @@ kind create cluster --config=kind_management_cluster.yaml
 kind create cluster --config=kind_edge1_cluster.yaml
 ```
 
-Output the kubectl config for the clusters:
+Output the *kubectl* config for the clusters:
 
 ```bash
 kind get kubeconfig --name=management > ~/.kube/kind-management-config
 kind get kubeconfig --name=edge1 > ~/.kube/kind-edge1-config
 ```
 
-Toggling kubectl between the clusters:
+Toggling *kubectl* between the clusters:
 
 ```bash
 export KUBECONFIG=~/.kube/kind-management-config
@@ -73,7 +73,7 @@ kubectl wait --namespace metallb-system \
                 --timeout=90s
 ```
 
-Check the subnet that is being used by the `kind` network in docker
+Check the subnet that is being used by the kind network in docker
 
 ```bash
 docker network inspect kind | grep Subnet
@@ -86,7 +86,7 @@ Sample output:
 "Subnet": "fc00:f853:ccd:e793::/64"
 ```
 
-Edit the `metallb-conf.yaml` file and ensure the `spec.addresses` range is in the IPv4 subnet being used by the `kind` network in docker.
+Edit the *metallb-conf.yaml* file and ensure the spec.addresses range is in the IPv4 subnet being used by the kind network in docker.
 
 ```yaml
 ...
@@ -104,7 +104,7 @@ kubectl apply -f metallb-conf.yaml
 
 ## Deploy and set up Gitea on the management cluster using kpt
 
-Get the Gitea kpt package:
+Get the *gitea kpt* package:
 
 ```bash
 export KUBECONFIG=~/.kube/kind-management-config
@@ -114,7 +114,7 @@ cd kpt_packages
 kpt pkg get https://github.com/nephio-project/catalog/tree/main/distros/sandbox/gitea
 ```
 
-Comment out the preconfigured IP address from the `gitea/service-gitea.yaml` file in the Gitea Kpt package:
+Comment out the preconfigured IP address from the *gitea/service-gitea.yaml* file in the *gitea kpt* package:
 
 ```bash
 11c11
@@ -123,7 +123,7 @@ Comment out the preconfigured IP address from the `gitea/service-gitea.yaml` fil
 >     #    metallb.universe.tf/loadBalancerIPs: 172.18.0.200
 ```
 
-Now render, init and apply the Gitea Kpt package:
+Now render, init and apply the *gitea kpt* package:
 
 ```bash
 kpt fn render gitea
@@ -131,7 +131,8 @@ kpt live init gitea # You only need to do this command once
 kpt live apply gitea
 ```
 
-Once the package is applied, all the Gitea pods should come up and you should be able to reach the Gitea UI on the exposed IP Address/port of the Gitea service.
+Once the package is applied, all the Gitea pods should come up and you should be able to reach the Gitea UI on the
+exposed IP Address/port of the Gitea service.
 
 ```bash
 kubectl get svc -n gitea gitea
@@ -142,11 +143,12 @@ gitea   LoadBalancer   10.96.243.120   172.18.255.200   22:31305/TCP,3000:31102/
 
 The UI is available at http://172.18.255.200:3000 in the example above.
 
-To login to Gitea, use the credentials `nephio:secret`.
+To login to Gitea, use the credentials nephio:secret.
 
 ## Create repositories on Gitea for management and edge1
 
-On the Gitea UI, click the '+' opposite "Repositories" and fill in the form for both the `management` and `edge1` repositories. Use default values except for the following fields:
+On the gitea UI, click the **+** opposite **Repositories** and fill in the form for both the *management* and *edge1*
+repositories. Use default values except for the following fields:
 
 - Repository Name: "Management" or "edge1"
 - Description: Something appropriate
@@ -167,7 +169,7 @@ Check the repos:
 
 Now initialize both repositories with an initial commit.
 
-Initialize the `management` repo
+Initialize the *management* repo
 
 ```bash
 cd ../repos
@@ -188,7 +190,7 @@ git push -u origin main
 cd ..
  ```
 
-Initialize the `edge1` repo
+Initialize the *edge1* repo
 
 ```bash
 git clone http://172.18.255.200:3000/nephio/edge1
@@ -210,7 +212,7 @@ cd ../../
 
 ## Install Porch
 
-We will use the Porch Kpt package from Nephio catalog repo.
+We will use the *Porch Kpt* package from Nephio catalog repo.
 
 ```bash
 cd kpt_packages
@@ -218,7 +220,7 @@ cd kpt_packages
 kpt pkg get https://github.com/nephio-project/catalog/tree/main/nephio/core/porch
 ```
 
-Now we can install porch. We render the kpt package and then init and apply it.
+Now we can install porch. We render the *kpt* package and then init and apply it.
 
 ```bash
 kpt fn render porch
@@ -287,7 +289,7 @@ management            git    Package   false        True    http://172.18.255.20
 
 ## Configure configsync on the workload cluster
 
-Configsync is installed on the `edge1` cluster so that it syncs the contents of the `edge1` repository onto the `edge1`
+Configsync is installed on the edge1 cluster so that it syncs the contents of the *edge1* repository onto the edge1
 workload cluster. We will use the configsync package from Nephio.
 
 ```bash
@@ -310,13 +312,13 @@ config-management-operator-6946b77565-f45pc   1/1     Running   0          118m
 reconciler-manager-5b5d8557-gnhb2             2/2     Running   0          118m
 ```
 
-Now, we need to set up a rootsync CR to synchronize the `edge1` repo:
+Now, we need to set up a Rootsync CR to synchronize the *edge1* repo:
 
 ```bash
 kpt pkg get https://github.com/nephio-project/catalog/tree/main/nephio/optional/rootsync
 ```
 
-Edit the `rootsync/package-context.yaml` file to set the name of the cluster/repository we are syncing from/to:
+Edit the *rootsync/package-context.yaml* file to set the name of the cluster/repo we are syncing from/to:
 
 ```bash
 9c9
@@ -325,14 +327,14 @@ Edit the `rootsync/package-context.yaml` file to set the name of the cluster/rep
 >   name: edge1
 ```
 
-Render the package. This configures the `rootsync/rootsync.yaml` file in the Kpt package:
+Render the package. This configures the *rootsync/rootsync.yaml* file in the Kpt package:
 
 ```bash
 kpt fn render rootsync
 ```
 
-Edit the `rootsync/rootsync.yaml` file to set the IP address of Gitea and to turn off authentication for accessing
-Gitea:
+Edit the *rootsync/rootsync.yaml* file to set the IP address of Gitea and to turn off authentication for accessing
+gitea:
 
 ```bash
 11c11
@@ -437,7 +439,7 @@ external-blueprints   git    Package   false        True    https://github.com/n
 management            git    Package   false        True    http://172.18.255.200:3000/nephio/management.git
 ```
 
-A repository is a CR of the Porch Repository CRD. You can examine the 'repositories.config.porch.kpt.dev' CRD with
+A repository is a CR of the Porch Repository CRD. You can examine the *repositories.config.porch.kpt.dev* CRD with
 either of the following commands (both of which are rather verbose):
 
 ```bash
@@ -529,9 +531,9 @@ external-blueprints-60ef45bb8f55b63556e7467f16088325022a7ece   pkg-example-upf-b
 external-blueprints-7757966cc7b965f1b9372370a4b382c8375a2b40   pkg-example-upf-bp   v5              v5         external-blueprints   17
 ```
 
-Let's examine the `free5gc-cp v1` package.
+Let's examine the *free5gc-cp v1* package.
 
-The PackageRevision CR name for free5gc-cp v1 is external-blueprints-dabbc422fdf0b8e5942e767d929b524e25f7eef9.
+The PackageRevision CR name for *free5gc-cp v1* is external-blueprints-dabbc422fdf0b8e5942e767d929b524e25f7eef9.
 
 ```bash
 kubectl get packagerevision -n porch-demo external-blueprints-dabbc422fdf0b8e5942e767d929b524e25f7eef9 -o yaml
@@ -560,7 +562,7 @@ status:
   upstreamLock: {}
 ```
 
-Getting the PackageRevisionResources pulls the package from its repository with each file serialized into a name-value
+Getting the *PackageRevisionResources* pulls the package from its repository with each file serialized into a name-value
 map of resources in it's spec.
 
 <details>
@@ -1310,7 +1312,7 @@ management            git    Package   false        True    http://172.18.255.20
 ```
 
 <details>
-<summary>Check that <code>porchctl</code> lists our remote packages (PackageRevisions):</summary>
+<summary>Check that porchctl lists our remote packages (PackageRevisions):</summary>
 
 ```
 porchctl rpkg -n porch-demo get
@@ -1352,7 +1354,8 @@ The output above is similar to the output of `kubectl get packagerevision -n por
 
 ### Blueprint with no Kpt pipelines
 
-Create a new package in our `management` repository using the sample `network-function` package provided. This network function kpt package is a demo Kpt package that installs [Nginx](https://github.com/nginx). 
+Create a new package in our *management* repo using the sample *network-function* package provided. This network
+function kpt package is a demo Kpt package that installs [nginx](https://github.com/nginx). 
 
 ```
 porchctl -n porch-demo rpkg init network-function --repository=management --workspace=v1
@@ -1362,7 +1365,9 @@ NAME                                                  PACKAGE            WORKSPA
 management-8b80738a6e0707e3718ae1db3668d0b8ca3f1c82   network-function   v1                         false    Draft       management
 ```
 
-This command creates a new PackageRevision CR in porch and also creates a branch called `network-function/v1` in our Gitea `management` repo. Use the Gitea web UI to confirm that the branch has been created and note that it only has default content as yet.
+This command creates a new *PackageRevision* CR in porch and also creates a branch called *network-function/v1* in our
+Gitea *management* repo. Use the Gitea web UI to confirm that the branch has been created and note that it only has
+default content as yet.
 
 We now pull the package we have initialized from Porch.
 
@@ -1401,13 +1406,18 @@ management-8b80738a6e0707e3718ae1db3668d0b8ca3f1c82   network-function   v1     
 
 ```
 
-Once we approve the package, the package is merged into the main branch in the `management` repository and the branch called `network-function/v1` in that repository is removed. Use the Gitea UI to verify this. We now have our blueprint package in our `management` repository and we can deploy this package into workload clusters.
+Once we approve the package, the package is merged into the main branch in the *management* repo and the branch called
+*network-function/v1* in that repo is removed. Use the Gitea UI to verify this. We now have our blueprint package in our
+*management* repo and we can deploy this package into workload clusters.
 
 ### Blueprint with a Kpt pipeline
 
-The second blueprint in the `blueprint` directory is called `network-function-auto-namespace`. This network function is exactly the same as the `network-function` package except that it has a Kpt function that automatically creates a namespace with the namespace configured in the `name` field in the `package-context.yaml` file. Note that no namespace is defined in the metadata of the `deployment.yaml` file of this Kpt package.
+The second blueprint blueprint in the *blueprint* directory is called *network-function-auto-namespace*. This network
+function is exactly the same as the *network-function* package except that it has a Kpt function that automatically
+creates a namespace with the namespace configured in the name field in the *package-context.yaml* file. Note that no
+namespace is defined in the metadata of the *deployment.yaml* file of this Kpt package.
 
-We use the same sequence of commands again to publish our blueprint package for `network-function-auto-namespace`.
+We use the same sequence of commands again to publish our blueprint package for *network-function-auto-namespace*.
 
 ```
 porchctl -n porch-demo rpkg init network-function-auto-namespace --repository=management --workspace=v1
@@ -1420,7 +1430,9 @@ cp blueprints/local-changes/network-function-auto-namespace/* blueprints/initial
 porchctl -n porch-demo rpkg push management-c97bc433db93f2e8a3d413bed57216c2a72fc7e3 blueprints/initialized/network-function-auto-namespace
 ```
 
-Examine the `drafts/network-function-auto-namespace/v1` branch in Gitea. Notice that the `set-namespace` Kpt function in the pipeline in the `Kptfile` has set the namespace in the `deployment.yaml` file to the value `default-namespace-name`, which it read from the `package-context.yaml` file.
+Examine the *drafts/network-function-auto-namespace/v1* branch in Gitea. Notice that the set-namespace Kpt function in
+the pipeline in the *Kptfile* has set the namespace in the *deployment.yaml* file to the value default-namespace-name,
+which it read from the *package-context.yaml* file.
 
 Now we propose and approve the package.
 
@@ -1442,7 +1454,10 @@ management-c97bc433db93f2e8a3d413bed57216c2a72fc7e3   network-function-auto-name
 
 ### Blueprint with no Kpt pipelines
 
-The process of deploying a blueprint package from our `management` repository clones the package, then modifies it for use on the workload cluster. The cloned package is then initialized, pushed, proposed, and approved onto the `edge1` repo. Remember that the `edge1` repository is being monitored by Configsync from the `edge1` cluster, so once the package appears in the `edge1` repository on the management cluster, it will be pulled by Configsync and applied to the `edge1` cluster.
+The process of deploying a blueprint package from our *management* repo clones the package, then modifies it for use on
+the workload cluster. The cloned package is then initialized, pushed, proposed, and approved onto the *edge1* repo.
+Remember that the *edge1* repo is being monitored by Configsync from the edge1 cluster, so once the package appears in
+the *edge1* repo on the management cluster, it will be pulled by Configsync and applied to the edge1 cluster.
 
 ```
 porchctl -n porch-demo rpkg pull management-8b80738a6e0707e3718ae1db3668d0b8ca3f1c82 tmp_packages_for_deployment/edge1-network-function-a.clone.tmp
@@ -1461,7 +1476,7 @@ The package we created in the last section is cloned. We now remove the original
 rm tmp_packages_for_deployment/edge1-network-function-a.clone.tmp/.KptRevisionMetadata
 ```
 
-We use a kpt function to change the namespace that will be used for the deployment of the network function.
+We use a *kpt* function to change the namespace that will be used for the deployment of the network function.
 
 ```
 kpt fn eval --image=gcr.io/kpt-fn/set-namespace:v0.4.1 tmp_packages_for_deployment/edge1-network-function-a.clone.tmp -- namespace=edge1-network-function-a 
@@ -1472,7 +1487,7 @@ kpt fn eval --image=gcr.io/kpt-fn/set-namespace:v0.4.1 tmp_packages_for_deployme
     [info]: namespace "" updated to "edge1-network-function-a", 1 value(s) changed
 ```
 
-We now initialize and push the package to the `edge1` repo:
+We now initialize and push the package to the *edge1* repo:
 
 ```
 porchctl -n porch-demo rpkg init edge1-network-function-a --repository=edge1 --workspace=v1
@@ -1490,10 +1505,10 @@ NAME                                             PACKAGE              WORKSPACEN
 edge1-d701be9b849b8b8724a6e052cbc74ca127b737c3   network-function-a   v1                         false    Draft       edge1
 ```
 
-You can verify that the package is in the `network-function-a/v1` branch of the deployment repository using the Gitea web UI.
+You can verify that the package is in the *network-function-a/v1* branch of the deployment repo using the Gitea web UI.
 
 
-Check that the `edge1-network-function-a` package is not deployed on the edge1 cluster yet:
+Check that the *edge1-network-function-a* package is not deployed on the edge1 cluster yet:
 ```
 export KUBECONFIG=~/.kube/kind-edge1-config
 
@@ -1502,7 +1517,8 @@ No resources found in network-function-a namespace.
 
 ```
 
-We now propose and approve the deployment package, which merges the package to the `edge1` repository and further triggers Configsync to apply the package to the `edge1` cluster.
+We now propose and approve the deployment package, which merges the package to the *edge1* repo and further triggers
+Configsync to apply the package to the edge1 cluster.
 
 ```
 export KUBECONFIG=~/.kube/kind-management-config
@@ -1518,7 +1534,7 @@ NAME                                             PACKAGE              WORKSPACEN
 edge1-d701be9b849b8b8724a6e052cbc74ca127b737c3   network-function-a   v1              v1         true     Published   edge1
 ```
 
-We can now check that the `network-function-a` package is deployed on the edge1 cluster and that the pod is running
+We can now check that the *network-function-a* package is deployed on the edge1 cluster and that the pod is running
 ```
 export KUBECONFIG=~/.kube/kind-edge1-config
 
@@ -1536,7 +1552,7 @@ network-function-9779fc9f5-4rqp2   1/1     Running   0          44s
 
 ### Blueprint with a Kpt pipeline
 
-The process for deploying a blueprint with a Kpt pipeline runs the Kpt pipeline automatically with whatever configuration we give it. Rather than explicitly running a Kpt function to change the namespace, we will specify the namespace as configuration and the pipeline will apply it to the deployment.
+The process for deploying a blueprint with a *Kpt* pipeline runs the Kpt pipeline automatically with whatever configuration we give it. Rather than explicitly running a *Kpt* function to change the namespace, we will specify the namespace as configuration and the pipeline will apply it to the deployment.
 
 ```
 porchctl -n porch-demo rpkg pull management-c97bc433db93f2e8a3d413bed57216c2a72fc7e3 tmp_packages_for_deployment/edge1-network-function-auto-namespace-a.clone.tmp
@@ -1556,7 +1572,7 @@ We now remove the original metadata from the package.
 rm tmp_packages_for_deployment/edge1-network-function-auto-namespace-a.clone.tmp/.KptRevisionMetadata
 ```
 
-The package we created in the last section is cloned. We now initialize and push the package to the `edge1` repo:
+The package we created in the last section is cloned. We now initialize and push the package to the *edge1* repo:
 
 ```
 porchctl -n porch-demo rpkg init edge1-network-function-auto-namespace-a --repository=edge1 --workspace=v1
@@ -1569,7 +1585,7 @@ rm -fr tmp_packages_for_deployment/edge1-network-function-auto-namespace-a.clone
 ```
 
 
-We now configure the namespace we want to apply. edit the `tmp_packages_for_deployment/edge1-network-function-auto-namespace-a/package-context.yaml` file and set the namespace to use:
+We now simply configure the namespace we want to apply. edit the *tmp_packages_for_deployment/edge1-network-function-auto-namespace-a/package-context.yaml* file and set the namespace to use:
 
 ```
 8c8
@@ -1578,7 +1594,7 @@ We now configure the namespace we want to apply. edit the `tmp_packages_for_depl
 >   name: edge1-network-function-auto-namespace-a
 ```
 
-We now push the package to the `edge1` repo:
+We now push the package to the *edge1* repo:
 
 ```
 porchctl -n porch-demo rpkg push edge1-48997da49ca0a733b0834c1a27943f1a0e075180 tmp_packages_for_deployment/edge1-network-function-auto-namespace-a
@@ -1590,9 +1606,12 @@ porchctl -n porch-demo rpkg push edge1-48997da49ca0a733b0834c1a27943f1a0e075180 
 porchctl -n porch-demo rpkg get --name edge1-network-function-auto-namespace-a
 ```
 
-You can verify that the package is in the `network-function-auto-namespace-a/v1` branch of the deployment repository using the Gitea web UI. You can see that the kpt pipeline fired and set the `edge1-network-function-auto-namespace-a` namespace in the `deployment.yaml` file on the `drafts/edge1-network-function-auto-namespace-a/v1` branch on the `edge1` repository in Gitea.
+You can verify that the package is in the *network-function-auto-namespace-a/v1* branch of the deployment repo using the
+Gitea web UI. You can see that the kpt pipeline fired and set the edge1-network-function-auto-namespace-a namespace in
+the *deployment.yaml* file on the *drafts/edge1-network-function-auto-namespace-a/v1* branch on the *edge1* repo in
+Gitea.
 
-Check that the `edge1-network-function-auto-namespace-a` package is not deployed on the edge1 cluster yet:
+Check that the *edge1-network-function-auto-namespace-a* package is not deployed on the edge1 cluster yet:
 ```
 export KUBECONFIG=~/.kube/kind-edge1-config
 
@@ -1601,7 +1620,8 @@ No resources found in network-function-auto-namespace-a namespace.
 
 ```
 
-We now propose and approve the deployment package, which merges the package to the `edge1` repository and further triggers Configsync to apply the package to the `edge1` cluster.
+We now propose and approve the deployment package, which merges the package to the *edge1* repo and further triggers
+Configsync to apply the package to the edge1 cluster.
 
 ```
 export KUBECONFIG=~/.kube/kind-management-config
@@ -1617,7 +1637,7 @@ NAME                                             PACKAGE                        
 edge1-48997da49ca0a733b0834c1a27943f1a0e075180   edge1-network-function-auto-namespace-a   v1              v1         true     Published   edge1
 ```
 
-We can now check that the `network-function-auto-namespace-a` package is deployed on the edge1 cluster and that the pod is running
+We can now check that the *network-function-auto-namespace-a* package is deployed on the edge1 cluster and that the pod is running
 ```
 export KUBECONFIG=~/.kube/kind-edge1-config
 
@@ -1660,7 +1680,8 @@ spec:
         - network-function-c
 ```
 
-In this simple PackageVariant, the `network-function` package in the `management` repository is cloned into the `edge1` repository as the `network-function-b` and `network-function-c` package variants.
+In this very simple PackageVariant, the *network-function* package in the *management* repo is cloned into the *edge1*
+repo as the *network-function-b* and *network-function-c* package variants.
 
 {{% alert title="Note" color="primary" %}}
 
@@ -1694,8 +1715,8 @@ NAME                                             PACKAGE              WORKSPACEN
 edge1-ee14f7ce850ddb0a380cf201d86f48419dc291f4   network-function-c   packagevariant-1              false    Draft       edge1
 ```
 
-We can see that our two new packages are created as draft packages on the edge1 repo. We can also examine the
-PacakgeVariant CRs that have been created:
+We can see that our two new packages are created as draft packages on the *edge1* repo. We can also examine the
+*PacakgeVariant* CRs that have been created:
 
 ```bash
 kubectl get PackageVariant -n porch-demo
@@ -1706,7 +1727,7 @@ network-function-c             network-function-9779fc9f5-h7nsb                 
 ```
 
 
-It is also interesting to examine the YAML of the PackageVariant:
+It is also interesting to examine the yaml of the *PackageVariant*:
 
 ```yaml
 kubectl get PackageVariant -n porch-demo -o yaml
@@ -1799,8 +1820,8 @@ metadata:
   resourceVersion: ""
 ```
 
-We now want to customize and deploy our two packages. To do this we must pull the packages locally, render the kpt
-functions, and then push the rendered packages back up to the `edge1` repo.
+We now want to customize and deploy our two packages. To do this we must pull the pacakges locally, render the *kpt*
+functions, and then push the rendered packages back up to the *edge1* repo.
 
 ```bash
 porchctl rpkg pull edge1-a31b56c7db509652f00724dd49746660757cd98a tmp_packages_for_deployment/edge1-network-function-b --namespace=porch-demo
@@ -1812,7 +1833,7 @@ kpt fn eval --image=gcr.io/kpt-fn/set-namespace:v0.4.1 tmp_packages_for_deployme
 porchctl rpkg push edge1-ee14f7ce850ddb0a380cf201d86f48419dc291f4 tmp_packages_for_deployment/edge1-network-function-c --namespace=porch-demo
 ```
 
-Check that the namespace has been updated on the two packages in the `edge1` repository using the Gitea web UI.
+Check that the namespace has been updated on the two packages in the *edge1* repo using the Gitea web UI.
 
 Now our two packages are ready for deployment:
 
@@ -1830,7 +1851,7 @@ porchctl rpkg approve edge1-ee14f7ce850ddb0a380cf201d86f48419dc291f4 --namespace
 edge1-ee14f7ce850ddb0a380cf201d86f48419dc291f4 approved
 ```
 
-We can now check that the `network-function-b` and `network-function-c` packages are deployed on the edge1 cluster and
+We can now check that the *network-function-b* and *network-function-c* packages are deployed on the edge1 cluster and
 that the pods are running
 
 ```bash
@@ -1845,7 +1866,7 @@ network-function-c             network-function-9779fc9f5-h7nsb                 
 
 ### Using a PackageVariantSet to automatically set the package name and package namespace
 
-The PackageVariant CR defined as:
+The *PackageVariant* CR defined as:
 
 ```yaml
 apiVersion: config.porch.kpt.dev/v1alpha2
@@ -1870,9 +1891,11 @@ spec:
 ```
 
 
-In this PackageVariant, the `network-function-auto-namespace` package in the `management` repository is cloned into the `edge1` repository as the `network-function-auto-namespace-x` and `network-function-auto-namespace-y` package variants, similar to the PackageVariant in `simple-variant.yaml`.
+In this *PackageVariant*, the *network-function-auto-namespace* package in the *management* repo is cloned into the
+*edge1* repo as the *network-function-auto-namespace-x* and *network-function-auto-namespace-y* package variants,
+similar to the *PackageVariant* in *simple-variant.yaml*.
 
-An extra `template` section provided for the repositories in the PackageVariant:
+An extra template section provided for the repositories in the PackageVariant:
 
 ```yaml
 template:
@@ -1880,20 +1903,20 @@ template:
     packageExpr: "target.package + '-cumulus'"
 ```
 
-This template means that each package in the `spec.targets.repositories..packageNames` list will have the suffix
-`-cumulus` added to its name. This allows us to automatically generate unique package names. Applying the
-PackageVariantSet also automatically sets a unique namespace for each network function because applying the
-PackageVariantSet automatically triggers the Kpt pipeline in the `network-function-auto-namespace` Kpt package to
-generate unique namespaces for each deployed package.
+This template means that each package in the spec.targets.repositories..packageNames list will have the suffix
+-cumulus added to its name. This allows us to automatically generate unique package names. Applying the
+*PackageVariantSet* also automatically sets a unique namespace for each network function because applying the
+*PackageVariantSet* automatically triggers the Kpt pipeline in the *network-function-auto-namespace* *Kpt* package to
+gerenate unique namespaces for each deployed package.
 
 {{% alert title="Note" color="primary" %}}
 
-Many other mutations can be performed using a PackageVariantSet. Use `kubectl explain PackageVariantSet` to get help on
-the structure of the PackageVariantSet CRD to see the various mutations that are possible.
+Many other mutatinos can be performed using a *PackageVariantSet*. Use `kubectl explain PackageVariantSet` to get help on
+the structure of the *PackageVariantSet* CRD to see the various mutations that are possible.
 
 {{% /alert %}}
 
-Applying the PackageVariantSet creates the new packages as draft packages:
+Applying the *PackageVariantSet* creates the new packages as draft packages:
 
 ```bash
 kubectl apply -f name-namespace-variant.yaml 
@@ -1918,23 +1941,23 @@ The suffix `x-cumulonimbus` and `y-cumulonimbus` has been placed on the package 
 
 {{% /alert %}}
 
-Examine the `edge1` repository on Gitea and you should see two new draft branches.
+Examine the *edge1* repo on Giea and you should see two new draft branches.
 
 - drafts/network-function-auto-namespace-x-cumulonimbus/packagevariant-1
 - drafts/network-function-auto-namespace-y-cumulonimbus/packagevariant-1
 
 In these packages, you will see that:
 
-1. The package name has been generated as `network-function-auto-namespace-x-cumulonimbus` and
-   `network-function-auto-namespace-y-cumulonimbus`in all files in the packages
-2. The namespace has been generated as `network-function-auto-namespace-x-cumulonimbus` and
-   `network-function-auto-namespace-y-cumulonimbus` respectively in the `demployment.yaml` files
-3. The PackageVariant has set the `data.name` field as `network-function-auto-namespace-x-cumulonimbus` and
-   `network-function-auto-namespace-y-cumulonimbus` respectively in the `pckage-context.yaml` files
+1. The package name has been generated as network-function-auto-namespace-x-cumulonimbus and
+   network-function-auto-namespace-y-cumulonimbus in all files in the packages
+2. The namespace has been generated as network-function-auto-namespace-x-cumulonimbus and
+   network-function-auto-namespace-y-cumulonimbus respectively in the *demployment.yaml* files
+3. The PackageVariant has set the data.name field as network-function-auto-namespace-x-cumulonimbus and
+   network-function-auto-namespace-y-cumulonimbus respectively in the *pckage-context.yaml* files
 
 This has all been performed automatically; we have not had to perform the
-`porchctl rpkg pull/kpt fn render/porchctl rpkg push` combination of commands to make these changes as we had to in the
-`simple-variant.yaml` case above.
+`porchctl rpkg pull/kpt fn render/porchctl rpkg push` combination of commands to make these chages as we had to in the
+*simple-variant.yaml* case above.
 
 Now, let us explore the packages further:
 
@@ -1949,7 +1972,7 @@ edge1-77dbfed49b6cb0723b7c672b224de04c0cead67e   network-function-auto-namespace
 ```
 
 We can see that our two new packages are created as draft packages on the edge1 repo. We can also examine the
-PacakgeVariant CRs that have been created:
+*PacakgeVariant* CRs that have been created:
 
 ```bash
 kubectl get PackageVariant -n porch-demo
@@ -1960,7 +1983,7 @@ network-function-edge1-network-function-b                         38m
 network-function-edge1-network-function-c                         38m
 ```
 
-It is also interesting to examine the YAML of a PackageVariant:
+It is also interesting to examine the yaml of a *PackageVariant*:
 
 ```yaml
 kubectl get PackageVariant -n porch-demo network-function-auto-namespace-edge1-network-function-35079f9f -o yaml

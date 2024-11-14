@@ -11,15 +11,15 @@ weight: 7
   * 4 vCPU
   * 8 GB RAM
   * Kubernetes version 1.26+
-  * `kubectl` [installed ](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
+  * *kubectl* [installed ](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
   * **Ingress/Load Balancer**: [MetalLB](https://metallb.universe.tf/), but only internally to the VM
 * Cluster Edge
   * 2 vCPU 1 NODE
   * 4 GB RAM
   * Kubernetes version 1.26+
-  * `kubectl` [installed ](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
-* `kpt` [installed](https://kpt.dev/installation/kpt-cli) (version v1.0.0-beta.43 or later)
-* `porchctl` [installed](/content/en/docs/porch/using-porch/porchctl-cli-guide.md) on your workstation
+  * *kubectl* [installed ](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
+* *kpt* [installed](https://kpt.dev/installation/kpt-cli) (version v1.0.0-beta.43 or later)
+* *porchctl* [installed](/content/en/docs/porch/using-porch/porchctl-cli-guide.md) on your workstation
 
 ## Installation of the management cluster
 
@@ -30,13 +30,13 @@ weight: 7
 
 ## Manual Installation of the Edge cluster using kpt
 
-All the workload clusters need config-sync, root-sync 
+All the workload clusters need *config-sync*, *root-sync* 
 and a cluster git repository to manage packages. 
 The below steps have to be repeated for each workload cluster:
 
 ### Install Config-sync
 
-Install config-sync using:
+Install *config-sync* using:
 
 ```bash
 kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/core/configsync@@origin/v3.0.0
@@ -54,7 +54,7 @@ If you want to use GitHub or GitLab then follow below steps
 Get a [GitHub token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#fine-grained-personal-access-tokens) if your repository is private,
 to allow Porch to make modifications.
 
-Register the edge repository using kpt CLI or Nephio WebUI.
+Register the edge repository using *kpt* cli or Nephio WebUI.
 
 ```bash
 GITHUB_USERNAME=<Github Username>
@@ -81,22 +81,24 @@ kpt live apply <cluster-name> --reconcile-timeout=15m --output=table
 
 {{% alert title="Note" color="primary" %}} 
 
-* For management cluster you have to name the repository as `mgmt`.
-* In the `repository` package by default Gitea address is `172.18.0.200:3000` in `repository/set-values.yaml` 
-change this to your git address.
-* `repository/token-configsync.yaml` and `repository/token-porch.yaml` are responsible for creating secrets with the help of Nephio token controller for accessing git instance for root-sync. You would need the name of config-sync token to provide it to root-sync.
+* For management cluster you have to name the repository as *mgmt*.
+* In the *repository* package by default gitea address is *172.18.0.200:3000* in *repository/set-values.yaml* 
+  change this to your git address.
+* *repository/token-configsync.yaml* and *repository/token-porch.yaml* are responsible for creating secrets with the
+  help of Nephio token controller for accessing git instance for root-sync. You would need the name of config-sync token
+  to provide it to root-sync.
 
 {{% /alert %}}
 
 ### Install Root-sync
 
-Get the Root-sync kpt package and edit it:
+Get the *root-sync* *kpt* package and edit it:
 
 ```bash
 kpt pkg get https://github.com/nephio-project/catalog.git/nephio/optional/rootsync@@origin/v3.0.0
 ```
 
-Change `./rootsync/rootsync.yaml` and point `spec.git.repo` to the edge git repository and the  
+Change *./rootsync/rootsync.yaml* and point *spec.git.repo* to the edge git repository and the  
 
 ```yaml
  spec:
@@ -109,7 +111,7 @@ Change `./rootsync/rootsync.yaml` and point `spec.git.repo` to the edge git repo
 
 If need credentials to access repository your repository then 
 copy the token name from previous section and provide it in 
-`./rootsync/rootsync.yaml`
+*./rootsync/rootsync.yaml*.
 
 ```yaml
 spec:
@@ -131,7 +133,7 @@ kpt live apply rootsync --reconcile-timeout=15m --output=table
 
 
 If the output of `kubectl get rootsyncs.configsync.gke.io -A` 
-is similar as below then root-sync is properly configured. 
+is similar as below then *root-sync* is properly configured. 
 
 ```console
 kubectl get rootsyncs.configsync.gke.io -A
@@ -151,4 +153,4 @@ kpt live apply workload-crds --reconcile-timeout=15m --output=table
 
 ## Deploy packages to the edge clusters
 
-Using web-ui or command line add a new deployment to the edge workload cluster. 
+Using WebUI or command line add a new deployment to the edge workload cluster. 

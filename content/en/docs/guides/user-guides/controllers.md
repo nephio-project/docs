@@ -33,10 +33,12 @@ The reconcilers below are currently deployed by default in the Nephio controller
 
 ## Enabling Reconcilers
 
-To enable a particular reconciler, you pass an environment variable to the Nephio Controller at startup. The environment
-variable is of the form `ENABLE_<RECONCILER>` where `<RECONCILER>` is the name of the reconciler to be enabled in upper
-case. Therefore, to enable the `bootstrap-packages` reconciler, pass the `ENABLE_BOOTSTRAPPACKAGES` to the Nephio
-controller. Reconcilers are disabled by default.
+To enable a particular reconciler, you pass an environment variable to the
+Nephio Controller at startup. The environment variable is of the form
+*ENABLE_\<RECONCILER\>* where *\<RECONCILER\>* is the name of the reconciler to
+be enabled in upper case. Therefore, to enable the bootstrap-packages reconciler,
+pass the ENABLE_BOOTSTRAPPACKAGES to the nephio controller. Reconcilers are
+disabled by default.
 
 
 You can see what reconcilers are enabled on the Nephio Controller using

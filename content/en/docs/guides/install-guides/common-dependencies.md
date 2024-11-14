@@ -12,9 +12,11 @@ installation, the CRDs that come along with them are necessary.
 
 {{% alert title="Note" color="primary" %}}
 
-If you want to use a version other than that of `v3.0.0` of Nephio `catalog` repository, then replace the `@origin/v3.0.0` suffix on the package URLs on the `kpt pkg get` commands below with the tag/branch of the version you wish to use.
+If you want to use a version other than that of v3.0.0 of Nephio *catalog* repo, then replace the *@origin/v3.0.0*
+suffix on the package URLs on the `kpt pkg get` commands below with the tag/branch of the version you wish to use.
 
-While using KPT you can [either pull a branch or a tag](https://kpt.dev/book/03-packages/01-getting-a-package) from a git repository. By default it pulls the tag. In case, you have branch with the same name as a tag then to:
+While using KPT you can [either pull a branch or a tag](https://kpt.dev/book/03-packages/01-getting-a-package) from a
+git repository. By default it pulls the tag. In case, you have branch with the same name as a tag then to:
 
 ```bash
 #pull a branch 
@@ -62,4 +64,4 @@ kpt live apply gitea --reconcile-timeout 15m --output=table
 ```
 
 You can find the Gitea ip-address via `kubectl get svc -n gitea` 
-and use port `3000` to access it with login `nephio` and password `secret`.
+and use port 3000 to access it with login *nephio* and password *secret*.

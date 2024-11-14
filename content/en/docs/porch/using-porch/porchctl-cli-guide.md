@@ -12,7 +12,7 @@ When Porch was ported to Nephio, the `kpt alpha rpkg` commands in kpt were moved
 
 To use it locally, [download](https://github.com/nephio-project/porch/releases), unpack and add it to your PATH.
 
-_Optional: Generate the autocompletion script for the specified shell to add to your profile._
+Optional: Generate the autocompletion script for the specified shell to add to your profile.
 
 ```
 porchctl completion bash
@@ -49,8 +49,8 @@ Use "porchctl [command] --help" for more information about a command.
 
 ```
 
-The `porchtcl` command is an administration command for acting on Porch `Repository` (repository) and `PackageRevision`
-(rpkg) CRs.
+The `porchtcl` command is an administration command for acting on Porch *Repository* (repo) and *PackageRevision* (rpkg)
+CRs.
 
 The commands for administering repositories are:
 

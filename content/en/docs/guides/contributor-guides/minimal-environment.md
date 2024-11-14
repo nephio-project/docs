@@ -108,11 +108,11 @@ Connecting to Gitea allows you to see the actions that Nephio takes on Gitea.
 kubectl port-forward -n gitea svc/gitea 3000:3000
 ```
 
-2. Browse to the Gitea web client at `http://localhost:3000` and log on.
+2. Browse to the Gitea web client at http://localhost:3000 and log on.
 
 ## VS Code Configuration
 
-Set up a launch configuration in VS Code `launch.json` similar to the configuration below:
+Set up a launch configuration in VS Code *launch.json* similar to the configuration below:
 
 ```json
 {

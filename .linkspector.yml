@@ -11,7 +11,9 @@ ignorePatterns:
   - pattern: "^http://localhost.*$"
   - pattern: "^http://HOSTNAME:PORT.*$"
   - pattern: "172\\.18\\.255\\.200"
-  - pattern: "172\\.18\\.0\\.200"
+  - pattern: "https://\\*kpt\\*\\.dev/"
+  - pattern: "https://my-gitlab\\.com/joe\\.bloggs/blueprints\\.git"
+  - pattern: "http://172\\.18\\.0\\.200:3000/nephio/"
 replacementPatterns:
   - pattern: ".md#.*$"
     replacement: ".md"

@@ -14,6 +14,15 @@ the Markdown files hosted in the GitHub repo to generate the documentation websi
 
 ### Setting up the environment
 
+1. The site is using Hugo as the documentation generating engine and as Hugo depends on Go in mudule handling you need to
+   have Go installed on your computer. Most Linux distributions have Go preinstalled, but some of them have a verstion that is too old
+for Hugo. You should have at least version 1.18.0. You can install version 1.18 of go on an Ubuntu using the
+   following commands:
+
+    1. `sudo add-apt-repository ppa:longsleep/golang-backports`
+    1. `sudo apt update`
+    1. `sudo apt install golang-1.18`
+
 1. The site is using Hugo as the documentation generating engine, therefore you need to install Hugo. As the Docsy
   template that we use requires transforming Sass to CSS, you will need to install the *extended* version of Hugo.
   Link to installation instructions is [here](https://gohugo.io/installation/linux/). To ensure that you have the
