@@ -11,7 +11,7 @@ Concepts as [Operator](/content/en/docs/glossary.md#operator) and
 
 ## Deploy the operator to the cluster
 
-In the [nephio/free5gc repository](https://github.com/nephio-project/free5gc) the **Makefile** is used to
+In the [Nephio Free5gc repository](https://github.com/nephio-project/free5gc) the **Makefile** is used to
 [deploy the operator to the cluster](https://github.com/nephio-project/free5gc/tree/main#getting-started) automating
 tasks such as 
 
@@ -28,12 +28,12 @@ tasks such as
  * undeploy: Undeploys the controller from the Kubernetes cluster.
 
 3. Build Dependencies:
- * Targets for installing and managing build dependencies like kustomize, controller-gen, and envtest.
+ * Targets for installing and managing build dependencies like Kustomize, controller-gen, and envtest.
 
 ## The structure of the repository
 
 1. [Operator](https://github.com/nephio-project/free5gc/tree/main/free5gc-operator)
- * Binding metrics and healthcheck ports
+ * Binding metrics and check the health of ports
  * Registering UPF SMF AMF deployments
  * Reconciler and Setup (Creating Controllers)
 
@@ -84,6 +84,6 @@ tasks such as
   kustomize how to substitute *name* and *namespace* reference in CRD.
 * *Patches Strategic Merge*: Specifies the patches that should be applied to the base resources.
   Currently includes a patch file named *manager_auth_proxy_patch.yaml*, which adds authentication protection to the
-  /metrics endpoint.
-* *Vars*: Defines variables that can be used for variable substitution.
+  */metrics* endpoint.
+* **Vars**: Defines variables that can be used for variable substitution.
     

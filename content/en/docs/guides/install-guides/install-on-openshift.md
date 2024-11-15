@@ -6,7 +6,7 @@ weight: 3
 ---
 
 {{% pageinfo %}}
-This page is draft and the separation of the content to different categories is not clearly done. 
+This page is draft and the separation of the content to different categories is not done. 
 {{% /pageinfo %}}
 
 
@@ -15,12 +15,12 @@ In this guide, you will set up Nephio with:
 - **Management Cluster**: OpenShift with [Advanced Cluster Management](https://www.redhat.com/en/technologies/management/advanced-cluster-management)
 - **Cluster Provisioner**: Assisted Service
 - **Workload Clusters**: OpenShift Cluster or Single Node OpenShift Cluster or HyperShift Cluster or Remote Worker Node
-- **Gitops Tool**: [OpenShift GitOps](https://www.redhat.com/en/technologies/cloud-computing/openshift/gitops) backed by
+- **GitOps Tool**: [OpenShift GitOps](https://www.redhat.com/en/technologies/cloud-computing/openshift/gitops) backed by
   ArgoCD
 - **Git Provider**: Gitea running in the Nephio management cluster will be the git provider for cluster deployment
   repositories. Some external repositories will be  on GitHub.
 - **Web UI Auth**: OpenShift OAuth.
-- **Ingress/Load Balancer**: OpenShift Ingress will be used, supplying a Route to the Nephio and Gitea Web UIs.
+- **Ingress/Load Balancer**: OpenShift Ingress will be used, supplying a Route to the Nephio and Gitea WebUIs.
 
 ## Prerequisites
 

@@ -1,35 +1,50 @@
 ---
-title: Helm to Operator Codegen Sdk
+title: Helm to Operator Codegen SDK
 description: >
-  Deploying helm charts in Nephio using Helm To Operator Codegen Sdk
+  Deploying helm charts in Nephio using Helm To Operator Codegen SDK
 weight: 1
 ---
 
-The [Helm to Operator Codegen SDK](https://github.com/nephio-project/nephio-sdk/tree/main/helm-to-operator-codegen-sdk) offers a streamlined solution for translating existing Helm charts into Kubernetes operators with minimal effort and cost.
+The [Helm to Operator Codegen SDK](https://github.com/nephio-project/nephio-sdk/tree/main/helm-to-operator-codegen-sdk)
+offers a streamlined solution for translating existing Helm charts into Kubernetes operators with minimal effort and
+cost.
 
-By utilizing the Helm to Operator Codegen SDK, users can efficiently convert existing Helm charts into Kubernetes operators. This transition enables users to leverage the advanced capabilities provided by Kubernetes operators, such as enhanced automation, lifecycle management, and custom logic handling. Overall, the SDK facilitates a smooth migration process, empowering users to embrace the operator model for managing their Kubernetes resources effectively.
+By utilizing the Helm to Operator Codegen SDK, users can efficiently convert existing Helm charts into Kubernetes
+operators. This transition enables users to leverage the advanced capabilities provided by Kubernetes operators, such as
+enhanced automation, lifecycle management, and custom logic handling. Overall, the SDK facilitates a smooth migration
+process, empowering users to embrace the operator model for managing their Kubernetes resources effectively.
 
 ## Exercise: Deploying Free5gc using operator
-In the following exercise, the objective is to convert the Free5gc Helm chart to Go code suitable for a Kubernetes operator using the sdk. Once the conversion is complete, the generated Go code will be used to deploy all the resources defined in the Free5gc Helm chart using a Kubernetes operator.
+
+In the following exercise, the objective is to convert the Free5gc Helm chart to Go code suitable for a Kubernetes
+operator using the SDK. Once the conversion is complete, the generated Go code will be used to deploy all the resources
+defined in the Free5gc Helm chart using a Kubernetes operator.
 
 ### Step 0: Prerequisite
+
 1. GoLang Version: 1.21
 2. Helm : v3.9.3
 3. Kubebuilder
-4. A Kubernetes Cluster with Calico CNI and multus-cni plugin (Can Refer [here](https://medium.com/rahasak/deploying-5g-core-network-with-free5gc-kubernets-and-helm-charts-29741cea3922), Before "Deploy Helm-Chart Part" )
+4. A Kubernetes Cluster with Calico CNI and Multus CNI plugin (Can Refer
+   [here](https://medium.com/rahasak/deploying-5g-core-network-with-free5gc-kubernets-and-helm-charts-29741cea3922),
+   Before "Deploy Helm-Chart Part" )
 5. Go Packages:
-```
-# Clone the Repo
-git clone https://github.com/nephio-project/nephio-sdk.git
-cd nephio-sdk/helm-to-operator-codegen-sdk/
-go mod tidy
-```
+
+    ```bash
+    # Clone the Repo
+    git clone https://github.com/nephio-project/nephio-sdk.git
+    cd nephio-sdk/helm-to-operator-codegen-sdk/
+    go mod tidy
+    ```
 
 ### Step 1: Convert the helm-chart to Go-Code using Helm-to-operator-codegen-sdk
-Currently, only Local-Helm charts are supported by sdk, Therefore, the first step would be to download the free5gc-Helm-Chart. (Refer [here](https://github.com/Orange-OpenSource/towards5gs-helm/tree/main))
+
+Currently, only Local-Helm charts are supported by SDK, Therefore, the first step would be to download the
+free5gc-Helm-Chart. (Refer [here](https://github.com/Orange-OpenSource/towards5gs-helm/tree/main))
 
 To initiate the conversion process using the SDK, you can use the following command:
-```
+
+```bash
 go run main.go <path_to_local_helm_chart> <namespace> <logging-level>
 where:
     <path_to_local_helm_chart>: Path to your local chart, the folder must contain a chart.yaml file.
@@ -39,7 +54,8 @@ where:
 ```
 
 
-#### Example Run 
+#### Example Run
+
 ```
 go run main.go /home/ubuntu/free5gccharts/towards5gs-helm/charts/free5gc/ free5gcns info
 ```
@@ -274,18 +290,31 @@ The generated Go-Code would be written to the *outputs/generated_code.go* file
 The Generated Go-Code shall contain the following functions:
 
 #### A) Pluggable functions
-1. CreateAll():  When called, it will create all the k8s resources(services, deployment) on the kubernetes cluster. (Note: For your Reconciler to call the function, Replace `YourKindReconciler` with the type of your Reconciler)
-2. DeleteAll(): When called, it will delete all the k8s resources(services, deployment) on the kubernetes cluster. (Note: For your Reconciler to call the function, Replace `YourKindReconciler` with the type of your Reconciler)
+
+1. CreateAll():  When called, it will create all the k8s resources(services, deployment) on the Kubernetes cluster.
+    {{% alert title="Note" color="primary" %}}
+      For your Reconciler to call the function, Replace *YourKindReconciler* with the type of your Reconciler
+    {{% /alert %}}
+
+2. DeleteAll(): When called, it will delete all the k8s resources(services, deployment) on the Kubernetes cluster.
+    {{% alert title="Note" color="primary" %}}
+      For your Reconciler to call the function, Replace *YourKindReconciler* with the type of your Reconciler
+    {{% /alert %}}
 3. Getxxx(): Shall return the list of a particular resource.
     1. GetService(): Shall return the list of all services.
     2. GetDeployment(): Shall return the list of all deployments. & so on
 
 #### B) Helper Functions: (For internal use only)
-1. deleteMeAfterDeletingUnusedImportedModules: This function is included in the generated Go code to handle the scenario where a module is imported but not used. Once the user has removed the non-required modules from the import statements, they can safely delete this function as well.
-2. Pointer Fxns: `intPtr(), int16Ptr(), int32Ptr(), int64Ptr(), boolPtr(), stringPtr()`: Takes the value and returns the pointer to that value.
-3. getDataForSecret: This function takes the encodedVal of Secret, decodes it, and returns.
 
-### Step 2: Using kubebuilder to develop the operator
+1. *deleteMeAfterDeletingUnusedImportedModules*: This function is included in the generated Go code to handle the
+   scenario where a module is imported but not used. Once the user has removed the non-required modules from the import
+   statements, they can safely delete this function as well.
+2. Pointer Functions: *intPtr()*, *int16Ptr()*, *int32Ptr()*, *int64Ptr()*, *boolPtr()*, *stringPtr()*: Takes the value
+   and returns the pointer to that value.
+3. *getDataForSecret*: This function takes the *encodedVal* of Secret, decodes it, and returns.
+
+### Step 2: Using Kubebuilder to develop the operator
+
 Please refer [here](https://book.kubebuilder.io/quick-start) to develop & deploy the operator.
 
 After the basic structure of the operator is created, users can proceed to add their business logic

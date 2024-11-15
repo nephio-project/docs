@@ -12,8 +12,8 @@ through the [Starting with Porch tutorial](../using-porch/install-and-using-porc
 
 {{% alert title="Note" color="primary" %}}
 
-As your Dev environment, you can run the code on a remote VM and use the
-[VSCode Remote SSH](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)
+As your development environment, you can run the code on a remote VM and use the
+[VS Code Remote SSH](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)
 plugin to connect to it.
 
 {{% /alert %}}
@@ -127,7 +127,7 @@ packages                                         porch.kpt.dev/v1alpha1         
 To connect Porch to Gitea, follow [step 7 in the Starting with Porch](../using-porch/install-and-using-porch.md)
 tutorial to create the repositories in Porch.
 
-You will notice logging messages in VSCode when you run the `kubectl apply -f porch-repositories.yaml` command.
+You will notice logging messages in VS Code when you run the `kubectl apply -f porch-repositories.yaml` command.
 
 You can check that your locally running Porch server has created the repositories by running the `porchctl` command:
 
@@ -157,12 +157,12 @@ external-blueprints   git    Package   false        True    https://github.com/n
 management            git    Package   false        True    http://172.18.255.200:3000/nephio/management.git
 ```
 
-You now have a locally running Porch (api)server. Happy developing!
+You now have a locally running Porch (API)server. Happy developing!
 
 ## Restart from scratch
 
 Sometimes the development cluster gets cluttered and you may experience weird behavior from porch.
-In this case you might want to restart with a clean slate, by deleting the development cluster with the following
+In this case you might want to restart from scratch, by deleting the development cluster with the following
 command:
 
 ```bash

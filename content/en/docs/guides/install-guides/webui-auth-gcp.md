@@ -7,7 +7,7 @@ weight: 7
 ---
 
 
-When used with the Web UI running in a GKE cluster, the users authorization roles will be automatically synchronized
+When used with the WebUI running in a GKE cluster, the users authorization roles will be automatically synchronized
 based upon their IAM roles in GCP.
 
 If you are not exposing the webui on a load balancer IP address, but are instead using `kubectl port-forward`, you

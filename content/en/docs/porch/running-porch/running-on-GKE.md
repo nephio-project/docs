@@ -12,7 +12,7 @@ You can install Porch by either using one of the
 
 {{% alert title="Note" color="primary" %}}
 
-Porch should run on any kubernetes cluster and should work on any cloud. We have just started by documenting one
+Porch should run on any Kubernetes cluster and should work on any cloud. We have just started by documenting one
 known-good configuration: GCP and GKE. We would welcome comparable installation instructions or feedback from people
 that try it out on other clouds / configurations.
 
@@ -147,7 +147,7 @@ cluster manually following the
 
 The -no-sa (no service account) targets create Porch deployment
 configuration which does not associate Kubernetes service accounts with GCP
-service accounts. This is sufficient for Porch to integate with Git repositories
+service accounts. This is sufficient for Porch to integrate with Git repositories
 using Basic Auth, for example GitHub.
 
 As above, you can verify that Porch is running by querying the api-resources:
@@ -160,7 +160,7 @@ kubectl api-resources | grep porch
 ### Workload Identity
 
 [Workload Identity](https://cloud.google.com/kubernetes-engine/docs/concepts/workload-identity) is a simple way to
-access Google Cloud services from porch.
+access Google Cloud services from Porch.
 
 #### Google Cloud Source Repositories
 
@@ -191,7 +191,11 @@ kubectl annotate serviceaccount porch-server -n porch-system \
   iam.gke.io/gcp-service-account=porch-server@${GCP_PROJECT_ID}.iam.gserviceaccount.com
 ```
 
+<<<<<<< HEAD
+Build Porch, push images, and deploy Porch server and controllers using the `make` target that adds workload identity
+=======
 Build Porch, push images, and deploy porch server and controllers using the make target that adds workload identity
+>>>>>>> main
 service account annotations:
 
 ```bash
@@ -246,7 +250,11 @@ gcloud iam service-accounts add-iam-policy-binding porch-sync@${GCP_PROJECT_ID}.
   --member "serviceAccount:${GCP_PROJECT_ID}.svc.id.goog[porch-system/porch-controllers]"
 ```
 
+<<<<<<< HEAD
+Build Porch, push images, and deploy Porch server and controllers using the `make` target that adds workload identity
+=======
 Build Porch, push images, and deploy porch server and controllers using the make target that adds workload identity
+>>>>>>> main
 service account annotations:
 
 ```bash

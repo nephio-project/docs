@@ -17,7 +17,7 @@ make generate
 
 Porch comprises of several software components:
 
-* [*api*](https://github.com/nephio-project/porch/tree/main/api): Definition of the KRM API supported by the Porch
+* [API](https://github.com/nephio-project/porch/tree/main/api): Definition of the KRM API supported by the Porch
   extension apiserver
 * [*porchctl*](https://github.com/nephio-project/porch/tree/main/cmd/porchctl): CLI command tool for administration of
   Porch Repository and PackageRevision custom resources.
@@ -91,7 +91,7 @@ Some useful code pointers:
 All tests can be run using `make test`. Individual tests can be run using `go test`.
 End-to-End tests assume that Porch instance is running and KUBECONFIG is configured
 with the instance. The tests will automatically detect whether they are running against
-Porch running on local machien or k8s cluster and will start Git server appropriately,
+Porch running on local machine or k8s cluster and will start Git server appropriately,
 then run test suite against the Porch instance.
 
 ## Makefile Targets
@@ -109,8 +109,8 @@ then run test suite against the Porch instance.
 * `make` or `make all`: builds and runs Porch [locally](../running-porch/running-locally.md)
 * `make test`: runs tests
 
-## VSCode
+## VS Code
 
-[VSCode](https://code.visualstudio.com/) works really well for editing and debugging.
-Just open VSCode from the root folder of the Porch repository and it will work fine. The folder contains the needed
-configuration to Launch different functions of Proch.
+[VS Code](https://code.visualstudio.com/) works really well for editing and debugging.
+Just open VS Code from the root folder of the Porch repository and it will work fine. The folder contains the needed
+configuration to Launch different functions of Porch.

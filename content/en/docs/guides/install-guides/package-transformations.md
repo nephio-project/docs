@@ -7,7 +7,7 @@ weight: 7
 
 ## Vanilla kpt for the Management cluster
 
-Before reading this, please read [the kpt book](https://kpt.dev/book/).
+Before reading this, please read [The kpt book](https://kpt.dev/book/).
 
 ### kpt pkg get
 
@@ -19,19 +19,17 @@ The fields in the command above are as follows:
 
 | Field            | Description                                                                      |
 | ---------------- | -------------------------------------------------------------------------------- |
-| repo-path      | The path in the repository to the *kpt* package                                    |
-| repo-pkg-name  | The name of the *kpt* package in the repository                                    |
-| pkg-version    | The version of the *kpt* package                                                   |
-| local-pkg-name | The local name of the *kpt* package in the repository, defaults to `repo-pkg-name` |
+| *repo-path*      | The path in the repository to the kpt package                                    |
+| *repo-pkg-name*  | The name of the kpt package in the repository                                    |
+| *pkg-version*    | The version of the kpt package                                                   |
+| *local-pkg-name* | The local name of the kpt package in the repository, defaults to *repo-pkg-name* |
 
 `kpt pkg get` make the following transformations:
 
-1. The metadata.name field in the root *Kptfile* in the package is changed
-   from whatever value it has to local-pkg-name
-2. The metadata.namespace field in the root *Kptfile* in the package is
-   removed
-3. upstream and upstreamlock root fields are added to the root *Kptfile* as
-   follows:
+1. The *metadata.name* field in the root *Kptfile* in the package is changed from whatever value it has to
+  *local-pkg-name*
+2. The *metadata.namespace* field in the root *Kptfile* in the package is removed
+3. *upstream* and *upstreamlock* root fields are added to the root *Kptfile* as follows:
 
 ```yaml
 upstream:
@@ -49,10 +47,8 @@ upstreamLock:
     ref: <pkg-version>
     commit: 0123456789abcdef0123456789abcdef01234567
 ```
-4. The data.name field in the root  *package-context.yaml* files is changed to
-   be local-pkg-name
-5. The *package-context.yaml* file is added if it does not exist with the
-   following content:
+4. The *data.name* field in the root *package-context.yaml* files is changed to be *local-pkg-name*
+5. The *package-context.yaml* file is added if it does not exist with the following content:
 
 ```yaml
 apiVersion: v1
@@ -65,23 +61,22 @@ data:
   name: <local-pkg-name|sub-pkg-name>
 ```
 
-6. The data.name field in *package-context.yaml* files in the sub *kpt* packages is
-   changed to be the name of the sub package
-7. All other sub-fields under the data: field are deleted
-8. The comment metadata: *# kpt-merge: \<namespace\>/\<name\>* is added to root
-   metadata fields on all YAML documents in the *kpt* package and enclosed
-   sub-packages that have a root apiVersion and kind field if such a comment
-   does not already exist. The namespace and name values used are the values
-   of those fields in the metadata field. Note that a YAML file can contain
-   multiple YAML documents and each root metadata field is commented. For
-   example:
+6. The *data.name* field in *package-context.yaml* files in the sub kpt packages is changed to be the name of the sub
+  package
+7. All other sub-fields under the *data:* field are deleted
+8. The comment *metadata: # kpt-merge: <namespace>/<name>* is added to root *metadata* fields on all YAML documents in
+  the kpt package and enclosed sub-packages that have a root *apiVersion* and *kind* field if such a comment does not
+  already exist. The *namespace* and *name* values used are the values of those fields in the *metadata* field.
+  {{% alert title="Note" color="primary" %}}
+  A YAML file can contain multiple YAML documents and each root *metadata* field is commented. For example:
 
-```yaml
-metadata: # kpt-merge: cert-manager/cert-manager-cainjector
-  name: cert-manager-cainjector
-  namespace: cert-manager
-```
+    ```yaml
+    metadata: # kpt-merge: cert-manager/cert-manager-cainjector
+      name: cert-manager-cainjector
+      namespace: cert-manager
+    ```
 
+  {{% /alert %}}
 9. The annotation internal.kpt.dev/upstream-identifier:
    *\<apiVersion\>|\<kind\>|\<namespace\>|\<name\>* is added to root
    metadata.annotations: fields on all YAML documents in the *kpt* package and
@@ -91,21 +86,26 @@ metadata: # kpt-merge: cert-manager/cert-manager-cainjector
    file can contain multiple YAML documents and each root metadata field is
    commented. For example:
 
-```yaml
-metadata: # kpt-merge: cert-manager/cert-manager-cainjector
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata: # kpt-merge: capi-kubeadm/leader-election-rolebinding
-  name: leader-election-rolebinding
-  namespace: capi-kubeadm
-  annotations:
-    internal.kpt.dev/upstream-identifier: 'rbac.authorization.k8s.io|RoleBinding|capi-kubeadm|leader-election-rolebinding'
-```
+9. The annotation *internal.kpt.dev/upstream-identifier:   '<apiVersion>|<kind>|<namespace>|<name>'* is added to root
+  *metadata.annotations:* fields on all YAML documents in the kpt package and enclosed sub-packages that have a root
+  *apiVersion:* and *kind:* field if such an annotation does not already exist. The *namespace* and *name* values
+  used are the values of those fields in the *metadata* field. Note that a YAML file can contain multiple YAML documents
+  and each root *metadata* field is commented. For example:
+
+    ```yaml
+    metadata: # kpt-merge: cert-manager/cert-manager-cainjector
+    apiVersion: rbac.authorization.k8s.io/v1
+    kind: RoleBinding
+    metadata: # kpt-merge: capi-kubeadm/leader-election-rolebinding
+      name: leader-election-rolebinding
+      namespace: capi-kubeadm
+      annotations:
+        internal.kpt.dev/upstream-identifier: 'rbac.authorization.k8s.io|RoleBinding|capi-kubeadm|leader-election-rolebinding'
+    ```
 
 ### kpt fn render
 
-The `kpt fn render <local-pkg-name>` runs kpt functions on a local package, thus
-applying local changes to the package.
+The `kpt fn render <local-pkg-name>` runs kpt functions on a local package, thus applying local changes to the package.
 
 In the Nephio sandbox installation, kpt fn render only acts on the repository and
 *rootsync* *kpt* packages from
@@ -124,48 +124,39 @@ pipeline:
     configPath: set-values.yaml
 ```
 
-The starlark function is specified in the *set-values.yaml* file. It makes the
-following transformations on the repositories:
+The starlark function is specified in the *set-values.yaml* file. It makes the following transformations on the
+repositories:
 
 1. In the file *repo-gitea.yaml*
-  - the metadata.name field gets the value of \<local-pkg-name\>
-  - the spec.description field gets the value of \<local-pkg-name\> repository
+  - the *metadata.name* field gets the value of *<local-pkg-name>*
+  - the *spec.description* field gets the value of *<local-pkg-name> repository*
 2. In the file *repo-porch.yaml*
-  - the metadata.name field gets the value of \<local-pkg-name\>
-  - the spec.git.repo field gets the value of
-    "http://172.18.0.200:3000/nephio/\<local-pkg-name\>.git
-  - the spec.git.secretRef.name field gets the value of
-    \<local-pkg-name\>-access-token-porch
-  - if the \<local-pkg-name\> is called mgmt-staging, then the following extra
-    changes are made:
-    - the spec.deployment field is set to false (it defaults to true)
-    - the annotation metadata.annotations.nephio.org/staging: "true" is added
+  - the *metadata.name* field gets the value of *<local-pkg-name>*
+  - the *spec.git.repo* field gets the value of *http://172.18.0.200:3000/nephio/<local-pkg-name>.git*
+  - the *spec.git.secretRef.name* field gets the value of *<local-pkg-name>-access-token-porch*
+  - if the *<local-pkg-name>* is called *mgmt-staging*, then the following extra changes are made:
+    - the *spec.deployment* field is set to *false* (it defaults to *true*)
+    - the annotation *metadata.annotations.nephio.org/staging: "true"* is added
 3. In the file *token-configsync.yaml*
-  - the metadata.name field gets the value of
-    \<local-pkg-name\>-access-token-configsync
-  - the metadata.namespace field gets the value of config-management-system
+  - the *metadata.name* field gets the value of *<local-pkg-name>-access-token-configsync*
+  - the *metadata.namespace* field gets the value of *config-management-system*
 4. In the file *token-porch.yaml*
-  - the metadata.name field gets the value of
-    \<local-pkg-name\>-access-token-porch
+  - the *metadata.name() field gets the value of *<local-pkg-name>-access-token-porch*
 
 #### rootsync Package
 
-The *rootsync* package also has a kpt function written in
-[starlark](https://github.com/bazelbuild/starlark) specified in the
-*set-values.yaml* file. It makes the following transformations on repositories:
+The *rootsync* package also has a kpt function written in [starlark](https://github.com/bazelbuild/starlark) specified
+in the *set-values.yaml* file. It makes the following transformations on repositories:
 
 1. In the file *rootsync.yaml*
-  - the metadata.name field gets the value of \<local-pkg-name\>
-  - the spec.git.repo field gets the value of
-    "http://172.18.0.200:3000/nephio/\<local-pkg-name\>.git
-  - the `spec.git.secretRef.name` field gets the value of
-    \<local-pkg-name\>-access-token-configsync
+  - the *metadata.name* field gets the value of *<local-pkg-name>*
+  - the *spec.git.repo* field gets the value of *http://172.18.0.200:3000/nephio/<local-pkg-name>.git*
+  - the *spec.git.secretRef.name* field gets the value of *<local-pkg-name>-access-token-configsync*
 
 ### kpt live init
 
-The `kpt live init <local-pkg-name>` initializes a local package, making it
-ready for application to a cluster. This command creates a *resourcegroup.yaml*
-in the *kpt* package with content similar to:
+The `kpt live init <local-pkg-name>` initializes a local package, making it ready for application to a cluster. This
+command creates a *resourcegroup.yaml* in the kpt package with content similar to:
 
 ```yaml
 apiVersion: kpt.dev/v1alpha1
@@ -228,8 +219,6 @@ nephio-example-packages-fb6e4adecc13c50da838953ece623cf04de21884   ueransim     
 nephio-example-packages-dc0b55fb7a17d107e834417a2c9d8fb37f36d7cb   vlanindex                            v1              v1         true     Published   nephio-example-packages
 ```
 
-
-
 To see the versions of a particular package:
 
 ```bash
@@ -284,44 +273,44 @@ We now have a draft blueprint package for our workload cluster ready for further
 
 ### Configure the Package
 
-We follow the instructions in the [installation README
-file](https://github.com/nephio-project/test-infra/tree/main/e2e/provision).
+We follow the instructions in the
+[installation README file](https://github.com/nephio-project/test-infra/tree/main/e2e/provision).
 
 1. Get the name of the package:
 
-```bash
-porchctl rpkg get | egrep '(NAME|regional)'
-NAME                                           PACKAGE  WORKSPACENAME REVISION LATEST LIFECYCLE REPOSITORY
-mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868  regional v1                     false  Draft     mgmt
-```
+  ```bash
+  porchctl rpkg get | egrep '(NAME|regional)'
+  NAME                                           PACKAGE  WORKSPACENAME REVISION LATEST LIFECYCLE REPOSITORY
+  mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868  regional v1                     false  Draft     mgmt
+  ```
 
 2. Pull the package to get a local copy of it:
 
-```bash
-porchctl rpkg pull -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 regional
-```
+  ```bash
+  porchctl rpkg pull -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 regional
+  ```
 3. Set the Nephio labels on the package:
 
-```bash
-kpt fn eval --image gcr.io/kpt-fn/set-labels:v0.2.0 regional -- "nephio.org/site-type=regional" "nephio.org/region=us-west1"
-```
+  ```bash
+  kpt fn eval --image gcr.io/kpt-fn/set-labels:v0.2.0 regional -- "nephio.org/site-type=regional" "nephio.org/region=us-west1"
+  ```
 
 4. Check that the labels have been set. In all *PackageVariant* and *WorkloadCluster* files, the following
-   metadata.labels fields have been added:
+   *metadata.labels* fields have been added:
 
-```yaml
-labels:
-  nephio.org/region: us-west1
-  nephio.org/site-type: regional
-```
+  ```yaml
+  labels:
+    nephio.org/region: us-west1
+    nephio.org/site-type: regional
+  ```
 
 5. Push the updated package back to the draft branch on the repository:
 
-```bash
-porchctl rpkg push -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 regional
-[RUNNING] "gcr.io/kpt-fn/apply-replacements:v0.1.1"
-[PASS] "gcr.io/kpt-fn/apply-replacements:v0.1.1"
-```
+  ```bash
+  porchctl rpkg push -n default mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 regional
+  [RUNNING] "gcr.io/kpt-fn/apply-replacements:v0.1.1"
+  [PASS] "gcr.io/kpt-fn/apply-replacements:v0.1.1"
+  ```
 
 ## Propose the Package
 
@@ -371,32 +360,37 @@ workloadclusters.infra.nephio.org | nephio-system.nephio-controller     | Trigge
 
 The *PackageVariant* specified in *pv-cluster.yaml* is executed and:
 1. Produces a package variant of the
-   [cluster-capi-kind](https://github.com/nephio-project/nephio-example-packages/tree/main/cluster-capi-kind)
-   package called lambda-cluster in the gitea *mgmt* repository on your management
-   cluster.
-2. Applies the lambda-cluster *kpt* package to create the kind cluster for the
-   workload cluster.
+   [cluster-capi-kind](https://github.com/nephio-project/nephio-example-packages/tree/main/cluster-capi-kind) package
+   called lambda-cluster in the gitea *mgmt* repository on your management cluster.
+1. Applies the lambda-cluster *kpt* package to create the kind cluster for the workload cluster.
 
 #### Package transformations
 
 During creation of the package variant *kpt* package, the following transformations occur:
 
 1. It creates a drafts/lambda-cluster/v1 branch on the *mgmt* repository
-2. It does the equivalent of a [`kpt pkg get`](#kpt-pkg-get) on the *cluster-capi-kind* package into a directory called
+1. It does the equivalent of a [`kpt pkg get`](#kpt-pkg-get) on the *cluster-capi-kind* package into a directory called
    lambda-cluster on that branch, with the same transformations on package files carried out as the
    [`kpt pkg get`](#kpt-pkg-get) command above, this content is checked into the new branch in the initial commit
-3. The pipeline specified in the *Kptfile* of the *cluster-capi-kind* package specifies an apply-replacements specified
+1. The pipeline specified in the *Kptfile* of the *cluster-capi-kind* package specifies an apply-replacements specified
    in the *apply-replacements.yaml* file in the package and uses the value of the
    workload-cluster.yaml:spec.clusterName field set in 2. above (which is the workload cluster name). This has the
    value of example in the *workload-cluster.yaml* file. This means that in the *cluster.yaml* file the value of field
    metadata.name is changed from workload to example.
-4. The package variant spec.injectors changes specified in the *pv-cluster.yaml* file are applied.<br> a. The relevant
-   *pv-cluster.yaml* fields are: ``` spec: injectors:
+1. The package variant spec.injectors changes specified in the *pv-cluster.yaml* file are applied.
 
-    - kind: WorkloadCluster name: example pipeline: mutators:
-
-      - image: gcr.io/kpt-fn/set-annotations:v0.1.4 configMap:
-        nephio.org/cluster-name: example ```
+   a. The relevant *pv-cluster.yaml* fields are: 
+      ```yaml
+         spec:
+          injectors:
+          - kind: WorkloadCluster
+            name: example
+          pipeline:
+            mutators:
+          - image: gcr.io/kpt-fn/set-annotations:v0.1.4
+            configMap:
+              nephio.org/cluster-name: example
+      ```
 
    b. The following *PackageVariant* changes are made to the *lambda-cluster* package:
 
@@ -407,12 +401,15 @@ During creation of the package variant *kpt* package, the following transformati
          nephio.org/cluster-name: lambda should be set on the resources in the package:
 
       ```yaml
-        pipeline:
-          mutators:
-          - name: PackageVariant.lambda-cluster..0
-            image: gcr.io/kpt-fn/set-annotations:v0.1.4
+        spec:
+          injectors:
+          - kind: WorkloadCluster
+            name: example
+          pipeline:
+            mutators:
+            - image: gcr.io/kpt-fn/set-annotations:v0.1.4
             configMap:
-              nephio.org/cluster-name: lambda
+              nephio.org/cluster-name: example
       ```
       3. The field status.conditions is added to the *Kptfile* with the values below. This condition means that the
          *kpt* package is not considered to be applied until the condition config.injection.WorkloadCluster.workload-cluster is True:
@@ -440,42 +437,16 @@ During creation of the package variant *kpt* package, the following transformati
    in step 3 above but there is now an extra mutator added by the package variant. The following changes result:
 
    a. The new mutator added to the *Kptfile* by the package variant adds the annotation
-      nephio.org/cluster-name: lambda is added to every resource in the package.
+      *nephio.org/cluster-name: lambda* is added to every resource in the package.
    b. The existing annotation in the *Kptfile* (coming from the Kptfile in the parent *cluster-capi-kind* package) sets
-      the value lambda of the  spec.clusterName field in *workload-cluster.yaml* as the value of the metadata.name
+      the value *lambda* of the  *spec.clusterName* field in *workload-cluster.yaml* as the value of the *metadata.name*
       field in the *cluster.yaml* file.
+
+      1. The new mutator added to the *Kptfile* by the package variant adds the annotation nephio.org/cluster-name:
+         lambda is added to every resource in the package.
+      2. The existing annotation in the *Kptfile* (coming from the Kptfile in the parent *cluster-capi-kind* package) sets
+         the value lambda of the  spec.clusterName field in *workload-cluster.yaml* as the value of the metadata.name
+         field in the *cluster.yaml* file.
 
 6. The *lambda-cluster* package is now ready to go. It is proposed and approved and the process of cluster creation
    commences.
-
-#### Cluster Creation
-
-TBD.
-
-### pv-rootsync.yaml:
-
-TBD.
-
-### pv-repo.yaml: create the workload cluster repository
-
-TBD.
-
-### pv-configsync.yaml:
-
-TBD.
-
-### pv-kindnet.yaml:
-
-TBD.
-
-### pv-local-path-provisioner.yaml:
-
-TBD.
-
-### pv-multus.yaml:
-
-TBD.
-
-### pv-vlanindex.yaml:
-
-TBD.

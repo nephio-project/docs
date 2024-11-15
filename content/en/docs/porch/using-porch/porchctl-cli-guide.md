@@ -5,7 +5,7 @@ weight: 2
 description: 
 ---
 
-## Using the porchctl cli
+## Using the porchctl CLI
 
 
 When Porch was ported to Nephio, the `kpt alpha rpkg` commands in kpt were moved into a new command called `porchctl`. 
@@ -49,7 +49,8 @@ Use "porchctl [command] --help" for more information about a command.
 
 ```
 
-The `porchtcl` command is an administration command for acting on Porch *Repository* (repo) and *PackageRevision* (rpkg) CRs.
+The `porchtcl` command is an administration command for acting on Porch *Repository* (repo) and *PackageRevision* (rpkg)
+CRs.
 
 The commands for administering repositories are:
 

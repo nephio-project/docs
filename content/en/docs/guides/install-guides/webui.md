@@ -6,7 +6,7 @@ weight: 6
 ---
 
 {{% pageinfo %}}
-This page is draft and the separation of the content to different categories is not clearly done. 
+This page is draft and the separation of the content to different categories is not clear. 
 {{% /pageinfo %}}
 
 
@@ -51,7 +51,7 @@ This configuration is designed for **testing and development only**. You must no
 situation, and even for testing and development it must not be exposed on the internet (for example, via a LoadBalancer
 service).
 
-Configuring authentication for the WebUI is very specific to the particular cluster environment. Guides for different
+Configuring authentication for the WebUI is specific to the particular cluster environment. Guides for different
 environments are below:
 
 - [Google OAuth or OIDC](/content/en/docs/guides/install-guides/webui-auth-gcp.md)

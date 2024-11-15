@@ -27,13 +27,14 @@ make run-in-kind-no-server
 
 After issuing this command you are expected to start the porch API server locally on your machine (outside of the kind cluster); probably in your IDE, potentially in a debugger.
 
-### Configure VSCode to run the Porch (api)server
+### Configure VS Code to run the Porch (API)server
 
-The simplest way to run the porch API server is to launch it in a VSCode IDE, as described by the following process:
+The simplest way to run the porch API server is to launch it in a VS Code IDE, as described by the following process:
 
 1. Open the *porch.code-workspace* file in the root of the porch git repo.
 
-1. Edit your local *.vscode/launch.json* file as follows: Change the `--kubeconfig` argument of the Launch Server configuration to point to a *KUBECONFIG* file that is set to the kind cluster as the current context. 
+1. Edit your local *.vscode/launch.json* file as follows: Change the `--kubeconfig` argument of the Launch Server
+   configuration to point to a *KUBECONFIG* file that is set to the kind cluster as the current context. 
 
 {{% alert title="Note" color="primary" %}}
 
@@ -41,7 +42,9 @@ The simplest way to run the porch API server is to launch it in a VSCode IDE, as
 
   {{% /alert %}}
 
-1. Launch the Porch server locally in VSCode by selecting the **Launch Server** configuration on the VSCode **Run and Debug** window. For more information please refer to the [VSCode debugging documentation](https://code.visualstudio.com/docs/editor/debugging).
+1. Launch the Porch server locally in VS Code by selecting the *Launch Server* configuration on the VS Code
+   *Run and Debug* window. For more information please refer to the
+   [VS Code debugging documentation](https://code.visualstudio.com/docs/editor/debugging).
 
 ### Check to ensure that the API server is serving requests:
 
@@ -137,7 +140,10 @@ The following command will rebuild and deploy porch, except the porch-controller
 make run-in-kind-no-controllers
 ```
 
-After issuing this command you are expected to start the porch controllers process locally on your machine (outside of the kind cluster); probably in your IDE, potentially in a debugger. If you are using VS Code you can use the **Launch Controllers** configuration that is defined in the [launch.json](https://github.com/nephio-project/porch/blob/main/.vscode/launch.json) file of the porch git repo.
+After issuing this command you are expected to start the porch controllers process locally on your machine (outside of
+the kind cluster); probably in your IDE, potentially in a debugger. If you are using VS Code you can use the
+**Launch Controllers** configuration that is defined in the
+[launch.json](https://github.com/nephio-project/porch/blob/main/.vscode/launch.json) file of the porch git repo.
 
 ## Run the unit tests
 
@@ -153,7 +159,7 @@ To run the end-to-end tests against the Kubernetes API server where *KUBECONFIG*
 make test-e2e
 ```
 
-To run the end-to-end tests against a clean deployment, simply issue:
+To run the end-to-end tests against a clean deployment, issue:
 
 ```bash
 make test-e2e-clean

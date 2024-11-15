@@ -401,8 +401,7 @@ Orchestration service.
 
 ## User Guide
 
-Find the Porch User Guide in a dedicated
-[document](https://github.com/kptdev/kpt/blob/main/site/guides/porch-user-guide.md).
+Find the Porch User Guide in a dedicated [document](using-porch/usage-porch-kpt-cli.md).
 
 ## Open Issues/Questions
 
