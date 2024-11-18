@@ -73,7 +73,7 @@ type: kubernetes.io/tls
 ```
 
 {{% alert title="Note" color="primary" %}}
-The content in *<PEM_CERT_DATA>* must be in PEM (Privacy Enhanced Mail) format and the *<CA_FILE_NAME>* must be named *ca.crt* or *ca.pem* no other values are accepted.
+The content in *<PEM_CERT_DATA>* must be in PEM (Privacy Enhanced Mail) format, and the *<CA_FILE_NAME>* must be *ca.crt* or *ca.pem*. No other values are accepted.
 {{% /alert %}}
 
 Next you must mount the secrets as volumes on the function runner deployment. Add the following snippet to the Deployment object in the *2-function-runner.yaml* file (Note that the `tls-registry-config` entries in the `volumes` and `volumeMounts` fields are only required for TLS-secured private registries):
