@@ -5,7 +5,7 @@ weight: 4
 ---
 
 We use many terms in our Nephio discussions, coming from different domains
-including telco, Kubernetes, configuration management, and our own
+including telecom, Kubernetes, configuration management, and our own
 Nephio-specific terms. This glossary is intended to help clarify our usage of
 these terms.
 
@@ -141,7 +141,7 @@ Day 2 and beyond, all of which are challenges with current techniques.
 Hydration may be *out-of-place*, where the source material (e.g., the Helm
 chart), is separate from the output of the hydration process (the manifests).
 This is probably the most familiar type of hydration, used by Helm and
-kustomize, for example. Think of it as a pipeline with an input artifact, input
+Kustomize, for example. Think of it as a pipeline with an input artifact, input
 values, and output artifacts.
 
 Hydration may also be *in-place*, where modifications are directly written to
@@ -159,7 +159,7 @@ outcomes achievable. This leads to "over-parameterization" - where effectively
 every option possible in the outputs becomes an option in the input. At that
 point, you have mostly *moved* complexity rather than *reduced* complexity.
 In-place hydration can help with the over-parameterization, as values that are
-rarely changed by users can simply be edited in-place.
+rarely changed by users can be edited in-place.
 
 While related, *DRY* and *WET* are not exactly the same concepts as *in-place* and
 *out-of-place* hydration. The former two refer to principles, whereas the latter
@@ -218,7 +218,7 @@ with KRM on the input and output, rather than simple streams.
 Generally, best practices suggest KRM functions be hermetic (that is, they do
 not access the outside world).
 
-In terms of the specification linked above, kustomize, kpt, and Porch are all
+In terms of the specification linked above, Kustomize, kpt, and Porch are all
 *orchestrators*.
 
 *See also*: [Controller](#controller), [kpt](#kpt), [Porch](#porch)

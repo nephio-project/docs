@@ -88,7 +88,7 @@ The Nephio ClusterClaim CR:
 The O-Cloud Cluster Template:
 
 - Supports installation of add-on features such as Multus networking that will require specific configuration handled through the configRefs CRDs. A configRef CR can contain both configuration that is fixed for the O-Cloud Cluster template as well as instance specific configuration that must be provided as user input.
-- Is realized with a KPT package that contains the ClusterClaim CR manifest as well as the referred O2imsClusterParameters CR manifest and additional configuration data manifests
+- Is realized with a *KPT* package that contains the ClusterClaim CR manifest as well as the referred O2imsClusterParameters CR manifest and additional configuration data manifests
 
 As of this release, the O-RAN Alliance has not specified O2ims provisioning interface, as such this pre-standardization version of the O2ims provisioning interface is KRM/CRD based where the:
 

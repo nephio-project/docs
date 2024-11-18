@@ -6,7 +6,7 @@ weight: 1
 The [Helm to Operator Codegen SDK](https://github.com/nephio-project/nephio-sdk/tree/main/helm-to-operator-codegen-sdk) offers a streamlined solution for translating existing Helm charts into Kubernetes operators with minimal effort and cost.
 
 ## The Flow Diagram
-In a nutshell, the Helm-Charts are converted to YAML files using the values provided in "values.yaml". Then, each Kubernetes Resource Model (KRM) in the YAML is translated into Go code, employing one of two methods.
+In a nutshell, the Helm-Charts are converted to YAML files using the values provided in *values.yaml*. Then, each Kubernetes Resource Model (KRM) in the YAML is translated into Go code, employing one of two methods.
 1) If the resource is Runtime-Supported, it undergoes a conversion process where the KRM resource is first transformed into a Runtime Object, then into JSON, and finally into Go code.
 2) Otherwise, if the resource is not Runtime-Supported, it is converted into an Unstructured Object and then into Go code.
 
@@ -20,7 +20,7 @@ Helm to YAML conversion is achieved by running the following command
 `helm template <chart>  --namespace <namespace>  --output-dir “temp/templated/”` internally. As of now, it retrieves the values from default "values.yaml"
 
 ### Flow-2: YAML Split
-The SDK iterates over each YAML file in the "converted-yamls" directory. If a YAML file contains multiple Kubernetes Resource Models (KRM), separated by "---", the SDK splits the YAML file accordingly to isolate each individual KRM resource. This ensures that each KRM resource is processed independently.
+The SDK iterates over each YAML file in the *converted-yamls* directory. If a .yaml file contains multiple Kubernetes Resource Models (KRM), separated by "---", the SDK splits the .yaml file accordingly to isolate each individual KRM resource. This ensures that each KRM resource is processed independently.
 
 ### Runtime-Object and Unstruct-Object
 The SDK currently employs the "runtime-object method" to handle Kubernetes resources whose structure is recognized by Kubernetes by default. Examples of such resources include Deployment, Service, and ConfigMap. Conversely, resources that are not inherently known to Kubernetes and require explicit installation or definition, such as Third-Party Custom Resource Definitions (CRDs) like NetworkAttachmentDefinition or PrometheusRule, are processed using the "unstructured-object" method. Such examples are given below:
@@ -69,15 +69,14 @@ networkAttachmentDefinition1 := &unstructured.Unstructured{
 ```
 
 ### Flow-3.1: KRM to Runtime-Object
-The conversion process relies on the "k8s.io/apimachinery/pkg/runtime" package. Currently, only the API version "v1" is supported. The supported kinds for the Runtime Object method include:
-`Deployment, Service, Secret, Role, RoleBinding, ClusterRoleBinding, PersistentVolumeClaim, StatefulSet, ServiceAccount, ClusterRole, PriorityClass, ConfigMap`
+The conversion process relies on the "k8s.io/apimachinery/pkg/runtime" package. Currently, only the API version "v1" is supported. The supported kinds for the Runtime Object method include: Deployment, Service, Secret, Role, RoleBinding, ClusterRoleBinding, PersistentVolumeClaim, StatefulSet, ServiceAccount, ClusterRole, PriorityClass, ConfigMap
 
 ### Flow-3.2: Runtime-Object to JSON
 Firstly, the SDK performs a typecast of the runtime object to its actual data type. For instance, if the Kubernetes Kind is "Service," the SDK typecasts the runtime object to the specific data type corev1.Service. Then, it conducts a Depth-First Search (DFS) traversal over the corev1.Service object using reflection. During this traversal, the SDK generates a JSON structure that encapsulates information about the struct hierarchy, including corresponding data types and values. This transformation results in a JSON representation of the corev1.Service object's structure and content.
 
 #### DFS Algorithm Cases
 
-The DFS function iterates over the runtime object, traversing its structure in a Depth-First Search manner. During this traversal, it constructs the JSON structure while inspecting each attribute for its data type and value. Attributes that have default values in the runtime object but are not explicitly set in the YAML file are omitted from the conversion process. This ensures that only explicitly defined attributes with their corresponding values are included in the resulting JSON structure. The function follows this flow to accurately capture the structure, data types, and values of the Kubernetes resource while excluding default attributes that are not explicitly configured in the YAML file.
+The DFS function iterates over the runtime object, traversing its structure in a Depth-First Search manner. During this traversal, it constructs the JSON structure while inspecting each attribute for its data type and value. Attributes that have default values in the runtime object but are not explicitly set in the .yaml file are omitted from the conversion process. This ensures that only explicitly defined attributes with their corresponding values are included in the resulting JSON structure. The function follows this flow to accurately capture the structure, data types, and values of the Kubernetes resource while excluding default attributes that are not explicitly configured in the .yaml file.
 
 
 A) Base-Cases: 
@@ -156,7 +155,7 @@ spec:
 ```
 
 ### Flow-3.3: JSON to String (Go-Code)
-The SDK reads the JSON file containing the information about the Kubernetes resource and then translates this information into a string of Go code. This process involves parsing the JSON structure and generating corresponding Go code strings based on the structure, data types, and values extracted from the JSON representation. Ultimately, this results in a string that represents the Kubernetes resource in a format compatible with Go code.
+The SDK reads the .json file containing the information about the Kubernetes resource and then translates this information into a string of Go code. This process involves parsing the JSON structure and generating corresponding Go code strings based on the structure, data types, and values extracted from the JSON representation. Ultimately, this results in a string that represents the Kubernetes resource in a format compatible with Go code.
 
 #### TraverseJSON Cases (Json-to-String)
 The traverse JSON function is responsible for converting JSON data into Go code. Here's how it handles base cases:
@@ -275,12 +274,12 @@ Structs need to be initialized using curly brackets {}, whereas enums need Paren
 
 Solution: We solve the above problems by building an “enumModuleMapping” which is a set that stores all data types that are enums. i.e. If a data type belongs to the set, then It is an Enum.
 
-There is an automation-script that takes the types.go files of packages and build the config-json. For details, Please refer [here](https://github.com/nephio-project/nephio-sdk/tree/main/helm-to-operator-codegen-sdk/config)
+There is an automation-script that takes the *types.go* files of packages and build the config-json. For details, Please refer [here](https://github.com/nephio-project/nephio-sdk/tree/main/helm-to-operator-codegen-sdk/config)
 
 
 ### Flow-4: KRM to Unstruct-Obj to String(Go-code)
-All Kubernetes resource kinds that are not supported by the runtime-object method are handled using the unstructured method. In this approach, the Kubernetes Resource MOdel (KRM) is converted to an unstructured object using the package "k8s.io/apimachinery/pkg/apis/meta/v1/unstructured". 
-Then, We traverse the unstructured-Obj in a DFS fashion and build the gocode-string.
+All Kubernetes resource kinds that are not supported by the runtime-object method are handled using the unstructured method. In this approach, the Kubernetes Resource MOdel (KRM) is converted to an unstructured object using the package *k8s.io/apimachinery/pkg/apis/meta/v1/unstructured*"*. 
+Then, we traverse the unstructured-Obj in a DFS fashion and build the gocode-string.
 
 
 #### DFS Algorithm Cases (Unstruct-Version)
