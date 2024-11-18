@@ -17,7 +17,7 @@ Please note items 4, 5 and 6 are only required if your private registries are se
    1. Enabling the functionality using the argument *--enable-private-registry*.
    2. Providing the path and name of the mounted secret using the arguments *--registry-auth-secret-path* and *--registry-auth-secret-name* respectively.
 4. Creating a Kubernetes secret using TLS information valid for all registries you wish to use.
-5. Mounting the secret containing the registries TLS information to the function runner similarly to step 2.
+5. Mounting the secret containing the registries' TLS information to the function runner similarly to step 2.
 6. Enabling TLS functionality and providing the path of the mounted secret to the function runner using the arguments *--enable-tls-registry* and *--tls-secret-path* respectively.
 
 An example template of what a docker *config.json* file looks like is as follows below. The base64 encoded value *bXlfdXNlcm5hbWU6bXlfcGFzc3dvcmQ=* of the *auth* key decodes to *my_username:my_password*, which is the format used by the config when authenticating.
