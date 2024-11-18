@@ -14,11 +14,11 @@ Please note items 4, 5 and 6 are only required if your private registries are se
 1. Creating a Kubernetes secret using a JSON file according to the Docker config schema, containing valid credentials for each authenticated registry.
 2. Mounting this new secret as a volume on the function runner.
 3. Configuring private registry functionality in the function runner's arguments:
-   1. Enabling the functionality using the argument *--enable-private-registry*.
+   1. Enabling the functionality using the argument *--enable-private-registries*.
    2. Providing the path and name of the mounted secret using the arguments *--registry-auth-secret-path* and *--registry-auth-secret-name* respectively.
 4. Creating a Kubernetes secret using TLS information valid for all registries you wish to use.
 5. Mounting the secret containing the registries' TLS information to the function runner similarly to step 2.
-6. Enabling TLS functionality and providing the path of the mounted secret to the function runner using the arguments *--enable-private-registry-tls* and *--tls-secret-path* respectively.
+6. Enabling TLS functionality and providing the path of the mounted secret to the function runner using the arguments *--enable-private-registries-tls* and *--tls-secret-path* respectively.
 
 An example template of what a docker *config.json* file looks like is as follows below. The base64 encoded value *bXlfdXNlcm5hbWU6bXlfcGFzc3dvcmQ=* of the *auth* key decodes to *my_username:my_password*, which is the format used by the config when authenticating.
 
@@ -106,26 +106,26 @@ You may specify your desired paths for each `mountPath:` so long as the function
 The chosen `mountPath:` should use its own, dedicated sub-directory, so that it does not overwrite access permissions of the existing directory. For example, if you wish to mount on `/var/tmp` you should use `mountPath: /var/tmp/<SUB_DIRECTORY>` etc.
 {{% /alert %}}
 
-The *--enable-private-registry-tls* and *--tls-secret-path* variables are only required if a private registry has TLS enabled. They indicate to the function runner that it should attempt authentication to the registry using TLS, and should use the TLS certificate information found on the path provided in *--tls-secret-path*.
+The *--enable-private-registries-tls* and *--tls-secret-path* variables are only required if a private registry has TLS enabled. They indicate to the function runner that it should attempt authentication to the registry using TLS, and should use the TLS certificate information found on the path provided in *--tls-secret-path*.
 
-Lastly you must enable private registry functionality along with providing the path and name of the secret. Add the `--enable-private-registry`, `--registry-auth-secret-path` and `--registry-auth-secret-name` arguments to the function-runner Deployment object in the *2-function-runner.yaml* file:
+Lastly you must enable private registry functionality along with providing the path and name of the secret. Add the `--enable-private-registries`, `--registry-auth-secret-path` and `--registry-auth-secret-name` arguments to the function-runner Deployment object in the *2-function-runner.yaml* file:
 
 ```yaml
 command:
   - /server
   - --config=/config.yaml
-  - --enable-private-registry=true
+  - --enable-private-registries=true
   - --registry-auth-secret-path=/var/tmp/auth-secret/.dockerconfigjson
   - --registry-auth-secret-name=<SECRET_NAME>
-  - --enable-private-registry-tls=true
+  - --enable-private-registries-tls=true
   - --tls-secret-path=/var/tmp/tls-secret/
   - --functions=/functions
   - --pod-namespace=porch-fn-system
 ```
 
-The `--enable-private-registry`, `--registry-auth-secret-path` and `--registry-auth-secret-name` arguments have default values of *false*, */var/tmp/auth-secret/.dockerconfigjson* and *auth-secret* respectively; however, these should be overridden to enable the functionality and match user specifications.
+The `--enable-private-registries`, `--registry-auth-secret-path` and `--registry-auth-secret-name` arguments have default values of *false*, */var/tmp/auth-secret/.dockerconfigjson* and *auth-secret* respectively; however, these should be overridden to enable the functionality and match user specifications.
 
-The *--enable-private-registry-tls* and *--tls-secret-path* arguments have default values of *false* and */var/tmp/tls-secret/* respectively; however, these should be configured by the user and are only necessary when using a private registry secured with TLS.
+The *--enable-private-registries-tls* and *--tls-secret-path* arguments have default values of *false* and */var/tmp/tls-secret/* respectively; however, these should be configured by the user and are only necessary when using a private registry secured with TLS.
 
 It is important to note that enabling TLS registry functionality makes the function runner attempt connection to the registry provided in the porch file using the mounted TLS certificate. If this certificate is invalid for the provided registry, it will try again using the Intermediate Certificates stored on the machine for use in TLS with "well-known websites" (e.g. GitHub). If this also fails, it will attempt to connect without TLS: if this last resort fails, it will return an error to the user.
 
