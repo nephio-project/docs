@@ -106,7 +106,7 @@ You may specify your desired paths for each `mountPath:` so long as the function
 The chosen `mountPath:` should use its own, dedicated sub-directory, so that it does not overwrite access permissions of the existing directory. For example, if you wish to mount on `/var/tmp` you should use `mountPath: /var/tmp/<SUB_DIRECTORY>` etc.
 {{% /alert %}}
 
-he *--enable-tls-registry* and *--tls-secret-path* variables are only required if a private registry has TLS enabled. They indicate to the function runner that it should attempt authentication to the registry using TLS, and should use the TLS certificate information found on the path provided in *--tls-secret-path*.
+The *--enable-tls-registry* and *--tls-secret-path* variables are only required if a private registry has TLS enabled. They indicate to the function runner that it should attempt authentication to the registry using TLS, and should use the TLS certificate information found on the path provided in *--tls-secret-path*.
 
 Lastly you must enable private registry functionality along with providing the path and name of the secret. Add the `--enable-private-registry`, `--registry-auth-secret-path` and `--registry-auth-secret-name` arguments to the function-runner Deployment object in the *2-function-runner.yaml* file:
 
