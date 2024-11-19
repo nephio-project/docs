@@ -1,5 +1,5 @@
 ---
-title: "Using authenticated private registries"
+title: "Using authenticated private registries with the Porch function runner"
 type: docs
 weight: 4
 description: ""
