@@ -5,7 +5,7 @@ weight: 4
 description: ""
 ---
 
-The sections below will describe the different configuration options of the function runner pertaining to the image storage location of the kpt functions used by the function runner when rendering of the porch package occurs.
+The Porch function runner pulls kpt function images from registries and uses them for rendering kpt packages in Porch. The function runner is set up by default to fetch kpt function images from public container registries such as [GCR](https://gcr.io/kpt-fn/) and the configuration options described here are not required for such public registries.
 
 {{% alert title="Note" color="primary" %}}
 Please note the function runner is setup to run by default with a public container registry such as [GCR](https://gcr.io/kpt-fn/). No further configuration is required if that is the intended use case.
