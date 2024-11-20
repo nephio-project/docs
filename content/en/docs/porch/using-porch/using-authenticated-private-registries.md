@@ -125,7 +125,7 @@ The content in *<PEM_CERT_DATA>* must be in PEM (Privacy Enhanced Mail) format, 
 
 ### 2.2 Mounting TLS certificate secret to the function runner
 
-The TLS secret must then be mounted onto the function runner similarly to how the docker config secret was done previously [here](#mounting-docker-config-secret-to-the-function-runner).
+The TLS secret must then be mounted onto the function runner similarly to how the docker config secret was done previously in section 1.2
 
 ```yaml
     volumeMounts:
