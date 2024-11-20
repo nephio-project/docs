@@ -8,7 +8,6 @@ description: ""
 The Porch function runner pulls kpt function images from registries and uses them for rendering kpt packages in Porch. The function runner is set up by default to fetch kpt function images from public container registries such as [GCR](https://gcr.io/kpt-fn/) and the configuration options described here are not required for such public registries.
 
 {{% alert title="Note" color="primary" %}}
-However if a more customized setup is required please see the below configuration options
 {{% /alert %}}
 
 ## Configuring function runner to operate with private container registries
