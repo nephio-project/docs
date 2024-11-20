@@ -12,7 +12,7 @@ The Porch function runner pulls kpt function images from registries and uses the
 
 ## Configuring function runner to operate with private container registries
 
-If you wish to have a private container registry to store your kpt functions either online e.g. (Github's GHCR) or locally e.g. (Harbor or Jfrog) requiring authentication (username/password or token) then see below.
+This section describes how set up authentication for a private container registry containing kpt functions online e.g. (Github's GHCR) or locally e.g. (Harbor or Jfrog) that require authentication (username/password or token).
 
 To enable the Porch function runner to pull kpt function images from authenticated private registries, the system requires:
 
