@@ -14,7 +14,7 @@ The Porch function runner pulls kpt function images from registries and uses the
 
 This section describes how set up authentication for a private container registry containing kpt functions online e.g. (Github's GHCR) or locally e.g. (Harbor or Jfrog) that require authentication (username/password or token).
 
-To enable the Porch function runner to pull kpt function images from authenticated private registries, the system requires:
+To enable pulling of kpt function images from authenticated private registries by the Porch function runner the system requires:
 
 1. Creating a Kubernetes secret using a JSON file according to the Docker config schema, containing valid credentials for each authenticated registry.
 2. Mounting this new secret as a volume on the function runner.
