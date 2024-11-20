@@ -174,6 +174,70 @@ E2E=1 go test -v ./test/e2e/cli -run TestPorch/rpkg-lifecycle
 
 ```
 
+## Run the load test
+
+A script is provided to run a Porch load test against the Kubernetes API server where *KUBECONFIG* points to.
+
+```bash
+porch % scripts/run-load-test.sh -h
+
+run-load-test.sh - runs a load test on porch
+
+       usage:  run-load-test.sh [-options]
+
+       options
+         -h                        - this help message
+         -s hostname               - the host name of the git server for porch git repos
+         -r repo-count             - the number of repos to create during the test, a positive integer
+         -p package-count          - the number of packages to create in each repo during the test, a positive integer
+         -e package-revision-count - the number of packagerevisions to create on each package during the test, a positive integer
+         -f result-file            - the file where the raw results will be stored, defaults to scalability_results.txt
+         -o repo-result-file       - the file where the results by reop will be stored, defaults to scalability_repo_results.csv
+         -l log-file               - the file where the test log will be stored, defaults to scalability.log
+         -y                        - dirty mode, do not clean up after tests
+```
+
+The load test creates, copies, proposes and approves `repo-count` repos, each with `package-count` packages with `package-revision-count` package recvisions created for each package. The script initializes or copies each package revision in turn. It adds a pipleline with two "apply-replacements" kpt functions to the Kptfile of each package revision. It updates the package revision, and then proposes and approves the package revision.
+
+The load test script creates repos on the git server at `hostname`, so it's URL will be `http://nephio:secret@hostname:3000/nephio/`. The script expects a git server to be running at that URL.
+
+The `result-file` is a text file containing the time it takes for a package to move from being inititalized or copied to being approved. It also records the time it takes to propse-delete and delete wach package revision.
+
+The `repo-result-file` is a csv file that tabulizes the results from `result-file` into colums for each repo created.
+
+For example:
+
+```bash
+porch % scripts/run-load-test.sh -s 172.18.255.200 -r 4 -p 2 -e 3
+running scalability test towards git server http://nephio:secret@172.18.255.200:3000/nephio/
+  4 repos will be created
+  2 packages in each repo
+  3 pacakge revisions in each package
+  results will be stored in "scalability_results.txt"
+  repo results will be stored in "scalability_repo_results.csv"
+  the log will be stored in "scalability.log"
+scalability test towards git server http://nephio:secret@172.18.255.200:3000/nephio/ completed
+```
+
+In the load test above, a total of 24 package revisions were created and deleted.
+
+|REPO-1-TEST|REPO-1-TIME|REPO-2-TEST|REPO-2-TIME|REPO-3-TEST|REPO-3-TIME|REPO-4-TEST|REPO-4-TIME|
+|-----------|-----------|-----------|-----------|-----------|-----------|-----------|-----------|
+1:1|1.951846|1:1|1.922723|1:1|2.019615|1:1|1.992746
+1:2|1.762657|1:2|1.864306|1:2|1.873962|1:2|1.846436
+1:3|1.807281|1:3|1.930068|1:3|1.860375|1:3|1.881649
+2:1|1.829227|2:1|1.904997|2:1|1.956160|2:1|1.988209
+2:2|1.803494|2:2|1.912169|2:2|1.915905|2:2|1.902103
+2:3|1.816716|2:3|1.948171|2:3|1.931904|2:3|1.952902
+del-6a0b3...|.918442|del-e757b...|.904881|del-d39cd...|.944850|del-6222f...|.911060
+del-378a4...|.831815|del-9211c...|.866386|del-316a5...|.898638|del-31d9f...|.895919
+del-89073...|.874867|del-97d45...|.876450|del-830e0...|.905896|del-7d411...|.866947
+del-4756f...|.850528|del-c95db...|.903599|del-4c450...|.884997|del-587f8...|.842529
+del-9860a...|.887118|del-9c1b9...|1.018930|del-66ae...|.929470|del-6ae3d...|.905359
+del-a11e5...|.845834|del-71540...|.899935|del-8d1e8...|.891296|del-9e2bb...|.864382
+del-1d789...|.851242|del-ffdc3...|.897862|del-75e45...|.852323|del-82eef...|.916630
+del-8ae7e...|.872696|del-58097...|.894618|del-d164f...|.852093|del-9da24...|.849919
+
 ## Switching between tasks
 
 The `make run-in-kind`, `make run-in-kind-no-server` and `make run-in-kind-no-controller` commands can be executed right after each other. No clean-up or restart is required between them. The make scripts will intelligently do the necessary changes in your current porch deployment in kind (e.g. removing or re-adding the porch API server).
