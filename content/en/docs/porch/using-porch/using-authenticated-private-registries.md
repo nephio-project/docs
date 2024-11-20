@@ -7,10 +7,7 @@ description: ""
 
 The Porch function runner pulls kpt function images from registries and uses them for rendering kpt packages in Porch. The function runner is set up by default to fetch kpt function images from public container registries such as [GCR](https://gcr.io/kpt-fn/) and the configuration options described here are not required for such public registries.
 
-{{% alert title="Note" color="primary" %}}
-{{% /alert %}}
-
-## Configuring function runner to operate with private container registries
+## 1. Configuring function runner to operate with private container registries
 
 This section describes how set up authentication for a private container registry containing kpt functions online e.g. (Github's GHCR) or locally e.g. (Harbor or Jfrog) that require authentication (username/password or token).
 
@@ -22,7 +19,7 @@ To enable pulling of kpt function images from authenticated private registries b
    1. Enabling the functionality using the argument *--enable-private-registries*.
    2. Providing the path and name of the mounted secret using the arguments *--registry-auth-secret-path* and *--registry-auth-secret-name* respectively.
 
-### Kubernetes secret setup for private registry using docker config
+### 1.1 Kubernetes secret setup for private registry using docker config
 
 An example template of what a docker *config.json* file looks like is as follows below. The base64 encoded value *bXlfdXNlcm5hbWU6bXlfcGFzc3dvcmQ=* of the *auth* key decodes to *my_username:my_password*, which is the format used by the config when authenticating.
 
@@ -63,7 +60,7 @@ metadata:
 type: kubernetes.io/dockerconfigjson
 ```
 
-### Mounting docker config secret to the function runner
+### 1.2 Mounting docker config secret to the function runner
 
 Next you must mount the secret as a volume on the function runner deployment. Add the following sections to the Deployment object in the *2-function-runner.yaml* file:
 
@@ -84,7 +81,7 @@ You may specify your desired paths for each `mountPath:` so long as the function
 The chosen `mountPath:` should use its own, dedicated sub-directory, so that it does not overwrite access permissions of the existing directory. For example, if you wish to mount on `/var/tmp` you should use `mountPath: /var/tmp/<SUB_DIRECTORY>` etc.
 {{% /alert %}}
 
-### Configuring function runner environment variables for private registries
+### 1.3 Configuring function runner environment variables for private registries
 
 Lastly you must enable private registry functionality along with providing the path and name of the secret. Add the `--enable-private-registries`, `--registry-auth-secret-path` and `--registry-auth-secret-name` arguments to the function-runner Deployment object in the *2-function-runner.yaml* file:
 
@@ -99,7 +96,7 @@ The `--enable-private-registries`, `--registry-auth-secret-path` and `--registry
 
 With this last step, if your Porch package uses kpt function images stored in an private registry (for example `- image: ghcr.io/private-registry/set-namespace:customv2`), the function runner will now use the secret info to replicate your secret on the `porch-fn-system` namespace and specify it as an `imagePullSecret` for the function pods, as documented [here](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/).
 
-## Configuring function runner to use custom TLS for private container registries
+## 2. Configuring function runner to use custom TLS for private container registries
 
 If your private container registry uses a custom certificate for TLS authentication then extra configuration is required for the function runner to integrate with. See below
 
@@ -107,7 +104,7 @@ If your private container registry uses a custom certificate for TLS authenticat
 2. Mounting the secret containing the registries' TLS information to the function runner similarly to step 2.
 3. Enabling TLS functionality and providing the path of the mounted secret to the function runner using the arguments *--enable-private-registries-tls* and *--tls-secret-path* respectively.
 
-### Kubernetes secret layout for TLS certificate
+### 2.1 Kubernetes secret layout for TLS certificate
 
 A typical secret containing TLS information will take on the a similar format to the following:
 
@@ -126,7 +123,7 @@ type: kubernetes.io/tls
 The content in *<PEM_CERT_DATA>* must be in PEM (Privacy Enhanced Mail) format, and the *<CA_FILE_NAME>* must be *ca.crt* or *ca.pem*. No other values are accepted.
 {{% /alert %}}
 
-### Mounting TLS certificate secret to the function runner
+### 2.2 Mounting TLS certificate secret to the function runner
 
 The TLS secret must then be mounted onto the function runner similarly to how the docker config secret was done previously [here](#mounting-docker-config-secret-to-the-function-runner).
 
@@ -141,7 +138,7 @@ volumes:
       secretName: <TLS_SECRET_NAME>
 ```
 
-### Configuring function runner environment variables for TLS on private registries
+### 2.3 Configuring function runner environment variables for TLS on private registries
 
 The *--enable-private-registries-tls* and *--tls-secret-path* variables are only required if a private registry has TLS enabled. They indicate to the function runner that it should attempt authentication to the registry using TLS, and should use the TLS certificate information found on the path provided in *--tls-secret-path*.
 
