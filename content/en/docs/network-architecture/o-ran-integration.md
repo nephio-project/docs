@@ -123,7 +123,7 @@ NF Deployment Lifecycle Management services implemented using Nephio capabilitie
 {{% alert title="Note" color="primary" %}}
 
 In R3 Nephio use cases and component architectures have been defined for the Deploy O-RAN NF use case.
-In R3 ,NFO supports OAI O-RAN(OCU-CP,OCU-UP,ODU) NF deployments using below REST API's.
+In R3, NFO supports OAI O-RAN(OCU-CP, OCU-UP, ODU) NF deployments using the REST APIs below.
 
 ##  input will be packagevariant of OAI NF.
 
