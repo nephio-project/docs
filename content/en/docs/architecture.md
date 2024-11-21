@@ -37,15 +37,3 @@ The controllers for OAI and Free5GC are represented here. Although they are vend
 ### Porch
 
 ![Nephio Porch Component View](/static/images/architecture/nephio-porch-component-view.png)
-
-### ConfigSync
-
-TBD - is this a component of Nephio or a dependency?
-
-## Deployment View
-
-TBD
-
-## Representative Use Cases
-
-TBD - use cases between the major components

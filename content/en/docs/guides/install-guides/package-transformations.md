@@ -449,35 +449,3 @@ During creation of the package variant kpt package, the following transformation
 
 6. The `lambda-cluster` package is now ready to go. It is proposed and approved and the process of cluster creation
    commences.
-
-#### Cluster Creation
-
-TBD.
-
-### pv-rootsync.yaml:
-
-TBD.
-
-### pv-repo.yaml: create the workload cluster repository
-
-TBD.
-
-### pv-configsync.yaml:
-
-TBD.
-
-### pv-kindnet.yaml:
-
-TBD.
-
-### pv-local-path-provisioner.yaml:
-
-TBD.
-
-### pv-multus.yaml:
-
-TBD.
-
-### pv-vlanindex.yaml:
-
-TBD.
