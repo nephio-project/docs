@@ -110,7 +110,6 @@ The primary role of the NFO and DMS services is to provide for the lifecycle man
 
 - NF Deployment Lifecycle Management
 - NF Termination Lifecycle Management
-- 
 #### NF Deployment Lifecycle Management
 
 ##### Introduction
