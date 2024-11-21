@@ -1,7 +1,7 @@
 ---
 title: Nephio install guides
 description: >
-  Demonstration Environment Installation
+  Guides to install Nephio in different environments
 weight: 1
 ---
 
