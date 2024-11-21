@@ -7,11 +7,21 @@ The documentation is served from [docs.nephio.org](https://docs.nephio.org/) and
 
 ## Status of the documentation
 
-In R2 release, a Hugo / Docsy based documentation site was introduced for the Nephio documentation. Hugo / Docsy uses the Markdown files hosted in the Github repo to generate the documentation website. We are still working on the restructuring the content and finalizing the look and feel of the website.
+In R2 release, a Hugo / Docsy based documentation site was introduced for the Nephio documentation. Hugo / Docsy uses
+the Markdown files hosted in the GitHub repo to generate the documentation website.
 
 ## How to contribute to the documentation
 
 ### Setting up the environment
+
+1. The site is using Hugo as the documentation generating engine and as Hugo depends on Go in mudule handling you need to
+   have Go installed on your computer. Most Linux distributions have Go preinstalled, but some of them have a verstion that is too old
+for Hugo. You should have at least version 1.18.0. You can install version 1.18 of go on an Ubuntu using the
+   following commands:
+
+    1. `sudo add-apt-repository ppa:longsleep/golang-backports`
+    1. `sudo apt update`
+    1. `sudo apt install golang-1.18`
 
 1. The site is using Hugo as the documentation generating engine, therefore you need to install Hugo. As the Docsy
   template that we use requires transforming Sass to CSS, you will need to install the *extended* version of Hugo.

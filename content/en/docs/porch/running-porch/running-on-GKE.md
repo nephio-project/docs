@@ -12,7 +12,7 @@ You can install Porch by either using one of the
 
 {{% alert title="Note" color="primary" %}}
 
-Porch should run on any kubernetes cluster and should work on any cloud. We have just started by documenting one
+Porch should run on any Kubernetes cluster and should work on any cloud. We have just started by documenting one
 known-good configuration: GCP and GKE. We would welcome comparable installation instructions or feedback from people
 that try it out on other clouds / configurations.
 
@@ -25,7 +25,7 @@ need:
 * [gcloud](https://cloud.google.com/sdk/docs/install)
 * [kubectl](https://kubernetes.io/docs/tasks/tools/); you can install it via `gcloud components install kubectl`
 * [kpt](https://kpt.dev/)
-* Command line utilities such as `curl`, `tar`
+* Command line utilities such as *curl*, *tar*
 
 To build and run Porch on GKE, you will also need:
 
@@ -40,8 +40,8 @@ To build and run Porch on GKE, you will also need:
 
 ## Getting Started
 
-Make sure your `gcloud` is configured with your project (alternatively, you can augment all following `gcloud`
-commands below with `--project` flag):
+Make sure your gcloud is configured with your project (alternatively, you can augment all following gcloud
+commands below with --project flag):
 
 ```bash
 gcloud config set project YOUR_GCP_PROJECT
@@ -63,7 +63,7 @@ gcloud services enable container.googleapis.com
 gcloud container clusters create --region us-central1 porch-dev
 ```
 
-And ensure `kubectl` is targeting your GKE cluster:
+And ensure *kubectl* is targeting your GKE cluster:
 
 ```bash
 gcloud container clusters get-credentials --region us-central1 porch-dev
@@ -75,7 +75,7 @@ gcloud container clusters get-credentials --region us-central1 porch-dev
 To run a released version of Porch, download the release config bundle from
 [Porch release page](https://github.com/nephio-project/porch/releases).
 
-Untar and apply the `deployment-blueprint.tar.gz` config bundle. This will install:
+Untar and apply the *deployment-blueprint.tar.gz* config bundle. This will install:
 
 * Porch server
 * [Config Sync](https://kpt.dev/gitops/configsync/)
@@ -87,7 +87,7 @@ kubectl apply -f porch-install
 kubectl wait deployment --for=condition=Available porch-server -n porch-system
 ```
 
-You can verify that Porch is running by querying the `api-resources`:
+You can verify that Porch is running by querying the api-resources:
 
 ```bash
 kubectl api-resources | grep porch
@@ -119,7 +119,7 @@ spec:
 To run custom build of Porch, you will need additional [prerequisites](#prerequisites). The commands below use
 [Google Container Registry](https://console.cloud.google.com/gcr).
 
-Clone this repository into `${GOPATH}/src/github.com/GoogleContainerTools/kpt`.
+Clone this repository into *${GOPATH}/src/github.com/GoogleContainerTools/kpt*.
 
 ```bash
 git clone https://github.com/GoogleContainerTools/kpt.git "${GOPATH}/src/github.com/GoogleContainerTools/kpt"
@@ -136,7 +136,7 @@ named (example shown is the Porch server image).
 IMAGE_TAG=$(git rev-parse --short HEAD) make push-and-deploy-no-sa
 ```
 
-If you want to use a different repository, you can set `IMAGE_REPO` variable
+If you want to use a different repository, you can set IMAGE_REPO variable
 (see [Makefile](https://github.com/nephio-project/porch/blob/main/Makefile#L32) for details).
 
 The `make push-and-deploy-no-sa` target will install Porch but not Config Sync. You can install Config Sync in your k8s
@@ -145,12 +145,12 @@ cluster manually following the
 
 {{% alert title="Note" color="primary" %}}
 
-The `-no-sa` (no service account) targets create Porch deployment
+The -no-sa (no service account) targets create Porch deployment
 configuration which does not associate Kubernetes service accounts with GCP
-service accounts. This is sufficient for Porch to integate with Git repositories
+service accounts. This is sufficient for Porch to integrate with Git repositories
 using Basic Auth, for example GitHub.
 
-As above, you can verify that Porch is running by querying the `api-resources`:
+As above, you can verify that Porch is running by querying the api-resources:
 
 ```bash
 kubectl api-resources | grep porch
@@ -160,7 +160,7 @@ kubectl api-resources | grep porch
 ### Workload Identity
 
 [Workload Identity](https://cloud.google.com/kubernetes-engine/docs/concepts/workload-identity) is a simple way to
-access Google Cloud services from porch.
+access Google Cloud services from Porch.
 
 #### Google Cloud Source Repositories
 
@@ -191,14 +191,18 @@ kubectl annotate serviceaccount porch-server -n porch-system \
   iam.gke.io/gcp-service-account=porch-server@${GCP_PROJECT_ID}.iam.gserviceaccount.com
 ```
 
-Build Porch, push images, and deploy porch server and controllers using the `make` target that adds workload identity
+<<<<<<< HEAD
+Build Porch, push images, and deploy Porch server and controllers using the `make` target that adds workload identity
+=======
+Build Porch, push images, and deploy porch server and controllers using the make target that adds workload identity
+>>>>>>> main
 service account annotations:
 
 ```bash
 IMAGE_TAG=$(git rev-parse --short HEAD) make push-and-deploy
 ```
 
-As above, you can verify that Porch is running by querying the `api-resources`:
+As above, you can verify that Porch is running by querying the api-resources:
 
 ```bash
 kubectl api-resources | grep porch
@@ -246,14 +250,18 @@ gcloud iam service-accounts add-iam-policy-binding porch-sync@${GCP_PROJECT_ID}.
   --member "serviceAccount:${GCP_PROJECT_ID}.svc.id.goog[porch-system/porch-controllers]"
 ```
 
-Build Porch, push images, and deploy porch server and controllers using the `make` target that adds workload identity
+<<<<<<< HEAD
+Build Porch, push images, and deploy Porch server and controllers using the `make` target that adds workload identity
+=======
+Build Porch, push images, and deploy porch server and controllers using the make target that adds workload identity
+>>>>>>> main
 service account annotations:
 
 ```bash
 IMAGE_TAG=$(git rev-parse --short HEAD) make push-and-deploy
 ```
 
-As above, you can verify that Porch is running by querying the `api-resources`:
+As above, you can verify that Porch is running by querying the api-resources:
 
 ```bash
 kubectl api-resources | grep porch

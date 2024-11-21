@@ -6,7 +6,7 @@ weight: 3
 ---
 
 {{% pageinfo %}}
-This page is draft and the separation of the content to different categories is not clearly done. 
+This page is draft and the separation of the content to different categories is not done. 
 {{% /pageinfo %}}
 
 
@@ -15,17 +15,17 @@ In this guide, you will set up Nephio with:
 - **Management Cluster**: OpenShift with [Advanced Cluster Management](https://www.redhat.com/en/technologies/management/advanced-cluster-management)
 - **Cluster Provisioner**: Assisted Service
 - **Workload Clusters**: OpenShift Cluster or Single Node OpenShift Cluster or HyperShift Cluster or Remote Worker Node
-- **Gitops Tool**: [OpenShift GitOps](https://www.redhat.com/en/technologies/cloud-computing/openshift/gitops) backed by
+- **GitOps Tool**: [OpenShift GitOps](https://www.redhat.com/en/technologies/cloud-computing/openshift/gitops) backed by
   ArgoCD
 - **Git Provider**: Gitea running in the Nephio management cluster will be the git provider for cluster deployment
   repositories. Some external repositories will be  on GitHub.
 - **Web UI Auth**: OpenShift OAuth.
-- **Ingress/Load Balancer**: OpenShift Ingress will be used, supplying a Route to the Nephio and Gitea Web UIs.
+- **Ingress/Load Balancer**: OpenShift Ingress will be used, supplying a Route to the Nephio and Gitea WebUIs.
 
 ## Prerequisites
 
 - A Red Hat Account and access to https://console.redhat.com/openshift/
-- OpenShift cli client `oc`. [Download here](https://console.redhat.com/openshift/downloads)
+- OpenShift cli client *oc*. [Download here](https://console.redhat.com/openshift/downloads)
 
 ## Setup the Management Cluster
 
@@ -54,7 +54,16 @@ Once installed, you need to prepare the management cluster for zero touch provis
 
 ## Install Nephio
 
-### OpenShift Package Repository
+### Option 1: Using init.sh (as a Pre-installed K8s Cluster)
+
+If using init.sh directly to deploy Nephio management components, as one would for a generic K8s Cluster, there are some prerequisites to consider:
+- A default StorageClass must be configured providing persistent storage for PVCs (for instance through the LVMS Operator and an LVMCluster)
+- [Security Context Constraits](https://github.com/nephio-project/catalog/tree/main/distros/openshift/security-context-constraints) must be applied for successful Nephio component deployment
+
+Follow the steps present in the [Install Guide](/content/en/docs/guides/install-guides/_index.md) for a Pre-installed K8s Cluster to install manaement components
+
+
+### Option 2: Using Blueprints Nephio OpenShift Repo OpenShift Package Repository
 
 A repository of OpenShift-installation specific packages must be used to deploy Nephio. This repository contains
 packages derived from the standard Nephio R1 packages, but with OpenShift-specific modifications.
@@ -73,7 +82,7 @@ oc apply -f https://raw.githubusercontent.com/openshift-telco/blueprints-nephio-
 This will take care of applying the [common dependencies](/content/en/docs/guides/install-guides/common-dependencies.md)
 and the [common components](/content/en/docs/guides/install-guides/common-components.md)
 
-### Access the Nephio
+### Access the Nephio WebUI
 
 - Get the Nephio URL:
   ```bash
@@ -90,8 +99,8 @@ and the [common components](/content/en/docs/guides/install-guides/common-compon
   ```
 
 - Login
-    - user: gitea
-    - password: password
+    - user: *gitea*
+    - password: *password*
 
 ## Install edge clusters
 
