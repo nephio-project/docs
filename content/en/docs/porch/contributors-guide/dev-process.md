@@ -62,16 +62,6 @@ curl https://localhost:4443/apis/porch.kpt.dev/v1alpha1 -k
   "groupVersion": "porch.kpt.dev/v1alpha1",
   "resources": [
     {
-      "name": "functions",
-      "singularName": "",
-      "namespaced": true,
-      "kind": "Function",
-      "verbs": [
-        "get",
-        "list"
-      ]
-    },
-    {
       "name": "packagerevisionresources",
       "singularName": "",
       "namespaced": true,

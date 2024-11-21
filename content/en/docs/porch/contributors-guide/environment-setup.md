@@ -116,7 +116,6 @@ packagerevs                                      config.porch.kpt.dev/v1alpha1  
 packagevariants                                  config.porch.kpt.dev/v1alpha1     true         PackageVariant
 packagevariantsets                               config.porch.kpt.dev/v1alpha2     true         PackageVariantSet
 repositories                                     config.porch.kpt.dev/v1alpha1     true         Repository
-functions                                        porch.kpt.dev/v1alpha1            true         Function
 packagerevisionresources                         porch.kpt.dev/v1alpha1            true         PackageRevisionResources
 packagerevisions                                 porch.kpt.dev/v1alpha1            true         PackageRevision
 packages                                         porch.kpt.dev/v1alpha1            true         PorchPackage
