@@ -6,14 +6,14 @@ weight: 6
 ---
 
 {{% pageinfo %}}
-This page is draft and the separation of the content to different categories is not clearly done. 
+This page is draft and the separation of the content to different categories is not done. 
 {{% /pageinfo %}}
 
 
 ## Steps
 
 - Install git
-- Install virtualbox
+- Install VirtualBox
 - Install [vagrant](https://developer.hashicorp.com/vagrant/docs/installation)
 - open git bash
 - `git clone https://github.com/nephio-project/test-infra.git && cd test-infra/e2e/provision`
@@ -32,7 +32,7 @@ the Vagrant.configure:
 
 `config.vm.network "private_network", ip: "192.168.50.4", virtualbox__intnet: true`
 
-But the easiest way is to force the port-forwarding as shown before:
+The easiest way is to force the port-forwarding as shown before:
 
 `vagrant ssh -- -L 7007:localhost:7007 -L 3000:172.18.0.200:3000`
 
@@ -51,10 +51,10 @@ the Vagrant file. This is not recommended!
 
 {{% /alert %}}
 
-- In the Vagrant file "./Vagrantfile", there are *CPUS & RAM* parameters in
-  `config.vm.provider`, it's possible to override them at runtime:
+- In the Vagrant file *./Vagrantfile*, there are *CPUS & RAM* parameters in
+  the *config.vm.provider*, it's possible to override them at runtime:
   - On Linux, or the Git Bash on Windows we can use a one-liner command `CPUS=16
   MEMORY=32768 vagrant up`
 
-- In the Ansible "./playbooks/roles/bootstrap/tasks/prechecks.yml" file, there
+- In the Ansible *./playbooks/roles/bootstrap/tasks/prechecks.yml* file, there
   are the checks for *CPUS & RAM*

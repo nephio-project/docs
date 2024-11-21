@@ -21,7 +21,7 @@ The system context view gives a high level perspective of the Nephio software sy
 
 ![System Landscape](/static/images/architecture/level2-nephio-container.png)
 
-Nephio is an amalgamation of software systems, so a system landscape provides a high-level view of how those software systems interoperate.
+Nephio is an amalgamation of software systems, so a system landscape provides a high-level view of how those software systems operate together.
 
 ## Component Views
 

@@ -6,7 +6,7 @@ weight: 1
 ---
 
 {{% pageinfo %}}
-This page is draft and the separation of the content to different categories is not clearly done. 
+This page is draft and the separation of the content to different categories is not done. 
 {{% /pageinfo %}}
 
 ## Introduction
@@ -18,7 +18,7 @@ will be used in the exercises to simulate a topology with a Nephio management cl
 
 ### GCE Prerequisites
 
-You will need a account in GCP and `gcloud` installed on your local environment.
+You will need a account in GCP and *gcloud* installed on your local environment.
 
 ### Create a Virtual Machine on GCE
 
@@ -65,7 +65,7 @@ Order or create a VM with the following specification:
 
 In some installations, the IP range used by Kubernetes in the sandbox can clash with the IP address used by your VPN. In such cases, the VM will become unreachable during the sandbox installation. If you have this situation, add the route below on your VM.
 
-Log onto your VM and run the following commands, replacing **\<interface-name\>** and **\<interface-gateway-ip\>** with your VMs values:
+Log onto your VM and run the following commands, replacing *\<interface-name\>* and *\<interface-gateway-ip\>* with your VMs values:
 
 ```bash
 sudo bash -c 'cat << EOF > /etc/netplan/99-cloud-init-network.yaml
@@ -100,8 +100,12 @@ sudo NEPHIO_DEBUG=false   \
 **Pre-installed K8s Cluster**
 
 Log onto your VM/System and run the following command:
-(NOTE: The VM or System should be able to access the K8S API server via the kubeconfig file and have docker installed.
-Docker is needed to run the KRM container functions specified in rootsync and repository packages.)
+
+{{% alert title="Note" color="primary" %}}
+The VM or System should be able to access the K8S API server via the kubeconfig file and have docker installed.
+Docker is needed to run the KRM container functions specified in *rootsync* and *repository* packages.
+{{% /alert %}}
+
 
 ```bash
 wget -O - https://raw.githubusercontent.com/nephio-project/test-infra/v3.0.0/e2e/provision/init.sh |  \
@@ -116,18 +120,18 @@ sudo NEPHIO_DEBUG=false   \
 
 The following environment variables can be used to configure the installation:
 
-| Variable               | Values           | Default Value      | Description                                                                  |
-|------------------------|------------------| -------------------|------------------------------------------------------------------------------|
-| NEPHIO_USER            | userid           | ubuntu             | The user to install the sandbox on (must have sudo passwordless permissions) |
-| NEPHIO_DEBUG           | false or true    | false              | Controls debug output from the install                                       |
-| NEPHIO_HOME            | path             | /home/$NEPHIO_USER | The directory to check out the install scripts into                          |
-| RUN_E2E                | false or true    | false              | Specifies whether end-to-end tests should be executed or not                 |
-| DOCKERHUB_USERNAME     | alpha-num string |                    | Specifies the dockerhub username                                             |
-| DOCKERHUB_TOKEN        | alpha-num string |                    | Specifies the password or token                                              |
-| NEPHIO_REPO            | URL              | https://github.com/nephio-project/test-infra.git | URL of the repository to be used for installation |
-| NEPHIO_BRANCH          | branch     | main/v3.0.0               | Tag or branch name to use in NEPHIO_REPO                                     |
-| DOCKER_REGISTRY_MIRRORS | list of URLs in JSON format |        | List of docker registry mirrors in JSON format, or empty for no mirrors to be set. Example value: ``["https://docker-registry-remote.mycompany.com", "https://docker-registry-remote2.mycompany.com"]`` |
-| K8S_CONTEXT            | K8s context      | kind-kind          | Kubernetes context for existing non-kind cluster (gathered from `kubectl config get-contexts`, for example "kubernetes-admin@kubernetes") |
+| Variable                  | Values           | Default Value      | Description                                                                  |
+|---------------------------|------------------| -------------------|------------------------------------------------------------------------------|
+| *NEPHIO_USER*             | userid           | ubuntu             | The user to install the sandbox on (must have sudo passwordless permissions) |
+| *NEPHIO_DEBUG*            | false or true    | false              | Controls debug output from the install                                       |
+| *NEPHIO_HOME*             | path             | /home/$NEPHIO_USER | The directory to check out the install scripts into                          |
+| *RUN_E2E*                 | false or true    | false              | Specifies whether end-to-end tests should be ran or not                 |
+| *DOCKERHUB_USERNAME*      | alpha-num string |                    | Specifies the Docker Hub username                                             |
+| *DOCKERHUB_TOKEN*         | alpha-num string |                    | Specifies the password or token                                              |
+| *NEPHIO_REPO*             | URL              | https://github.com/nephio-project/test-infra.git | URL of the repository to be used for installation |
+| *NEPHIO_BRANCH*           | branch     | main/v3.0.0               | Tag or branch name to use in NEPHIO_REPO                                     |
+| *DOCKER_REGISTRY_MIRRORS* | list of URLs in JSON format |        | List of docker registry mirrors in JSON format, or empty for no mirrors to be set. Example value: ``["https://docker-registry-remote.mycompany.com", "https://docker-registry-remote2.mycompany.com"]`` |
+| *K8S_CONTEXT*             | K8s context      | kind-kind          | Kubernetes context for existing non-kind cluster (gathered from `kubectl config get-contexts`, for example *kubernetes-admin@kubernetes*) |
 
 ### Follow the Installation on VM
 

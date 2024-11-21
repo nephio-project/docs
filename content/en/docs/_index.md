@@ -93,3 +93,4 @@ demonstration purposes, the same principles and code can be used for managing
 other infrastructure and network functions. The *uniformity in systems*
 principle means that as long as something is manageable via the Kubernetes
 Resource Model, it is manageable via Nephio.
+
