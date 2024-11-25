@@ -198,17 +198,17 @@ run-load-test.sh - runs a load test on porch
 ```
 
 The load test creates, copies, proposes and approves `repo-count` repos, each with `package-count` packages
-with `package-revision-count` package recvisions created for each package. The script initializes or copies each
+with `package-revision-count` package revisions created for each package. The script initializes or copies each
 package revision in turn. It adds a pipleline with two "apply-replacements" kpt functions to the Kptfile of each
-package revision. It updates the package revision, and then proposes and approves the package revision.
+package revision. It updates the package revision, and then proposes and approves it.
 
 The load test script creates repos on the git server at `hostname`, so it's URL will be `http://nephio:secret@hostname:3000/nephio/`.
 The script expects a git server to be running at that URL.
 
-The `result-file` is a text file containing the time it takes for a package to move from being inititalized or
-copied to being approved. It also records the time it takes to propse-delete and delete wach package revision.
+The `result-file` is a text file containing the time it takes for a package to move from being initialized or
+copied to being approved. It also records the time it takes to proppose-delete and delete each package revision.
 
-The `repo-result-file` is a csv file that tabulizes the results from `result-file` into colums for each repo created.
+The `repo-result-file` is a csv file that tabulates the results from `result-file` into columns for each repository created.
 
 For example:
 
