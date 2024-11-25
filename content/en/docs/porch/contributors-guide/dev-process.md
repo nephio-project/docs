@@ -191,17 +191,22 @@ run-load-test.sh - runs a load test on porch
          -r repo-count             - the number of repos to create during the test, a positive integer
          -p package-count          - the number of packages to create in each repo during the test, a positive integer
          -e package-revision-count - the number of packagerevisions to create on each package during the test, a positive integer
-         -f result-file            - the file where the raw results will be stored, defaults to scalability_results.txt
-         -o repo-result-file       - the file where the results by reop will be stored, defaults to scalability_repo_results.csv
-         -l log-file               - the file where the test log will be stored, defaults to scalability.log
+         -f result-file            - the file where the raw results will be stored, defaults to load_test_results.txt
+         -o repo-result-file       - the file where the results by reop will be stored, defaults to load_test_repo_results.csv
+         -l log-file               - the file where the test log will be stored, defaults to load_test.log
          -y                        - dirty mode, do not clean up after tests
 ```
 
-The load test creates, copies, proposes and approves `repo-count` repos, each with `package-count` packages with `package-revision-count` package recvisions created for each package. The script initializes or copies each package revision in turn. It adds a pipleline with two "apply-replacements" kpt functions to the Kptfile of each package revision. It updates the package revision, and then proposes and approves the package revision.
+The load test creates, copies, proposes and approves `repo-count` repos, each with `package-count` packages
+with `package-revision-count` package recvisions created for each package. The script initializes or copies each
+package revision in turn. It adds a pipleline with two "apply-replacements" kpt functions to the Kptfile of each
+package revision. It updates the package revision, and then proposes and approves the package revision.
 
-The load test script creates repos on the git server at `hostname`, so it's URL will be `http://nephio:secret@hostname:3000/nephio/`. The script expects a git server to be running at that URL.
+The load test script creates repos on the git server at `hostname`, so it's URL will be `http://nephio:secret@hostname:3000/nephio/`.
+The script expects a git server to be running at that URL.
 
-The `result-file` is a text file containing the time it takes for a package to move from being inititalized or copied to being approved. It also records the time it takes to propse-delete and delete wach package revision.
+The `result-file` is a text file containing the time it takes for a package to move from being inititalized or
+copied to being approved. It also records the time it takes to propse-delete and delete wach package revision.
 
 The `repo-result-file` is a csv file that tabulizes the results from `result-file` into colums for each repo created.
 
@@ -209,14 +214,14 @@ For example:
 
 ```bash
 porch % scripts/run-load-test.sh -s 172.18.255.200 -r 4 -p 2 -e 3
-running scalability test towards git server http://nephio:secret@172.18.255.200:3000/nephio/
+running load test towards git server http://nephio:secret@172.18.255.200:3000/nephio/
   4 repos will be created
   2 packages in each repo
   3 pacakge revisions in each package
-  results will be stored in "scalability_results.txt"
-  repo results will be stored in "scalability_repo_results.csv"
-  the log will be stored in "scalability.log"
-scalability test towards git server http://nephio:secret@172.18.255.200:3000/nephio/ completed
+  results will be stored in "load_test_results.txt"
+  repo results will be stored in "load_test_repo_results.csv"
+  the log will be stored in "load_test.log"
+load test towards git server http://nephio:secret@172.18.255.200:3000/nephio/ completed
 ```
 
 In the load test above, a total of 24 package revisions were created and deleted.
