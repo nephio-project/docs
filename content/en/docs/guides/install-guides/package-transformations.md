@@ -444,7 +444,7 @@ During creation of the package variant *kpt* package, the following transformati
 
       1. The new mutator added to the *Kptfile* by the package variant adds the annotation nephio.org/cluster-name:
          lambda is added to every resource in the package.
-      2. The existing annotation in the *Kptfile* (coming from the Kptfile in the parent *cluster-capi-kind* package) sets
+      2. The existing annotation in the *Kptfile* (coming from the *Kptfile* in the parent *cluster-capi-kind* package) sets
          the value lambda of the  spec.clusterName field in *workload-cluster.yaml* as the value of the metadata.name
          field in the *cluster.yaml* file.
 
