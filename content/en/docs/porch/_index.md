@@ -10,7 +10,7 @@ description: Documentation of Porch
  Porch is “kpt-as-a-service”, providing opinionated package management, manipulation, and lifecycle operations in a
  Kubernetes-based API. This allows automation of these operations using standard Kubernetes controller techniques.
 
-Porch is short for Package Orchestration.
+"Porch" is short for "Package Orchestration".
 
 ## Porch in the Nephio architecture, history and outlook
 
@@ -20,4 +20,4 @@ was decided that Porch would not be part of the kpt project and the code was don
 
 Porch is maintained by the Nephio community and it is core part of the Nephio architecture. Porch will evolve with Nephio and
 its architecture and implementation will be updated to meet the functional and non functional requirements on it
-and Nephio as a whole.
+and on Nephio as a whole.
