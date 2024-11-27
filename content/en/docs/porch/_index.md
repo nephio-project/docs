@@ -18,6 +18,6 @@ Porch is a key component of the Nephio architecture and was originally developed
 [kpt](https://github.com/kptdev/kpt) project. When kpt was donated to the [CNCF](https://www.cncf.io/projects/kpt/) it
 was decided that Porch would not be part of the kpt project and the code was donated to Nephio.
 
-Porch is maintained by the Nephio community and it is core part of the Nephio architecture. Porch will evolve with Nephio and
-its architecture and implementation will be updated to meet the functional and non functional requirements on it
+Porch is maintained by the Nephio community and is a core part of the Nephio architecture. Porch will evolve with Nephio and
+its architecture and implementation will be updated to meet the functional and non-functional requirements on it
 and on Nephio as a whole.
