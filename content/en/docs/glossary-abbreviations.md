@@ -377,7 +377,7 @@ functions.
 * PV: Package Variant
 * PVS: Package Variant Set
 
-# 5G 3GPP Related Abbreviations
+## 5G 3GPP Related Abbreviations
 * AMF: Access and Mobility Management Function
 * SMF: Session Management Function
 * UPF: User Plane Function
