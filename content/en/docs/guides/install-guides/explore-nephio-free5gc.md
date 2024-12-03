@@ -7,7 +7,7 @@ weight: 6
 
 Concepts as [Operator](../../glossary-abbreviations#operator) and
 [Controller](../../glossary-abbreviations#controller) and
-[CR](../../glossary-and-abbreviations#custom-resource) have already been explained here.
+[CR](../../glossary-abbreviations#custom-resource) have already been explained here.
 
 ## Deploy the operator to the cluster
 
