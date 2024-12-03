@@ -1,5 +1,5 @@
 ---
-title: Glossary & Abbreviations
+title: Glossary and Abbreviations
 description: 
 weight: 10
 ---
