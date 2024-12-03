@@ -118,4 +118,4 @@ kpt live apply stock-repos --reconcile-timeout=15m --output=table
 ## WebUI (Optional)
 
 Nephio WebUI is optional and to install it you can follow this
-[document](/content/en/docs/guides/install-guides/webui.md)  
+[document](/content/en/docs/guides/install-guides/web-ui/_index.md)  

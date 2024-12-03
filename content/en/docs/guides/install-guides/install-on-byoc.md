@@ -136,8 +136,8 @@ LoadBalancer service, Ingress, or Route).
 
 The WebUI currently supports the following options:
 
-- [Google OAuth or OIDC](/content/en/docs/guides/install-guides/webui-auth-gcp.md)
-- [OIDC with Okta](/content/en/docs/guides/install-guides/webui-auth-okta.md)
+- [Google OAuth or OIDC](/content/en/docs/guides/install-guides/web-ui/webui-auth-gcp.md)
+- [OIDC with Okta](/content/en/docs/guides/install-guides/web-ui/webui-auth-okta.md)
 
 ### Nephio Stock Repositories
 
