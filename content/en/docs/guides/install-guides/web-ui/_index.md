@@ -1,16 +1,9 @@
 ---
-title: Install WebUI
+title: Installing the WebUI
 description: >
-   These instructions explain how to install the Nephio WebUI.
-weight: 6
+   These instructions explain how to install and configure the Nephio WebUI.
+weight: 2
 ---
-
-{{% pageinfo %}}
-This page is draft and the separation of the content to different categories is not clear. 
-{{% /pageinfo %}}
-
-
-## Nephio WebUI
 
 To install the WebUI, we simply install a different *kpt* package. First, we pull the package locally:
 
@@ -54,8 +47,8 @@ service).
 Configuring authentication for the WebUI is specific to the particular cluster environment. Guides for different
 environments are below:
 
-- [Google OAuth or OIDC](/content/en/docs/guides/install-guides/webui-auth-gcp.md)
-- [OIDC with Okta](/content/en/docs/guides/install-guides/webui-auth-okta.md)
+- [Google OAuth or OIDC](/content/en/docs/guides/install-guides/web-ui/webui-auth-gcp.md)
+- [OIDC with Okta](/content/en/docs/guides/install-guides/web-ui/webui-auth-okta.md)
 
 Once that configuration is updated, you can proceed with the installation (note, this uses `inventory-policy=adopt`,
 since in the previous steps we may have created the namespace already).

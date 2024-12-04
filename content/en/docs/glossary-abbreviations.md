@@ -1,13 +1,14 @@
 ---
-title: Glossary
+title: Glossary and Abbreviations
 description: 
-weight: 4
+weight: 10
 ---
 
 We use many terms in our Nephio discussions, coming from different domains
 including telecom, Kubernetes, configuration management, and our own
-Nephio-specific terms. This glossary is intended to help clarify our usage of
+[Nephio-specific](#nephio-related-abbreviations) terms. This glossary is intended to help clarify our usage of
 these terms.
+
 
 ## Config
 See [Configuration](#configuration).
@@ -369,3 +370,24 @@ configuration at scale.
 
 A workload is any application running on Kubernetes, including network
 functions.
+
+## Nephio Related Abbreviations
+
+* PV: Package Variant
+* PVS: Package Variant Set
+
+## 5G 3GPP Related Abbreviations
+
+* NF: Network Function
+* AMF: Access and Mobility Management Function
+* SMF: Session Management Function
+* UPF: User Plane Function
+* AUSF: Authentication Server Function
+* NRF: Network Repository Function
+* UDR: Unified Data Repository
+* UDM: Unified Data Management
+* DNN: Data Network Name
+
+## Kubernetes Networking
+
+* NAD: Network Attachment Definition

@@ -5,9 +5,12 @@ description: >
 weight: 6
 ---
 
-Concepts as [Operator](/content/en/docs/glossary.md#operator) and
-[Controller](/content/en/docs/glossary.md#controller) and
-[CR](/content/en/docs/glossary.md#custom-resource) have already been explained here.
+Concepts as [Operator](../../glossary-abbreviations.md#operator) and
+
+[Controller](../../glossary-abbreviations.md#controller) and
+
+[CR](../../glossary-abbreviations.md#custom-resource) have already been explained here.
+
 
 ## Deploy the operator to the cluster
 

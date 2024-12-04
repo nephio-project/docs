@@ -14,8 +14,8 @@ the Markdown files hosted in the GitHub repo to generate the documentation websi
 
 ### Setting up the environment
 
-1. The site is using Hugo as the documentation generating engine and as Hugo depends on Go in mudule handling you need to
-   have Go installed on your computer. Most Linux distributions have Go preinstalled, but some of them have a verstion that is too old
+1. The site is using Hugo as the documentation generating engine and as Hugo depends on Go in module handling you need to
+   have Go installed on your computer. Most Linux distributions have Go preinstalled, but some of them have a version that is too old
 for Hugo. You should have at least version 1.18.0. You can install version 1.18 of go on an Ubuntu using the
    following commands:
 

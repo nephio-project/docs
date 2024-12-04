@@ -1022,9 +1022,9 @@ git commit -m "Initial checking of nephio-mgmt"
 **Prior to deploying the package, we need to manually setup the secret for the
 WebUI.**
 
-See [Google OAuth 2.0 or OIDC](/content/en/docs/guides/install-guides/webui-auth-gcp.md) for details on how to
-set up OAuth. In particular you need to [create the client ID](/content/en/docs/guides/install-guides/webui-auth-gcp.md#creating-an-oauth-20-client-id)
-and the [secret](/content/en/docs/guides/install-guides/webui-auth-gcp.md#create-the-secret-in-the-cluster)
+See [Google OAuth 2.0 or OIDC](/content/en/docs/guides/install-guides/web-ui/webui-auth-gcp.md) for details on how to
+set up OAuth. In particular you need to [create the client ID](/content/en/docs/guides/install-guides/web-ui/webui-auth-gcp.md#creating-an-oauth-20-client-id)
+and the [secret](/content/en/docs/guides/install-guides/web-ui/webui-auth-gcp.md#create-the-secret-in-the-cluster)
 manually.
 
 The *nephio-webui* subpackage in *nephio-mgmt* is already set up for
