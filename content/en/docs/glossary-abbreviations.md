@@ -371,13 +371,14 @@ configuration at scale.
 A workload is any application running on Kubernetes, including network
 functions.
 
-
 ## Nephio Related Abbreviations
-* NF: Network Function
+
 * PV: Package Variant
 * PVS: Package Variant Set
 
 ## 5G 3GPP Related Abbreviations
+
+* NF: Network Function
 * AMF: Access and Mobility Management Function
 * SMF: Session Management Function
 * UPF: User Plane Function
@@ -386,4 +387,7 @@ functions.
 * UDR: Unified Data Repository
 * UDM: Unified Data Management
 * DNN: Data Network Name
+
+## Kubernetes Networking
+
 * NAD: Network Attachment Definition
