@@ -5,8 +5,10 @@ description: >
 weight: 6
 ---
 
-Concepts as [Operator](../../glossary-abbreviations#operator) and
-[Controller](../../glossary-abbreviations#controller) and
+Concepts as [Operator](../../glossary-abbreviations.md#operator) and
+
+[Controller](../../glossary-abbreviations.md#controller) and
+
 [CR](../../glossary-abbreviations.md#custom-resource) have already been explained here.
 
 
