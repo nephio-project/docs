@@ -143,6 +143,10 @@ breadcrumb_disable = false
 
 sidebar_search_disable = false
 
+#  Set to false to prevent the menu sub-sections from being foldable
+
+sidebar_menu_foldable = true
+
 #  Set to false if you don't want to display a logo (/assets/icons/logo.svg) in the top nav bar
 
 navbar_logo = true
