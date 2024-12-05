@@ -70,7 +70,7 @@ At the high level, the Core CaD functionality comprises:
   * package repository management
   * package discovery, authoring and lifecycle management
 
-* [porchctl](using-porch/porchctl-cli-guide) - a Git-native, schema-aware, extensible client-side tool for managing KRM packages
+* [porchctl](using-porch/porchctl-cli-guide.md) - a Git-native, schema-aware, extensible client-side tool for managing KRM packages
 * a GitOps-based deployment mechanism (for example [Config Sync][]), which distributes and deploys configuration, and
   provides observability of the status of deployed resources
 * a task-specific UI supporting repository management, package discovery, authoring, and lifecycle
