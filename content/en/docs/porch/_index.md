@@ -7,8 +7,8 @@ description: Documentation of Porch
 
 ## Overview
 
- Porch is “kpt-as-a-service”, providing opinionated package management, manipulation, and lifecycle operations in a
- Kubernetes-based API. This allows automation of these operations using standard Kubernetes controller techniques.
+Porch is “kpt-as-a-service”, providing opinionated package management, manipulation, and lifecycle operations in a
+Kubernetes-based API. This allows automation of these operations using standard Kubernetes controller techniques.
 
 "Porch" is short for "Package Orchestration".
 

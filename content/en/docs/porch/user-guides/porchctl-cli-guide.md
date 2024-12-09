@@ -1,22 +1,60 @@
 ---
-title: "Using Porch with the kpt CLI"
+title: "Using the Porch CLI tool"
 type: docs
-weight: 3
+weight: 2
 description: 
 ---
 
+## Setting up the porchctl CLI
 
-This document is focused on using Porch via the `kpt` CLI.
+When Porch was ported to Nephio, the `kpt alpha rpkg` commands in kpt were moved into a new command called `porchctl`. 
 
-Installation of Porch, including prerequisites, is covered in a [dedicated document](install-and-using-porch.md).
+To use it locally, [download](https://github.com/nephio-project/porch/releases/tag/main), unpack and add it to your PATH.
 
-## Prerequisites
+{{% alert title="Note" color="primary" %}}
 
-To use Porch, you will need:
+Installation of Porch, including its prerequisites, is covered in a [dedicated document](install-and-using-porch.md).
 
-* [`kpt`](https://kpt.dev)
-* [`kubectl`](https://kubernetes.io/docs/tasks/tools/#kubectl)
-* [`gcloud`](https://cloud.google.com/sdk/gcloud) (if running on GKE)
+{{% /alert %}}
+
+*Optional*: Generate the autocompletion script for the specified shell to add to your sh profile.
+
+```
+porchctl completion bash
+```
+
+The `porchtcl` command is an administration command for acting on Porch *Repository* (repo) and *PackageRevision* (rpkg)
+CRs.
+
+The commands for administering repositories are:
+
+| Command               | Description                    |
+| --------------------- | ------------------------------ |
+| `porchctl repo get`   | List registered repositories.  |
+| `porchctl repo reg`   | Register a package repository. |
+| `porchctl repo unreg` | Unregister a repository.       |
+
+The commands for administering package revisions are:
+
+| Command                        | Description                                                                             |
+| ------------------------------ | --------------------------------------------------------------------------------------- |
+| `porchctl rpkg approve`        | Approve a proposal to publish a package revision.                                       |
+| `porchctl rpkg clone`          | Create a clone of an existing package revision.                                         |
+| `porchctl rpkg copy`           | Create a new package revision from an existing one.                                     |
+| `porchctl rpkg del`            | Delete a package revision.                                                              |
+| `porchctl rpkg get`            | List package revisions in registered repositories.                                      |
+| `porchctl rpkg init`           | Initializes a new package in a repository.                                              |
+| `porchctl rpkg propose`        | Propose that a package revision should be published.                                    |
+| `porchctl rpkg propose-delete` | Propose deletion of a published package revision.                                       |
+| `porchctl rpkg pull`           | Pull the content of the package revision.                                               |
+| `porchctl rpkg push`           | Push resources to a package revision.                                                   |
+| `porchctl rpkg reject`         | Reject a proposal to publish or delete a package revision.                              |
+| `porchctl rpkg update`         | Update a downstream package revision to a more recent revision of its upstream package. |
+
+## Using the porchctl CLI
+
+### Guide prerequisites
+* [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
 
 Make sure that your `kubectl` context is set up for `kubectl` to interact with the correct Kubernetes instance (see
 [installation instructions](install-and-using-porch.md) or the [running-locally](../running-porch/running-locally.md)
@@ -28,13 +66,12 @@ To check whether `kubectl` is configured with your Porch cluster (or local insta
 kubectl api-resources | grep porch
 ```
 
-You should see the following four resourceds listed:
+You should see the following api resources listed:
 
 ```bash
 repositories                  config.porch.kpt.dev/v1alpha1          true         Repository
 packagerevisionresources      porch.kpt.dev/v1alpha1                 true         PackageRevisionResources
 packagerevisions              porch.kpt.dev/v1alpha1                 true         PackageRevision
-functions                     porch.kpt.dev/v1alpha1                 true         Function
 ```
 
 ## Porch Resources
@@ -57,6 +94,7 @@ package content. The matching resources share the same `name` (as well as API gr
 
 {{% /alert %}}
 
+
 ## Repository Registration
 
 To use Porch with a Git repository, you will need:
@@ -74,14 +112,14 @@ To use Porch with an OCI repository ([Artifact Registry](https://console.cloud.g
   (`iam.gke.io/gcp-service-account=porch-server@$(GCP_PROJECT_ID).iam.gserviceaccount.com`)
   to have appropriate level of access to your OCI repository.
 
-Use the `kpt alpha repo register` command to register your repository with Porch:
+Use the `porchctl repo register` command to register your repository with Porch:
 
 ```bash
 
 GITHUB_USERNAME=<your github username>
 GITHUB_TOKEN=<GitHub Personal Access Token>
 
-$ kpt alpha repo register \
+$ porchctl repo register \
   --namespace default \
   --repo-basic-username=${GITHUB_USERNAME} \
   --repo-basic-password=${GITHUB_TOKEN} \
@@ -102,37 +140,37 @@ All command line flags supported:
 
 Additionally, common `kubectl` command line flags for controlling aspects of
 interaction with the Kubernetes apiserver, logging, and more (this is true for
-all `kpt` CLI commands which interact with Porch).
+all `porchctl` CLI commands which interact with Porch).
 
-Use the `kpt alpha repo get` command to query registered repositories:
+Use the `porchctl repo get` command to query registered repositories:
 
 ```bash
-$ kpt alpha repo get
+$ porchctl repo get
 
 NAME         TYPE  CONTENT  DEPLOYMENT  READY  ADDRESS
 blueprints   git   Package              True   https://github.com/platkrm/blueprints.git
 deployments  git   Package  true        True   https://github.com/platkrm/deployments.git
 ```
 
-The `kpt alpha <group> get` commands support common `kubectl`
+The `porchctl <group> get` commands support common `kubectl`
 [flags](https://kubernetes.io/docs/reference/kubectl/cheatsheet/#formatting-output) to format output, for example
-`kpt alpha repo get --output=yaml`.
+`porchctl repo get --output=yaml`.
 
-The command `kpt alpha repo unregister` can be used to unregister a repository:
+The command `porchctl repo unregister` can be used to unregister a repository:
 
 ```bash
-$ kpt alpha repo unregister deployments --namespace default
+$ porchctl repo unregister deployments --namespace default
 ```
 
 ## Package Discovery And Introspection
 
-The `kpt alpha rpkg` command group contains commands for interacting with packages managed by the Package Orchestration
+The `porchctl rpkg` command group contains commands for interacting with packages managed by the Package Orchestration
 service. the `r` prefix used in the command group name stands for 'remote'.
 
-The `kpt alpha rpkg get` command list the packages in registered repositories:
+The `porchctl rpkg get` command list the packages in registered repositories:
 
 ```bash
-$ kpt alpha rpkg get
+$ porchctl rpkg get
 
 NAME                                                 PACKAGE  WORKSPACENAME  REVISION  LATEST  LIFECYCLE  REPOSITORY
 blueprints-0349d71330b89ee48ac85167598ef23021fd0484  basens   main           main      false   Published  blueprints
@@ -146,14 +184,13 @@ blueprints-421a5b5e43b03bc697d96f471929efc6ba3f54b3  istions  v2             v2 
 The `LATEST` column indicates whether the package revision is the latest among the revisions of the same package. In the
 output above, `v2` is the latest revision of `istions` package and `v1` is the latest revision of `basens` package.
 
-The `LIFECYCLE` column indicates the lifecycle stage of the package revision, one of: `Published`, `Draft` or
-`Proposed`.
+The `LIFECYCLE` column indicates the lifecycle stage of the package revision, one of: `Draft`, `Proposed` or `Published`.
 
 The `REVISION` column indicates the revision of the package. Revisions are assigned when a package is `Published` and
 starts at `v1`.
 
 The `WORKSPACENAME` column indicates the workspace name of the package. The workspace name is assigned when a draft
-revision is created and is used as the branch name for proposed and draft package revisions. The workspace name must be
+revision is created and is used as the branch name for proposed and draft package revisions. The workspace name 
 must be unique among package revisions in the same package.
 
 {{% alert title="Note" color="primary" %}}
@@ -170,7 +207,7 @@ Simple filtering of package revisions by name (substring) and revision (exact ma
 `--name` and `--revision` flags:
 
 ```bash
-$ kpt alpha rpkg get --name istio --revision=v2
+$ porchctl rpkg get --name istio --revision=v2
 
 NAME                                                 PACKAGE  WORKSPACENAME  REVISION  LATEST  LIFECYCLE  REPOSITORY
 blueprints-421a5b5e43b03bc697d96f471929efc6ba3f54b3  istions  v2             v2        true    Published  blueprints
@@ -179,7 +216,7 @@ blueprints-421a5b5e43b03bc697d96f471929efc6ba3f54b3  istions  v2             v2 
 The common `kubectl` flags that control output format are available as well:
 
 ```bash
-$ kpt alpha rpkg get blueprints-421a5b5e43b03bc697d96f471929efc6ba3f54b3 -ndefault -oyaml
+$ porchctl rpkg get blueprints-421a5b5e43b03bc697d96f471929efc6ba3f54b3 -ndefault -oyaml
 
 apiVersion: porch.kpt.dev/v1alpha1
 kind: PackageRevision
@@ -197,14 +234,14 @@ spec:
 ...
 ```
 
-The `kpt alpha rpkg pull` command can be used to read the package resources.
+The `porchctl rpkg pull` command can be used to read the package resources.
 
 The command can be used to print the package revision resources as `ResourceList` to `stdout`, which enables
 [chaining](https://kpt.dev/book/04-using-functions/02-imperative-function-execution?id=chaining-functions-using-the-unix-pipe)
 evaluation of functions on the package revision pulled from the Package Orchestration server.
 
 ```bash
-$ kpt alpha rpkg pull blueprints-421a5b5e43b03bc697d96f471929efc6ba3f54b3 -ndefault
+$ porchctl rpkg pull blueprints-421a5b5e43b03bc697d96f471929efc6ba3f54b3 -ndefault
 
 apiVersion: config.kubernetes.io/v1
 kind: ResourceList
@@ -219,7 +256,7 @@ items:
 Or, the package contents can be saved on local disk for direct introspection or editing:
 
 ```bash
-$ kpt alpha rpkg pull blueprints-421a5b5e43b03bc697d96f471929efc6ba3f54b3 ./istions -ndefault
+$ porchctl rpkg pull blueprints-421a5b5e43b03bc697d96f471929efc6ba3f54b3 ./istions -ndefault
 
 $ find istions
 
@@ -233,7 +270,7 @@ istions/package-context.yaml
 
 ## Authoring Packages
 
-Several commands in the `kpt alpha rpkg` group support package authoring:
+Several commands in the `porchctl rpkg` group support package authoring:
 
 * `init` - Initializes a new package revision in the target repository.
 * `clone` - Creates a clone of a source package in the target repository.
@@ -241,15 +278,15 @@ Several commands in the `kpt alpha rpkg` group support package authoring:
 * `push` - Pushes package resources into a remote package.
 * `del` - Deletes one or more packages in registered repositories.
 
-The `kpt alpha rpkg init` command can be used to initialize a new package revision. Porch server will create and
+The `porchctl rpkg init` command can be used to initialize a new package revision. Porch server will create and
 initialize a new package (as a draft) and save it in the specified repository.
 
 ```bash
-$ kpt alpha rpkg init new-package --repository=deployments --workspace=v1 -ndefault
+$ porchctl rpkg init new-package --repository=deployments --workspace=v1 -ndefault
 
 deployments-c32b851b591b860efda29ba0e006725c8c1f7764 created
 
-$ kpt alpha rpkg get
+$ porchctl rpkg get
 
 NAME                                                  PACKAGE      WORKSPACENAME  REVISION  LATEST  LIFECYCLE  REPOSITORY
 deployments-c32b851b591b860efda29ba0e006725c8c1f7764  new-package  v1                       false   Draft      deployments
@@ -259,7 +296,7 @@ deployments-c32b851b591b860efda29ba0e006725c8c1f7764  new-package  v1           
 The new package is created in the `Draft` lifecycle stage. This is true also for all commands that create new package
 revision (`init`, `clone` and `copy`).
 
-Additional flags supported by the `kpt alpha rpkg init` command are:
+Additional flags supported by the `porchctl rpkg init` command are:
 
 * `--repository` - Repository in which the package will be created.
 * `--workspace` - Workspace of the new package.
@@ -268,24 +305,24 @@ Additional flags supported by the `kpt alpha rpkg init` command are:
 * `--site` - Link to page with information about the package.
 
 
-Use `kpt alpha rpkg clone` command to create a _downstream_ package by cloning an _upstream_ package:
+Use `porchctl rpkg clone` command to create a _downstream_ package by cloning an _upstream_ package:
 
 ```bash
-$ kpt alpha rpkg clone blueprints-421a5b5e43b03bc697d96f471929efc6ba3f54b3 istions-clone \
+$ porchctl rpkg clone blueprints-421a5b5e43b03bc697d96f471929efc6ba3f54b3 istions-clone \
   --repository=deployments -ndefault
 deployments-11ca1db650fa4bfa33deeb7f488fbdc50cdb3b82 created
 
 # Confirm the package revision was created
-kpt alpha rpkg get deployments-11ca1db650fa4bfa33deeb7f488fbdc50cdb3b82 -ndefault
+porchctl rpkg get deployments-11ca1db650fa4bfa33deeb7f488fbdc50cdb3b82 -ndefault
 NAME                                                   PACKAGE         WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
 deployments-11ca1db650fa4bfa33deeb7f488fbdc50cdb3b82   istions-clone   v1                         false    Draft       deployments
 ```
 
-`kpt alpha rpkg clone` can also be used to clone packages that are in repositories not registered with Porch, for
+`porchctl rpkg clone` can also be used to clone packages that are in repositories not registered with Porch, for
 example:
 
 ```bash
-$ kpt alpha rpkg clone \
+$ porchctl rpkg clone \
   https://github.com/GoogleCloudPlatform/blueprints.git cloned-bucket \
   --directory=catalog/bucket \
   --ref=main \
@@ -294,12 +331,12 @@ $ kpt alpha rpkg clone \
 deployments-e06c2f6ec1afdd8c7d977fcf204e4d543778ddac created
 
 # Confirm the package revision was created
-kpt alpha rpkg get deployments-e06c2f6ec1afdd8c7d977fcf204e4d543778ddac -ndefault
+porchctl rpkg get deployments-e06c2f6ec1afdd8c7d977fcf204e4d543778ddac -ndefault
 NAME                                                   PACKAGE         WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
 deployments-e06c2f6ec1afdd8c7d977fcf204e4d543778ddac   cloned-bucket   v1                         false    Draft       deployments
 ```
 
-The flags supported by the `kpt alpha rpkg clone` command are:
+The flags supported by the `porchctl rpkg clone` command are:
 
 * `--directory` - Directory within the upstream repository where the upstream
   package is located.
@@ -312,24 +349,24 @@ The flags supported by the `kpt alpha rpkg clone` command are:
   one of: `resource-merge`, `fast-forward`, `force-delete-replace`.
 
 
-The `kpt alpha rpkg copy` command can be used to create a new revision of an existing package. It is a means to
+The `porchctl rpkg copy` command can be used to create a new revision of an existing package. It is a means to
 modifying an already published package revision.
 
 ```bash
-$ kpt alpha rpkg copy \
+$ porchctl rpkg copy \
   blueprints-421a5b5e43b03bc697d96f471929efc6ba3f54b3 \
   --workspace=v3 -ndefault
 
 # Confirm the package revision was created
-$ kpt alpha rpkg get blueprints-bf11228f80de09f1a5dd9374dc92ebde3b503689 -ndefault
+$ porchctl rpkg get blueprints-bf11228f80de09f1a5dd9374dc92ebde3b503689 -ndefault
 NAME                                                  PACKAGE   WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
 blueprints-bf11228f80de09f1a5dd9374dc92ebde3b503689   istions   v3                         false    Draft       blueprints
 ```
 
-The `kpt alpha rpkg push` command can be used to update the resources (package contents) of a package _draft_:
+The `porchctl rpkg push` command can be used to update the resources (package contents) of a package _draft_:
 
 ```bash
-$ kpt alpha rpkg pull \
+$ porchctl rpkg pull \
   deployments-c32b851b591b860efda29ba0e006725c8c1f7764 ./new-package -ndefault
 
 # Make edits using your favorite YAML editor, for example adding a new resource
@@ -344,11 +381,11 @@ EOF
 
 # Push the updated contents to the Package Orchestration server, updating the
 # package contents.
-$ kpt alpha rpkg push \
+$ porchctl rpkg push \
   deployments-c32b851b591b860efda29ba0e006725c8c1f7764 ./new-package -ndefault
 
 # Confirm that the remote package now includes the new ConfigMap resource
-$ kpt alpha rpkg pull deployments-c32b851b591b860efda29ba0e006725c8c1f7764 -ndefault
+$ porchctl rpkg pull deployments-c32b851b591b860efda29ba0e006725c8c1f7764 -ndefault
 
 apiVersion: config.kubernetes.io/v1
 kind: ResourceList
@@ -363,11 +400,11 @@ items:
 ...
 ```
 
-Package revision can be deleted using `kpt alpha rpkg del` command:
+Package revision can be deleted using `porchctl rpkg del` command:
 
 ```bash
 # Delete package revision
-$ kpt alpha rpkg del blueprints-bf11228f80de09f1a5dd9374dc92ebde3b503689 -ndefault
+$ porchctl rpkg del blueprints-bf11228f80de09f1a5dd9374dc92ebde3b503689 -ndefault
 
 blueprints-bf11228f80de09f1a5dd9374dc92ebde3b503689 deleted
 ```
@@ -389,7 +426,7 @@ we will create proposals for publishing some of them.
 
 ```bash
 # List package revisions to identify relevant drafts:
-$ kpt alpha rpkg get
+$ porchctl rpkg get
 NAME                                                   PACKAGE         WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
 ...
 deployments-e06c2f6ec1afdd8c7d977fcf204e4d543778ddac   cloned-bucket   v1                         false    Draft       deployments
@@ -397,7 +434,7 @@ deployments-11ca1db650fa4bfa33deeb7f488fbdc50cdb3b82   istions-clone   v1       
 deployments-c32b851b591b860efda29ba0e006725c8c1f7764   new-package     v1                         false    Draft       deployments
 
 # Propose two package revisions to be be published
-$ kpt alpha rpkg propose \
+$ porchctl rpkg propose \
   deployments-11ca1db650fa4bfa33deeb7f488fbdc50cdb3b82 \
   deployments-c32b851b591b860efda29ba0e006725c8c1f7764 \
   -ndefault
@@ -406,7 +443,7 @@ deployments-11ca1db650fa4bfa33deeb7f488fbdc50cdb3b82 proposed
 deployments-c32b851b591b860efda29ba0e006725c8c1f7764 proposed
 
 # Confirm the package revisions are now Proposed
-$ kpt alpha rpkg get
+$ porchctl rpkg get
 NAME                                                   PACKAGE         WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
 ...
 deployments-e06c2f6ec1afdd8c7d977fcf204e4d543778ddac   cloned-bucket   v1                         false    Draft       deployments
@@ -416,15 +453,15 @@ deployments-c32b851b591b860efda29ba0e006725c8c1f7764   new-package     v1       
 
 At this point, a person in _platform administrator_ role, or even an automated process, will review and either approve
 or reject the proposals. To aid with the decision, the platform administrator may inspect the package contents using the
-commands above, such as `kpt alpha rpkg pull`.
+commands above, such as `porchctl rpkg pull`.
 
 ```bash
 # Approve a proposal to publish a package revision
-$ kpt alpha rpkg approve deployments-11ca1db650fa4bfa33deeb7f488fbdc50cdb3b82 -ndefault
+$ porchctl rpkg approve deployments-11ca1db650fa4bfa33deeb7f488fbdc50cdb3b82 -ndefault
 deployments-11ca1db650fa4bfa33deeb7f488fbdc50cdb3b82 approved
 
 # Reject a proposal to publish a package revision
-$ kpt alpha rpkg reject deployments-c32b851b591b860efda29ba0e006725c8c1f7764 -ndefault
+$ porchctl rpkg reject deployments-c32b851b591b860efda29ba0e006725c8c1f7764 -ndefault
 deployments-c32b851b591b860efda29ba0e006725c8c1f7764 rejected
 ```
 
@@ -432,7 +469,7 @@ Now the user can confirm lifecycle stages of the package revisions:
 
 ```bash
 # Confirm package revision lifecycle stages after approvals:
-$ kpt alpha rpkg get
+$ porchctl rpkg get
 NAME                                                   PACKAGE         WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
 ...
 deployments-e06c2f6ec1afdd8c7d977fcf204e4d543778ddac   cloned-bucket   v1                         false    Draft       deployments
@@ -442,48 +479,3 @@ deployments-c32b851b591b860efda29ba0e006725c8c1f7764   new-package     v1       
 
 Observe that the rejected proposal returned the package revision back to _Draft_ lifecycle stage. The package whose
 proposal was approved is now in _Published_ state.
-
-## Deploying a Package
-
-Commands used in the context of deploying a package include are in the `kpt alpha sync` command group (named `sync` to
-emphasize that Config Sync is the deploying mechanism and that configuration is being synchronized with the actuation
-target as a means of deployment) and include:
-
-* `create` - Creates a sync of a package in the deployment cluster.
-* `del` - Deletes the package RootSync.
-* `get` - Gets a RootSync resource with which package was deployed.
-
-```bash
-# Make sure Config Sync is configured to use multirepo mode
-kubectl apply -f - <<EOF
-# config-management.yaml
-apiVersion: configmanagement.gke.io/v1
-kind: ConfigManagement
-metadata:
-  name: config-management
-spec:
-  enableMultiRepo: true
-EOF
-
-# Create a sync resource to deploy a package using Config Sync
-$ kpt alpha sync create -ndefault \
-  --package=deployments-11ca1db650fa4bfa33deeb7f488fbdc50cdb3b82 \
-  sync-istions-clone
-
-Created RootSync config-management-system/sync-istions-clone
-
-# Get the status of the sync resource
-$ kpt alpha sync get sync-istions-clone -oyaml
-apiVersion: configsync.gke.io/v1beta1
-kind: RootSync
-metadata:
-  name: sync-istions-clone
-  namespace: config-management-system
-...
-
-# Delete the sync resource
-$ kpt alpha sync delete sync-istions-clone
-Deleting synced resources
-Waiting for deleted resources to be removed
-Sync sync-istions-clone successfully deleted
-```

@@ -7,7 +7,7 @@ description: "A tutorial to install and use Porch"
 
 This tutorial is a guide to installing and using Porch. It is based on the
 [Porch demo produced by Tal Liron of Google](https://github.com/tliron/klab/tree/main/environments/porch-demo). Users
-should be very comfortable with using *git*, *docker*, and *kubernetes*.
+should be comfortable using *git*, *docker*, and *kubernetes*.
 
 See also [the Nephio Learning Resource](https://github.com/nephio-project/docs/blob/main/learning.md) page for
 background help and information.
@@ -1954,7 +1954,7 @@ In these packages, you will see that:
    network-function-auto-namespace-y-cumulonimbus respectively in the *pckage-context.yaml* files
 
 This has all been performed automatically; we have not had to perform the
-`porchctl rpkg pull/kpt fn render/porchctl rpkg push` combination of commands to make these chages as we had to in the
+`porchctl rpkg pull/kpt fn render/porchctl rpkg push` combination of commands to make these changes as we had to in the
 *simple-variant.yaml* case above.
 
 Now, let us explore the packages further:
