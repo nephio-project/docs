@@ -1,22 +1,60 @@
 ---
-title: "Using Porch with the kpt CLI"
+title: "Using the Porch CLI tool"
 type: docs
-weight: 3
+weight: 2
 description: 
 ---
 
+## Setting up the porchctl CLI
 
-This document is focused on using Porch via the `kpt` CLI.
+When Porch was ported to Nephio, the `kpt alpha rpkg` commands in kpt were moved into a new command called `porchctl`. 
 
-Installation of Porch, including prerequisites, is covered in a [dedicated document](install-and-using-porch.md).
+To use it locally, [download](https://github.com/nephio-project/porch/releases/tag/main), unpack and add it to your PATH.
 
-## Prerequisites
+{{% alert title="Note" color="primary" %}}
 
-To use Porch, you will need:
+Installation of Porch, including its prerequisites, is covered in a [dedicated document](install-and-using-porch.md).
 
-* [`kpt`](https://kpt.dev)
-* [`kubectl`](https://kubernetes.io/docs/tasks/tools/#kubectl)
-* [`gcloud`](https://cloud.google.com/sdk/gcloud) (if running on GKE)
+{{% /alert %}}
+
+*Optional*: Generate the autocompletion script for the specified shell to add to your sh profile.
+
+```
+porchctl completion bash
+```
+
+The `porchtcl` command is an administration command for acting on Porch *Repository* (repo) and *PackageRevision* (rpkg)
+CRs.
+
+The commands for administering repositories are:
+
+| Command               | Description                    |
+| --------------------- | ------------------------------ |
+| `porchctl repo get`   | List registered repositories.  |
+| `porchctl repo reg`   | Register a package repository. |
+| `porchctl repo unreg` | Unregister a repository.       |
+
+The commands for administering package revisions are:
+
+| Command                        | Description                                                                             |
+| ------------------------------ | --------------------------------------------------------------------------------------- |
+| `porchctl rpkg approve`        | Approve a proposal to publish a package revision.                                       |
+| `porchctl rpkg clone`          | Create a clone of an existing package revision.                                         |
+| `porchctl rpkg copy`           | Create a new package revision from an existing one.                                     |
+| `porchctl rpkg del`            | Delete a package revision.                                                              |
+| `porchctl rpkg get`            | List package revisions in registered repositories.                                      |
+| `porchctl rpkg init`           | Initializes a new package in a repository.                                              |
+| `porchctl rpkg propose`        | Propose that a package revision should be published.                                    |
+| `porchctl rpkg propose-delete` | Propose deletion of a published package revision.                                       |
+| `porchctl rpkg pull`           | Pull the content of the package revision.                                               |
+| `porchctl rpkg push`           | Push resources to a package revision.                                                   |
+| `porchctl rpkg reject`         | Reject a proposal to publish or delete a package revision.                              |
+| `porchctl rpkg update`         | Update a downstream package revision to a more recent revision of its upstream package. |
+
+## Using the porchctl CLI
+
+### Guide prerequisites
+* [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
 
 Make sure that your `kubectl` context is set up for `kubectl` to interact with the correct Kubernetes instance (see
 [installation instructions](install-and-using-porch.md) or the [running-locally](../running-porch/running-locally.md)
@@ -55,6 +93,7 @@ package content. The matching resources share the same `name` (as well as API gr
 `porch.kpt.dev/v1alpha1`) and differ in resource kind (`PackageRevision` and `PackageRevisionResources` respectively).
 
 {{% /alert %}}
+
 
 ## Repository Registration
 
