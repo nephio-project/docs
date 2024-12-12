@@ -19,7 +19,7 @@ weight: 7
   * Kubernetes version 1.26+
   * *kubectl* [installed ](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
 * *kpt* [installed](https://kpt.dev/installation/kpt-cli) (version v1.0.0-beta.43 or later)
-* *porchctl* [installed](/content/en/docs/porch/using-porch/porchctl-cli-guide.md) on your workstation
+* *porchctl* [installed](/content/en/docs/porch/user-guides/porchctl-cli-guide.md) on your workstation
 
 ## Installation of the management cluster
 
