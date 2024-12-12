@@ -1,7 +1,7 @@
 ---
 title: Nephio installation guides
 description: >
-  Guides for installing Nephio in different environments
+  The following sections take you through the installation of Nephio in different environments.
 weight: 1
 ---
 
@@ -131,23 +131,16 @@ The following environment variables can be used to configure the installation:
 
 | Variable                  | Values           | Default value      | Description                                                                  |
 |---------------------------|------------------| -------------------|------------------------------------------------------------------------------|
-| *NEPHIO_USER*             | userid           | ubuntu             | This is the user on which the sandbox needs to be installed (the user must   |
-|                           |                  |                    | have sudo passwordless permissions).                                         |
-| *NEPHIO_DEBUG*            | false or true    | false              | This variable controls the debug output from the install.                    |
+| *NEPHIO_USER*             | userid           | ubuntu             | This is the user on which the sandbox needs to be installed (the user must have sudo passwordless permissions). |
+| *NEPHIO_DEBUG*            | true or false    | false              | This variable controls the debug output from the install.                    |
 | *NEPHIO_HOME*             | path             | /home/$NEPHIO_USER | This is the directory into which the install scripts should be checked out.  |
-| *RUN_E2E*                 | false or true    | false              | This variable specifies whether or not end-to-end tests should be run.       |
+| *RUN_E2E*                 | true or false    | false              | This variable specifies whether or not end-to-end tests should be run.       |
 | *DOCKERHUB_USERNAME*      | alpha-num string |                    | This variable specifies the Docker Hub username.                             |
 | *DOCKERHUB_TOKEN*         | alpha-num string |                    | This variable specifies the password or token.                               |
-| *NEPHIO_REPO*             | URL              | https://github.com/nephio-project/test-infra.git | This variable specifies the URL of the         |
-|                           |                  |                    | repository to be used for installation                                       |
+| *NEPHIO_REPO*             | URL              | https://github.com/nephio-project/test-infra.git | This variable specifies the URL of the repository to be used for installation. |
 | *NEPHIO_BRANCH*           | branch           | main/v3.0.0        | This variable specifies the tag or branch name to use in NEPHIO_REPO         |
-| *DOCKER_REGISTRY_MIRRORS* | List of URLs in  |                    | This variable specifies the list of Docker registry mirrors in JSON format.  |
-|                           | JSON format      |                    | If there are no mirrors to be set, then the variable remains empty. Here are |
-|                           |                  |                    | two example values: ``["https://docker-registry-remote.mycompany.com",       |
-|                           |                  |                    | "https://docker-registry-remote2.mycompany.com"]``                           |
-| *K8S_CONTEXT*             | K8s context      | kind-kind          | This variable defines the Kubernetes context for the existing non-kind       |
-|                           |                  |                    | cluster (gathered from `kubectl config get-contexts`, for example,           |
-|                           |                  |                    | *kubernetes-admin@kubernetes*)                                               |
+| *DOCKER_REGISTRY_MIRRORS* | List of URLs in JSON format |         | This variable specifies the list of Docker registry mirrors in JSON format. If there are no mirrors to be set, then the variable remains empty. Here are two example values: ``["https://docker-registry-remote.mycompany.com", "https://docker-registry-remote2.mycompany.com"]``|
+| *K8S_CONTEXT*             | K8s context      | kind-kind          | This variable defines the Kubernetes context for the existing non-kind cluster (gathered from `kubectl config get-contexts`, for example, *kubernetes-admin@kubernetes*). |
 
 ### Following the progress of the installation on a virtual machine
 
