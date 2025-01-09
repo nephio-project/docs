@@ -25,7 +25,7 @@ In this guide, you will set up Nephio with:
 ## Prerequisites
 
 - A Red Hat Account and access to https://console.redhat.com/openshift/
-- OpenShift cli client *oc*. [Download here](https://console.redhat.com/openshift/downloads)
+- OpenShift CLI client *oc*. [Download here](https://console.redhat.com/openshift/downloads)
 
 ## Setup the Management Cluster
 
@@ -58,12 +58,12 @@ Once installed, you need to prepare the management cluster for zero touch provis
 
 If using init.sh directly to deploy Nephio management components, as one would for a generic K8s Cluster, there are some prerequisites to consider:
 - A default StorageClass must be configured providing persistent storage for PVCs (for instance through the LVMS Operator and an LVMCluster)
-- [Security Context Constraits](https://github.com/nephio-project/catalog/tree/main/distros/openshift/security-context-constraints) must be applied for successful Nephio component deployment
+- [Security Context Constraints](https://github.com/nephio-project/catalog/tree/main/distros/openshift/security-context-constraints) must be applied for successful Nephio component deployment
 
-Follow the steps present in the [Install Guide](/content/en/docs/guides/install-guides/_index.md) for a Pre-installed K8s Cluster to install manaement components
+Follow the steps present in the [Install Guide](/content/en/docs/guides/install-guides/_index.md) for a Pre-installed K8s Cluster to install management components
 
 
-### Option 2: Using Blueprints Nephio OpenShift Repo OpenShift Package Repository
+### Option 2: Using Blueprints Nephio OpenShift Repository OpenShift Package Repository
 
 A repository of OpenShift-installation specific packages must be used to deploy Nephio. This repository contains
 packages derived from the standard Nephio R1 packages, but with OpenShift-specific modifications.

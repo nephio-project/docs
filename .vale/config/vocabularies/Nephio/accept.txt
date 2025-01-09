@@ -1,4 +1,5 @@
 # Accepted words (other acronyms must be explained)
+amfName
 Ansible
 Anthos
 API
@@ -6,6 +7,7 @@ APIs
 apiserver
 ASN
 ASNs
+authProvider
 [Aa]utoscaling
 backtrackVal
 [Bb]ool
@@ -48,8 +50,8 @@ GVKs
 [Hh]ostname
 [Hh]omebrew
 html
-http
-https
+HTTP
+HTTPS
 JFrog
 JSON
 [Kk]pt
@@ -70,6 +72,7 @@ MetalLB
 Nephio
 nerdctl
 Netlify
+networkName
 NF
 NFDeploy
 NFDeployment
@@ -115,12 +118,14 @@ repoTest
 [Rr]pkg
 [Rr]oot[Ss]ync
 [Rr]ollout
+sbi
 SDK
 starlark
 stdout
 stderr
 [Ss]udo
 [Ss]ubpackage
+SSH
 [Sp]pecializer
 TLS
 [Tt]riage
@@ -135,6 +140,7 @@ URIs
 upsertRepo
 upstreamlock
 [Uu]ntar
+[Uu]ndeploy
 [Uu]tils
 validator
 vCPU
@@ -148,6 +154,7 @@ vSphere
 wantErr
 WebUI
 xApps
+XXFDeployment
 YAML
 
 # Nephio contributors mentioned in the docs
