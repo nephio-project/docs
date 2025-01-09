@@ -5,7 +5,7 @@ description: >
 weight: 7
 ---
 
-If you are not exposing the webui on a load balancer IP address, but are instead using `kubectl port-forward`, you
+If you are not exposing the WebUI on a load balancer IP address, but are instead using `kubectl port-forward`, you
 should use *localhost* and *7007* for the HOSTNAME and PORT; otherwise, use the DNS name and port as it will be seen
 by your browser.
 
@@ -60,7 +60,7 @@ kubectl create secret generic -n nephio-webui nephio-okta-oauth-client \
 
 ## Enable the WebUI Auth Provider
 
-The *webui* package has a function that will configure the package for authentication with different services. Edit the
+The *WebUI* package has a function that will configure the package for authentication with different services. Edit the
 *set-auth.yaml* file to set the authProvider field to *oidc* and the oidcTokenProvider to *okta*, or run the following
 commands:
 

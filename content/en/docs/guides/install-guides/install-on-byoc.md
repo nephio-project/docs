@@ -22,7 +22,7 @@ your environment and choices.
  - *kpt* [installed](https://kpt.dev/installation/kpt-cli) on your workstation
    (version v1.0.0-beta.43 or later)
  - *porchctl* [installed](/content/en/docs/porch/user-guides/porchctl-cli-guide.md) on your workstation
- - Sudo-less *docker*, *podman*, or *nerdctl*. If using *podman* or *nerdctl*,
+ - Sudo-less *docker*, *Podman*, or *nerdctl*. If using *Podman* or *nerdctl*,
    you must set the
 [`KPT_FN_RUNTIME`](https://kpt.dev/reference/cli/fn/render/?id=environment-variables)
 environment variable.
@@ -125,9 +125,9 @@ If you wish to avoid running `kubectl port-forward`, the use of Kubernetes Ingre
 ### Nephio WebUI Authentication and Authorization
 
 In the default configuration, the Nephio WebUI **is wide open with no
-authentication**. The webui itself authenticates to the cluster using a static
+authentication**. The WebUI itself authenticates to the cluster using a static
 service account, which is bound to the cluster admin role. Any user accessing
-the webui is **acting as a cluster admin**.
+the WebUI is **acting as a cluster admin**.
 
 This configuration is designed for **testing and development only**. You must not
 use this configuration in any other situation, and even for testing and
