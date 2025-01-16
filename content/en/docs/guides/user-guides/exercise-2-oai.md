@@ -93,7 +93,7 @@ packagevariantset.config.porch.kpt.dev/oai-edge-clusters created
 ```
 
 
-It will take around 15 mins to create the three clusters. You can check the progress by looking at commits made in gitea
+It will take around 15 minutes to create the three clusters. You can check the progress by looking at commits made in Gitea
 *mgmt* and *mgmt-staging* repository. After couple of minutes you should see three independent repositories (Core,
 Regional and Edge) for each workload cluster.
 
@@ -507,8 +507,8 @@ packagevariant.config.porch.kpt.dev/oai-upf-edge created
 
 All the NFs will wait for NRF to come up and then they will register to NRF. SMF has a dependency on UPF which is
 described by *dependency.yaml* file in SMF package. It will wait till the time UPF is deployed. It takes around
-~800 seconds for the whole core network to come up. NRF is exposing its service via metallb external ip-address. In
-case metallb ip-address pool is not properly defined in the previous section, then UPF will not be able to register to
+~800 seconds for the whole core network to come up. NRF is exposing its service via MetalLB external ip-address. In
+case MetalLB ip-address pool is not properly defined in the previous section, then UPF will not be able to register to
 NRF and in this case SMF and UPF will not be able to communicate. 
 
 ### Check Core Network Deployment

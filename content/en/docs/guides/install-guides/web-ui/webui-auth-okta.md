@@ -5,7 +5,7 @@ description: >
 weight: 7
 ---
 
-If you are not exposing the webui on a load balancer IP address, but are instead using `kubectl port-forward`, you
+If you are not exposing the WebUI on a load balancer IP address, but are instead using `kubectl port-forward`, you
 should use *localhost* and *7007* for the HOSTNAME and PORT; otherwise, use the DNS name and port as it will be seen
 by your browser.
 

@@ -12,12 +12,12 @@ folks come up to speed on using testify and mockery.
 ## How Mockery works
 
 The [mockery documentation](https://vektra.github.io/mockery/latest/#why-mockery) describes why you would use and how to
-use Mockery. In a nutshell, Mockery generates mock implementations for interfaces in go, which you can then use instead
+use Mockery. In a nutshell, Mockery generates mock implementations for interfaces in Go, which you can then use instead
 of real implementations when unit testing.
 
 ## Mockery support in Nephio make
 
-The Makefiles in Nephio repos containing go code have targets to support mockery.
+The Makefiles in Nephio repositories containing Go code have targets to support mockery.
 
 The [default-mockery.mk](https://github.com/nephio-project/nephio/blob/main/default-mockery.mk) file in the root of
 Nephio repository is included in Nephio make runs.
@@ -25,22 +25,22 @@ Nephio repository is included in Nephio make runs.
 There are two targets in default-mockery.mk:
 
     1. install-mockery: Installs mockery in docker or locally if docker is not available
-    2. generate-mocks: Runs generation of the mocks for go interfaces
+    2. generate-mocks: Runs generation of the mocks for Go interfaces
 
 The targets above must be run explicitly.
 
 Run `make install-mockery` to install mockery in your container runtime (Docker, Podman etc) or locally if you have no
 container runtime running. You need only run this target once unless you need to reinstall Mockery for whatever reason.
 
-Run `make generate-mocks` to generate the mocked implementation of the go interfaces specified in *.mockery.yaml* files.
+Run `make generate-mocks` to generate the mocked implementation of the Go interfaces specified in *.mockery.yaml* files.
 You need to run this target each time an interface that you are mocking changes or whenever you change the contents of a
-*.mockery.yaml* file. You can run `make generate-mocks` in the repo root to generate or re-generate all interfaces or in
+*.mockery.yaml* file. You can run `make generate-mocks` in the repository root to generate or re-generate all interfaces or in
 subdirectories containing a Makefile to generate or regenerate only the interfaces in that subdirectory and its
 children.
 
-The generate-mocks target looks for *.mockery.yaml* files in the repo and it runs the mockery mock generator on each
+The generate-mocks target looks for *.mockery.yaml* files in the repository and it runs the mockery mock generator on each
 *.mockery.yaml* file it finds. This has the nice effect of allowing *.mockery.yaml* files to be in either the root of
-the repo or in subdirectories, so the choice of placement of *.mockery.yaml* files is left to the developer.
+the repository or in subdirectories, so the choice of placement of *.mockery.yaml* files is left to the developer.
 
 ## The .mockery.yaml file
 
@@ -70,7 +70,7 @@ we want to generate mocks for the GiteaClient interface so we provide the packag
 6.          dir: "{{.InterfaceDir}}"
 ```
 
-We want mocks to be generated for the GiteaClient go interface (line 4). The {{.InterfaceDir}} parameter (line 6) asks
+We want mocks to be generated for the GiteaClient Go interface (line 4). The {{.InterfaceDir}} parameter (line 6) asks
 Mockery to generate the mock file in the same directory as the interface is located.
 
 ### Example 2
@@ -107,7 +107,7 @@ Generate mocks for the external package *sigs.k8s.io/controller-runtime/pkg/clie
 10.      Client:
 ```
 
-Generate a mock implementation of the go interface Client in the external package
+Generate a mock implementation of the Go interface Client in the external package
 *sigs.k8s.io/controller-runtime/pkg/client*.
 
 ```go

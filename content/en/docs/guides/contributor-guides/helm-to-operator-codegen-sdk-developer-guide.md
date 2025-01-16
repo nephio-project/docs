@@ -17,10 +17,10 @@ After the conversion process, all the generated Go code is gathered and compiled
 -----
 ### Flow-1: Helm to YAML
 Helm to YAML conversion is achieved by running the following command
-`helm template <chart>  --namespace <namespace>  --output-dir “temp/templated/”` internally. As of now, it retrieves the values from default "values.yaml"
+`helm template <chart>  --namespace <namespace>  --output-dir “temp/templated/”` internally. As of now, it retrieves the values from default *values.yaml*.
 
 ### Flow-2: YAML Split
-The SDK iterates over each YAML file in the *converted-yamls* directory. If a .yaml file contains multiple Kubernetes Resource Models (KRM), separated by "---", the SDK splits the .yaml file accordingly to isolate each individual KRM resource. This ensures that each KRM resource is processed independently.
+The SDK iterates over each YAML file in the *converted-yamls* directory. If a *.yaml* file contains multiple Kubernetes Resource Models (KRM), separated by "---", the SDK splits the .yaml file accordingly to isolate each individual KRM resource. This ensures that each KRM resource is processed independently.
 
 ### Runtime-Object and Unstruct-Object
 The SDK currently employs the "runtime-object method" to handle Kubernetes resources whose structure is recognized by Kubernetes by default. Examples of such resources include Deployment, Service, and ConfigMap. Conversely, resources that are not inherently known to Kubernetes and require explicit installation or definition, such as Third-Party Custom Resource Definitions (CRDs) like NetworkAttachmentDefinition or PrometheusRule, are processed using the "unstructured-object" method. Such examples are given below:
@@ -69,14 +69,14 @@ networkAttachmentDefinition1 := &unstructured.Unstructured{
 ```
 
 ### Flow-3.1: KRM to Runtime-Object
-The conversion process relies on the "k8s.io/apimachinery/pkg/runtime" package. Currently, only the API version "v1" is supported. The supported kinds for the Runtime Object method include: Deployment, Service, Secret, Role, RoleBinding, ClusterRoleBinding, PersistentVolumeClaim, StatefulSet, ServiceAccount, ClusterRole, PriorityClass, ConfigMap
+The conversion process relies on the "k8s.io/apimachinery/pkg/runtime" package. Currently, only the API version "v1" is supported. The supported kinds for the Runtime Object method include: Deployment, Service, Secret, Role, RoleBinding, ClusterRoleBinding, PersistentVolumeClaim, StatefulSet, ServiceAccount, ClusterRole, PriorityClass, ConfigMap.
 
 ### Flow-3.2: Runtime-Object to JSON
 Firstly, the SDK performs a typecast of the runtime object to its actual data type. For instance, if the Kubernetes Kind is "Service," the SDK typecasts the runtime object to the specific data type corev1.Service. Then, it conducts a Depth-First Search (DFS) traversal over the corev1.Service object using reflection. During this traversal, the SDK generates a JSON structure that encapsulates information about the struct hierarchy, including corresponding data types and values. This transformation results in a JSON representation of the corev1.Service object's structure and content.
 
 #### DFS Algorithm Cases
 
-The DFS function iterates over the runtime object, traversing its structure in a Depth-First Search manner. During this traversal, it constructs the JSON structure while inspecting each attribute for its data type and value. Attributes that have default values in the runtime object but are not explicitly set in the .yaml file are omitted from the conversion process. This ensures that only explicitly defined attributes with their corresponding values are included in the resulting JSON structure. The function follows this flow to accurately capture the structure, data types, and values of the Kubernetes resource while excluding default attributes that are not explicitly configured in the .yaml file.
+The DFS function iterates over the runtime object, traversing its structure in a Depth-First Search manner. During this traversal, it constructs the JSON structure while inspecting each attribute for its data type and value. Attributes that have default values in the runtime object but are not explicitly set in the *.yaml* file are omitted from the conversion process. This ensures that only explicitly defined attributes with their corresponding values are included in the resulting JSON structure. The function follows this flow to accurately capture the structure, data types, and values of the Kubernetes resource while excluding default attributes that are not explicitly configured in the *.yaml* file.
 
 
 A) Base-Cases: 
@@ -103,7 +103,7 @@ B) Composite-Cases:
 C) Special-Cases:
 We have assumed in the DFS function, that every path (structure) will end at the basic-data-types (string, int, bool etc), But there lies some cases when we can’t traverse further because the attributes of struct are private. Such cases are handled specially. (Converted to String and then return appropriately)
 1. V1.Time and resource.Quantity
-2. []byte/[]uint8: []byte is generally used in kind: Secret. It is seen that we provide 64base encoded secret-value in yaml, but on converting the yaml to runtime-obj, the secret-val automatically get decoded to actual value, Since, It is not good to show decoded/actual secret value in the code, therefore, we encode it again and store this base64-encoded-value as secret-value in json.
+2. []byte/[]uint8: []byte is generally used in kind: Secret. It is seen that we provide 64base encoded secret-value in Yaml, but on converting the Yaml to runtime-obj, the secret-val automatically get decoded to actual value, Since, It is not good to show decoded/actual secret value in the code, therefore, we encode it again and store this base64-encoded-value as secret-value in JSON.
 
 
 JSON Conversion Example
@@ -155,9 +155,9 @@ spec:
 ```
 
 ### Flow-3.3: JSON to String (Go-Code)
-The SDK reads the .json file containing the information about the Kubernetes resource and then translates this information into a string of Go code. This process involves parsing the JSON structure and generating corresponding Go code strings based on the structure, data types, and values extracted from the JSON representation. Ultimately, this results in a string that represents the Kubernetes resource in a format compatible with Go code.
+The SDK reads the *.json* file containing the information about the Kubernetes resource and then translates this information into a string of Go code. This process involves parsing the JSON structure and generating corresponding Go code strings based on the structure, data types, and values extracted from the JSON representation. Ultimately, this results in a string that represents the Kubernetes resource in a format compatible with Go code.
 
-#### TraverseJSON Cases (Json-to-String)
+#### TraverseJSON Cases (JSON-to-String)
 The traverse JSON function is responsible for converting JSON data into Go code. Here's how it handles base cases:
 The JSON structure contains type as well as value information. Based on the type the following case are formulated.
 A) Base Cases:
@@ -250,7 +250,7 @@ GoCode Conversion Example
 }
 ```
 
-### Significance of Config-Jsons: (Struct_Module_mapping.json & Enum_module_mapping.json)
+### Significance of Config-JSONs: (Struct_Module_mapping.json & Enum_module_mapping.json)
 Based on the data type, Values are formatted accordingly,
 | Data-Type | Value    | Formatted-Value    |
 | :---:   | :---: | :---: |
@@ -258,7 +258,7 @@ Based on the data type, Values are formatted accordingly,
 | string | 5   | \"5\" |
 | *int32 | 5   | int32Ptr(5) |
 
-The Config-Jsons are required for more package-specific-types (such as : v1.Service, v1.Deployment)
+The Config-JSONs are required for more package-specific-types (such as : v1.Service, v1.Deployment)
 
 #### Struct_Module_mapping.json
 Mostly, It is seen that inspecting the type of struct(using reflect) would tell us that the struct belong to package “v1”, but there are multiple v1 packages (appsv1, metav1, rbacv1, etc), So, the actual package remains unknown. 
@@ -274,7 +274,7 @@ Structs need to be initialized using curly brackets {}, whereas enums need Paren
 
 Solution: We solve the above problems by building an “enumModuleMapping” which is a set that stores all data types that are enums. i.e. If a data type belongs to the set, then It is an Enum.
 
-There is an automation-script that takes the *types.go* files of packages and build the config-json. For details, Please refer [here](https://github.com/nephio-project/nephio-sdk/tree/main/helm-to-operator-codegen-sdk/config)
+There is an automation-script that takes the *types.go* files of packages and build the Config-JSON. For details, Please refer [here](https://github.com/nephio-project/nephio-sdk/tree/main/helm-to-operator-codegen-sdk/config)
 
 
 ### Flow-4: KRM to Unstruct-Obj to String(Go-code)
@@ -307,7 +307,7 @@ B) Composite Cases:
 	```
 
 
-### Flow-5: Go-Codes to Gofile
+### Flow-5: Go-Codes to Go file
 The process of generating the final Go file consists of the following steps:
 
 1. Collecting Go Code: Go code for each Kubernetes Resource Model (KRM) is collected and stored in a map where the key represents the kind of resource (e.g., "Service", "Deployment"), and the value is a slice containing the corresponding Go code strings.

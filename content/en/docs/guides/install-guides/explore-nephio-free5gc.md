@@ -56,7 +56,7 @@ tasks such as
    * createService: This function creates a Service resource for the AMF deployment. It defines the desired state of
      the service, including the selector for the associated deployment and the ports it exposes.
    * createConfigMap: This function creates a ConfigMap resource for the AMF deployment. It generates the
-     configuration data for the AMF based on the provided template values and renders it into the amfcfg.yaml file.
+     configuration data for the AMF based on the provided template values and renders it into the *amfcfg.yaml* file.
    * createResourceRequirements: This function calculates the resource requirements (CPU and memory limits and
      requests) for the AMF deployment based on the specified capacity and sets them in a ResourceRequirements object.
    * createNetworkAttachmentDefinitionNetworks: This function creates the network attachment definition networks for
