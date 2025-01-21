@@ -22,7 +22,7 @@ defined in the Free5gc Helm chart using a Kubernetes operator.
 
 ### Step 0: Prerequisite
 
-1. GoLang Version: 1.21
+1. Golang Version: 1.21
 2. Helm : v3.9.3
 3. Kubebuilder
 4. A Kubernetes Cluster with Calico CNI and Multus CNI plugin (Can Refer
@@ -37,7 +37,7 @@ defined in the Free5gc Helm chart using a Kubernetes operator.
     go mod tidy
     ```
 
-### Step 1: Convert the helm-chart to Go-Code using Helm-to-operator-codegen-sdk
+### Step 1: Convert the helm-chart to Go-Code using Helm-to-operator-Codegen-SDK
 
 Currently, only Local-Helm charts are supported by SDK, Therefore, the first step would be to download the
 free5gc-Helm-Chart. (Refer [here](https://github.com/Orange-OpenSource/towards5gs-helm/tree/main))

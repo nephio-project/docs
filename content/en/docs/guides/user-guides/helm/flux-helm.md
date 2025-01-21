@@ -26,7 +26,7 @@ Then, we can utilize the flux Custom Resources defined in another test kpt packa
 
 Access the Nephio WebUI and do following steps:
 
-We will deploy the *flux-helm-controllers* pkg from the *nephio-example-packages*  repo to the *edge02* workload
+We will deploy the *flux-helm-controllers* pkg from the *nephio-example-packages* repository to the *edge02* workload
 cluster.
 
 * **Step 1**
@@ -120,7 +120,7 @@ From here, we can see the onlineboutique-flux pkg to be deployed.
 The HelmRepository Custom Resource within the kpt pkg refers to the official 
 [online boutique helm charts repository.](https://github.com/GoogleCloudPlatform/microservices-demo/tree/main/helm-chart)
 
-![Helm repoository online boutique ref](/static/images/user-guides/helmrepo-onlineboutique-ref.png)
+![Helm repository online boutique ref](/static/images/user-guides/helmrepo-onlineboutique-ref.png)
 
 To deploy the pkg, repeat/follow **Steps 1 - 6** from above, replacing **Step 3** with the following. Take note of the
 source repository and the package to be deployed.
@@ -129,7 +129,7 @@ source repository and the package to be deployed.
 
 {{% alert title="Note" color="primary" %}}
 
-The overrides online-boutique-values ConfigMap in the package refers to the default values.yaml for the
+The overrides online-boutique-values ConfigMap in the package refers to the default *values.yaml* for the
 chart and can be customized prior to pkg approval.
 
 {{% /alert %}}
