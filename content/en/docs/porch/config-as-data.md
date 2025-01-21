@@ -12,7 +12,7 @@ This document provides background context for Package Orchestration, which is fu
 
 ## Configuration as Data
 
-*Configuration as Data* is an approach to management of configuration (incl.
+Configuration as Data is an approach to management of configuration (incl.
 configuration of infrastructure, policy, services, applications, etc.) which:
 
 * makes configuration data the source of truth, stored separately from the live
@@ -28,10 +28,10 @@ configuration of infrastructure, policy, services, applications, etc.) which:
 
 ## Key Principles
 
-A system based on CaD *should* observe the following key principles:
+A system based on CaD should observe the following key principles:
 
-* secrets should be stored separately, in a secret-focused storage system
-  ([example](https://cloud.google.com/secret-manager))
+* secrets should be stored separately, in a secret-focused storage
+system ([example](https://cert-manager.io/))
 * stores a versioned history of configuration changes by change sets to bundles
   of related configuration data
 * relies on uniformity and consistency of the configuration format, including
@@ -47,7 +47,7 @@ A system based on CaD *should* observe the following key principles:
   can be operated on by given code (functions)
 * finds and/or filters / queries / selects code (functions) that can operate on
   resource types contained within a body of configuration data
-* *actuation* (reconciliation of configuration data with live state) is separate
+* actuation (reconciliation of configuration data with live state) is separate
   from transformation of configuration data, and is driven by the declarative
   data model
 * transformations, particularly value propagation, are preferable to wholesale
@@ -64,15 +64,15 @@ Our implementation of the Configuration as Data approach (
 [kpt](https://kpt.dev),
 [Config Sync](https://cloud.google.com/anthos-config-management/docs/config-sync-overview),
 and [Package Orchestration](https://github.com/nephio-project/porch))
-build on the foundation of
+is built on the foundation of
 [Kubernetes Resource Model](https://github.com/kubernetes/design-proposals-archive/blob/main/architecture/resource-management.md)
 (KRM).
 
 {{% alert title="Note" color="primary" %}}
 
 Even though KRM is not a requirement of Config as Data (just like
-Python or Go templates or Jinja are not specifically requirements for
-[IaC](https://en.wikipedia.org/wiki/Infrastructure_as_code)), the choice of
+Python or Go templates or Jinja are not specifically
+requirements for [IaC](https://en.wikipedia.org/wiki/Infrastructure_as_code)), the choice of
 another foundational config representation format would necessitate
 implementing adapters for all types of infrastructure and applications
 configured, including Kubernetes, CRDs, GCP resources and more. Likewise, choice
@@ -90,23 +90,23 @@ metadata, references, status conventions, etc.
   as the configuration serialization data model
 * uses [Kptfile](https://kpt.dev/reference/schema/kptfile/) to store package metadata
 * uses [ResourceList](https://kpt.dev/reference/schema/resource-list/) as a serialized package wire-format
-* uses a function `ResourceList → ResultList` (`kpt` function) as the foundational, composable unit of
+* uses a function `ResourceList → ResultList` (*kpt* function) as the foundational, composable unit of
   package-manipulation code (note that other forms of code can manipulate packages as well, i.e. UIs, custom algorithms
   not necessarily packaged and used as kpt functions)
 
 and provides the following basic functionality:
 
-* load a serialized package from a repository (as `ResourceList`) (examples of repository may be one or more of: local
+* load a serialized package from a repository (as ResourceList) (examples of repository may be one or more of: local
   HDD, Git repository, OCI, Cloud Storage, etc.)
-* save a serialized package (as `ResourceList`) to a package repository
-* evaluate a function on a serialized package (`ResourceList`)
+* save a serialized package (as ResourceList) to a package repository
+* evaluate a function on a serialized package (ResourceList)
 * [render](https://kpt.dev/book/04-using-functions/01-declarative-function-execution) a package (evaluate functions
   declared within the package itself)
 * create a new (empty) package
 * fork (or clone) an existing package from one package repository (called upstream) to another (called downstream)
 * delete a package from a repository
 * associate a version with the package; guarantee immutability of packages with an assigned version
-* incorporate changes from the new version of an upstream package into a new version of a downstream package
+* incorporate changes from the new version of an upstream package into a new version of a downstream package (3 way merge)
 * revert to a prior version of a package
 
 ## Value
@@ -114,8 +114,6 @@ and provides the following basic functionality:
 The Config as Data approach enables some key value which is available in other
 configuration management approaches to a lesser extent or is not available
 at all.
-
-*CaD* approach enables:
 
 * simplified authoring of configuration using a variety of methods and sources
 * WYSIWYG interaction with configuration using a simple data serialization formation rather than a code-like format

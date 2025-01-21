@@ -1,26 +1,28 @@
 ---
-title: Nephio install guides
+title: Nephio installation guides
 description: >
-  Demonstration Environment Installation
+  The following sections take you through the installation of Nephio in different environments.
 weight: 1
 ---
 
 {{% pageinfo %}}
-This page is draft and the separation of the content to different categories is not clearly done. 
+This page is draft and the separation of the content to different categories is not done. 
 {{% /pageinfo %}}
 
 ## Introduction
 
-This Installation Guide will set up and run a Nephio demonstration environment. This environment is a single VM that
-will be used in the exercises to simulate a topology with a Nephio management cluster and three workload clusters.
+This installation guide will help you to set up and run a Nephio demonstration environment. This
+environment is a single virtual machine (VM) that will be used in the exercises to simulate a
+topology with a Nephio management cluster and three workload clusters.
 
-## Installing on GCE
+## Installing on the Google Compute Engine
 
-### GCE Prerequisites
+### GCE prerequisites
 
-You will need a account in GCP and `gcloud` installed on your local environment.
+To install Nephio on the Google Compute Engine (GCE), you will need an account in the Google Cloud
+Platform (GCP). You will also need to have gcloud installed on your local environment.
 
-### Create a Virtual Machine on GCE
+### Create a virtual machine on the GCE
 
 ```bash
 gcloud compute instances create --machine-type e2-standard-16 \
@@ -33,39 +35,43 @@ gcloud compute instances create --machine-type e2-standard-16 \
 
 {{% alert title="Note" color="primary" %}}
 
-e2-standard-16 is recommended and e2-standard-8 is minimum. 
+We recommend that you use e2-standard-16. The minimum requirement is e2-standard-8. 
 
 {{% /alert %}}
 
-### Follow the Installation on GCE
+### Following the progress of the installation on the GCE
 
-If you want to watch the progress of the installation, give it about 30 seconds to reach a network accessible state, and
-then ssh in and tail the startup script execution:
+To watch the progress of the installation, you need to allow approximately 30 seconds for Nephio to
+reach a network-accessible state. Then log in with ssh and investigate the script execution using
+tail:
 
 ```bash
 gcloud compute ssh ubuntu@nephio-r3-e2e -- \
                 sudo journalctl -u google-startup-scripts.service --follow
 ```
 
-## Installing on a Pre-Provisioned VM
+## Installing on a preprovisioned virtual machine
 
-This install has been verified on VMs running on vSphere, OpenStack, AWS, and Azure.
+This installation has been verified on VMs running on vSphere, OpenStack, AWS, and Azure.
 
-### VM Prerequisites
+### VM prerequisites
 
-Order or create a VM with the following specification:
+Order or create a VM with the following specifications:
 
 - Linux Flavour: Ubuntu-20.04-focal
-- Minimum 8 cores and recommended 16 Cores
+- a minimum of eight cores and recommended 16 Cores
 - 32 GB memory
-- 200 GB disk size
-- Default user with sudo passwordless permissions
+- a disk size of 200 GB
+- a default user with sudo passwordless permissions
 
-**Configure a Route for Kubernetes**
+**Configuring a route for Kubernetes**
 
-In some installations, the IP range used by Kubernetes in the sandbox can clash with the IP address used by your VPN. In such cases, the VM will become unreachable during the sandbox installation. If you have this situation, add the route below on your VM.
+In some installations, the IP range used by Kubernetes in the sandbox can clash with the IP address
+that your VPN is using. In such cases, the VM will become unreachable during the sandbox
+installation. If this situation arises, add the route detailed below on your VM.
 
-Log onto your VM and run the following commands, replacing **\<interface-name\>** and **\<interface-gateway-ip\>** with your VMs values:
+Log on to your VM and run the following commands, replacing *\<interface-name\>* and
+*\<interface-gateway-ip\>* with your VM's values:
 
 ```bash
 sudo bash -c 'cat << EOF > /etc/netplan/99-cloud-init-network.yaml
@@ -82,12 +88,14 @@ EOF'
 sudo netplan apply
 ```
 
-### Kick Off an Installation on VM
-The commands below use default values for the GitHub path, GitHub branch/tag, username, K8s context, etc. See the table of variables below for information on how to set custom installation parameters and make changes to commands as you need to.
+### Kicking off an installation on a virtual machine
+The commands set out below use default values for the GitHub path, GitHub branch/tag, username, K8s
+context, and so on. See the table of variables below for information on how to set custom
+installation parameters and make changes to commands as required.
 
-**Kind Cluster**
+**Kind cluster**
 
-Log onto your VM and run the following command :
+Log on to your VM and run the following command :
 
 ```bash
 wget -O - https://raw.githubusercontent.com/nephio-project/test-infra/v3.0.0/e2e/provision/init.sh |  \
@@ -97,11 +105,16 @@ sudo NEPHIO_DEBUG=false   \
      bash
 ```
 
-**Pre-installed K8s Cluster**
+**Preinstalled K8s cluster**
 
-Log onto your VM/System and run the following command:
-(NOTE: The VM or System should be able to access the K8S API server via the kubeconfig file and have docker installed.
-Docker is needed to run the KRM container functions specified in rootsync and repository packages.)
+Log on to your VM/system and run the following command:
+
+{{% alert title="Note" color="primary" %}}
+The VM or system should be able to access the K8S API server via the kubeconfig file and have
+Docker installed. You need Docker to run the KRM container functions specified in the *rootsync*
+and *repository* packages.
+{{% /alert %}}
+
 
 ```bash
 wget -O - https://raw.githubusercontent.com/nephio-project/test-infra/v3.0.0/e2e/provision/init.sh |  \
@@ -116,31 +129,32 @@ sudo NEPHIO_DEBUG=false   \
 
 The following environment variables can be used to configure the installation:
 
-| Variable               | Values           | Default Value      | Description                                                                  |
-|------------------------|------------------| -------------------|------------------------------------------------------------------------------|
-| NEPHIO_USER            | userid           | ubuntu             | The user to install the sandbox on (must have sudo passwordless permissions) |
-| NEPHIO_DEBUG           | false or true    | false              | Controls debug output from the install                                       |
-| NEPHIO_HOME            | path             | /home/$NEPHIO_USER | The directory to check out the install scripts into                          |
-| RUN_E2E                | false or true    | false              | Specifies whether end-to-end tests should be executed or not                 |
-| DOCKERHUB_USERNAME     | alpha-num string |                    | Specifies the dockerhub username                                             |
-| DOCKERHUB_TOKEN        | alpha-num string |                    | Specifies the password or token                                              |
-| NEPHIO_REPO            | URL              | https://github.com/nephio-project/test-infra.git | URL of the repository to be used for installation |
-| NEPHIO_BRANCH          | branch     | main/v3.0.0               | Tag or branch name to use in NEPHIO_REPO                                     |
-| DOCKER_REGISTRY_MIRRORS | list of URLs in JSON format |        | List of docker registry mirrors in JSON format, or empty for no mirrors to be set. Example value: ``["https://docker-registry-remote.mycompany.com", "https://docker-registry-remote2.mycompany.com"]`` |
-| K8S_CONTEXT            | K8s context      | kind-kind          | Kubernetes context for existing non-kind cluster (gathered from `kubectl config get-contexts`, for example "kubernetes-admin@kubernetes") |
+| Variable                  | Values           | Default value      | Description                                                                  |
+|---------------------------|------------------| -------------------|------------------------------------------------------------------------------|
+| *NEPHIO_USER*             | userid           | ubuntu             | This is the user on which the sandbox needs to be installed (the user must have sudo passwordless permissions). |
+| *NEPHIO_DEBUG*            | true or false    | false              | This variable controls the debug output from the install.                    |
+| *NEPHIO_HOME*             | path             | /home/$NEPHIO_USER | This is the directory into which the install scripts should be checked out.  |
+| *RUN_E2E*                 | true or false    | false              | This variable specifies whether or not end-to-end tests should be run.       |
+| *DOCKERHUB_USERNAME*      | alpha-num string |                    | This variable specifies the Docker Hub username.                             |
+| *DOCKERHUB_TOKEN*         | alpha-num string |                    | This variable specifies the password or token.                               |
+| *NEPHIO_REPO*             | URL              | https://github.com/nephio-project/test-infra.git | This variable specifies the URL of the repository to be used for installation. |
+| *NEPHIO_BRANCH*           | branch           | main/v3.0.0        | This variable specifies the tag or branch name to use in NEPHIO_REPO         |
+| *DOCKER_REGISTRY_MIRRORS* | List of URLs in JSON format |         | This variable specifies the list of Docker registry mirrors in JSON format. If there are no mirrors to be set, then the variable remains empty. Here are two example values: ``["https://docker-registry-remote.mycompany.com", "https://docker-registry-remote2.mycompany.com"]``|
+| *K8S_CONTEXT*             | K8s context      | kind-kind          | This variable defines the Kubernetes context for the existing non-kind cluster (gathered from `kubectl config get-contexts`, for example, *kubernetes-admin@kubernetes*). |
 
-### Follow the Installation on VM
+### Following the progress of the installation on a virtual machine
 
 Monitor the installation on your terminal.
 
-Log onto your VM using ssh on another terminal and use commands *docker* and *kubectl* to monitor the installation.
+Log on to your VM using ssh on another terminal. Use the `docker` and `kubectl` commands to monitor
+the installation.
 
-## Access to the User Interfaces
+## Access to the user interfaces
 
-Once it is completed, ssh in and port forward the port to the UI (7007) and to Gitea's HTTP interface, if desired
-(3000):
+Once the installation is complete, log in with ssh and forward the port to the user interface (UI)
+(7007) and to Gitea’s HTTP interface (3000), if desired:
 
-Using GCE:
+Using the GCE:
 
 ```bash
 gcloud compute ssh ubuntu@nephio-r3-e2e -- \
@@ -158,16 +172,17 @@ ssh <user>@<vm-address> \
                 kubectl port-forward --namespace=nephio-webui svc/nephio-webui 7007
 ```
 
-You can now navigate to:
-- [http://localhost:7007/config-as-data](http://localhost:7007/config-as-data) to browse the Nephio Web UI
-- [http://localhost:3000/nephio](http://localhost:3000/nephio) to browse the Gitea UI
+You can now navigate to the following URLs:
+- [http://localhost:7007/config-as-data](http://localhost:7007/config-as-data), to browse the Nephio
+  web UI.
+- [http://localhost:3000/nephio](http://localhost:3000/nephio), to browse the Gitea UI.
 
-## Open Terminal
+## Open terminal
 
-You will probably want a second ssh window open to run `kubectl` commands, etc., without the port forwarding (which
-would fail if you try to open a second ssh connection with that setting).
+You may want a second ssh window open to run `kubectl` commands, and so on, without port forwarding
+(which would fail if you tried to open a second ssh connection with that setting).
 
-Using GCE:
+Using the GCE:
 
 ```bash
 gcloud compute ssh ubuntu@nephio-r3-e2e
@@ -179,15 +194,15 @@ Using a VM:
 ssh <user>@<vm-address>
 ```
 
-## Next Steps
+## Next steps
 
-* Step through the exercises
+* Go through the following exercises:
   * [Free5GC Testbed Deployment and E2E testing with UERANSIM](/content/en/docs/guides/user-guides/exercise-1-free5gc.md)
   * [OAI Core and RAN Testbed Deployment and E2E testing](/content/en/docs/guides/user-guides/exercise-2-oai.md)
-* Dig into the [user guide](/content/en/docs/guides/user-guides/_index.md)
-* Nephio sandbox environment
-  * Install on pre-provisioned single VM
-  * Install on GCE
+* Dig in to the [user guide](/content/en/docs/guides/user-guides/_index.md).
+* Nephio sandbox environment:
+  * Install on preprovisioned single VM.
+  * Install on a GCE.
   * [Explore sandbox environment](/content/en/docs/guides/install-guides/explore-sandbox.md)
 * [Bring-Your-Own-Cluster](/content/en/docs/guides/install-guides/install-on-byoc.md) 
 * [Install using vagrant on Windows (for development)](/content/en/docs/guides/install-guides/demo-vagrant-windows.md) 

@@ -21,7 +21,7 @@ The system context view gives a high level perspective of the Nephio software sy
 
 ![System Landscape](/static/images/architecture/level2-nephio-container.png)
 
-Nephio is an amalgamation of software systems, so a system landscape provides a high-level view of how those software systems interoperate.
+Nephio is an amalgamation of software systems, so a system landscape provides a high-level view of how those software systems operate together.
 
 ## Component Views
 
@@ -37,15 +37,3 @@ The controllers for OAI and Free5GC are represented here. Although they are vend
 ### Porch
 
 ![Nephio Porch Component View](/static/images/architecture/nephio-porch-component-view.png)
-
-### ConfigSync
-
-TBD - is this a component of Nephio or a dependency?
-
-## Deployment View
-
-TBD
-
-## Representative Use Cases
-
-TBD - use cases between the major components

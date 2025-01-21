@@ -20,7 +20,7 @@ To run Porch locally, you will need:
 
 ## Getting Started
 
-Clone this repository into `${GOPATH}/src/github.com/GoogleContainerTools/kpt`.
+Clone this repository into *${GOPATH}/src/github.com/GoogleContainerTools/kpt*.
 
 ```sh
 git clone https://github.com/GoogleContainerTools/kpt.git "${GOPATH}/src/github.com/GoogleContainerTools/kpt"
@@ -53,8 +53,8 @@ make
 
 This will:
 
-* create Docker network named `porch`
-* build and start `etcd` Docker container
+* create Docker network named *porch*
+* build and start etcd Docker container
 * build and start main k8s apiserver Docker container
 * build and start the kpt function evaluator microservice
   [func](https://github.com/nephio-project/porch/tree/main/func) Docker container
@@ -99,7 +99,6 @@ export KUBECONFIG=${PWD}/deployments/local/kubeconfig
 kubectl api-resources | grep porch
 
 repositories                  config.porch.kpt.dev/v1alpha1          true         Repository
-functions                     porch.kpt.dev/v1alpha1                 true         Function
 packagerevisionresources      porch.kpt.dev/v1alpha1                 true         PackageRevisionResources
 packagerevisions              porch.kpt.dev/v1alpha1                 true         PackageRevision
 ```
@@ -121,5 +120,5 @@ make stop
 
 ## Troubleshooting
 
-If you run into issues that look like `git: authentication required`, make sure you have SSH
+If you run into issues that look like *git: authentication required*, make sure you have SSH
 keys set up on your local machine.

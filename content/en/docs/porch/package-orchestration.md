@@ -7,14 +7,14 @@ description:
 
 ## Why
 
-Customers who want to take advantage of the benefits of [Configuration as Data](config-as-data.md) can do so today using
-a [kpt](https://kpt.dev) CLI and kpt function ecosystem, including [functions catalog](https://catalog.kpt.dev/).
+People who want to take advantage of the benefits of [Configuration as Data](config-as-data.md) can do so today using
+a [kpt](https://kpt.dev) CLI and the kpt function ecosystem, including its [functions catalog](https://catalog.kpt.dev/).
 Package authoring is possible using a variety of editors with [YAML](https://yaml.org/) support. That said, a delightful
 UI experience of WYSIWYG package authoring which supports broader package lifecycle, including package authoring with
 *guardrails*, approval workflow, package deployment, and more, is not yet available.
 
-*Package Orchestration* service is part of the implementation of the Configuration as Data approach, and enables
-building the delightful UI experience supporting the configuration lifecycle.
+Porch *Package Orchestration* (Porch) is part of the Nephio implementation of a Configuration as Data approach. It offers an API and
+a CLI that enables building that delightful UI experience for supporting the configuration lifecycle.
 
 ## Core Concepts
 
@@ -23,12 +23,10 @@ This section briefly describes core concepts of package orchestration:
 ***Package***: Package is a collection of related configuration files containing configuration of [KRM][krm]
 **resources**. Specifically, configuration packages are [kpt packages](https://kpt.dev/).
 
-***Repository***: Repositories store packages or [functions][]. For example [git][] or [OCI][oci]. Functions may be
-associated with repositories to enforce constraints or invariants on packages (guardrails).
-([more details](#repositories))
+***Repository***: Repositories store packages. For example [git][] or [OCI][oci]. ([more details](#repositories))
 
 Packages are sequentially ***versioned***; multiple versions of the same package may exist in a repository.
-[more details](#package-versioning))
+([more details](#package-versioning))
 
 A package may have a link (URL) to an ***upstream package*** (a specific version) from which it was cloned.
 ([more details](#package-relationships))
@@ -41,10 +39,9 @@ Package may be in one of several lifecycle stages:
 * ***Published*** - the changes to the package have been approved and the package is ready to be used. Published
   packages can be deployed or cloned
 
-***Function*** (specifically, [KRM functions][krm functions]) can be applied to packages to mutate or validate resources
+***Functions*** (specifically, [KRM functions][krm functions]) can be applied to packages to mutate or validate resources
 within them. Functions can be applied to a package to create specific package mutation while editing a package draft,
-functions can be added to package's Kptfile [pipeline][], or associated with a repository to be applied to all packages
-on changes. ([more details](#functions))
+functions can be added to package's Kptfile [pipeline][].
 
 A repository can be designated as ***deployment repository***. *Published* packages in a deployment repository are
 considered deployment-ready. ([more details](#deployment))
@@ -53,15 +50,15 @@ considered deployment-ready. ([more details](#deployment))
 
 The Core implementation of Configuration as Data, *CaD Core*, is a set of components and APIs which collectively enable:
 
-* Registration of repositories (Git, OCI) containing kpt packages or functions, and discovery of packages and functions
-* Porcelain package lifecycle, including authoring, versioning, deletion, creation and mutations of a package draft,
-  process of proposing the package draft, and publishing of the approved package.
+* Registration of repositories (Git, OCI) containing kpt packages and the discovery of packages
+* Management of package lifecycles, including authoring, versioning, deletion, creation and mutations of a package draft,
+  process of proposing the package draft, and publishing of the approved package
 * Package lifecycle operations such as:
 
   * assisted or automated rollout of package upgrade when a new version of the upstream package version becomes
-    available
+    available (3 way merge)
   * rollback of a package to previous version
-* Deployment of packages from deployment repositories and observability of their deployment status.
+* Deployment of packages from deployment repositories and observability of their deployment status
 * Permission model that allows role-based access control
 
 ### High-Level Architecture
@@ -73,7 +70,7 @@ At the high level, the Core CaD functionality comprises:
   * package repository management
   * package discovery, authoring and lifecycle management
 
-* [kpt][] - a Git-native, schema-aware, extensible client-side tool for managing KRM packages
+* [porchctl](user-guides/porchctl-cli-guide.md) - a Git-native, schema-aware, extensible client-side tool for managing KRM packages
 * a GitOps-based deployment mechanism (for example [Config Sync][]), which distributes and deploys configuration, and
   provides observability of the status of deployed resources
 * a task-specific UI supporting repository management, package discovery, authoring, and lifecycle
@@ -86,7 +83,7 @@ Concepts briefly introduced above are elaborated in more detail in this section.
 
 ### Repositories
 
-[kpt][] and [Config Sync][] currently integrate with [git][] repositories, and there is an existing design to add OCI
+Porch and [Config Sync][] currently integrate with [git][] repositories, and there is an existing design to add OCI
 support to kpt. Initially, the Package Orchestration service will prioritize integration with [git][], and support for
 additional repository types may be added in the future as required.
 
@@ -96,7 +93,7 @@ associated with package to capture:
 * package dependency relationships (upstream - downstream)
 * package lifecycle state (draft, proposed, published)
 * package purpose (base package)
-* (optionally) even customer-defined attributes
+* (optionally) customer-defined attributes
 
 At repository registration, customers must be able to specify details needed to store packages in appropriate locations
 in the repository. For example, registration of a Git repository must accept a branch and a directory.
@@ -120,16 +117,15 @@ Packages are sequentially versioned. The important requirements are:
 * ability to compare any 2 versions of a package to be either "newer than", equal, or "older than" relationship
 * ability to support automatic assignment of versions
 * ability to support [optimistic concurrency][optimistic-concurrency] of package changes via version numbers
-* simple model which easily supports automation
+* a simple model which easily supports automation
 
-We plan to use a simple integer sequence to represent package versions.
+We use a simple integer sequence to represent package versions.
 
 ### Package Relationships
 
 Kpt packages support the concept of ***upstream***. When a package is cloned from another, the new package
-(called ***downstream*** package) maintains an upstream link to the specific version of the package from which it was
-cloned. If a new version of the upstream package becomes available, the upstream link can be used to
-[update](https://kpt.dev/book/03-packages/05-updating-a-package) the downstream package.
+(called the ***downstream*** package) maintains an upstream link to the specific version of the package from which it was
+cloned. If a new version of the upstream package becomes available, the upstream link can be used to update the downstream package.
 
 ### Deployment
 
@@ -148,27 +144,6 @@ Here we highlight some key attributes of the deployment mechanism and its integr
 * Config Sync needs to be able to pin to specific versions of deployable packages in order to orchestrate rollouts and
   rollbacks. This means it must be possible to GET a specific version of a package.
 * Config Sync needs to be able to discover when new versions are available for deployment.
-
-### Functions
-
-Functions, specifically [KRM functions][krm functions], are used in the CaD core to manipulate resources within
-packages.
-
-* Similar to packages, functions are stored in repositories. Some repositories (such as OCI) are more suitable for
-  storing functions than others (such as Git).
-* Function discovery will be aided by metadata associated with the function by which the function can advertise which
-  resources it acts on, whether the function is idempotent or not, whether it is a mutator or validator, etc.
-* Function repositories can be registered and subsequently, user can discover functions from the registered repositories
-  and use them as follows:
-
-Function can be:
-
-* applied imperatively to a package draft to perform specific mutation to the package's resources or meta-resources
-  (`Kptfile` etc.)
-* registered in the package's `Kptfile` function pipeline as a *mutator* or *validator* in order to be automatically run
-  as part of package rendering
-* registered at the repository level as *mutator* or *validator*. Such function then applies to all packages in the
-  repository and is evaluated whenever a change to a package in the repository occurs.
 
 ## Package Orchestration - Porch
 
@@ -215,9 +190,6 @@ The package discovery functionality of Package Orchestration service enables the
   by Config Sync
 * identify new versions of packages in a deployment repository that can be rolled out to a deployment target by Config
   Sync
-* discover functions in registered repositories based on filtering criteria including containing repository,
-  applicability of a function to a specific package or specific resource type(s), function metadata (mutator/validator),
-  idempotency (function is idempotent/not), etc.
 
 ### Package Authoring
 
@@ -225,29 +197,25 @@ The package authoring and lifecycle functionality of the package Orchestration s
 
 * Create a package _draft_ via one of the following means:
 
-  * an empty draft 'from scratch' (equivalent to [kpt pkg init](https://kpt.dev/reference/cli/pkg/init/))
-  * clone of an upstream package (equivalent to [kpt pkg get](https://kpt.dev/reference/cli/pkg/get/)) from either a
+  * an empty draft 'from scratch' (`porchctl rpkg init`)
+  * clone of an upstream package (`porchctl rpkg clone`) from either a
     registered upstream repository or from another accessible, unregistered, repository
-  * edit an existing package (similar to the CLI command(s) [kpt fn source](https://kpt.dev/reference/cli/fn/source/) or
-    [kpt pkg pull](https://github.com/GoogleContainerTools/kpt/issues/2557))
+  * edit an existing package (`porchctl rpkg pull`)
   * roll back / restore a package to any of its previous versions
-    ([kpt pkg pull](https://github.com/GoogleContainerTools/kpt/issues/2557) of a previous version)
+    (`porchctl rpkg pull` of a previous version)
 
-* Apply changes to a package _draft_. In general, mutations include adding/modifying/deleting any part of the package's
+* Push changes to a package _draft_. In general, mutations include adding/modifying/deleting any part of the package's
   contents. Some specific examples include:
 
   * add/change/delete package metadata (i.e. some properties in the `Kptfile`)
   * add/change/delete resources in the package
-  * add function mutators/validators to the package's [pipeline][]
-  * invoke a function imperatively on the package draft to perform a desired mutation
+  * add function mutators/validators to the package's pipeline
   * add/change/delete sub-package
-  * retrieve the contents of the package for arbitrary client-side mutations (equivalent to
-    [kpt fn source](https://kpt.dev/reference/cli/fn/source/))
+  * retrieve the contents of the package for arbitrary client-side mutations (`porchctl rpkg pull`)
   * update/replace the package contents with new contents, for example results of a client-side mutations by a UI
-    (equivalent to [kpt fn sink](https://kpt.dev/reference/cli/fn/sink/))
+    (`porchctl rpkg push`)
 
-* Rebase a package onto another upstream base package
-  ([detail](https://github.com/GoogleContainerTools/kpt/issues/2548)) or onto a newer version of the same package (to
+* Rebase a package onto another upstream base package or onto a newer version of the same package (to
   aid with conflict resolution during the process of publishing a draft package)
 * Get feedback during package authoring, and assistance in recovery from:
 
@@ -270,7 +238,7 @@ The package authoring and lifecycle functionality of the package Orchestration s
 An important goal of the Package Orchestration service is to support building of task-specific UIs. In order to deliver
 low latency user experience acceptable to UI interactions, the innermost authoring loop (depicted below) will require:
 
-* high performance access to the package store (load/save package) w/ caching
+* high performance access to the package store (load/save package) with caching
 * low latency execution of mutations and transformations on the package contents
 * low latency [KRM function][krm functions] evaluation and package rendering (evaluation of package's function
   pipelines)
@@ -321,7 +289,6 @@ Resources implemented by Porch include:
 
 * `PackageRevision` - represents the _metadata_ of the configuration package revision stored in a _package_ repository.
 * `PackageRevisionResources` - represents the _contents_ of the package revision
-* `Function` - represents a [KRM function][krm functions] discovered in a registered _function_ repository.
 
 Note that each configuration package revision is represented by a _pair_ of resources which each present a different
 view (or [representation][] of the same underlying package revision.
@@ -331,7 +298,7 @@ Repository registration is supported by a `Repository` [custom resource][crds].
 **Porch server** itself comprises several key components, including:
 
 * The *Porch aggregated apiserver* which implements the integration into the main Kubernetes apiserver, and directly
-  serves API requests for the `PackageRevision`, `PackageRevisionResources` and `Function` resources.
+  serves API requests for the `PackageRevision`, `PackageRevisionResources` resources.
 * Package orchestration *engine* which implements the package lifecycle operations, and package mutation workflows
 * *CaD Library* which implements specific package manipulation algorithms such as package rendering (evaluation of
   package's function *pipeline*), initialization of a new package, etc. The CaD Library is shared with `kpt`
