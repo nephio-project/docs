@@ -8,7 +8,7 @@ weight: 2
 To install the WebUI, we simply install a different *kpt* package. First, we pull the package locally:
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/nephio-packages.git/nephio-webui@origin/v3.0.0
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/optional/webui@origin/v3.0.0
 ```
 
 Before we apply it to the cluster, however, we should configure it.
