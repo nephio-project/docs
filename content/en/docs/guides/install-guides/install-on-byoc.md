@@ -99,7 +99,8 @@ environment, so that installation will be documented in the specific environment
 ### GitOps Tool
 
 As configured in the R1, R2 and R3 reference implementation, Nephio relies on ConfigSync. However, it is possible to
-configure it to use a different GitOps tool, such as Flux or ArgoCD to apply packages to the clusters.
+configure it to use a different GitOps tool, such as [FluxCD](/content/en/docs/guides/install-guides/optional-components.md#fluxcd-controllers)
+or ArgoCD to apply packages to the clusters.
 
 ### Cluster Provisioner
 
