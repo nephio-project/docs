@@ -24,7 +24,7 @@ need:
 * A [GCP Project](https://console.cloud.google.com/projectcreate)
 * [gcloud](https://cloud.google.com/sdk/docs/install)
 * [kubectl](https://kubernetes.io/docs/tasks/tools/); you can install it via `gcloud components install kubectl`
-* [porchctl](https://github.com/nephio-project/porch/releases/download/main/porchctl.tgz)
+* [porchctl](https://github.com/nephio-project/porch/releases/download/dev/porchctl.tgz)
 * Command line utilities such as *curl*, *tar*
 
 To build and run Porch on GKE, you will also need:

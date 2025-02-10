@@ -9,7 +9,7 @@ description:
 
 When Porch was ported to Nephio, the `kpt alpha rpkg` commands in kpt were moved into a new command called `porchctl`. 
 
-To use it locally, [download](https://github.com/nephio-project/porch/releases/tag/main), unpack and add it to your PATH.
+To use it locally, [download](https://github.com/nephio-project/porch/releases/download/dev/porchctl.tgz), unpack and add it to your PATH.
 
 {{% alert title="Note" color="primary" %}}
 
