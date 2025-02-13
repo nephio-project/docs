@@ -1389,6 +1389,6 @@ use workloads that do not rely on that functionality in order to experiment with
 
 {{% /alert %}}
 
-* Step through the [Free5GC](/content/en/docs/guides/user-guides/exercise-1-free5gc.md) and
-[OAI](/content/en/docs/guides/user-guides/exercise-2-oai.md) exercises
+* Step through the [Free5GC](/content/en/docs/guides/user-guides/usecase-user-guides/exercise-1-free5gc.md) and
+[OAI](/content/en/docs/guides/user-guides/usecase-user-guides/exercise-2-oai.md) exercises
 * Dig into the [user guide](/content/en/docs/guides/user-guides/_index.md)

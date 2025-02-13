@@ -14,6 +14,7 @@ ignorePatterns:
   - pattern: "https://\\*kpt\\*\\.dev/"
   - pattern: "https://my-gitlab\\.com/joe\\.bloggs/blueprints\\.git"
   - pattern: "http://172\\.18\\.0\\.200:3000/nephio/"
+  - pattern: "https://www\\.gnu\\.org/"
 replacementPatterns:
   - pattern: ".md#.*$"
     replacement: ".md"
