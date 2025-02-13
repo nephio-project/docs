@@ -56,7 +56,7 @@ Add the *area/docs* and the *documentation* labels to the issues created for the
 ## How to contribute
 
 Follow the Nephio contribution process, based on GitHub pull requests and Prow. Contributions to the Nephio
-documentation require the [Nephio CLA](https://contributor.easycla.lfx.linuxfoundation.org/#/cla/project/084c4c00-cece-4fe0-b259-7132f445025e/user/2e82f427-4b62-48c8-a43f-d46dc74cc74b).
+documentation require the [Nephio CLA](https://docs.linuxfoundation.org/lfx/easycla/v2-current/contributors/corporate-contributor#github).
 
 ### Build your environment
 
