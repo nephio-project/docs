@@ -98,9 +98,6 @@ associated with package to capture:
 At repository registration, customers must be able to specify details needed to store packages in appropriate locations
 in the repository. For example, registration of a Git repository must accept a branch and a directory.
 
-Repositories may have associated guardrails - mutation and validation functions that ensure and enforce requirements of
-all packages in the repository, including gating promotion of a package to a *published* lifecycle stage.
-
 {{% alert title="Note" color="primary" %}}
 
 A user role with sufficient permissions can register a package or function repository, including repositories
@@ -170,9 +167,6 @@ The repository management functionality of Package Orchestration service enables
   packages will be cloned.
 * annotate repository with metadata such as whether repository contains deployment ready packages or not; metadata can
   be application or customer specific
-* define and enforce package invariants (guardrails) at the repository level, by registering mutator and/or validator
-  functions with the repository; those registered functions will be applied to packages in the repository to enforce
-  invariants
 
 ### Package Discovery
 
@@ -217,10 +211,8 @@ The package authoring and lifecycle functionality of the package Orchestration s
 
 * Rebase a package onto another upstream base package or onto a newer version of the same package (to
   aid with conflict resolution during the process of publishing a draft package)
-* Get feedback during package authoring, and assistance in recovery from:
 
-  * merge conflicts, invalid package changes, guardrail violations
-  * compliance of the drafted package with repository-wide invariants and guardrails
+* Get feedback during package authoring, and assistance in recovery from merge conflicts, invalid package changes, guardrail violations
 
 * Propose for a _draft_ package be _published_.
 * Apply an arbitrary decision criteria, and by a manual or automated action, approve (or reject) proposal of a _draft_
@@ -229,7 +221,7 @@ The package authoring and lifecycle functionality of the package Orchestration s
 
   * Assisted/automated update (upgrade, rollback) of groups of packages matching specific criteria (i.e. base package
     has new version or specific base package version has a vulnerability and should be rolled back)
-  * Proposed change validation (pre-validating change that adds a validator function to a base package or a repository)
+  * Proposed change validation (pre-validating change that adds a validator function to a base package)
 
 * Delete an existing package.
 
