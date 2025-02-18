@@ -174,6 +174,12 @@ E2E=1 go test -v ./test/e2e/cli -run TestPorch/rpkg-lifecycle
 
 ```
 
+To run the end to end tests on your local machine towards a Porch server running in VSCode, be aware of the following if the tests are not running:
+- Set the actual load balancer IP address for the function runner in your "launch.json", for example
+  "--function-runner=172.18.255.201:9445"
+- Clear the git cache of your Porch workspace before every test run, for example
+  `rm -fr <workspace_root_dir>/.cache/git/*`
+
 ## Run the load test
 
 A script is provided to run a Porch load test against the Kubernetes API server where *KUBECONFIG* points to.
