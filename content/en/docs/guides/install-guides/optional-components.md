@@ -60,7 +60,7 @@ notification-controller-684c9f69c-hpkkq   1/1     Running   0          103s
 source-controller-849cd7dbc6-58ghr        1/1     Running   0          103s
 ```
 
-## o2ims operator
+## O2IMS Operator
 
 Install the operator using the below commands
 ```bash

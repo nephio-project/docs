@@ -1,15 +1,15 @@
 ---
-title: ORAN O2 IMS Operator Deployment
+title: O-RAN O2 IMS Operator Deployment
 description: >
   A step by step guide to deploying a workload cluster, 
-  using provisioningrequests.o2ims.provisioning.oran.org CRD.
+  using the provisioningrequests.o2ims.provisioning.oran.org CRD.
 weight: 2
 ---
 
 ## Prerequisites
 
-- A Nephio Management cluster. See the [installation guides](/content/en/docs/guides/install-guides/_index.md) 
-for detailed environment options.
+- A Nephio Management cluster: 
+  - [installation guides](/content/en/docs/guides/install-guides/_index.md) for detailed environment options.
 - The following *optional* operator pkg deployed:
   - [o2ims operator](/content/en/docs/guides/install-guides/optional-components.md#o2ims-operator)
 
@@ -36,8 +36,8 @@ To perform these exercises, we will need:
 
 {{% alert title="Note" color="primary" %}}
 
-After fresh docker install, verify docker supplementary group is loaded by executing `id | grep docker`.
-If not, logout and login to the VM or execute the `newgrp docker` to ensure the docker supplementary group is loaded.
+After a fresh docker install, verify the docker supplementary group is loaded by executing `id | grep docker`.
+If not, logout and login to the VM or execute `newgrp docker` to ensure the docker supplementary group is loaded.
 
 {{% /alert %}}
 
@@ -96,7 +96,7 @@ spec:
 EOF
 ```
 
-Verify if the provisioningrequest CR is created
+Verify if the `provisioningrequest` CR is created
 ```bash
 kubectl get provisioningrequests edge-cluster
 ```
@@ -125,7 +125,7 @@ edge-vlanindex                4d12h
 
 ```
 
-Examine the details of the provisioningrequest CR created
+Examine the details of the `provisioningrequest` CR created
 ```bash
 kubectl get provisioningrequests edge-cluster -o yaml
 ```
