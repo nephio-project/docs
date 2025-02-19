@@ -96,7 +96,7 @@ spec:
 EOF
 ```
 
-Verify if the `provisioningrequest` CR is created
+Verify if the *provisioningrequest* CR is created
 ```bash
 kubectl get provisioningrequests edge-cluster
 ```
