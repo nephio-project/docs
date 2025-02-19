@@ -106,7 +106,7 @@ NAME           AGE
 edge-cluster   7h31m
 ```
 
-Verify if `packagevariants` are created for the edge-cluster
+Verify if *packagevariants* are created for the edge-cluster
 ```bash
 kubectl get packagevariants
 ```
@@ -125,7 +125,7 @@ edge-vlanindex                4d12h
 
 ```
 
-Examine the details of the `provisioningrequest` CR created
+Examine the details of the *provisioningrequest* CR created
 ```bash
 kubectl get provisioningrequests edge-cluster -o yaml
 ```

@@ -70,7 +70,7 @@ kpt live init /tmp/o2ims
 kpt live apply /tmp/o2ims --reconcile-timeout=15m --output=table
 ```
 
-The operator is deployed to the `o2ims` namespace by default.
+The operator is deployed to the *o2ims* namespace by default.
 
 ```bash
 kubectl get pods -n o2ims
