@@ -32,7 +32,7 @@ The Nephio WebUI can be installed using the following
 
 ## FluxCD Controllers
 
-As an alternative Git-ops tool running on the Nephio mgmt cluster, 
+As an alternative Git-ops tool running on the Nephio management cluster, 
 the following [Flux](https://fluxcd.io/flux/) controllers can be installed.
 * [Source Controller](https://fluxcd.io/flux/components/source/)
 * [Kustomize Controller](https://fluxcd.io/flux/components/kustomize/)
@@ -46,7 +46,7 @@ kpt live init fluxcd
 kpt live apply fluxcd --reconcile-timeout=15m --output=table
 ```
 
-The controllers are deployed to the `flux-system` namespace by default.
+The controllers are deployed to the *flux-system* namespace by default.
 
 ```bash
 kubectl get po -n flux-system
