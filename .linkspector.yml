@@ -12,6 +12,7 @@ ignorePatterns:
   - pattern: "^http://HOSTNAME:PORT.*$"
   - pattern: "https://wiki.lfnetworking.org/.*"
   - pattern: "172\\.18\\.255\\.200"
+  - pattern: "https://www\\.gnu\\.org/"
 replacementPatterns:
   - pattern: ".md#.*$"
     replacement: ".md"
