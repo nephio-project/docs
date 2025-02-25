@@ -80,7 +80,7 @@ archived_version = false
 # Used in the "version-banner" partial to display a version number for the 
 # current doc set.
 
-version = "main"
+version = "R4"
 
 # A link to latest version of the docs. Used in the "version-banner" partial to
 # point people to the main doc site.
@@ -201,12 +201,12 @@ enable = false
 	icon = "fab fa-github"
   desc = "Development takes place here!"
 
-# [[params.links.developer]]
+[[params.links.developer]]
+	name = "Slack"
+	url = "https://nephio.slack.com"
+	icon = "fab fa-slack"
+  desc = "Chat with other project developers"
 
-	# name = "Slack"
-	# url = "https://example.org/slack"
-	# icon = "fab fa-slack"
-        # desc = "Chat with other project developers"
 # [[params.links.developer]]
 	# name = "Developer mailing list"
 	# url = "https://example.org/mail"
@@ -216,7 +216,7 @@ enable = false
 # Add your release versions here
 
 [[params.versions]]
-  version = "main"
+  version = "latest"
   url = "https://docs.nephio.org/docs/"
 
 [[params.versions]]
