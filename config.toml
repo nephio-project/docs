@@ -1,4 +1,4 @@
-baseURL = 'https://docs.nephio.org/'
+baseURL = 'https://r4.docs.nephio.org/'
 languageCode = 'en-us'
 title = 'Nephio Documentation'
 
@@ -223,14 +223,14 @@ enable = false
   version = "R4"
   url = "https://r4.docs.nephio.org/docs/"
 
-  [[params.versions]]
+[[params.versions]]
   version = "R3"
   url = "https://r3.docs.nephio.org/docs/"
 
-  [[params.versions]]
+[[params.versions]]
   version = "R2"
   url = "https://r2.docs.nephio.org/docs/"
 
-  [[params.versions]]
+[[params.versions]]
   version = "R1"
   url = "https://github.com/nephio-project/docs/tree/R1"
