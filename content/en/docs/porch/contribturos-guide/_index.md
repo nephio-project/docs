@@ -23,8 +23,8 @@ Porch comprises of several software components:
 * [engine](https://github.com/nephio-project/porch/tree/main/pkg/engine): Core logic of Package Orchestration - operations on package contents
 * [func](https://github.com/nephio-project/porch/tree/main/func): KRM function evaluator microservice; exposes gRPC API
 * [repository](https://github.com/nephio-project/porch/blob/main/pkg/repository): Repository integration package
-* [git](https://github.com/nephio-project/porch/tree/main/pkg/git): Integration with Git repository.
-* [oci](https://github.com/nephio-project/porch/tree/main/pkg/oci): Integration with OCI repository.
+* [git](https://github.com/nephio-project/porch/tree/R3/pkg/git): Integration with Git repository.
+* [oci](https://github.com/nephio-project/porch/tree/R3/pkg/oci): Integration with OCI repository.
 * [cache](https://github.com/nephio-project/porch/tree/main/pkg/cache): Package caching.
 * [controllers](https://github.com/nephio-project/porch/tree/main/controllers): `Repository` CRD. No controller;
   Porch apiserver watches these resources for changes as repositories are (un-)registered.
@@ -77,8 +77,8 @@ Some useful code pointers:
 * Porch REST API handlers in [registry/porch](https://github.com/nephio-project/porch/tree/main/pkg/registry/porch),
   for example [packagerevision.go](https://github.com/nephio-project/porch/tree/main/pkg/registry/porch/packagerevision.go)
 * Background task handling cache updates in [background.go](https://github.com/nephio-project/porch/tree/main/pkg/registry/porch/background.go)
-* Git repository integration in [pkg/git](https://github.com/nephio-project/porch/tree/main/pkg/git)
-* OCI repository integration in [pkg/oci](https://github.com/nephio-project/porch/tree/main/pkg/oci)
+* Git repository integration in [pkg/git](https://github.com/nephio-project/porch/tree/R3/pkg/git)
+* OCI repository integration in [pkg/oci](https://github.com/nephio-project/porch/tree/R3/pkg/oci)
 * CaD Engine in [engine](https://github.com/nephio-project/porch/tree/main/pkg/engine)
 * e2e tests in [e2e](https://github.com/nephio-project/porch/tree/main/test/e2e). See below more on testing.
 
