@@ -109,5 +109,5 @@ then run test suite against the Porch instance.
 
 [VSCode](https://code.visualstudio.com/) works really well for editing and debugging.
 Because Porch is comprises of multiple go modules, there is a pre-configured
-multi-folder workspace in [porch.code-workspace](https://github.com/nephio-project/porch/blob/main/porch.code-workspace).
+multi-folder workspace in [porch.code-workspace](https://github.com/nephio-project/porch/blob/R3/porch.code-workspace).
 Open it in VSCode (File / Open Workspace from File) to use Workspace Folders.
