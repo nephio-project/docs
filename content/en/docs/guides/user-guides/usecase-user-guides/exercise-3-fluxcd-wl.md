@@ -43,7 +43,7 @@ If not, logout and login to the VM or execute the `newgrp docker` to ensure the 
 {{% /alert %}}
 
 First, verify that the [catalog blueprint repositories](https://github.com/nephio-project/catalog.git) are registered 
-and `Ready`:
+and *Ready*:
 ```bash
 kubectl get repository
 ```
@@ -62,18 +62,21 @@ mgmt-staging                git    Package   false        True    http://172.18.
 oai-core-packages           git    Package   false        True    https://github.com/OPENAIRINTERFACE/oai-packages.git
 ```
 
-Once `Ready`, we can utilize blueprint packages from these upstream repositories.
+Once *Ready*, we can utilize blueprint packages from these upstream repositories.
 
 In this example, we will use the [Porch package variant controller](/content/en/docs/porch/package-variant.md#core-concepts) 
 to deploy the new Workload Cluster.
 
 This fully automates the onboarding process, including the auto approval and publishing of the new package.
 
-**__NOTE:__**
+{{% alert title="Note" color="primary" %}}
+
 An [alternate (manual) method](https://github.com/nephio-project/test-infra/blob/main/e2e/tests/flux/001.sh) 
 of deploying the pkg can also be utilized.
 
-Create a new `PackageVariant` CR for the Workload Cluster:
+{{% /alert %}}
+
+Create a new *PackageVariant* CR for the Workload Cluster:
 
 ```bash
 cat << EOF | kubectl apply -f - 
@@ -148,7 +151,7 @@ local-path-storage   Active   179m
 metallb-system       Active   179m
 ```
 
-You should also check that the KinD cluster has come up fully by checking the `machinesets`. 
+You should also check that the KinD cluster has come up fully by checking the *machinesets*. 
 You should see READY and AVAILABLE replicas.
 
 ```bash
@@ -162,7 +165,7 @@ regional-md-0-lmsqz-7nzzc   regional   1          1       1           3h1m   v1.
 
 ## Step 3: Investigate the FluxCD specific CRs
 
-Verify that the regional-flux-gitrepo-kustomize `PackageRevision` has been created for the FluxCD specific CRs. 
+Verify that the regional-flux-gitrepo-kustomize *PackageRevision* has been created for the FluxCD specific CRs. 
 We want the *Published* v1 revision. 
 ```bash
 kubectl get packagerevision -o custom-columns="NAME:.metadata.name,PACKAGE_NAME:.spec.packageName,REVISION:.spec.revision" | grep "regional-flux-gitrepo-kustomize" | grep "v1"```
@@ -173,7 +176,7 @@ mgmt-b14f9b729988f6260dd816782f2039b5f31f4bfa      regional-flux-gitrepo-kustomi
 ```
 Once verified:
 
-Check the `Ready` state of the [Flux GitRepository Source](https://fluxcd.io/flux/components/source/gitrepositories/) CR:
+Check the *Ready* state of the [Flux GitRepository Source](https://fluxcd.io/flux/components/source/gitrepositories/) CR:
 ```bash
 kubectl get gitrepo regional
 ```
@@ -200,11 +203,11 @@ Sample output:
    "url":"http://172.18.0.200:3000/nephio/regional.git"
 } 
 ```
-The default target `url` points to the internal Gitea repository created as part of the Workload Cluster installation, 
-along with an associated `secretRef` to access it. It also defaults to reference the **main** `branch` of the repository.
+The default target *url* points to the internal Gitea repository created as part of the Workload Cluster installation, 
+along with an associated *secretRef* to access it. It also defaults to reference the **main** `branch` of the repository.
 
 
-Next check the `Ready` state of the associated [Flux Kustomization](https://fluxcd.io/flux/components/kustomize/kustomizations/) CR:
+Next check the *Ready* state of the associated [Flux Kustomization](https://fluxcd.io/flux/components/kustomize/kustomizations/) CR:
 ```bash
 kubectl get ks regional
 ```
@@ -235,17 +238,17 @@ Sample output:
    }
 }
 ```
-As you can see, it `sourceRef` references the `regional` GitRepository CR and defaults to the root `path` of the repository.
-It also holds a reference to the `kubeConfig` Secret used to access the Workload Cluster, which was created 
+As you can see, it *sourceRef* references the *regional* GitRepository CR and defaults to the root *path* of the repository.
+It also holds a reference to the *kubeConfig* Secret used to access the Workload Cluster, which was created 
 during the cluster api instantiation.
 
 
 ## Step 4: Deploy a sample workload to the Cluster
 
-Create a new `PackageVariant` CR for the sample workload:
+Create a new *PackageVariant* CR for the sample workload:
 For demo purposes, we are deploying the 
 [Free5GC Control Plane](https://github.com/nephio-project/catalog/tree/main/workloads/free5gc/free5gc-cp) blueprint pkg, 
-again, using a Porch `PackageVariant`.
+again, using a Porch *PackageVariant*.
 
 ```bash
 cat << EOF | kubectl apply -f - 
@@ -274,17 +277,17 @@ packagevariant.config.porch.kpt.dev/free5gc-control-plane created
 ```
 {{% alert title="Note" color="primary" %}}
 
-Due to the extensive use of `local-config` in the current[Nephio Workload packages](https://github.com/nephio-project/catalog/tree/main/workloads), 
-plus the target `spec.path` of **root** defined in the Flux Kustomization CR used, 
-we require a workaround to generate a `kustomization.yaml` at the root of each kpt pkg deployed to the same downstream Repository.
-In the example above, this is done via a `PackageVariant.spec.pipeline.mutators` [kpt function](https://github.com/nephio-project/nephio/blob/main/krm-functions/gen-kustomize-res/README.md),
+Due to the extensive use of *local-config* in the current[Nephio Workload packages](https://github.com/nephio-project/catalog/tree/main/workloads), 
+plus the target *spec.path* of **root** defined in the Flux Kustomization CR used, 
+we require a workaround to generate a *kustomization.yaml* at the root of each kpt pkg deployed to the same downstream Repository.
+In the example above, this is done via a *PackageVariant.spec.pipeline.mutators* [kpt function](https://github.com/nephio-project/nephio/blob/main/krm-functions/gen-kustomize-res/README.md),
 which gets added to the mutation pipeline of the downstream pkg.
 This will need to addressed in the next iteration.
 
 {{% /alert %}}
 
-Once the Porch and Nephio controllers have completed their tasks, the mutated `spec.upstream.package` resources 
-are pushed to the `spec.downstream.repo` git repository.
+Once the Porch and Nephio controllers have completed their tasks, the mutated *spec.upstream.package* resources 
+are pushed to the *spec.downstream.repo* git repository.
 
 We can then check the state of the Workload Cluster deployment:
 ```bash

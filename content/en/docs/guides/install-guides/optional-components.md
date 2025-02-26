@@ -32,7 +32,7 @@ The Nephio WebUI can be installed using the following
 
 ## FluxCD Controllers
 
-As an alternative Git-ops tool running on the Nephio mgmt cluster, 
+As an alternative Git-ops tool running on the Nephio management cluster, 
 the following [Flux](https://fluxcd.io/flux/) controllers can be installed.
 * [Source Controller](https://fluxcd.io/flux/components/source/)
 * [Kustomize Controller](https://fluxcd.io/flux/components/kustomize/)
@@ -46,7 +46,7 @@ kpt live init fluxcd
 kpt live apply fluxcd --reconcile-timeout=15m --output=table
 ```
 
-The controllers are deployed to the `flux-system` namespace by default.
+The controllers are deployed to the *flux-system* namespace by default.
 
 ```bash
 kubectl get po -n flux-system
@@ -59,3 +59,25 @@ kustomize-controller-596578b94c-gt999     1/1     Running   0          103s
 notification-controller-684c9f69c-hpkkq   1/1     Running   0          103s
 source-controller-849cd7dbc6-58ghr        1/1     Running   0          103s
 ```
+
+## O2IMS Operator
+
+Install the operator using the below commands
+```bash
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/optional/o2ims@origin/main /tmp/o2ims
+kpt fn render /tmp/o2ims
+kpt live init /tmp/o2ims
+kpt live apply /tmp/o2ims --reconcile-timeout=15m --output=table
+```
+
+The operator is deployed to the *o2ims* namespace by default.
+
+```bash
+kubectl get pods -n o2ims
+```
+Output:
+```
+NAME                              READY   STATUS    RESTARTS   AGE
+o2ims-operator-5595cd78b7-thggl   1/1     Running   0          5h27m
+```
+
