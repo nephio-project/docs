@@ -2,7 +2,7 @@
 title: Nephio controller user's guide
 description: >
 
-weight: 1
+weight: 2
 ---
 
 ## Reconcilers
