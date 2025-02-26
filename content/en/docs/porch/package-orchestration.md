@@ -229,9 +229,9 @@ The package authoring and lifecycle functionality of the package Orchestration s
   * clone of an upstream package (equivalent to [kpt pkg get](https://kpt.dev/reference/cli/pkg/get/)) from either a
     registered upstream repository or from another accessible, unregistered, repository
   * edit an existing package (similar to the CLI command(s) [kpt fn source](https://kpt.dev/reference/cli/fn/source/) or
-    [kpt pkg pull](https://github.com/GoogleContainerTools/kpt/issues/2557))
+    [kpt pkg pull](https://github.com/kptdev/kpt/issues/2557))
   * roll back / restore a package to any of its previous versions
-    ([kpt pkg pull](https://github.com/GoogleContainerTools/kpt/issues/2557) of a previous version)
+    ([kpt pkg pull](https://github.com/kptdev/kpt/issues/2557) of a previous version)
 
 * Apply changes to a package _draft_. In general, mutations include adding/modifying/deleting any part of the package's
   contents. Some specific examples include:
