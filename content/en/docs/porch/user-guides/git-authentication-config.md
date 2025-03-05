@@ -9,7 +9,7 @@ description: ""
 
 The porch server handles interaction with associated git repositories through the use of porch repository CR (Custom Resource) which act as a link between the porch server and the git repositories the server is meant to interact with and store packages on.
 
-More information on porch repositories can be found [here](https://docs.nephio.org/docs/porch/package-orchestration/#repositories).
+More information on porch repositories can be found [here](../package-orchestration.md#repositories).
 
 ### 1.1 Porch Repository Basic Authentication Configuration
 
