@@ -7,7 +7,7 @@ weight: 1
 
 ## Structure
 
-The Nephio community is organised into different Special Interrest Groups (SIG) and the technical work is overseed by
+The Nephio community is organised into different Special Interest Groups (SIG) and the technical work is overseen by
 the Technical Steering Committee (TSC).
 
 SIGs are organized around specific technical issues. 
@@ -23,7 +23,7 @@ Nephio community have several different meetings. The TSC and SIGs have their re
 discussed in their own regular calls. All the meetings of the Nephio community are listed in the
 [community calendar](https://lists.nephio.org/g/main/calendar?consolidated=1).
 
-All the meetings in the calendar are open for everyone, there is not need for membership, no need to be a contributor of
+All the meetings in the calendar are open for everyone, there is no need for membership, no need to be a contributor of
 the project to call in and share one's opinion.  
 
 ## Wiki
@@ -32,18 +32,19 @@ the project to call in and share one's opinion.
 operations of the project. There are no strict rules for what kind of information is stored in the wiki. Some teams
 store all their meeting minutes in the wiki, but others use Google Docs for the same reason. 
 
-The wiki collects all these references.
-
 All wiki pages can be seen without logging in to the wiki, but to edit or create pages a login is needed.
+To log in to wiki one needs an [LF ID](https://identity.linuxfoundation.org/).
 
-### SIG Wikipages
+### TSC and SIG Wikipages
+
+TSC wiki page is [here](https://lf-nephio.atlassian.net/wiki/spaces/HOME/pages/7077932/Technical+Steering+Committee+TSC).
 
 Each SIG has its own wiki page:
 
 * [SIG1 - Network Architecture](https://lf-nephio.atlassian.net/wiki/display/HOME/SIG+Network+Architecture)
 * [SIG2 - Automation](https://lf-nephio.atlassian.net/wiki/display/HOME/SIG+Automation)
 * [SIG3 - Relase](https://lf-nephio.atlassian.net/wiki/display/HOME/SIG+Release)
-* [SIG4 - Security](https://lf-nephio.atlassian.net/wiki/display/HOME/SIG+Security)
+* [SIG4 - Security](https://lf-nephio.atlassian.net/wiki/spaces/HOME/pages/7077914/SIG+Security)
 
 These wiki pages contain references to the calendars, meeting notes, YouTube playlists and working groups os the SIG.
 
