@@ -13,7 +13,7 @@ More information on porch repositories can be found [here](../package-orchestrat
 
 ### 1.1 Porch Repository Basic Authentication Configuration
 
-An porch repository object can be created through the use of the `porchctl repo reg porch-test-repository -n porch-test http://example-ip:example-port/repo.git --repo-basic-password=password --repo-basic-username=username` command which creates a secret and repository object.
+A porch repository object can be created through the use of the `porchctl repo reg porch-test-repository -n porch-test http://example-ip:example-port/repo.git --repo-basic-password=password --repo-basic-username=username` command which creates a secret and repository object.
 
 The basic authentication secret must meet the following criteria:
 
