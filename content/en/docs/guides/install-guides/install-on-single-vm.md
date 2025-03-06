@@ -132,7 +132,7 @@ kpt live apply configsync --reconcile-timeout=15m --output=table
 
 ### Create Git Repositories
 
-For management cluster, you need to create 2 repositories named *mgmt* and *mgmt-staging*. Repository mgmt will be mapped to management cluster via config-sync to inject nephio workloads while mgmt-staging repository is used internally during cluster bootstrapping.
+For the management cluster, you need to create two repositories named *mgmt* and *mgmt-staging*. Repository mgmt will be mapped to management cluster via config-sync to inject nephio workloads while mgmt-staging repository is used internally during cluster bootstrapping.
 
 If you are using Gitea then you can use the following steps:
 
