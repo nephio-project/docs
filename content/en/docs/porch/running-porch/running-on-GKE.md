@@ -72,13 +72,13 @@ gcloud container clusters get-credentials --region us-central1 porch-dev
 
 ## Run Released Version of Porch
 
-To run a released version of Porch, download the release config bundle from
+To run a released version of Porch, download the release configuration bundle from
 [Porch release page](https://github.com/nephio-project/porch/releases).
 
-Untar and apply the *porch_blueprint.tar.gz* config bundle. This will install:
+Untar and apply the *porch_blueprint.tar.gz* configuration bundle. This will install:
 
 * Porch server
-* [Config Sync](https://kpt.dev/gitops/configsync/)
+* [ConfigSync](https://kpt.dev/gitops/configsync/)
 
 ```bash
 mkdir porch-install
@@ -138,7 +138,7 @@ IMAGE_TAG=$(git rev-parse --short HEAD) make push-and-deploy-no-sa
 If you want to use a different repository, you can set IMAGE_REPO variable
 (see [Makefile](https://github.com/nephio-project/porch/blob/main/Makefile#L33) for details).
 
-The `make push-and-deploy-no-sa` target will install Porch but not Config Sync. You can install Config Sync in your k8s
+The `make push-and-deploy-no-sa` target will install Porch but not ConfigSync. You can install ConfigSync in your k8s
 cluster manually following the
 [documentation](https://github.com/GoogleContainerTools/kpt-config-sync/blob/main/docs/installation.md).
 

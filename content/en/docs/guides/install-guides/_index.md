@@ -42,7 +42,7 @@ We recommend that you use e2-standard-16. The minimum requirement is e2-standard
 ### Following the progress of the installation on the GCE
 
 To watch the progress of the installation, you need to allow approximately 30 seconds for Nephio to
-reach a network-accessible state. Then log in with ssh and investigate the script execution using
+reach a network-accessible state. Then log in with SSH and investigate the script execution using
 tail:
 
 ```bash
@@ -146,12 +146,12 @@ The following environment variables can be used to configure the installation:
 
 Monitor the installation on your terminal.
 
-Log on to your VM using ssh on another terminal. Use the `docker` and `kubectl` commands to monitor
+Log on to your VM using SSH on another terminal. Use the `docker` and `kubectl` commands to monitor
 the installation.
 
 ## Access to the user interfaces
 
-Once the installation is complete, log in with ssh and forward the port to the user interface (UI)
+Once the installation is complete, log in with SSH and forward the port to the user interface (UI)
 (7007) and to Gitea’s HTTP interface (3000), if desired:
 
 Using the GCE:
@@ -179,8 +179,8 @@ You can now navigate to the following URLs:
 
 ## Open terminal
 
-You may want a second ssh window open to run `kubectl` commands, and so on, without port forwarding
-(which would fail if you tried to open a second ssh connection with that setting).
+You may want a second SSH window open to run `kubectl` commands, and so on, without port forwarding
+(which would fail if you tried to open a second SSH connection with that setting).
 
 Using the GCE:
 

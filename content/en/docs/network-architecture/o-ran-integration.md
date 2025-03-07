@@ -62,9 +62,9 @@ The expectation is that each O-RAN CNF vendor jointly defines O-Cloud cluster te
 
 #### High-Level design of FOCOM using Nephio
 
-A FOCOM function that uses Nephio enablers uses a KPT-based cluster package management solution where:
+A FOCOM function that uses Nephio enablers uses a Kpt-based cluster package management solution where:
 
-- The “Cluster template list” on the SMO is realized by a Git based cluster template repository where the KPT cluster packages are onboarded
+- The “Cluster template list” on the SMO is realized by a Git based cluster template repository where the Kpt cluster packages are onboarded
 - The SMO O-Cloud cluster templates refer one-to-one to a corresponding IMS-side O-Cloud cluster template in a specific O-Cloud IMS
 
 FOCOM uses a concept of provider plugins to be used when communicating with an O-Cloud IMS. One identified option is for FOCOM to use the Cluster API (CAPI) framework to develop an O2ims provider plugin. An alternative option is to develop a native FOCOM O2ims specific operator without the use fo the CAPI framework. The O2ims CAPI manifest files will be part of the SMO cluster template package.
@@ -88,7 +88,7 @@ The Nephio ClusterClaim CR:
 The O-Cloud Cluster Template:
 
 - Supports installation of add-on features such as Multus networking that will require specific configuration handled through the configRefs CRDs. A configRef CR can contain both configuration that is fixed for the O-Cloud Cluster template as well as instance specific configuration that must be provided as user input.
-- Is realized with a *KPT* package that contains the ClusterClaim CR manifest as well as the referred O2imsClusterParameters CR manifest and additional configuration data manifests
+- Is realized with a *Kpt* package that contains the ClusterClaim CR manifest as well as the referred O2imsClusterParameters CR manifest and additional configuration data manifests
 
 As of this release, the O-RAN Alliance has not specified O2ims provisioning interface, as such this pre-standardization version of the O2ims provisioning interface is KRM/CRD based where the:
 

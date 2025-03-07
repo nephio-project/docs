@@ -1206,7 +1206,7 @@ The *PackageVariantSet* status uses these conditions:
 [^porch18]: Coming in Porch v0.0.18.
 [^notimplemented]: Proposed here but not yet implemented as of Porch v0.0.18.
 [^setns]: As of this writing, the set-namespace function does not have a create option. This should be added to
-  avoid the user needing to also usethe `upsert-resource` function. Such common operation should be simple forusers.
+  avoid the user needing to also use the `upsert-resource` function. Such common operation should be simple for users.
 [^pvsimpl]: This document describes *PackageVariantSet* v1alpha2, which will be available starting with Porch v0.0.18.
   In Porch v0.0.16 and 17, the v1alpha1 implementation is available, but it is a somewhat different API, without
   support for CEL or any injection. It is focused only on fan out targeting, and uses a [slightly different targeting API](https://github.com/nephio-project/porch/blob/main/controllers/packagevariants/api/v1alpha1/packagevariant_types.go).

@@ -31,7 +31,7 @@ After issuing this command you are expected to start the porch API server locall
 
 The simplest way to run the porch API server is to launch it in a VS Code IDE, as described by the following process:
 
-1. Open the *porch.code-workspace* file in the root of the porch git repo.
+1. Open the *porch.code-workspace* file in the root of the porch git repository.
 
 1. Edit your local *.vscode/launch.json* file as follows: Change the `--kubeconfig` argument of the Launch Server
    configuration to point to a *KUBECONFIG* file that is set to the kind cluster as the current context. 
@@ -122,7 +122,7 @@ curl https://localhost:4443/apis/porch.kpt.dev/v1alpha1 -k
 
 ## Troubleshoot the porch controllers
 
-There are several ways to develop, test and troubleshoot the porch controllers (i.e. *ackageVariant*, *PackageVariantSet*). In this chapter we describe an option where every other parts of porch is running in the porch-test kind cluster, but the process hosting all porch controllers is running locally on your machine.
+There are several ways to develop, test and troubleshoot the porch controllers (i.e. *PackageVariant*, *PackageVariantSet*). In this chapter we describe an option where every other parts of porch is running in the porch-test kind cluster, but the process hosting all porch controllers is running locally on your machine.
 
 The following command will rebuild and deploy porch, except the porch-controllers component:
 
@@ -133,7 +133,7 @@ make run-in-kind-no-controllers
 After issuing this command you are expected to start the porch controllers process locally on your machine (outside of
 the kind cluster); probably in your IDE, potentially in a debugger. If you are using VS Code you can use the
 **Launch Controllers** configuration that is defined in the
-[launch.json](https://github.com/nephio-project/porch/blob/main/.vscode/launch.json) file of the porch git repo.
+[launch.json](https://github.com/nephio-project/porch/blob/main/.vscode/launch.json) file of the porch git repository.
 
 ## Run the unit tests
 
@@ -161,7 +161,7 @@ This will
 - run the end-to-end tests against that
 - deletes the kind cluster if all tests passed
 
-This process closely mimics the end-to-end tests that are run against your PR on Github.
+This process closely mimics the end-to-end tests that are run against your PR on GitHub.
 
 In order to run just one particular test case you can execute something similar to this:
 
@@ -187,8 +187,8 @@ run-load-test.sh - runs a load test on porch
 
        options
          -h                        - this help message
-         -s hostname               - the host name of the git server for porch git repos
-         -r repo-count             - the number of repos to create during the test, a positive integer
+         -s hostname               - the host name of the git server for porch git repositories
+         -r repo-count             - the number of repositories to create during the test, a positive integer
          -p package-count          - the number of packages to create in each repo during the test, a positive integer
          -e package-revision-count - the number of packagerevisions to create on each package during the test, a positive integer
          -f result-file            - the file where the raw results will be stored, defaults to load_test_results.txt
@@ -197,25 +197,25 @@ run-load-test.sh - runs a load test on porch
          -y                        - dirty mode, do not clean up after tests
 ```
 
-The load test creates, copies, proposes and approves `repo-count` repos, each with `package-count` packages
+The load test creates, copies, proposes and approves `repo-count` repositories, each with `package-count` packages
 with `package-revision-count` package revisions created for each package. The script initializes or copies each
-package revision in turn. It adds a pipleline with two "apply-replacements" kpt functions to the Kptfile of each
+package revision in turn. It adds a pipeline with two "apply-replacements" kpt functions to the Kptfile of each
 package revision. It updates the package revision, and then proposes and approves it.
 
-The load test script creates repos on the git server at `hostname`, so it's URL will be `http://nephio:secret@hostname:3000/nephio/`.
+The load test script creates repositories on the git server at `hostname`, so it's URL will be `http://nephio:secret@hostname:3000/nephio/`.
 The script expects a git server to be running at that URL.
 
 The `result-file` is a text file containing the time it takes for a package to move from being initialized or
 copied to being approved. It also records the time it takes to proppose-delete and delete each package revision.
 
-The `repo-result-file` is a csv file that tabulates the results from `result-file` into columns for each repository created.
+The `repo-result-file` is a CSV file that tabulates the results from `result-file` into columns for each repository created.
 
 For example:
 
 ```bash
 porch % scripts/run-load-test.sh -s 172.18.255.200 -r 4 -p 2 -e 3
 running load test towards git server http://nephio:secret@172.18.255.200:3000/nephio/
-  4 repos will be created
+  4 repositories will be created
   2 packages in each repo
   3 pacakge revisions in each package
   results will be stored in "load_test_results.txt"
@@ -234,14 +234,14 @@ In the load test above, a total of 24 package revisions were created and deleted
 2:1|1.829227|2:1|1.904997|2:1|1.956160|2:1|1.988209
 2:2|1.803494|2:2|1.912169|2:2|1.915905|2:2|1.902103
 2:3|1.816716|2:3|1.948171|2:3|1.931904|2:3|1.952902
-del-6a0b3...|.918442|del-e757b...|.904881|del-d39cd...|.944850|del-6222f...|.911060
-del-378a4...|.831815|del-9211c...|.866386|del-316a5...|.898638|del-31d9f...|.895919
-del-89073...|.874867|del-97d45...|.876450|del-830e0...|.905896|del-7d411...|.866947
-del-4756f...|.850528|del-c95db...|.903599|del-4c450...|.884997|del-587f8...|.842529
-del-9860a...|.887118|del-9c1b9...|1.018930|del-66ae...|.929470|del-6ae3d...|.905359
-del-a11e5...|.845834|del-71540...|.899935|del-8d1e8...|.891296|del-9e2bb...|.864382
-del-1d789...|.851242|del-ffdc3...|.897862|del-75e45...|.852323|del-82eef...|.916630
-del-8ae7e...|.872696|del-58097...|.894618|del-d164f...|.852093|del-9da24...|.849919
+del-6a0b3…|.918442|del-e757b…|.904881|del-d39cd…|.944850|del-6222f…|.911060
+del-378a4…|.831815|del-9211c…|.866386|del-316a5…|.898638|del-31d9f…|.895919
+del-89073…|.874867|del-97d45…|.876450|del-830e0…|.905896|del-7d411…|.866947
+del-4756f…|.850528|del-c95db…|.903599|del-4c450…|.884997|del-587f8…|.842529
+del-9860a…|.887118|del-9c1b9…|1.018930|del-66ae…|.929470|del-6ae3d…|.905359
+del-a11e5…|.845834|del-71540…|.899935|del-8d1e8…|.891296|del-9e2bb…|.864382
+del-1d789…|.851242|del-ffdc3…|.897862|del-75e45…|.852323|del-82eef…|.916630
+del-8ae7e…|.872696|del-58097…|.894618|del-d164f…|.852093|del-9da24…|.849919
 
 ## Switching between tasks
 

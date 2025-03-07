@@ -7,6 +7,7 @@ APIs
 apiserver
 ASN
 ASNs
+apiVersion
 [Aa]utomations
 authProvider
 [Aa]utoscaling
@@ -14,7 +15,9 @@ backtrackVal
 [Bb]ool
 [Bb]oolean
 cabundle
+[Cc]onfig
 [Cc]onfigMap
+configsync
 Codegen
 [Cc]loudified
 CNI
@@ -32,11 +35,13 @@ Dockerfile
 Docsy
 encodedVal
 [Ee]num
+[Ee]nums
 envtest
 [Ee]tcd
 [Ee]xecute
 [Ee]xecution
 Expr
+[Ff]anout
 func
 gcloud
 Gitea
@@ -57,8 +62,10 @@ JFrog
 JSON
 [Kk]pt
 [Kk]ptfile
+[Kk]ptfiles
 kubeadm
 Kubebuilder
+kubeconfig
 kubectl
 kubelet
 Kubernetes
@@ -67,6 +74,7 @@ Kustomization
 kpt fn
 kpt-fn
 Libvirt
+LVMCluster
 MacBook
 MetalLB
 [Nn]amespace
@@ -79,6 +87,7 @@ NFDeploy
 NFDeployment
 NFs
 [Mm]akefile
+[Mm]akefiles
 Multus
 [Mm]ultivendor
 [Mm]ulticloud
@@ -127,7 +136,8 @@ stderr
 [Ss]udo
 [Ss]ubpackage
 SSH
-[Sp]pecializer
+[Ss]pecializer
+[Ss]pecializers
 TLS
 [Tt]riage
 [Tt]ko
