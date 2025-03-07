@@ -16,7 +16,7 @@ backtrackVal
 [Bb]oolean
 cabundle
 [Cc]onfig
-[Cc]onfigMap
+ConfigMap
 configsync
 Codegen
 [Cc]loudified
@@ -122,11 +122,11 @@ Postgres
 PVC
 PVCs
 [Rr]emoveKeys
-[Rp]epositorySelector
+RepositorySelector
 repoTest
 [Rr]ebase
 [Rr]pkg
-[Rr]oot[Ss]ync
+RootSync
 [Rr]ollout
 sbi
 SDK

@@ -220,6 +220,10 @@ enable = false
   url = "https://docs.nephio.org/docs/"
 
 [[params.versions]]
+  version = "R4"
+  url = "https://r4.docs.nephio.org/docs/"
+
+  [[params.versions]]
   version = "R3"
   url = "https://r3.docs.nephio.org/docs/"
 

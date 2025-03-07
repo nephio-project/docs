@@ -197,8 +197,8 @@ ssh <user>@<vm-address>
 ## Next steps
 
 * Go through the following exercises:
-  * [Free5GC Testbed Deployment and E2E testing with UERANSIM](/content/en/docs/guides/user-guides/exercise-1-free5gc.md)
-  * [OAI Core and RAN Testbed Deployment and E2E testing](/content/en/docs/guides/user-guides/exercise-2-oai.md)
+  * [Free5GC Testbed Deployment and E2E testing with UERANSIM](/content/en/docs/guides/user-guides/usecase-user-guides/exercise-1-free5gc.md)
+  * [OAI Core and RAN Testbed Deployment and E2E testing](/content/en/docs/guides/user-guides/usecase-user-guides/exercise-2-oai.md)
 * Dig in to the [user guide](/content/en/docs/guides/user-guides/_index.md).
 * Nephio sandbox environment:
   * Install on preprovisioned single VM.
