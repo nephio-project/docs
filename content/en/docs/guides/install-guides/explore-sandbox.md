@@ -122,7 +122,7 @@ interacts closely with.
 
 | Component          | Purpose                                                                                         |
 | ------------------ | ------------------------------------------------------------------------------------------------|
-| Porch              | Google Container Tools Package Orchestration Server, provides an API used by Nephio to work with packages in git repositries                                       |
+| Porch              | Google Container Tools Package Orchestration Server, provides an API used by Nephio to work with packages in git repositories                                       |
 | ConfigSync         | Google Container Tools Configuration Synchronization, used by Nephio to deploy configurations from repositories from the Management cluster onto Workload clusters  |
 | Nephio Controllers | The Nephio controllers, which implement the Nephio functionality to fetch, manipulate, and deploy NFs                                                        |
 | Nephio WebUI       | The Nephio web client                                                                                                                                        |

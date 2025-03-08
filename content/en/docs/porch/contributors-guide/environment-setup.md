@@ -24,7 +24,7 @@ The script the make deployment-config target to generate the deployment files fo
 make target use recent *bash* additions. MacOS comes with *bash* 3.x.x
 
 1. Install *bash* 4.x.x or better of *bash* using homebrew, see
-   [this this post for details](https://apple.stackexchange.com/questions/193411/update-bash-to-version-4-0-on-osx)
+   [this post for details](https://apple.stackexchange.com/questions/193411/update-bash-to-version-4-0-on-osx)
 2. Ensure that */opt/homebrew/bin* is earlier in your path than */bin* and */usr/bin*
 
 {{% alert title="Note" color="primary" %}}
@@ -202,7 +202,7 @@ env:
   value: otel://jaeger-oltp:4317
 ```
 
-3. Set up port forwarding of the Jaeger http port to your local machine:
+3. Set up port forwarding of the Jaeger HTTP port to your local machine:
 
 ```bash
 kubectl port-forward -n porch-system service/jaeger-http 16686

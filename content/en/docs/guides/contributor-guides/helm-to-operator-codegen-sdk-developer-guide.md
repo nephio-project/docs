@@ -89,7 +89,7 @@ A) Base-Cases:
 
 B) Composite-Cases:
 1. Slice/ Array: 
-	Iterates over each element of slice and calls the DFS fxn again with the element.
+	Iterates over each element of slice and calls the DFS function again with the element.
 	Returns the list of all backtrack-values. ([] is considered as default value)
 2. Map: 
 	Iterates over each key-value pairs, calls the DFS(value).
@@ -103,7 +103,7 @@ B) Composite-Cases:
 C) Special-Cases:
 We have assumed in the DFS function, that every path (structure) will end at the basic-data-types (string, int, bool etc), But there lies some cases when we can’t traverse further because the attributes of struct are private. Such cases are handled specially. (Converted to String and then return appropriately)
 1. V1.Time and resource.Quantity
-2. []byte/[]uint8: []byte is generally used in kind: Secret. It is seen that we provide 64base encoded secret-value in Yaml, but on converting the Yaml to runtime-obj, the secret-val automatically get decoded to actual value, Since, It is not good to show decoded/actual secret value in the code, therefore, we encode it again and store this base64-encoded-value as secret-value in JSON.
+2. []byte/[]uint8: []byte is generally used in kind: Secret. It is seen that we provide 64base encoded secret-value in YAML, but on converting the YAML to runtime-obj, the secret-val automatically get decoded to actual value, Since, It is not good to show decoded/actual secret value in the code, therefore, we encode it again and store this base64-encoded-value as secret-value in JSON.
 
 
 JSON Conversion Example
