@@ -21,6 +21,8 @@ The basic authentication secret must meet the following criteria:
 - Have a Data keys named *username* and *password* containing the relevant information.
 - Be of type *basic-auth*.
 
+The value used in the *password* field can be substituted for a base64 encoded Personal Access Token (PAT) from the GIT instance being used. An Example of this can be found [here](./porchctl-cli-guide.md#repository-registration)
+
 Which would be the equivalent of doing a `kubectl apply -f` on a yaml file with the following content (assuming the porch-test namespace exists on the cluster):
 
 ```yaml
@@ -30,8 +32,8 @@ metadata:
   name: git-auth-secret
   namespace: porch-test
 data:
-  password: base-64-encoded-password
   username: base-64-encoded-username
+  password: base-64-encoded-password  # or base64-encoded-PAT
 type: kubernetes.io/basic-auth
 
 ---
@@ -55,14 +57,28 @@ spec:
       name: git-auth-secret
 ```
 
-### 1.2 Porch Repository Token Authentication Configuration
+When The Porch Server is interacting with a Git instance through this http-basic-auth configuration it does so through HTTP. An example HTTP Request using this configuration can be seen below.
 
-The authentication to the git repository can be configured to be in token format by altering the secret used in the porch repository object.
+```logs
+PUT
+https://example-ip/apis/config.porch.kpt.dev/v1alpha1/namespaces/porch-test/repositories/porch-test-repo/status
+Request Headers:
+     User-Agent: __debug_bin1520795790/v0.0.0 (linux/amd64) kubernetes/$Format
+     Authorization: Basic bmVwaGlvOnNlY3JldA== 
+     Accept: application/json, */*
+     Content-Type: application/json
+```
 
-The token authentication secret must meet the following criteria:
+where *bmVwaGlvOnNlY3JldA==* is base64 encoded in the format *username:password* and after base64 decoding becomes *nephio:secret* and for simple personal access token login the password section can be substituted for the PAT token.
+
+### 1.2 Porch Repository Bearer Token Authentication Configuration
+
+The authentication to the git repository can be configured to be in bearer token format by altering the secret used in the porch repository object.
+
+The bearer token authentication secret must meet the following criteria:
 
 - Exist in the same namespace as the Repository CR (Custom Resource) that requires it
-- Have a Data key named *token* containing the relevant git token information.
+- Have a Data key named *bearerToken* containing the relevant git token information.
 - Be of type *Opaque*.
 
 For example:
@@ -74,9 +90,22 @@ metadata:
   name: git-auth-secret
   namespace: porch-test
 data:
-  token: base-64-encoded-token
+  bearerToken: base-64-encoded-bearer-token
 type: Opaque
 ```
+
+When The Porch Server is interacting with a Git instance through this http-token-auth configuration it does so through HTTP. An example HTTP Request using this configuration can be seen below.
+
+```logs
+PUT https://example-ip/apis/config.porch.kpt.dev/v1alpha1/namespaces/porch-test/repositories/porch-test-repo/status
+Request Headers:
+     User-Agent: __debug_bin1520795790/v0.0.0 (linux/amd64) kubernetes/$Format
+     Authorization: Bearer 4764aacf8cc6d72cab58e96ad6fd3e3746648655
+     Accept: application/json, */*
+     Content-Type: application/json
+```
+
+where *4764aacf8cc6d72cab58e96ad6fd3e3746648655* in the Authorization header is a PAT token but can be whichever type of bearer token is accepted by the user's git instance.
 
 {{% alert title="Note" color="primary" %}}
 The Porch server caches the authentication credentials from the secret, so if the secret's contents are updated they may in fact not be the credentials which are used in the authentication until the old secret credentials are no longer valid which triggers the porch server to query the secret again use the new credentials which if valid become the new cached authentication values.
@@ -86,7 +115,7 @@ The Porch server caches the authentication credentials from the secret, so if th
 
 To enable the porch server to communicate with a custom git deployment over HTTPS, we must:
 
-1. Provide an additional arguments flag `use-git-cabundle=true` to the porch-server deployment.
+1. Provide an additional arguments flag *use-git-cabundle=true* to the porch-server deployment.
 2. Provide an additional Kubernetes secret containing the relevant certificate chain in the form of a cabundle.
 
 The secret itself must meet the following criteria:
@@ -95,9 +124,7 @@ The secret itself must meet the following criteria:
 - Be named specifically \<namespace\>-ca-bundle.
 - Have a Data key named *ca.crt* containing the relevant ca certificate (chain).
 
-For example, a Git Repository is hosted over HTTPS at the *https://my-gitlab.com/joe.bloggs/blueprints.git* URL:
-
-`https://my-gitlab.com/joe.bloggs/blueprints.git`
+For example, a Git Repository is hosted over HTTPS at the URL: *https://my-gitlab.com/joe.bloggs/blueprints.git*
 
 Before creating the new Repository in the **GitLab** namespace, we must create a secret that fulfils the criteria above.
 
