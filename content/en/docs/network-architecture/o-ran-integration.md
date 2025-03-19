@@ -127,3 +127,8 @@ In R3 the O-RAN Cloudified NFs consist of a single NF Deployment.
 The following sequence chart depicts the flow between the NFO and Workload Cluster’s DMS, highlighting the use of the Nephio enablers to deploy the NF Deployment from the NFO to the DMS.
 
 ![nf-orch-smo.png](/static/images/network-architecture/o-ran/nf-orch-smo.png)
+
+#### Demo User Guide
+
+For a detailed demo user guide, see 
+[O-RAN O-Cloud K8s Cluster deployment](/content/en/docs/guides/user-guides/usecase-user-guides/exercise-4-ocloud-cluster-prov.md)
