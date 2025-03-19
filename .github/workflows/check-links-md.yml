@@ -10,16 +10,8 @@ jobs:
     steps:
     - name: Check out repository code
       uses: actions/checkout@v4
-    - name: Install prerequisites
-      run: |
-       curl -fsSL https://deb.nodesource.com/setup_21.x | sudo -E bash - &&\
-       sudo apt-get install -y nodejs
-    - name: Install tools
-      run: |
-        npm install -g @umbrelladocs/linkspector
     - name: Verify linkspector config
       run: |
           cat .linkspector.yml
-    - name: run linkspector
-      run: |
-        linkspector check -c .linkspector.yml
+    - name: Run linkspector
+      uses: umbrelladocs/action-linkspector@v1.3.1
