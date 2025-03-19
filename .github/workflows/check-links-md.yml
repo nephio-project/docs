@@ -15,3 +15,5 @@ jobs:
           cat .linkspector.yml
     - name: Run linkspector
       uses: umbrelladocs/action-linkspector@v1.3.1
+      with:
+        fail_on_error: true
