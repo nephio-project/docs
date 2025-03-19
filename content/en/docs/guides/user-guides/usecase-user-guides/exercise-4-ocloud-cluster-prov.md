@@ -244,7 +244,7 @@ Examine the details of the *provisioningrequest* CR created
 kubectl get provisioningrequests focom-cluster-prov-req-nephio -o yaml
 ```
 Example output
-```
+```yaml
 apiVersion: o2ims.provisioning.oran.org/v1alpha1
 kind: ProvisioningRequest
 metadata:
