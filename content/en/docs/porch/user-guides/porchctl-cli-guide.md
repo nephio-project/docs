@@ -66,7 +66,7 @@ To check whether `kubectl` is configured with your Porch cluster (or local insta
 kubectl api-resources | grep porch
 ```
 
-You should see the following api resources listed:
+You should see the following API resources listed:
 
 ```bash
 repositories                  config.porch.kpt.dev/v1alpha1          true         Repository

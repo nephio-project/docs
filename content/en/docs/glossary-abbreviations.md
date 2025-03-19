@@ -5,7 +5,7 @@ weight: 10
 ---
 
 We use many terms in our Nephio discussions, coming from different domains
-including telecom, Kubernetes, configuration management, and our own
+including telecommunications, Kubernetes, configuration management, and our own
 [Nephio-specific](#nephio-related-abbreviations) terms. This glossary is intended to help clarify our usage of
 these terms.
 
@@ -325,7 +325,7 @@ label indicating cost allocation center).
 The same value in a configuration is often used in more than one place. *Value
 propagation* is the technique of setting or generating the value once, and then
 copying (or propagating) it to different places in the configuration. For
-example, setting a Helm value in the values.yaml file, and then having it used
+example, setting a Helm value in the *values.yaml* file, and then having it used
 in multiple places across different resources.
 
 ## Variant

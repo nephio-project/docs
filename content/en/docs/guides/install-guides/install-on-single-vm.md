@@ -130,20 +130,28 @@ kpt live init configsync
 kpt live apply configsync --reconcile-timeout=15m --output=table
 ```
 
-### Create Git Repository
+### Create Git Repositories
+
+For the management cluster, you need to create two repositories named *mgmt* and *mgmt-staging*. Repository mgmt will be mapped to management cluster via config-sync to inject nephio workloads while mgmt-staging repository is used internally during cluster bootstrapping.
 
 If you are using Gitea then you can use the following steps:
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/distros/sandbox/repository@origin/v3.0.0 <cluster-name>
-kpt fn render <cluster-name>
-kpt live init <cluster-name>
-kpt live apply <cluster-name> --reconcile-timeout=15m --output=table
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/distros/sandbox/repository@origin/v3.0.0 mgmt
+kpt fn render mgmt
+kpt live init mgmt
+kpt live apply mgmt --reconcile-timeout=15m --output=table
+```
+
+```bash
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/distros/sandbox/repository@origin/v3.0.0 mgmt-staging
+kpt fn render mgmt-staging
+kpt live init mgmt-staging
+kpt live apply mgmt-staging --reconcile-timeout=15m --output=table
 ```
 
 {{% alert title="Note" color="primary" %}}
 
-* For management cluster you have to name the repository as *mgmt*.
 * In the *repository* package the default Gitea address is *172.18.0.200:3000*. 
 In *repository/set-values.yaml* change this to your Gitea address.
 * *repository/token-configsync.yaml* and *repository/token-porch.yaml* are 
@@ -161,32 +169,25 @@ Get the *root-sync* kpt package and edit it:
 kpt pkg get https://github.com/nephio-project/catalog.git/nephio/optional/rootsync@origin/v3.0.0
 ```
 
-Change *./rootsync/rootsync.yaml* and point *spec.git.repo* to the edge git repository: 
+Open *./rootsync/rootsync.yaml* file and update the *spec.git.secretRef.name* to name of config-sync token created in previous step and *metadata.name* to *mgmt*. Also verify that spec.git.repo has correct URL of mgmt git repository
 
 ```yaml
- spec:
-   sourceFormat: unstructured
-   git:
+apiVersion: configsync.gke.io/v1beta1
+kind: RootSync
+metadata: # kpt-merge: config-management-system/example-cluster-name
+  name: mgmt
+  namespace: config-management-system
+  annotations:
+    internal.kpt.dev/upstream-identifier: configsync.gke.io|RootSync|config-management-system|example-cluster-name
+spec:
+  sourceFormat: unstructured
+  git:
     repo: http://<GIT_URL>/nephio/mgmt.git
     branch: main
     auth: token
     secretRef:
       name: mgmt-access-token-configsync
-```
-
-If you need credentials to access your repository then 
-copy the token name from the previous section and provide it in 
-*./rootsync/rootsync.yaml*:
-
-```yaml
-spec:
-  sourceFormat: unstructured
-  git:
-    repo: <http url of your edge repo>
-    branch: main
-    auth: token
-    secretRef:
-      name: <TOKEN-NAME>
+    period: 15s
 ```
 
 Deploy the modified root-sync:
@@ -197,7 +198,7 @@ kpt live apply rootsync --reconcile-timeout=15m --output=table
 ```
 
 If the output of `kubectl get rootsyncs.configsync.gke.io -A` 
-is similar to the following then root-sync is properly configured. 
+is similar to the following, then root-sync is properly configured. 
 
 ```console
 kubectl get rootsyncs.configsync.gke.io -A

@@ -105,7 +105,7 @@ kubectl expose svc -n porch-system function-runner --name=xfunction-runner --typ
 ```
 
 10. Set the *KUBECONFIG* and *FUNCTION_RUNNER_IP* environment variables in the *.profile* file
-    You **must** do this step before connecting with VSCode because VSCode caches the environment on the server. If you
+    You **must** do this step before connecting with VS Code because VS Code caches the environment on the server. If you
     want to change the values of these variables subsequently, you must restart the VM server.
 
      ```bash
@@ -137,13 +137,13 @@ documentation.
 
 ![Porch code is open](/static/images/porch/contributor/02_VSCodeConnectedPorch.png)
 
-4. We now need to install support for *go* debugging in VSCode. Trigger this by launching a debug configuration in
+4. We now need to install support for *go* debugging in VS Code. Trigger this by launching a debug configuration in
    VS Code.
    Here we use the **Launch Override Server** configuration.
 
 ![Launch the Override Server VS Code debug configuration](/static/images/porch/contributor/03_LaunchOverrideServer.png)
 
-5. VSCode complains that *go* debugging is not supported, click the **Install go Extension** button. 
+5. VS Code complains that *go* debugging is not supported, click the **Install go Extension** button. 
 
 ![VS Code go debugging not supported message](/static/images/porch/contributor/04_GoDebugNotSupportedPopup.png)
 

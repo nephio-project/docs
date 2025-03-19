@@ -14,7 +14,7 @@ In this guide, you will set up Nephio with:
 - **Git Provider**: Google Cloud Source Repositories will be the git provider for cluster deployment repositories. Some
   external repositories will be on GitHub.
 - **Web UI Auth**: Google OAuth 2.0
-- **Ingress/Load Balancer**: Ingress with a GKE-specific FrontEndConfig to provide http-to-https redirection will be
+- **Ingress/Load Balancer**: Ingress with a GKE-specific FrontEndConfig to provide HTTP-to-HTTPS redirection will be
   used to access the Nephio Web UI.
 
 Additionally, this guide makes the following simplifying choices:
