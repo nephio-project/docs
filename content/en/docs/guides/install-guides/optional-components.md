@@ -81,3 +81,23 @@ NAME                              READY   STATUS    RESTARTS   AGE
 o2ims-operator-5595cd78b7-thggl   1/1     Running   0          5h27m
 ```
 
+## Focom Operator
+
+Install the operator using the below commands
+```bash
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/optional/focom-operator@origin/main /tmp/focom
+kpt fn render /tmp/focom
+kpt live init /tmp/focom
+kpt live apply /tmp/focom --reconcile-timeout=15m --output=table
+```
+
+The operator is deployed to the *focom-operator-system* namespace by default.
+
+```bash
+kubectl get pods -n focom-operator-system
+```
+Output:
+```
+NAME                                                READY   STATUS    RESTARTS   AGE
+focom-operator-controller-manager-d8f4d5cb6-dqqk8   1/1     Running   0          31s
+```
