@@ -9,6 +9,7 @@
 # Hugo
 .hugo*
 resources/
+public/
 
 # nodejs
 package-lock.json
