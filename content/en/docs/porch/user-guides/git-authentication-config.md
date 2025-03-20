@@ -124,7 +124,7 @@ The secret itself must meet the following criteria:
 - Be named specifically \<namespace\>-ca-bundle.
 - Have a Data key named *ca.crt* containing the relevant ca certificate (chain).
 
-For example, a Git Repository is hosted over HTTPS at the URL: *https://my-gitlab.com/joe.bloggs/blueprints.git*
+For example, a Git Repository is hosted over HTTPS at the URL: *<https://my-gitlab.com/joe.bloggs/blueprints.git>*
 
 Before creating the new Repository in the **GitLab** namespace, we must create a secret that fulfils the criteria above.
 
