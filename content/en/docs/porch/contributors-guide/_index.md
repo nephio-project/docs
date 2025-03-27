@@ -25,7 +25,7 @@ Porch comprises of several software components:
   handlers, Porch `main` function
 * [engine](https://github.com/nephio-project/porch/tree/main/pkg/engine): Core logic of Package Orchestration -
   operations on package contents
-* [func](https://github.com/nephio-project/porch/tree/main/func): KRM function evaluator microservice; exposes gRPC API
+* [func](https://github.com/nephio-project/porch/tree/main/func): KRM function evaluator microservice; exposes GRPC API
 * [repository](https://github.com/nephio-project/porch/blob/main/pkg/repository): Repository integration package
 * [git](https://github.com/nephio-project/porch/tree/main/pkg/externalrepo/git): Integration with Git repository.
 * [oci](https://github.com/nephio-project/porch/tree/main/pkg/externalrepo/oci): Integration with OCI repository.
@@ -69,7 +69,7 @@ Follow the [Running Porch Locally](../running-porch/running-locally.md) guide to
 ## Debugging
 
 To debug Porch, run Porch locally [running-locally.md](../running-porch/running-locally.md), exit porch server running
-in the shell, and launch Porch under the debugger. VSCode debug session is pre-configured in
+in the shell, and launch Porch under the debugger. VS Code debug session is pre-configured in
 [launch.json](https://github.com/nephio-project/porch/blob/main/.vscode/launch.json).
 
 Update the launch arguments to your needs.
@@ -91,7 +91,7 @@ Some useful code pointers:
 All tests can be run using `make test`. Individual tests can be run using `go test`.
 End-to-End tests assume that Porch instance is running and `KUBECONFIG` is configured
 with the instance. The tests will automatically detect whether they are running against
-Porch running on local machien or k8s cluster and will start Git server appropriately,
+Porch running on local machine or k8s cluster and will start Git server appropriately,
 then run test suite against the Porch instance.
 
 ## Makefile Targets
@@ -112,5 +112,5 @@ then run test suite against the Porch instance.
 ## VS Code
 
 [VS Code](https://code.visualstudio.com/) works really well for editing and debugging.
-Just open VSCode from the root folder of the Porch repository and it will work fine. The folder contains the needed
+Just open VS Code from the root folder of the Porch repository and it will work fine. The folder contains the needed
 configuration to Launch different functions of Porch.

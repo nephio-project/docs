@@ -286,10 +286,10 @@ external-blueprints   git    Package   false        True    https://github.com/n
 management            git    Package   false        True    http://172.18.255.200:3000/nephio/management.git
 ```
 
-## Configure ConfigSync on the workload cluster
+## Configure configsync on the workload cluster
 
-ConfigSync is installed on the edge1 cluster so that it syncs the contents of the *edge1* repository onto the edge1
-workload cluster. We will use the ConfigSync package from Nephio.
+configsync is installed on the edge1 cluster so that it syncs the contents of the *edge1* repository onto the edge1
+workload cluster. We will use the configsync package from Nephio.
 
 ```bash
 export KUBECONFIG=~/.kube/kind-edge1-config
@@ -302,7 +302,7 @@ kpt live init configsync
 kpt live apply configsync
 ```
 
-Check that the ConfigSync PODs are up and running:
+Check that the configsync PODs are up and running:
 
 ```bash
 kubectl get pod -n config-management-system
@@ -311,7 +311,7 @@ config-management-operator-6946b77565-f45pc   1/1     Running   0          118m
 reconciler-manager-5b5d8557-gnhb2             2/2     Running   0          118m
 ```
 
-Now, we need to set up a Rootsync CR to synchronize the *edge1* repository:
+Now, we need to set up a RootSync CR to synchronize the *edge1* repository:
 
 ```bash
 kpt pkg get https://github.com/nephio-project/catalog/tree/main/nephio/optional/rootsync
@@ -351,7 +351,7 @@ Gitea:
 > #      name: edge1-access-token-configsync
 ```
 
-Initialize and apply rootsync:
+Initialize and apply RootSync:
 
 ```bash
 export KUBECONFIG=~/.kube/kind-edge1-config
@@ -360,7 +360,7 @@ kpt live init rootsync # This command is only needed once
 kpt live apply rootsync
 ```
 
-Check that the rootsync CR is created:
+Check that the RootSync CR is created:
 
 ```bash
 kubectl get rootsync -n config-management-system
@@ -368,7 +368,7 @@ NAME    RENDERINGCOMMIT                            RENDERINGERRORCOUNT   SOURCEC
 edge1   613eb1ad5632d95c4336894f8a128cc871fb3266                         613eb1ad5632d95c4336894f8a128cc871fb3266                      613eb1ad5632d95c4336894f8a128cc871fb3266   
 ```
 
-Check that ConfigSync is synchronized with the repository on the management cluster:
+Check that configsync is synchronized with the repository on the management cluster:
 
 ```bash
 kubectl get pod -n config-management-system -l app=reconciler
@@ -1454,8 +1454,8 @@ management-c97bc433db93f2e8a3d413bed57216c2a72fc7e3   network-function-auto-name
 
 The process of deploying a blueprint package from our *management* repository clones the package, then modifies it for use on
 the workload cluster. The cloned package is then initialized, pushed, proposed, and approved onto the *edge1* repository.
-Remember that the *edge1* repository is being monitored by ConfigSync from the edge1 cluster, so once the package appears in
-the *edge1* repository on the management cluster, it will be pulled by ConfigSync and applied to the edge1 cluster.
+Remember that the *edge1* repository is being monitored by configsync from the edge1 cluster, so once the package appears in
+the *edge1* repository on the management cluster, it will be pulled by configsync and applied to the edge1 cluster.
 
 ```
 porchctl -n porch-demo rpkg pull management-8b80738a6e0707e3718ae1db3668d0b8ca3f1c82 tmp_packages_for_deployment/edge1-network-function-a.clone.tmp
@@ -1516,7 +1516,7 @@ No resources found in network-function-a namespace.
 ```
 
 We now propose and approve the deployment package, which merges the package to the *edge1* repository and further triggers
-ConfigSync to apply the package to the edge1 cluster.
+configsync to apply the package to the edge1 cluster.
 
 ```
 export KUBECONFIG=~/.kube/kind-management-config
@@ -1619,7 +1619,7 @@ No resources found in network-function-auto-namespace-a namespace.
 ```
 
 We now propose and approve the deployment package, which merges the package to the *edge1* repository and further triggers
-Configsync to apply the package to the edge1 cluster.
+configsync to apply the package to the edge1 cluster.
 
 ```
 export KUBECONFIG=~/.kube/kind-management-config

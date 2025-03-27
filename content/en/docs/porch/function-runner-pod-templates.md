@@ -26,7 +26,7 @@ The following contract needs to be fulfilled by any function evaluator pod templ
 ## Enabling pod templating on function runner
 
 A ConfigMap with the pod template should be created in the namespace where the porch-fn-runner pod is running.
-The configMap's name should be included as `--function-pod-template` in the command line arguments in the pod spec of the function runner.
+The ConfigMap's name should be included as `--function-pod-template` in the command line arguments in the pod spec of the function runner.
 
 ```yaml
 ...
