@@ -170,7 +170,7 @@ metadata:
 ## porchctl rpkg for Workload clusters
 
 The `porchctl rpkg` suite of commands that act on Repository resources on the
-kubernetes cluster in scope. The packages in the Repository resources are
+Kubernetes cluster in scope. The packages in the Repository resources are
 remote packages (*rpkg*).
 
 To see which repositories are in scope:
@@ -324,7 +324,7 @@ mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 proposed
 Proposing the package changes the name of the drafts/regional/v1 to
 proposed/regional/v1. There are no changes to the content of the branch.
 
-### Approve the Package and Trigger Configsync
+### Approve the Package and Trigger Config Sync
 
 Approving the package triggers `configsync`, which triggers creation of the new
 workload cluster using all the *PackageVariant* components specified in the
@@ -340,7 +340,7 @@ The new cluster comes up after a number of minutes.
 ## Transformations in the Workload cluster creation
 
 Approving the regional Workload cluster package in the *mgmt* repository
-triggered configsync to apply the *PackageVariant* configurations in the
+triggered `configsync` to apply the *PackageVariant* configurations in the
 *mgmt/regional* package. Let's examine those *PackageVariant* configurations one
 by one.
 
@@ -361,7 +361,7 @@ workloadclusters.infra.nephio.org | nephio-system.nephio-controller     | Trigge
 The *PackageVariant* specified in *pv-cluster.yaml* is executed and:
 1. Produces a package variant of the
    [cluster-capi-kind](https://github.com/nephio-project/nephio-example-packages/tree/main/cluster-capi-kind) package
-   called lambda-cluster in the gitea *mgmt* repository on your management cluster.
+   called lambda-cluster in the Gitea *mgmt* repository on your management cluster.
 1. Applies the lambda-cluster *kpt* package to create the kind cluster for the workload cluster.
 
 #### Package transformations

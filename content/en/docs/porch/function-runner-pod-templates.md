@@ -8,7 +8,7 @@ description:
 ## Why 
 
 `porch-fn-runner` implements a simplistic function-as-a-service for executing kpt functions, running the needed kpt
-functions wrapped in a grpc server. The function is starting up a number of function evaluator pods for each of the kpt
+functions wrapped in a GRPC server. The function is starting up a number of function evaluator pods for each of the kpt
 functions. As with any operator that manages pods, it's good to provide some templating and parametrization capabilities
 of the pods that will be managed by the function runner.
 
@@ -17,7 +17,7 @@ of the pods that will be managed by the function runner.
 The following contract needs to be fulfilled by any function evaluator pod template:
 
 1. There is a container named "function".
-2. The entrypoint of the "function" container will start the wrapper grpc server.
+2. The entrypoint of the "function" container will start the wrapper GRPC server.
 3. The image of the "function" container can be set to the kpt function's image without impacting starting the 
    entrypoint.
 4. The arguments of the "function" container can be appended with the entries from the Dockerfile  ENTRYPOINT of the kpt
@@ -25,8 +25,8 @@ The following contract needs to be fulfilled by any function evaluator pod templ
 
 ## Enabling pod templating on function runner
 
-A Configmap with the pod template should be created in the namespace where the porch-fn-runner pod is running.
-The configmap's name should be included as `--function-pod-template` in the command line arguments in the pod spec of the function runner.
+A ConfigMap with the pod template should be created in the namespace where the porch-fn-runner pod is running.
+The ConfigMap's name should be included as `--function-pod-template` in the command line arguments in the pod spec of the function runner.
 
 ```yaml
 ...
@@ -59,7 +59,7 @@ spec:
 
 ## Example pod template
 
-The below pod template Configmap matches the default behavior:
+The below pod template ConfigMap matches the default behavior:
 
 ```yaml
 apiVersion: v1

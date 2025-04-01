@@ -105,7 +105,7 @@ kubectl expose svc -n porch-system function-runner --name=xfunction-runner --typ
 ```
 
 10. Set the *KUBECONFIG* and *FUNCTION_RUNNER_IP* environment variables in the *.profile* file
-    You **must** do this step before connecting with VSCode because VSCode caches the environment on the server. If you
+    You **must** do this step before connecting with VS Code because VS Code caches the environment on the server. If you
     want to change the values of these variables subsequently, you must restart the VM server.
 
      ```bash
@@ -120,7 +120,7 @@ You have now set up the VM so that it can be used for remove debugging of Porch.
 
 Use the [VS Code Remote SSH]
 (https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)
-plugin to To debug from VS Code running on your local machine towards a VM. Detailed documentation
+plugin to debug from VS Code running on your local machine towards a VM. Detailed documentation
 on the plugin and its use is available on the
 [Remote Development using SSH](https://code.visualstudio.com/docs/remote/ssh) in the VS Code
 documentation.
@@ -128,7 +128,7 @@ documentation.
 1. Use the **Connect to a remote host** instructions on the
 [Remote Development using SSH](https://code.visualstudio.com/docs/remote/ssh) page to connect to your VM.
 
-2. Click **Open Folder** and browse to the Porch code on the vm, */home/ubuntu/git/github/nephio-project/porch* in this
+2. Click **Open Folder** and browse to the Porch code on the VM, */home/ubuntu/git/github/nephio-project/porch* in this
    case:
 
 ![Browse to Porch code](/static/images/porch/contributor/01_VSCodeOpenPorchFolder.png)
@@ -137,13 +137,13 @@ documentation.
 
 ![Porch code is open](/static/images/porch/contributor/02_VSCodeConnectedPorch.png)
 
-4. We now need to install support for *go* debugging in VSCode. Trigger this by launching a debug configuration in
+4. We now need to install support for *go* debugging in VS Code. Trigger this by launching a debug configuration in
    VS Code.
    Here we use the **Launch Override Server** configuration.
 
 ![Launch the Override Server VS Code debug configuration](/static/images/porch/contributor/03_LaunchOverrideServer.png)
 
-5. VSCode complains that *go* debugging is not supported, click the **Install go Extension** button. 
+5. VS Code complains that *go* debugging is not supported, click the **Install go Extension** button. 
 
 ![VS Code go debugging not supported message](/static/images/porch/contributor/04_GoDebugNotSupportedPopup.png)
 

@@ -10,7 +10,7 @@ weight: 2
 
 - A Nephio Management cluster: 
   - [installation guides](/content/en/docs/guides/install-guides/_index.md) for detailed environment options.
-- The following *optional* operator pkg deployed:
+- The following *optional* operator package deployed:
   - [o2ims operator](/content/en/docs/guides/install-guides/optional-components.md#o2ims-operator)
 
 {{% alert title="Note" color="primary" %}}

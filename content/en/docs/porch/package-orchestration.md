@@ -71,7 +71,7 @@ At the high level, the Core CaD functionality comprises:
   * package discovery, authoring and lifecycle management
 
 * [porchctl](user-guides/porchctl-cli-guide.md) - a Git-native, schema-aware, extensible client-side tool for managing KRM packages
-* a GitOps-based deployment mechanism (for example [Config Sync][]), which distributes and deploys configuration, and
+* a GitOps-based deployment mechanism (for example [configsync][]), which distributes and deploys configuration, and
   provides observability of the status of deployed resources
 * a task-specific UI supporting repository management, package discovery, authoring, and lifecycle
 
@@ -83,7 +83,7 @@ Concepts briefly introduced above are elaborated in more detail in this section.
 
 ### Repositories
 
-Porch and [Config Sync][] currently integrate with [git][] repositories, and there is an existing design to add OCI
+Porch and [configsync][] currently integrate with [git][] repositories, and there is an existing design to add OCI
 support to kpt. Initially, the Package Orchestration service will prioritize integration with [git][], and support for
 additional repository types may be added in the future as required.
 
@@ -97,9 +97,6 @@ associated with package to capture:
 
 At repository registration, customers must be able to specify details needed to store packages in appropriate locations
 in the repository. For example, registration of a Git repository must accept a branch and a directory.
-
-Repositories may have associated guardrails - mutation and validation functions that ensure and enforce requirements of
-all packages in the repository, including gating promotion of a package to a *published* lifecycle stage.
 
 {{% alert title="Note" color="primary" %}}
 
@@ -131,19 +128,19 @@ cloned. If a new version of the upstream package becomes available, the upstream
 
 The deployment mechanism is responsible for deploying configuration packages from a repository and affecting the live
 state. Because the configuration is stored in standard repositories (Git, and in the future OCI), the deployment
-component is pluggable. By default, [Config Sync][] is the deployment mechanism used by CaD Core implementation but
+component is pluggable. By default, [configsync][] is the deployment mechanism used by CaD Core implementation but
 others can be used as well.
 
 Here we highlight some key attributes of the deployment mechanism and its integration within the CaD Core:
 
 * _Published_ packages in a deployment repository are considered ready to be deployed
-* Config Sync supports deploying individual packages and whole repositories. For Git specifically that translates to a
-  requirement to be able to specify repository, branch/tag/ref, and directory when instructing Config Sync to deploy a
+* configsync supports deploying individual packages and whole repositories. For Git specifically that translates to a
+  requirement to be able to specify repository, branch/tag/ref, and directory when instructing configsync to deploy a
   package.
-* _Draft_ packages need to be identified in such a way that Config Sync can easily avoid deploying them.
-* Config Sync needs to be able to pin to specific versions of deployable packages in order to orchestrate rollouts and
+* _Draft_ packages need to be identified in such a way that configsync can easily avoid deploying them.
+* configsync needs to be able to pin to specific versions of deployable packages in order to orchestrate rollouts and
   rollbacks. This means it must be possible to GET a specific version of a package.
-* Config Sync needs to be able to discover when new versions are available for deployment.
+* configsync needs to be able to discover when new versions are available for deployment.
 
 ## Package Orchestration - Porch
 
@@ -170,9 +167,6 @@ The repository management functionality of Package Orchestration service enables
   packages will be cloned.
 * annotate repository with metadata such as whether repository contains deployment ready packages or not; metadata can
   be application or customer specific
-* define and enforce package invariants (guardrails) at the repository level, by registering mutator and/or validator
-  functions with the repository; those registered functions will be applied to packages in the repository to enforce
-  invariants
 
 ### Package Discovery
 
@@ -187,9 +181,8 @@ The package discovery functionality of Package Orchestration service enables the
 * enumerate _upstream_ packages available for creating (cloning) a _downstream_ package
 * identify downstream packages that need to be upgraded after a change is made to an upstream package
 * identify all deployment-ready packages in a deployment repository that are ready to be synced to a deployment target
-  by Config Sync
-* identify new versions of packages in a deployment repository that can be rolled out to a deployment target by Config
-  Sync
+  by configsync
+* identify new versions of packages in a deployment repository that can be rolled out to a deployment target by configsync
 
 ### Package Authoring
 
@@ -217,10 +210,8 @@ The package authoring and lifecycle functionality of the package Orchestration s
 
 * Rebase a package onto another upstream base package or onto a newer version of the same package (to
   aid with conflict resolution during the process of publishing a draft package)
-* Get feedback during package authoring, and assistance in recovery from:
 
-  * merge conflicts, invalid package changes, guardrail violations
-  * compliance of the drafted package with repository-wide invariants and guardrails
+* Get feedback during package authoring, and assistance in recovery from merge conflicts, invalid package changes, guardrail violations
 
 * Propose for a _draft_ package be _published_.
 * Apply an arbitrary decision criteria, and by a manual or automated action, approve (or reject) proposal of a _draft_
@@ -229,7 +220,7 @@ The package authoring and lifecycle functionality of the package Orchestration s
 
   * Assisted/automated update (upgrade, rollback) of groups of packages matching specific criteria (i.e. base package
     has new version or specific base package version has a vulnerability and should be rolled back)
-  * Proposed change validation (pre-validating change that adds a validator function to a base package or a repository)
+  * Proposed change validation (pre-validating change that adds a validator function to a base package)
 
 * Delete an existing package.
 
@@ -262,7 +253,7 @@ perform in order to satisfy requirements of the basic roles. For example, only p
 
 The Package Orchestration service, **Porch** is designed to be hosted in a [Kubernetes](https://kubernetes.io/) cluster.
 
-The overall architecture is shown below, and includes also existing components (k8s apiserver and Config Sync).
+The overall architecture is shown below, and includes also existing components (k8s apiserver and configsync).
 
 ![Porch Architecture](/static/images/porch/Porch-Architecture.svg)
 
@@ -283,7 +274,7 @@ extension API server are:
 * integration with existing Kubernetes ecosystem and tools such as `kubectl` CLI,
   [RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/)
 * avoids requirement to open another network port to access a separate endpoint running inside k8s cluster (this is a
-  distinct advantage over gRPC which we considered as an alternative approach)
+  distinct advantage over GRPC which we considered as an alternative approach)
 
 Resources implemented by Porch include:
 
@@ -313,11 +304,11 @@ Repository registration is supported by a `Repository` [custom resource][crds].
 #### Function Runner
 
 **Function runner** is a separate service responsible for evaluating [kpt functions][functions]. Function runner exposes
-a [gRPC](https://grpc.io/) endpoint which enables evaluating a kpt function on the provided configuration package.
+a [GRPC](https://grpc.io/) endpoint which enables evaluating a kpt function on the provided configuration package.
 
-The gRPC technology was chosen for the function runner service because the [requirements](#grpc-api) that informed
+The GRPC technology was chosen for the function runner service because the [requirements](#grpc-api) that informed
 choice of KRM API for the Package Orchestration service do not apply. The function runner is an internal microservice,
-an implementation detail not exposed to external callers. This makes gRPC perfectly suitable.
+an implementation detail not exposed to external callers. This makes GRPC perfectly suitable.
 
 The function runner also maintains cache of functions to support low latency function evaluation.
 
@@ -363,7 +354,7 @@ Over time, the CaD Library will provide the package manipulation primitives:
 * heal configuration (restore comments after lossy transformation)
 
 and both kpt CLI and Porch will consume the library. This approach will allow leveraging the investment already made
-into the high quality package manipulation primitives, and enable functional parity between KPT CLI and Package
+into the high quality package manipulation primitives, and enable functional parity between Kpt CLI and Package
 Orchestration service.
 
 ## User Guide
@@ -377,14 +368,14 @@ Find the Porch User Guide in a dedicated
 
 __Not Yet Resolved__
 
-Cross-cluster rollouts and orchestration of deployment activity. For example, package deployed by Config Sync in cluster
-A, and only on success, the same (or a different) package deployed by Config Sync in cluster B.
+Cross-cluster rollouts and orchestration of deployment activity. For example, package deployed by configsync in cluster
+A, and only on success, the same (or a different) package deployed by configsync in cluster B.
 
 ## Alternatives Considered
 
-### gRPC API
+### GRPC API
 
-We considered the use of [gRPC]() for the Porch API. The primary advantages of implementing Porch as an extension
+We considered the use of [GRPC]() for the Porch API. The primary advantages of implementing Porch as an extension
 Kubernetes apiserver are:
 
 * customers won't have to open another port to their Kubernetes cluster and can reuse their existing infrastructure

@@ -38,7 +38,7 @@ the cluster using the `kpt live status` command on the unpacked packages in the 
 
 The rendered *kpt* packages containing components are unpacked in the */tmp/kpt-pkg* directory. The rendered *kpt* packages
 that create the *mgmt* and *mgmt-staging* repositories are unpacked in the */tmp/repository* directory. The rendered *kpt*
-package containing the *rootsync* configuration for the *mgmt* repository is unpacked in the */tmp/rootsync* directory.
+package containing the *RootSync* configuration for the *mgmt* repository is unpacked in the */tmp/rootsync* directory.
 You can examine the contents of any rendered *kpt* packager by examining the contents of these directories.
 
 ```bash
@@ -122,8 +122,8 @@ interacts closely with.
 
 | Component          | Purpose                                                                                         |
 | ------------------ | ------------------------------------------------------------------------------------------------|
-| Porch              | Google Container Tools Package Orchestration Server, provides an API used by Nephio to work with packages in git repositries                                       |
-| ConfigSync         | Google Container Tools Configuration Synchronization, used by Nephio to deploy configurations from repositories from the Management cluster onto Workload clusters  |
+| Porch              | Google Container Tools Package Orchestration Server, provides an API used by Nephio to work with packages in git repositories                                       |
+| configsync         | Google Container Tools Configuration Synchronization, used by Nephio to deploy configurations from repositories from the Management cluster onto Workload clusters  |
 | Nephio Controllers | The Nephio controllers, which implement the Nephio functionality to fetch, manipulate, and deploy NFs                                                        |
 | Nephio WebUI       | The Nephio web client                                                                                                                                        |
 

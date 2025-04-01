@@ -83,7 +83,7 @@ tasks such as
 * *Common Labels*: Allows adding labels to all resources and selectors. Currently commented out.
 * *Bases*: Specifies the directories (*../crd*, *../rbac*, *../operator*) containing the base resources for the application.
   In the *crd/base* folder there are CRDs for the workload network functions. They define the schema for the
-  "XXFDeployment" resource under the "workload.nephio.org" group. Also, there are YAML config files for teaching
+  "XXFDeployment" resource under the "workload.nephio.org" group. Also, there are YAML configuration files for teaching
   kustomize how to substitute *name* and *namespace* reference in CRD.
 * *Patches Strategic Merge*: Specifies the patches that should be applied to the base resources.
   Currently includes a patch file named *manager_auth_proxy_patch.yaml*, which adds authentication protection to the

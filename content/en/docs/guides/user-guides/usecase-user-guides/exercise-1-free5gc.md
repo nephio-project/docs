@@ -14,7 +14,7 @@ These exercises will take you from a system with only the Nephio Management clus
 
 - A Regional cluster
 - Two Edge clusters
-- Repositories for each cluster, registered with Nephio, and with Config Sync set up to pull from those repositories.
+- Repositories for each cluster, registered with Nephio, and with configsync set up to pull from those repositories.
 - Inter-cluster networking between those clusters
 - A complete free5GC deployment including:
 
@@ -196,7 +196,7 @@ mgmt-08c26219f9879acdefed3469f8c3cf89d5db3868 approved
 ```
 
 
-ConfigSync running in the Management cluster will now pull out this new package, create all the resources necessary to
+configsync running in the Management cluster will now pull out this new package, create all the resources necessary to
 provision a KinD cluster, and register it with Nephio. This will take about five minutes or so.
 
 ## Step 2: Check the Regional cluster installation
@@ -755,7 +755,7 @@ use our standard specialization techniques and pipeline to deploy UERANSIM, just
 
 However, before you do that, let us register the UE with free5GC as a subscriber. You will use the free5GC Web UI to do
 this. To access it, you need to open another port forwarding session. Assuming you have the *regional-kubeconfig* file
-you created earlier in your home directory, you need to establish another ssh session from your workstation to the VM,
+you created earlier in your home directory, you need to establish another SSH session from your workstation to the VM,
 port forwarding port 5000.
 
 Before moving on to the new terminal, let's copy regional-kubeconfig to the home directory:

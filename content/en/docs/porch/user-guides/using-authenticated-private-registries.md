@@ -9,19 +9,19 @@ The Porch function runner pulls kpt function images from registries and uses the
 
 ## 1. Configuring function runner to operate with private container registries
 
-This section describes how set up authentication for a private container registry containing kpt functions online e.g. (Github's GHCR) or locally e.g. (Harbor or Jfrog) that require authentication (username/password or token).
+This section describes how set up authentication for a private container registry containing kpt functions online e.g. (GitHub's GHCR) or locally e.g. (Harbor or JFrog) that require authentication (username/password or token).
 
 To enable pulling of kpt function images from authenticated private registries by the Porch function runner the system requires:
 
-1. Creating a Kubernetes secret using a JSON file according to the Docker config schema, containing valid credentials for each authenticated registry.
+1. Creating a Kubernetes secret using a JSON file according to the Docker configuration schema, containing valid credentials for each authenticated registry.
 2. Mounting this new secret as a volume on the function runner.
 3. Configuring private registry functionality in the function runner's arguments:
    1. Enabling the functionality using the argument *--enable-private-registries*.
    2. Providing the path and name of the mounted secret using the arguments *--registry-auth-secret-path* and *--registry-auth-secret-name* respectively.
 
-### 1.1 Kubernetes secret setup for private registry using docker config
+### 1.1 Kubernetes secret setup for private registry using docker configuration
 
-An example template of what a docker *config.json* file looks like is as follows below. The base64 encoded value *bXlfdXNlcm5hbWU6bXlfcGFzc3dvcmQ=* of the *auth* key decodes to *my_username:my_password*, which is the format used by the config when authenticating.
+An example template of what a docker *config.json* file looks like is as follows below. The base64 encoded value *bXlfdXNlcm5hbWU6bXlfcGFzc3dvcmQ=* of the *auth* key decodes to *my_username:my_password*, which is the format used by the configuration when authenticating.
 
 ```json
 {
@@ -60,7 +60,7 @@ metadata:
 type: kubernetes.io/dockerconfigjson
 ```
 
-### 1.2 Mounting docker config secret to the function runner
+### 1.2 Mounting docker configuration secret to the function runner
 
 Next you must mount the secret as a volume on the function runner deployment. Add the following sections to the Deployment object in the *2-function-runner.yaml* file:
 
@@ -125,7 +125,7 @@ The content in *<PEM_CERT_DATA>* must be in PEM (Privacy Enhanced Mail) format, 
 
 ### 2.2 Mounting TLS certificate secret to the function runner
 
-The TLS secret must then be mounted onto the function runner similarly to how the docker config secret was done previously in section 1.2
+The TLS secret must then be mounted onto the function runner similarly to how the docker configuration secret was done previously in section 1.2
 
 ```yaml
     volumeMounts:

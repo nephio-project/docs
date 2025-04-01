@@ -97,7 +97,7 @@ It will take around 15 minutes to create the three clusters. You can check the p
 *mgmt* and *mgmt-staging* repository. After couple of minutes you should see three independent repositories (Core,
 Regional and Edge) for each workload cluster.
 
-You can also look at the state of packagerevisions for the three packages. You can use the below command
+You can also look at the state of PackageRevisions for the three packages. You can use the below command
 
 ```bash
 kubectl get packagerevisions | grep -E 'core|regional|edge' | grep mgmt

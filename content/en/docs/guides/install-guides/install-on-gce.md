@@ -37,7 +37,7 @@ e2-standard-16 is recommended and e2-standard-8 is minimum.
 ### Follow the Installation on GCE
 
 If you want to watch the progress of the installation, give it about 30
-seconds to reach a network accessible state, and then ssh in and tail the
+seconds to reach a network accessible state, and then SSH in and tail the
 startup script execution:
 
 ```bash
@@ -47,7 +47,7 @@ gcloud compute ssh ubuntu@nephio-r3-e2e -- \
 
 ## Access to the User Interfaces
 
-Once it is completed, ssh in and port forward the port to the UI (7007) and to
+Once it is completed, SSH in and port forward the port to the UI (7007) and to
 Gitea's HTTP interface, if desired (3000):
 
 ```bash
@@ -64,8 +64,8 @@ browse the Nephio Web UI
 
 ## Open Terminal
 
-You will probably want a second ssh window open to run *kubectl* commands, etc.,
-without the port forwarding (which would fail if you try to open a second ssh
+You will probably want a second SSH window open to run *kubectl* commands, etc.,
+without the port forwarding (which would fail if you try to open a second SSH
 connection with that setting).
 
 ```bash
