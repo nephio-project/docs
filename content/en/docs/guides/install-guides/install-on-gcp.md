@@ -508,7 +508,7 @@ Project [your-nephio-project-id] repository [config-control] was cloned to [/hom
 
 
 Before you start adding things to that repository, set up Config Sync to pull configurations from there by creating a
-rootsync in Config Controller. There is a package available to help properly configure the rootsync:
+RootSync in Config Controller. There is a package available to help properly configure the RootSync:
 
 ```bash
 kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/distros/gcp/cc-rootsync@main
@@ -585,7 +585,7 @@ Successfully executed 2 function(s) in 1 package(s).
 
 In the sandbox exercises, you may have used `kpt live apply` to apply the package at this point. In this case, there are
 restrictions in Config Controller that interfere with the operation of `kpt live`. So, instead, you can just directly
-apply the rootsync resources with `kubectl`:
+apply the RootSync resources with `kubectl`:
 
 ```bash
 kubectl apply -f cc-rootsync/rootsync.yaml

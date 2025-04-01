@@ -90,7 +90,7 @@ See more advanced variants of this command in the [detailed description of the d
 At this point you are basically ready to start developing porch, but before you start it is worth checking that
 everything works as expected.
 
-### Check that the apiservice is ready
+### Check that the APIservice is ready
 
 ```bash
 kubectl get apiservice v1alpha1.porch.kpt.dev

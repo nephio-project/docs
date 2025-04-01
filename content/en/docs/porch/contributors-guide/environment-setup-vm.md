@@ -120,7 +120,7 @@ You have now set up the VM so that it can be used for remove debugging of Porch.
 
 Use the [VS Code Remote SSH]
 (https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)
-plugin to To debug from VS Code running on your local machine towards a VM. Detailed documentation
+plugin to debug from VS Code running on your local machine towards a VM. Detailed documentation
 on the plugin and its use is available on the
 [Remote Development using SSH](https://code.visualstudio.com/docs/remote/ssh) in the VS Code
 documentation.
@@ -128,7 +128,7 @@ documentation.
 1. Use the **Connect to a remote host** instructions on the
 [Remote Development using SSH](https://code.visualstudio.com/docs/remote/ssh) page to connect to your VM.
 
-2. Click **Open Folder** and browse to the Porch code on the vm, */home/ubuntu/git/github/nephio-project/porch* in this
+2. Click **Open Folder** and browse to the Porch code on the VM, */home/ubuntu/git/github/nephio-project/porch* in this
    case:
 
 ![Browse to Porch code](/static/images/porch/contributor/01_VSCodeOpenPorchFolder.png)

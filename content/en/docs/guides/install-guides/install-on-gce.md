@@ -64,7 +64,7 @@ browse the Nephio Web UI
 
 ## Open Terminal
 
-You will probably want a second SSh window open to run *kubectl* commands, etc.,
+You will probably want a second SSH window open to run *kubectl* commands, etc.,
 without the port forwarding (which would fail if you try to open a second SSH
 connection with that setting).
 
