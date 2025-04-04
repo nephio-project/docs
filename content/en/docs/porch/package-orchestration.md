@@ -71,7 +71,7 @@ At the high level, the Core CaD functionality comprises:
   * package discovery, authoring and lifecycle management
 
 * [porchctl](user-guides/porchctl-cli-guide.md) - a Git-native, schema-aware, extensible client-side tool for managing KRM packages
-* a GitOps-based deployment mechanism (for example [ConfigSync][]), which distributes and deploys configuration, and
+* a GitOps-based deployment mechanism (for example [configsync][]), which distributes and deploys configuration, and
   provides observability of the status of deployed resources
 * a task-specific UI supporting repository management, package discovery, authoring, and lifecycle
 
@@ -83,7 +83,7 @@ Concepts briefly introduced above are elaborated in more detail in this section.
 
 ### Repositories
 
-Porch and [ConfigSync][] currently integrate with [git][] repositories, and there is an existing design to add OCI
+Porch and [configsync][] currently integrate with [git][] repositories, and there is an existing design to add OCI
 support to kpt. Initially, the Package Orchestration service will prioritize integration with [git][], and support for
 additional repository types may be added in the future as required.
 
@@ -128,19 +128,19 @@ cloned. If a new version of the upstream package becomes available, the upstream
 
 The deployment mechanism is responsible for deploying configuration packages from a repository and affecting the live
 state. Because the configuration is stored in standard repositories (Git, and in the future OCI), the deployment
-component is pluggable. By default, [ConfigSync][] is the deployment mechanism used by CaD Core implementation but
+component is pluggable. By default, [configsync][] is the deployment mechanism used by CaD Core implementation but
 others can be used as well.
 
 Here we highlight some key attributes of the deployment mechanism and its integration within the CaD Core:
 
 * _Published_ packages in a deployment repository are considered ready to be deployed
-* ConfigSync supports deploying individual packages and whole repositories. For Git specifically that translates to a
-  requirement to be able to specify repository, branch/tag/ref, and directory when instructing ConfigSync to deploy a
+* configsync supports deploying individual packages and whole repositories. For Git specifically that translates to a
+  requirement to be able to specify repository, branch/tag/ref, and directory when instructing configsync to deploy a
   package.
-* _Draft_ packages need to be identified in such a way that ConfigSync can easily avoid deploying them.
-* ConfigSync needs to be able to pin to specific versions of deployable packages in order to orchestrate rollouts and
+* _Draft_ packages need to be identified in such a way that configsync can easily avoid deploying them.
+* configsync needs to be able to pin to specific versions of deployable packages in order to orchestrate rollouts and
   rollbacks. This means it must be possible to GET a specific version of a package.
-* ConfigSync needs to be able to discover when new versions are available for deployment.
+* configsync needs to be able to discover when new versions are available for deployment.
 
 ## Package Orchestration - Porch
 
@@ -181,8 +181,8 @@ The package discovery functionality of Package Orchestration service enables the
 * enumerate _upstream_ packages available for creating (cloning) a _downstream_ package
 * identify downstream packages that need to be upgraded after a change is made to an upstream package
 * identify all deployment-ready packages in a deployment repository that are ready to be synced to a deployment target
-  by ConfigSync
-* identify new versions of packages in a deployment repository that can be rolled out to a deployment target by ConfigSync
+  by configsync
+* identify new versions of packages in a deployment repository that can be rolled out to a deployment target by configsync
 
 ### Package Authoring
 
@@ -253,7 +253,7 @@ perform in order to satisfy requirements of the basic roles. For example, only p
 
 The Package Orchestration service, **Porch** is designed to be hosted in a [Kubernetes](https://kubernetes.io/) cluster.
 
-The overall architecture is shown below, and includes also existing components (k8s apiserver and ConfigSync).
+The overall architecture is shown below, and includes also existing components (k8s apiserver and configsync).
 
 ![Porch Architecture](/static/images/porch/Porch-Architecture.svg)
 
@@ -368,8 +368,8 @@ Find the Porch User Guide in a dedicated
 
 __Not Yet Resolved__
 
-Cross-cluster rollouts and orchestration of deployment activity. For example, package deployed by ConfigSync in cluster
-A, and only on success, the same (or a different) package deployed by ConfigSync in cluster B.
+Cross-cluster rollouts and orchestration of deployment activity. For example, package deployed by configsync in cluster
+A, and only on success, the same (or a different) package deployed by configsync in cluster B.
 
 ## Alternatives Considered
 

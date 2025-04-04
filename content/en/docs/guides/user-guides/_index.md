@@ -77,15 +77,15 @@ refer to [Kpt book](https://kpt.dev/book/).
 those supported by the kpt CLI, but makes them available as a Kubernetes service. For more details refer to
 [Porch user guide](https://kpt.dev/guides/porch-user-guide).
 
-### ConfigSync
+### configsync
 
-Config Sync lets cluster operators and platform administrators deploy consistent configurations and policies. You can
+configsync lets cluster operators and platform administrators deploy consistent configurations and policies. You can
 deploy these configurations and policies to individual Kubernetes clusters, multiple clusters that can span hybrid and
 multi-cloud environments, and multiple namespaces within clusters. This process simplifies and automates configuration
-and policy management at scale. Config Sync also lets development teams independently manage their namespaces within
+and policy management at scale. configsync also lets development teams independently manage their namespaces within
 clusters, while still being subject to policy guardrails set by administrators.
 
-Config Sync is an open-source project and the source and releases available
+configsync is an open-source project and the source and releases available
 [here](https://www.github.com/GoogleContainerTools/kpt-config-sync).
 
 ### Packages
@@ -200,7 +200,7 @@ The diagram below depicts deployment at the high level.
 
 #### Infrastructure Components
 * Porch
-* ConfigSync
+* configsync
 
 #### Nephio Controllers
 * Nephio Controller Operator
@@ -225,7 +225,7 @@ The diagram below depicts deployment at the high level.
 ### Workload Cluster Components
 
 #### Infrastructure Components
-* ConfigSync
+* configsync
 
 #### Nephio Controllers
 * Watcher agent
@@ -243,7 +243,7 @@ The diagram below depicts deployment at the high level.
 
 ## Management Cluster Details
 * Role
-* Infrastructure components (Porch, ConfigSync)
+* Infrastructure components (Porch, configsync)
 * Components
 * Specializes
 * Injectors
@@ -254,7 +254,7 @@ The diagram below depicts deployment at the high level.
 * Web UI
 
 ## Workload Cluster Details
-* Infrastructure components (ConfigSync)
+* Infrastructure components (configsync)
 * Operators
 * Controllers
 

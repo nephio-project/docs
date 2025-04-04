@@ -107,7 +107,7 @@ Sample output:
 packagevariant.config.porch.kpt.dev/flux-regional-cluster created
 ```
 
-ConfigSync running in the Management cluster will create all the resources necessary to
+configsync running in the Management cluster will create all the resources necessary to
 provision a KinD cluster, and register it with Nephio. This can take some time.
 
 ## Step 2: Check the cluster installation
@@ -239,8 +239,8 @@ Sample output:
 }
 ```
 As you can see, it *sourceRef* references the *regional* GitRepository CR and defaults to the root *path* of the repository.
-It also holds a reference to the *kubeConfig* Secret used to access the Workload Cluster, which was created 
-during the cluster api instantiation.
+It also holds a reference to the *kubeconfig* Secret used to access the Workload Cluster, which was created 
+during the cluster API instantiation.
 
 
 ## Step 4: Deploy a sample workload to the Cluster

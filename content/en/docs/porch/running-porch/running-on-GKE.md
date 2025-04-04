@@ -78,7 +78,7 @@ To run a released version of Porch, download the release configuration bundle fr
 Untar and apply the *porch_blueprint.tar.gz* configuration bundle. This will install:
 
 * Porch server
-* [ConfigSync](https://kpt.dev/gitops/configsync/)
+* [configsync](https://kpt.dev/gitops/configsync/)
 
 ```bash
 mkdir porch-install
@@ -100,7 +100,7 @@ packagerevisionresources                       porch.kpt.dev/v1alpha1           
 packagerevisions                               porch.kpt.dev/v1alpha1                 true         PackageRevision
 ```
 
-To install ConfigSync:
+To install configsync:
 
 ```bash
 echo "
@@ -138,7 +138,7 @@ IMAGE_TAG=$(git rev-parse --short HEAD) make push-and-deploy-no-sa
 If you want to use a different repository, you can set IMAGE_REPO variable
 (see [Makefile](https://github.com/nephio-project/porch/blob/main/Makefile#L33) for details).
 
-The `make push-and-deploy-no-sa` target will install Porch but not ConfigSync. You can install ConfigSync in your k8s
+The `make push-and-deploy-no-sa` target will install Porch but not configsync. You can install configsync in your k8s
 cluster manually following the
 [documentation](https://github.com/GoogleContainerTools/kpt-config-sync/blob/main/docs/installation.md).
 

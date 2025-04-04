@@ -538,7 +538,7 @@ With that understanding, the injection process works as follows:
      - An annotation with name *kpt.dev/injected-resource-name* and value set to the name of the in-cluster resource is
        added (or overwritten) in the in-package resource.
 
-If the the overall injection cannot be completed for some reason, or if any of the below problems exist in the upstream
+If the overall injection cannot be completed for some reason, or if any of the below problems exist in the upstream
 package, it is considered an error and should prevent generation of the Draft:
 
    - There is a resource annotated as an injection point but having an invalid annotation value (i.e., other than
@@ -1020,7 +1020,7 @@ spec:
 When using other targeting means, the use of the Expr fields becomes more likely, because we have more possible
 sources for different field values. The Expr values are all
 [Common Expression Language (CEL)](https://github.com/google/cel-go) expressions, rather than static values. This allows
-the user to construct values based upon various fields of the targets. Consider again the repositorySelector example,
+the user to construct values based upon various fields of the targets. Consider again the RepositorySelector example,
 where we have these repositories in the cluster.
 
 | Repository | Labels                                |
