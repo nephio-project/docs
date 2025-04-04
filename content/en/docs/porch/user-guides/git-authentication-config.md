@@ -11,6 +11,13 @@ The porch server handles interaction with associated git repositories through th
 
 More information on porch repositories can be found [here](../package-orchestration.md#repositories).
 
+There are 2 main methods of authenticating to a git repository and an additional configuration.
+These are
+
+1. Basic Authentication
+2. Bearer Token Authentication
+3. HTTPS/TLS Configuration
+
 ### Basic Authentication
 
 A porch repository object can be created through the use of the `porchctl repo reg porch-test-repository -n porch-test http://example-ip:example-port/repo.git --repo-basic-password=password --repo-basic-username=username` command which creates a secret and repository object.
