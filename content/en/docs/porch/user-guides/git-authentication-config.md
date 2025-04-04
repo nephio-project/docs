@@ -64,7 +64,7 @@ spec:
       name: git-auth-secret
 ```
 
-When The Porch Server is interacting with a Git instance through this http-basic-auth configuration it does so through HTTP. An example HTTP Request using this configuration can be seen below.
+When The Porch Server is interacting with a Git instance through this http-basic-auth configuration it does so over HTTP. An example HTTP Request using this configuration can be seen below.
 
 ```logs
 PUT
@@ -76,7 +76,7 @@ Request Headers:
      Content-Type: application/json
 ```
 
-where *bmVwaGlvOnNlY3JldA==* is base64 encoded in the format *username:password* and after base64 decoding becomes *nephio:secret* and for simple personal access token login the password section can be substituted for the PAT token.
+where *bmVwaGlvOnNlY3JldA==* is base64 encoded in the format *username:password* and after base64 decoding becomes *nephio:secret*. For simple personal access token login, the password section can be substituted with the PAT token.
 
 ### Bearer Token Authentication
 
@@ -101,7 +101,7 @@ data:
 type: Opaque
 ```
 
-When The Porch Server is interacting with a Git instance through this http-token-auth configuration it does so through HTTP. An example HTTP Request using this configuration can be seen below.
+When The Porch Server is interacting with a Git instance through this http-token-auth configuration, it does so overt HTTP. An example HTTP Request using this configuration can be seen below.
 
 ```logs
 PUT https://example-ip/apis/config.porch.kpt.dev/v1alpha1/namespaces/porch-test/repositories/porch-test-repo/status
@@ -112,10 +112,14 @@ Request Headers:
      Content-Type: application/json
 ```
 
-where *4764aacf8cc6d72cab58e96ad6fd3e3746648655* in the Authorization header is a PAT token but can be whichever type of bearer token is accepted by the user's git instance.
+where *4764aacf8cc6d72cab58e96ad6fd3e3746648655* in the Authorization header is a PAT token, but can be whichever type of bearer token is accepted by the user's git instance.
 
 {{% alert title="Note" color="primary" %}}
-The Porch server caches the authentication credentials from the secret, so if the secret's contents are updated they may in fact not be the credentials which are used in the authentication until the old secret credentials are no longer valid which triggers the porch server to query the secret again use the new credentials which if valid become the new cached authentication values.
+Please Note that the Porch server caches the authentication credentials from the secret, therefore if the secret's contents are updated they may in fact not be the credentials used in the authentication.
+
+When the cached old secret credentials are no longer valid the porch server will query the secret again to use the new credentials.
+
+If these new credentials are valid they become the new cached authentication credentials.
 {{% /alert %}}
 
 ### HTTPS/TLS Configuration
