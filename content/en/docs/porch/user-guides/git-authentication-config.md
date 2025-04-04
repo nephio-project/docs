@@ -1,17 +1,17 @@
 ---
-title: "Git Authentication Configuration"
+title: "Authenticating to Remote Git Repositories"
 type: docs
 weight: 4
 description: ""
 ---
 
-## 1. Porch Server to Git Interaction
+## Porch Server to Git Interaction
 
 The porch server handles interaction with associated git repositories through the use of porch repository CR (Custom Resource) which act as a link between the porch server and the git repositories the server is meant to interact with and store packages on.
 
 More information on porch repositories can be found [here](../package-orchestration.md#repositories).
 
-### 1.1 Porch Repository Basic Authentication Configuration
+### Basic Authentication
 
 A porch repository object can be created through the use of the `porchctl repo reg porch-test-repository -n porch-test http://example-ip:example-port/repo.git --repo-basic-password=password --repo-basic-username=username` command which creates a secret and repository object.
 
@@ -71,7 +71,7 @@ Request Headers:
 
 where *bmVwaGlvOnNlY3JldA==* is base64 encoded in the format *username:password* and after base64 decoding becomes *nephio:secret* and for simple personal access token login the password section can be substituted for the PAT token.
 
-### 1.2 Porch Repository Bearer Token Authentication Configuration
+### Bearer Token Authentication
 
 The authentication to the git repository can be configured to be in bearer token format by altering the secret used in the porch repository object.
 
@@ -111,7 +111,7 @@ where *4764aacf8cc6d72cab58e96ad6fd3e3746648655* in the Authorization header is 
 The Porch server caches the authentication credentials from the secret, so if the secret's contents are updated they may in fact not be the credentials which are used in the authentication until the old secret credentials are no longer valid which triggers the porch server to query the secret again use the new credentials which if valid become the new cached authentication values.
 {{% /alert %}}
 
-### 1.3 Porch Repository HTTPS Configuration
+### HTTPS/TLS Configuration
 
 To enable the porch server to communicate with a custom git deployment over HTTPS, we must:
 
