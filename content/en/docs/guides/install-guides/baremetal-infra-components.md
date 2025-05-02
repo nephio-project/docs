@@ -3,7 +3,7 @@ title: Baremetal cluster install
 description: >
   Step by step guide to configure and install components supporting Baremetal cluster installation. 
 
-weight: 2
+weight: 3
 ---
 
 {{% alert title="Note" color="primary" %}}
@@ -25,7 +25,9 @@ kpt pkg get --for-deployment <git-repository>@v3.0.0
 
 ## Metal3, BMO and Ironic packages install
 
-Create a directory and pull the packages into that directory
+Create a directory and pull the packages into that directory. Note that the instructions are for installing on 
+Nephio management non-KIND cluster (has been verified on kubeadm cluster). The ironic pods use host networking that KIND
+clusters do not support.
 
 ```bash
 #create a directory
@@ -88,6 +90,12 @@ metadata: # kpt-merge: baremetal-operator-system/baremetal-operator-ironic-bmo-c
   annotations:
     internal.kpt.dev/upstream-identifier: '|ConfigMap|baremetal-operator-system|baremetal-operator-ironic-bmo-configmap-6cf9t7484b'
 ```
+
+NOTE: 
+- The DHCP_HOSTS, DHCP_IGNORE, DHCP_RANGE do not have to be updated if you are using static IP configuration.
+- The PROVISIONING_INTERFACE is the interface where the Nephio Management cluster control plane IP can be reached.
+- The values for DNS_IP and GATEWAY_IP can be gathered from the output of `resolvectl` and `ip route` commands on Nephio management cluster host.
+- The values for HTTP_PORT, IRONIC_KERNEL_PARAMS, IRONIC_INSPECTOR_VLAN_INTERFACES, USE_IRONIC_INSPECTOR can be continue to use the default values for most cases.
 
 The IP address 172.22.0.2 that is present in the fields DEPLOY_KERNEL_URL, DEPLOY_RAMDISK_URL, IRONIC_BASE_URL, 
 IRONIC_ENDPOINT across files in bmo and ironic directories can be modified as per the deployment environment using
