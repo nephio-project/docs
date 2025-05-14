@@ -12,23 +12,25 @@ To run Porch locally, you will need:
 * Linux machine (technically it is possible to run Porch locally on a Mac but
   due to differences in Docker between Linux and Mac, the Porch scripts are
   confirmed to work on Linux)
-* [go 1.21](https://go.dev/dl/) or newer
+* [go 1.23.5](https://go.dev/dl/) or newer
 * [docker](https://docs.docker.com/get-docker/)
 * [git](https://git-scm.com/)
 * [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
-* `make`
+* [make](https://www.gnu.org/software/make/)
 
 ## Getting Started
 
-Clone this repository into *${GOPATH}/src/github.com/GoogleContainerTools/kpt*.
+Clone the porch repository.
 
 ```sh
-git clone https://github.com/GoogleContainerTools/kpt.git "${GOPATH}/src/github.com/GoogleContainerTools/kpt"
+git clone https://github.com/nephio-project/porch.git
 ```
 
 Download dependencies:
 
 ```sh
+cd porch
+
 make tidy
 ```
 
@@ -44,11 +46,8 @@ In addition, to run Porch locally, we need to run the main k8s apiserver and its
 To build and run Porch locally in one command, run:
 
 ```sh
-# Go into the porch directory:
-cd "${GOPATH}/src/github.com/GoogleContainerTools/kpt/porch"
-
 # Start Porch in one command:
-make
+make all
 ```
 
 This will:
@@ -98,9 +97,11 @@ export KUBECONFIG=${PWD}/deployments/local/kubeconfig
 # Confirm Porch is running
 kubectl api-resources | grep porch
 
-repositories                  config.porch.kpt.dev/v1alpha1          true         Repository
-packagerevisionresources      porch.kpt.dev/v1alpha1                 true         PackageRevisionResources
-packagerevisions              porch.kpt.dev/v1alpha1                 true         PackageRevision
+packagerevs                                      config.porch.kpt.dev/v1alpha1     true         PackageRev
+repositories                                     config.porch.kpt.dev/v1alpha1     true         Repository
+packagerevisionresources                         porch.kpt.dev/v1alpha1            true         PackageRevisionResources
+packagerevisions                                 porch.kpt.dev/v1alpha1            true         PackageRevision
+packages                                         porch.kpt.dev/v1alpha1            true         PorchPackage
 ```
 
 ## Restarting Porch
