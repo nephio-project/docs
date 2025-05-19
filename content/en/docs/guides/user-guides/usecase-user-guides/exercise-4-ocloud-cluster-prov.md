@@ -152,11 +152,11 @@ cat << EOF | kubectl apply --kubeconfig /tmp/focom-kubeconfig -f -
 apiVersion: provisioning.oran.org/v1alpha1
 kind: TemplateInfo
 metadata:
-  name: nephio-workload-cluster-v3.0.0
+  name: nephio-workload-cluster
   namespace: focom-operator-system
 spec:
   templateName: nephio-workload-cluster
-  templateVersion: v3.0.0
+  templateVersion: main
   templateParameterSchema: |
     {
       "type": "object",
@@ -175,7 +175,7 @@ EOF
 ```
 Example output
 ```
-templateinfo.provisioning.oran.org/nephio-workload-cluster-v3.0.0 created
+templateinfo.provisioning.oran.org/nephio-workload-cluster created
 ```
 
 Create the *FocomProvisioningRequest*
@@ -192,7 +192,7 @@ spec:
   oCloudId: ocloud-1
   oCloudNamespace: focom-operator-system
   templateName: nephio-workload-cluster
-  templateVersion: v3.0.0
+  templateVersion: main
   templateParameters:
     clusterName: edge
     labels:
@@ -251,9 +251,9 @@ metadata:
   annotations:
     provisioningrequests.o2ims.provisioning.oran.org/kopf-managed: "yes"
     provisioningrequests.o2ims.provisioning.oran.org/last-ha-a.A3qw: |
-      {"spec":{"description":"Provisioning request for setting up a sample edge kind cluster","name":"sample-edge","templateName":"nephio-workload-cluster","templateParameters":{"clusterName":"edge","labels":{"nephio.org/owner":"nephio-o2ims","nephio.org/region":"europe-paris-west","nephio.org/site-type":"edge"}},"templateVersion":"v3.0.0"}}
+      {"spec":{"description":"Provisioning request for setting up a sample edge kind cluster","name":"sample-edge","templateName":"nephio-workload-cluster","templateParameters":{"clusterName":"edge","labels":{"nephio.org/owner":"nephio-o2ims","nephio.org/region":"europe-paris-west","nephio.org/site-type":"edge"}},"templateVersion":"main"}}
     provisioningrequests.o2ims.provisioning.oran.org/last-handled-configuration: |
-      {"spec":{"description":"Provisioning request for setting up a sample edge kind cluster","name":"sample-edge","templateName":"nephio-workload-cluster","templateParameters":{"clusterName":"edge","labels":{"nephio.org/owner":"nephio-o2ims","nephio.org/region":"europe-paris-west","nephio.org/site-type":"edge"}},"templateVersion":"v3.0.0"}}
+      {"spec":{"description":"Provisioning request for setting up a sample edge kind cluster","name":"sample-edge","templateName":"nephio-workload-cluster","templateParameters":{"clusterName":"edge","labels":{"nephio.org/owner":"nephio-o2ims","nephio.org/region":"europe-paris-west","nephio.org/site-type":"edge"}},"templateVersion":"main"}}
   creationTimestamp: "2025-03-19T09:10:23Z"
   generation: 1
   name: focom-cluster-prov-req-nephio
@@ -269,7 +269,7 @@ spec:
       nephio.org/owner: nephio-o2ims
       nephio.org/region: europe-paris-west
       nephio.org/site-type: edge
-  templateVersion: v3.0.0
+  templateVersion: main
 status:
   provisionedResourceSet:
     oCloudInfrastructureResourceIds:
