@@ -119,7 +119,7 @@ Create the secret on the *SMO cluster* using the demo kubeconfig
 kubectl create secret generic ocloud-kubeconfig --from-file=kubeconfig=/tmp/kubeconfig-bak --kubeconfig /tmp/focom-kubeconfig
 ```
 Example output
-```
+```bash
 secret/ocloud-kubeconfig created
 ```
 
