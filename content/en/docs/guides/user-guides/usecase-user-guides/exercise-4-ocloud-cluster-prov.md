@@ -300,7 +300,7 @@ You should see READY and AVAILABLE replicas. This may take some time.
 kubectl get machinesets
 ```
 Example output:
-```
+```bash
 NAME                        CLUSTER    REPLICAS   READY   AVAILABLE   AGE    VERSION
 edge-md-0-7gp6p-h8gmg       edge       1          1       1           3h1m   v1.31.0
 ```
