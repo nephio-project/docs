@@ -288,7 +288,7 @@ Check the workload cluster deployment status. This may take some time.
 kubectl get cl
 ```
 Example output:
-```
+```bash
 NAME       CLUSTERCLASS   PHASE         AGE    VERSION
 edge       docker         Provisioned   1m     v1.31.0
 ```
