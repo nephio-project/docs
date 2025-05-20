@@ -142,7 +142,7 @@ spec:
 EOF
 ```
 Example output
-```
+```bash
 ocloud.focom.nephio.org/ocloud-1 created
 ```
 
