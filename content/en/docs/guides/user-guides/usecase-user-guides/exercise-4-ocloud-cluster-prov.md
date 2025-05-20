@@ -310,6 +310,6 @@ Check that the associated gitea Porch *repository* is ready for the edge cluster
 kubectl get repository | grep edge
 ```
 Example output:
-```
+```bash
 edge       git    Package   true         True    http://172.18.0.200:3000/nephio/edge.git
 ```
