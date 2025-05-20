@@ -83,7 +83,7 @@ Verify that the relevant CRDs are available
 kubectl get crd --kubeconfig /tmp/focom-kubeconfig
 ```
 Example output
-```
+```bash
 NAME                                         CREATED AT
 focomprovisioningrequests.focom.nephio.org   2025-03-19T08:30:07Z
 oclouds.focom.nephio.org                     2025-03-19T08:30:07Z
