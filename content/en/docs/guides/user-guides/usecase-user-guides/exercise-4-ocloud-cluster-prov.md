@@ -203,7 +203,7 @@ spec:
 EOF
 ```
 Example output
-```
+```bash
 focomprovisioningrequest.focom.nephio.org/focom-cluster-prov-req-nephio created
 ```
 
