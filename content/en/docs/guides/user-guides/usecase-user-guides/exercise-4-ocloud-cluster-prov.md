@@ -174,7 +174,7 @@ spec:
 EOF
 ```
 Example output
-```
+```bash
 templateinfo.provisioning.oran.org/nephio-workload-cluster created
 ```
 
