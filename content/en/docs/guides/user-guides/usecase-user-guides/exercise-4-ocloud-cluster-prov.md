@@ -224,7 +224,7 @@ Verify that the *packagevariants* are created for the edge-cluster. This may tak
 kubectl get packagevariants
 ```
 Example output
-```
+```bash
 NAME                            AGE
 edge-cluster                    1m
 edge-configsync                 1m
