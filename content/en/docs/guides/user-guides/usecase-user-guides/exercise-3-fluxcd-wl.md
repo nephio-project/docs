@@ -88,7 +88,7 @@ spec:
   upstream:
     repo: catalog-infra-capi
     package: nephio-workload-cluster-flux
-    revision: main
+    workspaceName: main
   downstream:
     repo: mgmt
     package: regional
@@ -260,7 +260,7 @@ spec:
   upstream:
     repo: catalog-workloads-free5gc
     package: free5gc-cp
-    revision: main
+    workspaceName: main
   downstream:
     repo: regional
     package: free5gc-cp
