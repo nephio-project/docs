@@ -1,5 +1,5 @@
 ---
-title: "Configuration as Data"
+title: "Configuration as Data (CaD)"
 type: docs
 weight: 1
 description: 
@@ -8,11 +8,10 @@ description:
 This document provides the background context for Package Orchestration, which is further
 elaborated in a dedicated [document](package-orchestration.md).
 
-## Configuration as data
+## Configuration as data (CaD)
 
-Configuration as data (CaD) is an approach to the management of configuration. It includes the
-configuration of infrastructure, policy, services, applications, and so on. Configuration as data
-performs the following actions:
+CaD is an approach to the management of configuration. It includes the configuration of
+infrastructure, policy, services, applications, and so on. CaD performs the following actions:
 
 * Making configuration data the source of truth, stored separately from the live state.
 * Using a uniform, serializable data model to represent the configuration.
@@ -26,17 +25,17 @@ performs the following actions:
 
 ## Key principles
 
-A system based on configuration as data (CaD) should observe the following key principles:
+A system based on CaD should observe the following key principles:
 
-* Storage of secrets separately, in a secret-focused storage system, such as
+* Separate handling of secrets in secret storage, in a secret-focused storage system, such as
   ([example](https://cert-manager.io/)).
 * Storage of a versioned history of configuration changes by change sets to bundles of related
   configuration data.
 * Reliance on the uniformity and consistency of the configuration format, including type metadata,
   to enable pattern-based operations on the configuration data, along the lines of duck typing.
-* Separation of schemas for the configuration data from the data, and reliance on the schema
-  information for strongly typed operations and disambiguation of data structures and other
-  variations within the model.
+* Separation of the configuration data from its schemas, and reliance on the schema information for
+  strongly typed operations and disambiguation of data structures and other variations within the
+  model.
 * Decoupling of abstractions of configuration from collections of configuration data.
 * Representation of abstractions of configuration generators as data with schemas, as with other
   configuration data.
@@ -100,13 +99,13 @@ the following:
 
 * Loading a serialized package from a repository (as a ResourceList). Examples of a repository may
   be one or more of the following:
-  * local HDD
+  * Local HDD
   * Git repository
   * OCI
-  * cloud storage
+  * Cloud storage
 * Saving a serialized package (as a ResourceList) to a package repository.
 * Evaluating a function on a serialized package (ResourceList).
-* [rendering](https://kpt.dev/book/04-using-functions/01-declarative-function-execution) a package
+* [Rendering](https://kpt.dev/book/04-using-functions/01-declarative-function-execution) a package
   (evaluating the functions declared within the package itself).
 * Creating a new (empty) package.
 * Forking (or cloning) an existing package from one package repository (called upstream) to another
@@ -118,7 +117,7 @@ the following:
   downstream package (three-way merge).
 * Reverting to a prior version of a package.
 
-## Values
+## Configuration values
 
 The configuration as data approach enables some key values which are available in other
 configuration management approaches to a lesser extent or not at all.
