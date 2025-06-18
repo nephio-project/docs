@@ -27,8 +27,8 @@ kpt pkg get --for-deployment <git-repository>@v3.0.0
 
 - Access to non-kind cluster such as kubeadm cluster.
 - Nephio management components and porch installed.
-  - Refer the `Preinstalled K8s cluster` section at https://r4.docs.nephio.org/docs/guides/install-guides/#kicking-off-an-installation-on-a-virtual-machine
-  - Refer installing base Nephio components at https://r4.docs.nephio.org/docs/guides/install-guides/common-components/ 
+  - Refer the "Preinstalled K8s cluster" section at [Kicking off an installation on a virtual machine](/docs/guides/install-guides/#kicking-off-an-installation-on-a-virtual-machine)
+  - Refer installing base Nephio components at [Common Components](/docs/guides/install-guides/common-components/)
 
 ## Metal3, BMO and Ironic packages install
 
