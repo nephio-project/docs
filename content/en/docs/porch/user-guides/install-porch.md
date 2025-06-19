@@ -1,5 +1,5 @@
 ---
-title: "Install Porch"
+title: "Installing Porch"
 type: docs
 weight: 1
 description: "A tutorial to install Porch"
