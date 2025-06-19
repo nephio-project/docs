@@ -9,7 +9,7 @@ description:
 
 `porch-fn-runner` implements a simplistic function-as-a-service for executing kpt functions, running the needed kpt
 functions wrapped in a GRPC server. The function is starting up a number of function evaluator pods for each of the kpt
-functions along with a frontend service pointing to its respective pod. As with any operator that manages pods, it's good
+functions, along with a front-end service, pointing to its respective pod. As with any operator that manages pods, it's good
 to provide some templating and parametrization capabilities of the pods that will be managed by the function runner.
 
 ## Contract for writing pod templates
