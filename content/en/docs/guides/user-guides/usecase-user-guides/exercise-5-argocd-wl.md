@@ -43,7 +43,85 @@ If not, logout and login to the VM or execute the `newgrp docker` to ensure the 
 
 {{% /alert %}}
 
-First, assuming the [ArgoCD Full](https://github.com/nephio-project/catalog/tree/main/nephio/optional/argo-cd-full) package is installed, apply our [ArgoCD KPT CMP Patch](https://github.com/nephio-project/nephio/tree/main/gitops-tools/kpt-argocd-cmp) to create the KPT Repo and KPT Render Config Management Plugins (CMPs):
+First, assuming the [ArgoCD Full](https://github.com/nephio-project/catalog/tree/main/nephio/optional/argo-cd-full) package is installed, apply our [ArgoCD KPT CMP Patch](https://github.com/nephio-project/nephio/tree/main/gitops-tools/kpt-argocd-cmp) to create the KPT Repo and KPT Render Config Management Plugins (CMPs). For convenience, there is an example patch wrapped in a shell script at the previous link. Both options are documented here:
+
+Either apply the patch directly, changing the version of the plugins:
+```json
+kubectl patch deployment argocd-repo-server -n argocd --type json -p='[
+   {
+    "op": "add",
+    "path": "/spec/template/spec/containers/-",
+    "value": {
+      "name": "kpt-repo-argo-cmp",
+      "image": "docker.io/nephio/kpt-repo-argo-cmp:VERSION",
+      "command": ["/var/run/argocd/argocd-cmp-server"],
+      "securityContext": {
+          "runAsNonRoot": true,
+          "runAsUser": 999
+      },
+      "volumeMounts": [
+        {
+           "name": "var-files",
+           "mountPath": "/var/run/argocd"
+        },
+        {
+           "name": "cmp-tmp",
+           "mountPath": "/tmp"
+        },
+        {
+           "name": "plugins",
+           "mountPath": "/home/argocd/cmp-server/plugins"
+        }
+      ]
+    }
+  },
+  {
+    "op": "add",
+    "path": "/spec/template/spec/containers/-",
+    "value": {
+      "name": "kpt-render-argo-cmp",
+      "image": "docker.io/nephio/kpt-render-argo-cmp:VERSION",
+      "command": ["/var/run/argocd/argocd-cmp-server"],
+      "securityContext": {
+          "runAsNonRoot": true,
+          "runAsUser": 999
+      },
+      "volumeMounts": [
+        {
+           "name": "var-files",
+           "mountPath": "/var/run/argocd"
+        },
+        {
+           "name": "cmp-tmp",
+           "mountPath": "/tmp"
+        },
+        {
+           "name": "plugins",
+           "mountPath": "/home/argocd/cmp-server/plugins"
+        }
+      ]
+    }
+  },
+  {
+    "op": "add",
+    "path": "/spec/template/spec/volumes/-",
+    "value": {
+       "name": "cmp-tmp",
+       "emptyDir": {}
+    }
+  },
+  {
+    "op": "add",
+    "path": "/spec/template/spec/volumes/-",
+    "value": {
+       "name": "var-run-argocd",
+       "emptyDir": {}
+    }
+  }
+]'
+```
+
+or, apply the patch via our shell script (which defaults to the `latest` tag):
 ```bash
 curl -s https://raw.githubusercontent.com/nephio-project/nephio/refs/heads/main/gitops-tools/kpt-argocd-cmp/patch.sh > /tmp/patch.sh
 /bin/bash /tmp/patch.sh
