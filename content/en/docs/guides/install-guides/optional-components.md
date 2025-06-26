@@ -9,7 +9,7 @@ weight: 2
 
 {{% alert title="Note" color="primary" %}}
 
-If you want to use a version other than that of v3.0.0 of Nephio *catalog* repo, then replace the *@origin/v3.0.0*
+If you want to use a version other than that of main of Nephio *catalog* repo, then replace the *@origin/main*
 suffix on the package URLs on the `kpt pkg get` commands below with the tag/branch of the version you wish to use.
 
 While using KPT you can [either pull a branch or a tag](https://kpt.dev/book/03-packages/01-getting-a-package) from a
@@ -17,9 +17,9 @@ git repository. By default, it pulls the tag. In case, you have branch with the 
 
 ```bash
 #pull a branch 
-kpt pkg get --for-deployment <git-repository>@origin/v3.0.0
+kpt pkg get --for-deployment <git-repository>@origin/main
 #pull a tag
-kpt pkg get --for-deployment <git-repository>@v3.0.0
+kpt pkg get --for-deployment <git-repository>@v4.0.0
 ```
 
 {{% /alert %}}
