@@ -1,5 +1,5 @@
 ---
-title: Baremetal cluster install
+title: Installing optional Baremetal components
 description: >
   Step by step guide to configure and install components supporting Baremetal cluster installation. 
 
@@ -27,7 +27,7 @@ kpt pkg get --for-deployment <git-repository>@v3.0.0
 
 - Access to non-kind cluster such as kubeadm cluster.
 - Nephio management components and porch installed.
-  - Refer the "Preinstalled K8s cluster" section at [Kicking off an installation on a virtual machine](/docs/guides/install-guides/#kicking-off-an-installation-on-a-virtual-machine)
+  - Refer to the "Preinstalled K8s cluster" section in [Kicking off an installation on a virtual machine](/docs/guides/install-guides/#kicking-off-an-installation-on-a-virtual-machine)
   - Refer installing base Nephio components at [Common Components](/docs/guides/install-guides/common-components/)
 
 ## Metal3, BMO and Ironic packages install
@@ -192,14 +192,14 @@ data:
 ```
 
 NOTE: 
-- Even if using static ip addressing for the nodes, DHCP is still needed during the PXE boot phase to get an initial IP and boot file information.
+- Even if static ip addressing is being used for the nodes, DHCP is still needed during the PXE boot phase to get an initial IP and boot file information.
   The DHCP_HOSTS should contain the mac address info of the baremetal provisioning interface(s) that would be part of cluster, 
-  DHCP_RANGE needs to be set to the IP addresses that does not conflict with static IP address range and will be used during the PXE boot phase of the ironic python agent.
+  DHCP_RANGE needs to be set to an IP addresses that does not conflict with static IP address range, and will be used during the PXE boot phase of the ironic python agent.
 - The PROVISIONING_INTERFACE is the interface where the Nephio Management cluster control plane IP can be reached.
 - The values for DNS_IP and GATEWAY_IP can be gathered from the output of `resolvectl` and `ip route` commands on Nephio management cluster host.
-- The value for CACHEURL_IP and IRONIC_SSH_KEY can be ignored if you do not have it setup or don't want to provide them.
+- The value for CACHEURL_IP and IRONIC_SSH_KEY can be ignored if unused.
 
-Once, the `apply-setters.yaml` file is updated, issue the below command that updates the configMap fields in the bmo and ironic directories.
+Once the `apply-setters.yaml` file is updated, issue the below command to update the configMap fields in the bmo and ironic directories.
 ```bash
 kpt fn render --truncate-output=false
 
@@ -275,8 +275,8 @@ Package "kpt_test":
 Successfully executed 3 function(s) in 4 package(s).
 ```
 
-Once, the environment specific fields in the ConfigMap for the packages in bmo and ironic directory have been updated,
-issue the below commands that deploys the packages in metal3, bmo and ironic directories
+Once the ConfigMap values for the packages have been updated,
+issue the below commands to deploy the packages to the cluster.
 ```bash
 kpt live init
 kpt live apply --reconcile-timeout=15m --output=table
