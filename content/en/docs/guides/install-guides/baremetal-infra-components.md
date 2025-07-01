@@ -6,38 +6,22 @@ description: >
 weight: 3
 ---
 
-{{% alert title="Note" color="primary" %}}
+Note that the instructions are for installing on Nephio management non-KIND cluster (has been verified on kubeadm cluster). The ironic pods use host networking that KIND
+clusters do not support.
 
-If you want to use a version other than that of v3.0.0 of Nephio *catalog* repo, then replace the *@origin/v3.0.0*
-suffix on the package URLs on the `kpt pkg get` commands below with the tag/branch of the version you wish to use.
-
-While using KPT you can [either pull a branch or a tag](https://kpt.dev/book/03-packages/01-getting-a-package) from a
-git repository. By default, it pulls the tag. In case, you have branch with the same name as a tag then to:
-
-```bash
-#pull a branch 
-kpt pkg get --for-deployment <git-repository>@origin/v3.0.0
-#pull a tag
-kpt pkg get --for-deployment <git-repository>@v3.0.0
-```
-
-{{% /alert %}}
 
 ## Pre-requisites
 
 - Access to non-kind cluster such as kubeadm cluster.
+  - Refer https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/ for installing kubeadm.
 - Nephio management components and porch installed.
-  - Refer to the "Preinstalled K8s cluster" section in [Kicking off an installation on a virtual machine](/docs/guides/install-guides/#kicking-off-an-installation-on-a-virtual-machine)
-  - Refer installing base Nephio components at [Common Components](/docs/guides/install-guides/common-components/)
+  - Refer to the "Preinstalled K8s cluster" section in [Kicking off an installation on a virtual machine](./_index.md/#kicking-off-an-installation-on-a-virtual-machine)
 
-## Metal3, BMO and Ironic packages install
+## Metal3, BMO and Ironic packages install on Nephio management cluster (non-kind cluster)
 
-Create a directory and pull the packages into that directory. Note that the instructions are for installing on 
-Nephio management non-KIND cluster (has been verified on kubeadm cluster). The ironic pods use host networking that KIND
-clusters do not support.
+### Create a directory to pull the packages and initialize them
 
 ```bash
-#create a directory
 mkdir -p /tmp/baremetal_kpt
 cd /tmp/baremetal_kpt
 
@@ -48,82 +32,20 @@ kpt pkg get https://github.com/nephio-project/catalog/infra/capi/cluster-capi-in
 
 # The below command creates a Kptfile, README.md and package-context.yaml file
 kpt pkg init
-
-# create search-replace.yaml file using the below command.
-# Refer the function at https://catalog.kpt.dev/search-replace/v0.2/ to understand how this will be used by gcr.io/kpt-fn/search-replace:v0.2.0 function.
-cat <<EOF > search-replace.yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: search-replace-fn-config
-  annotations:
-    config.kubernetes.io/local-config: "true"
-data:
-  by-path: data.CACHEURL
-  by-value: 'http://172.22.0.1/images'
-  put-value: 'http://CACHEURL_IP_PLACEHOLDER/images'
-EOF
-
-# create create-setters.yaml file using the below command.
-# Refer the function at https://catalog.kpt.dev/create-setters/v0.1/ to understand how this will be used by gcr.io/kpt-fn/create-setters:v0.1.0 function.
-cat <<EOF > create-setters.yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: create-setters-fn-config
-  annotations:
-    config.kubernetes.io/local-config: "true"
-data:
-  CACHEURL_IP: 'CACHEURL_IP_PLACEHOLDER' 
-  CTRL_PLANE_IP: '172.22.0.2'
-  PROVISIONING_INTERFACE: 'eth2' 
-  DHCP_RANGE: '172.22.0.10,172.22.0.100' 
-  DHCP_HOSTS: 'b4:96:91:c0:31:64,id:*;b4:96:91:c4:e3:f4,id:*' 
-  DNS_IP: '172.22.0.3'
-  GATEWAY_IP: '172.22.0.4' 
-  IRONIC_SSH_KEY: 'PLACEHOLDER_SSH_KEY'
-EOF
-
-# create apply-setters.yaml file using the below command.
-# Refer the function at https://catalog.kpt.dev/apply-setters/v0.2/ to undestand how this will be used by gcr.io/kpt-fn/apply-setters:v0.2.0 function.
-cat <<EOF > apply-setters.yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: apply-setters-fn-config
-  annotations:
-    config.kubernetes.io/local-config: "true"
-data:
-  CACHEURL_IP: 'INSERT_VALUE_FOR_YOUR_ENVIRONMENT' 
-  CTRL_PLANE_IP: 'INSERT_VALUE_FOR_YOUR_ENVIRONMENT'
-  PROVISIONING_INTERFACE: 'INSERT_VALUE_FOR_YOUR_ENVIRONMENT' 
-  DHCP_RANGE: 'INSERT_VALUE_FOR_YOUR_ENVIRONMENT' 
-  DHCP_HOSTS: 'INSERT_VALUE_FOR_YOUR_ENVIRONMENT' 
-  DNS_IP: 'INSERT_VALUE_FOR_YOUR_ENVIRONMENT'
-  GATEWAY_IP: 'INSERT_VALUE_FOR_YOUR_ENVIRONMENT' 
-  IRONIC_SSH_KEY: 'INSERT_VALUE_FOR_YOUR_ENVIRONMENT'
-EOF
-
-# Edit the Kptfile to add content using the below command.
-cat <<EOF >> Kptfile
-pipeline:
-  mutators:
-    - image: gcr.io/kpt-fn/search-replace:v0.2.0
-      configPath: search-replace.yaml
-    - image: gcr.io/kpt-fn/create-setters:v0.1.0
-      configPath: create-setters.yaml
-    - image: gcr.io/kpt-fn/apply-setters:v0.2.0
-      configPath: apply-setters.yaml
-EOF
-
 ```
 
-The next step before deploying the packages is to update the fields of the ConfigMaps that are specific to the
-deployment environment.
+### Prepare for customizing the packages for your environment by executing the below steps.
 
-Below are the ConfigMap fields and values in the bmo/cluster-capi-infrastructure-bmo.yaml. 
-Refer the README at https://github.com/metal3-io/ironic-image for explanation of the fields in the ConfigMaps.
+Note that the below referenced configmaps `bmo-configmap.yaml` and `ironic-configmap.yaml` in the `ironic` and `bmo` packages are to be customized for the deployment environment.
+Refer the links for explanation of some of the fields in the configmap at
+- https://github.com/metal3-io/baremetal-operator/blob/main/docs/configuration.md
+- https://book.metal3.io/quick-start
+- https://book.metal3.io/ironic/ironic_installation#environmental-variables
+- https://github.com/metal3-io/ironic-image
+
+#### bmo-configmap
 ```bash
+---
 apiVersion: v1
 data:
   CACHEURL: http://172.22.0.1/images
@@ -134,15 +56,12 @@ data:
   IRONIC_ENDPOINT: http://172.22.0.2:6385/v1/
   PROVISIONING_INTERFACE: eth2
 kind: ConfigMap
-metadata: # kpt-merge: baremetal-operator-system/ironic
+metadata:
   name: ironic
   namespace: baremetal-operator-system
-  annotations:
-    internal.kpt.dev/upstream-identifier: '|ConfigMap|baremetal-operator-system|ironic'
 ```
 
-Below are the ConfigMap fields and values in the ironic/cluster-capi-infrastructure-ironic.yaml.
-Refer the README at https://github.com/metal3-io/ironic-image for explanation of the fields in the ConfigMaps.
+#### ironic-configmap
 ```bash
 apiVersion: v1
 data:
@@ -163,17 +82,59 @@ data:
   PROVISIONING_INTERFACE: eth2
   USE_IRONIC_INSPECTOR: "false"
 kind: ConfigMap
-metadata: # kpt-merge: baremetal-operator-system/baremetal-operator-ironic-bmo-configmap-6cf9t7484b
+metadata: 
   name: baremetal-operator-ironic-bmo-configmap-6cf9t7484b
   namespace: baremetal-operator-system
-  annotations:
-    internal.kpt.dev/upstream-identifier: '|ConfigMap|baremetal-operator-system|baremetal-operator-ironic-bmo-configmap-6cf9t7484b'
 ```
 
-![Network Diagram](/static/images/install-guides/CapiMetal3.png)
-
-Next, make sure to update the contents of the `apply-setters.yaml` file with environment specific values.
+#### 1. Create search-replace.yaml file using the below command.
+The purpose of this step to update the value for the data.CACHEURL field with a placeholder value that can be customized in a later step.
+Note: Refer the function at https://catalog.kpt.dev/search-replace/v0.2/ to understand how this will be used by gcr.io/kpt-fn/search-replace:v0.2.0 function.
 ```bash
+cat <<EOF > search-replace.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: search-replace-fn-config
+  annotations:
+    config.kubernetes.io/local-config: "true"
+data:
+  by-path: data.CACHEURL
+  by-value: 'http://172.22.0.1/images'
+  put-value: 'http://CACHEURL_IP_PLACEHOLDER/images'
+EOF
+```
+
+#### 2. Create create-setters.yaml file using the below command.
+The purpose of this step is to add comments to the fields matching the setter values using setter names as parameters.
+This will help later with apply customized values for those fields.
+Note: Refer the function at https://catalog.kpt.dev/create-setters/v0.1/ to understand how this will be used by gcr.io/kpt-fn/create-setters:v0.1.0 function.
+```bash
+cat <<EOF > create-setters.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: create-setters-fn-config
+  annotations:
+    config.kubernetes.io/local-config: "true"
+data:
+  CACHEURL_IP: 'CACHEURL_IP_PLACEHOLDER' 
+  CTRL_PLANE_IP: '172.22.0.2'
+  PROVISIONING_INTERFACE: 'eth2' 
+  DHCP_RANGE: '172.22.0.10,172.22.0.100' 
+  DHCP_HOSTS: 'b4:96:91:c0:31:64,id:*;b4:96:91:c4:e3:f4,id:*' 
+  DNS_IP: '172.22.0.3'
+  GATEWAY_IP: '172.22.0.4' 
+  IRONIC_SSH_KEY: 'PLACEHOLDER_SSH_KEY'
+EOF
+```
+
+#### 3. Create `apply-setters.yaml` file using the below command.
+The purpose of this step is to update the field values parameterized by setters in the above step.
+Note: Refer the function at https://catalog.kpt.dev/apply-setters/v0.2/ to understand how this will be used by gcr.io/kpt-fn/apply-setters:v0.2.0 function.
+
+```bash
+cat <<EOF > apply-setters.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -189,17 +150,40 @@ data:
   DNS_IP: 'INSERT_VALUE_FOR_YOUR_ENVIRONMENT'
   GATEWAY_IP: 'INSERT_VALUE_FOR_YOUR_ENVIRONMENT' 
   IRONIC_SSH_KEY: 'INSERT_VALUE_FOR_YOUR_ENVIRONMENT'
+EOF
 ```
 
-NOTE: 
+{{% alert title="Note" color="primary" %}}
+
 - Even if static ip addressing is being used for the nodes, DHCP is still needed during the PXE boot phase to get an initial IP and boot file information.
-  The DHCP_HOSTS should contain the mac address info of the baremetal provisioning interface(s) that would be part of cluster, 
+  The DHCP_HOSTS should contain the mac address info of the baremetal provisioning interface(s) that would be part of cluster,
   DHCP_RANGE needs to be set to an IP addresses that does not conflict with static IP address range, and will be used during the PXE boot phase of the ironic python agent.
 - The PROVISIONING_INTERFACE is the interface where the Nephio Management cluster control plane IP can be reached.
 - The values for DNS_IP and GATEWAY_IP can be gathered from the output of `resolvectl` and `ip route` commands on Nephio management cluster host.
 - The value for CACHEURL_IP and IRONIC_SSH_KEY can be ignored if unused.
 
-Once the `apply-setters.yaml` file is updated, issue the below command to update the configMap fields in the bmo and ironic directories.
+{{% /alert %}}
+
+
+#### 4. Edit the Kptfile to add content using the below command.
+The purpose of this step is to add containerized functions to be invoked by the pipeline when rendering the packages.
+```bash
+cat <<EOF >> Kptfile
+pipeline:
+  mutators:
+    - image: gcr.io/kpt-fn/search-replace:v0.2.0
+      configPath: search-replace.yaml
+    - image: gcr.io/kpt-fn/create-setters:v0.1.0
+      configPath: create-setters.yaml
+    - image: gcr.io/kpt-fn/apply-setters:v0.2.0
+      configPath: apply-setters.yaml
+EOF
+```
+
+### Render and deploy the package with values customized for your environment
+The next step before deploying the packages is to review that the values in the `apply-setters.yaml` file are specific to the
+deployment environment.
+Once the `apply-setters.yaml` file is reviewed and updated, issue the below command to update the configMap fields in the bmo and ironic directories.
 ```bash
 kpt fn render --truncate-output=false
 
@@ -281,3 +265,17 @@ issue the below commands to deploy the packages to the cluster.
 kpt live init
 kpt live apply --reconcile-timeout=15m --output=table
 ```
+
+Verify that the pods are up and running using the below command
+```bash
+kubectl get pods --all-namespaces | grep -E '^(capm3-system|baremetal-operator-system)'
+
+baremetal-operator-system           baremetal-operator-controller-manager-5c55b458cf-bcbkd           1/1     Running   0          28d
+baremetal-operator-system           baremetal-operator-ironic-6888bb9cd5-782px                       4/4     Running   0          28d
+capm3-system                        capm3-controller-manager-65c5895cc4-kznsm                        1/1     Running   0          28d
+capm3-system                        ipam-controller-manager-69f4dd4cdf-zgl55                         1/1     Running   0          28d
+```
+
+The network diagram highlights simple connection between Nephio management cluster (provisioning cluster) and workload cluster (target). The diagram does not consider switches or routers. If you are using switches then make sure the connectivity is properly configured.
+
+![Network Diagram](/static/images/install-guides/CapiMetal3.png)
