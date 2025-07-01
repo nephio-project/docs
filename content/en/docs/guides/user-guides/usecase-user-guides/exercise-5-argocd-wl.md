@@ -351,9 +351,6 @@ spec:
     package: free5gc-cp
   annotations:
     approval.nephio.org/policy: initial
-  pipeline:
-    mutators:
-    - image: docker.io/nephio/gen-kustomize-res:latest
 EOF
 ```
 Sample output:
