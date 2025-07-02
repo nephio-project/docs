@@ -13,7 +13,7 @@ clusters do not support.
 ## Pre-requisites
 
 - Access to non-kind cluster such as kubeadm cluster.
-  - Refer https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/ for installing kubeadm.
+  - Refer [here](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/) for installing kubeadm.
 - Nephio management components and porch installed.
   - Refer to the "Preinstalled K8s cluster" section in [Kicking off an installation on a virtual machine](./_index.md/#kicking-off-an-installation-on-a-virtual-machine)
 
@@ -37,7 +37,7 @@ kpt pkg init
 ### Prepare for customizing the packages for your environment by executing the below steps.
 
 Note that the below referenced configmaps `bmo-configmap.yaml` and `ironic-configmap.yaml` in the `ironic` and `bmo` packages are to be customized for the deployment environment.
-Refer the links for explanation of some of the fields in the configmap at
+Refer to the following links for further explanation of the input fields in the configmaps.
 - https://github.com/metal3-io/baremetal-operator/blob/main/docs/configuration.md
 - https://book.metal3.io/quick-start
 - https://book.metal3.io/ironic/ironic_installation#environmental-variables
@@ -88,7 +88,7 @@ metadata:
 ```
 
 #### 1. Create search-replace.yaml file using the below command.
-The purpose of this step to update the value for the data.CACHEURL field with a placeholder value that can be customized in a later step.
+The purpose of this step is to update the data.CACHEURL field with a placeholder value that can be customized in a later step.
 Note: Refer the function at https://catalog.kpt.dev/search-replace/v0.2/ to understand how this will be used by gcr.io/kpt-fn/search-replace:v0.2.0 function.
 ```bash
 cat <<EOF > search-replace.yaml
@@ -107,7 +107,7 @@ EOF
 
 #### 2. Create create-setters.yaml file using the below command.
 The purpose of this step is to add comments to the fields matching the setter values using setter names as parameters.
-This will help later with apply customized values for those fields.
+This will help later when applying our customized values for those fields.
 Note: Refer the function at https://catalog.kpt.dev/create-setters/v0.1/ to understand how this will be used by gcr.io/kpt-fn/create-setters:v0.1.0 function.
 ```bash
 cat <<EOF > create-setters.yaml
