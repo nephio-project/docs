@@ -276,6 +276,170 @@ capm3-system                        capm3-controller-manager-65c5895cc4-kznsm   
 capm3-system                        ipam-controller-manager-69f4dd4cdf-zgl55                         1/1     Running   0          28d
 ```
 
-The network diagram highlights simple connection between Nephio management cluster (provisioning cluster) and workload cluster (target). The diagram does not consider switches or routers. If you are using switches then make sure the connectivity is properly configured.
+## Baremetal cluster creation .
+
+Note that only a single node cluster with IPv4 static IP addressing is supported at this time.
+
+### Pre-requisites
+
+1. Refer the link at https://book.metal3.io/bmo/supported_hardware#supported-hardware for the Baremetal pre-requisites
+2. Access to bare metal servers with BMCs connected to a network and accessible to the Nephio management cluster. 
+3. Download the kubeadm node image found at https://artifactory.nordix.org/ui/native/metal3/images/ and copy the image to the ironic pod.
+   Note that the image has to be copied all over again if the pod restarts.
+   `kubectl cp <IMAGE_NAME>.qcow2 baremetal-operator-system/<ironic-pod-name>:/shared/html/images/<IMG_NAME>.img -c ironic-httpd -n baremetal-operator-system`
+
+### Repository creation to access the packages in the baremetal folder
+```bash
+cat << EOF | kubectl apply -f - 
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: Repository
+metadata:
+  labels:
+    kpt.dev/repository-access: read-only
+    kpt.dev/repository-content: external-blueprints
+  name: baremetal-packages
+  namespace: default
+spec:
+  content: Package
+  deployment: false
+  git:
+    branch: main
+    directory: /infra/baremetal
+    repo: https://github.com/nephio-project/catalog.git
+  type: git
+EOF
+```
+
+Confirm that repository is created using the below command
+```bash
+kubectl get repositories
+```
+
+Sample output
+```
+NAME                        TYPE   CONTENT   DEPLOYMENT   READY   ADDRESS
+baremetal-packages          git    Package   false        True    https://github.com/nephio-project/catalog.git
+```
+
+Confirm that packagerevisions are available for the baremetal creation
+```bash
+kubectl get packagerevisions
+```
+
+Sample output
+```
+NAME                                                           PACKAGE                              WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
+baremetal-packages.bmh-template.main                           bmh-template                         main            -1         false    Published   baremetal-packages
+baremetal-packages.kubeadm-cluster-template-staticip.main      kubeadm-cluster-template-staticip    main            -1         false    Published   baremetal-packages
+```
+
+### BareMetalHost CR creation
+Create a new PackageVariant CR for creating a BareMetalHost CR that is needed to be created before creating a cluster.
+
+Have the below information ready for the baremetal server to be used in packagevariant CR creation.
+- BMC username that is base64 encoded
+- BMC password that is base64 encoded
+- Boot MAC address (can be obtained from Redfish APIs or Server vendor BMC CLI/UI )
+- Serial number of the disk drive where OS will be installed (can be obtained from Redfish APIs or Server vendor BMC CLI/UI )
+
+Note: Replace the values under `spec.pipeline.mutators.configMap` with values specific to your server.
+```bash
+cat << EOF | kubectl apply -f - 
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: PackageVariant
+metadata:
+  name: bmh-sno1
+spec:
+  upstream:
+    repo: baremetal-packages
+    package: bmh-template
+    revision: -1
+    workspaceName: main
+  downstream:
+    repo: mgmt
+    package: bmh-sno1
+  annotations:
+    approval.nephio.org/policy: initial
+  pipeline:
+    mutators:
+      - image: "gcr.io/kpt-fn/apply-setters:v0.2.0"
+        configMap:
+          bmc-username: ZXhwZXJpbWVudFVzZXJuYW1l
+          bmc-password: ZXhwZXJpbWVudFBhc3N3b3Jk
+          bmh-name: bmh1
+          boot-mac-address: 00:11:22:33:44:55
+          root-hints-serial-number: PQZ123
+          bmc-address: idrac-redfish://10.0.0.1/redfish/v1/Systems/1
+          bmc-creds-name: bmc-secret1
+EOF
+```
+
+Verify that the packagevariant and bmh CRs are created using the below commands
+```bash
+kubectl get packagevariants
+kubectl get bmh
+```
+
+### Single Node Cluster creation using IPv4 Static IP addressing
+Create a new PackageVariant CR for creating a single node cluster.
+
+Have the below information ready from the server (either via Redfish APIs or the server vendors BMC UI/CLI) and/or from your lab admin.
+- Static address IP pool information (IPv4) that includes start IP address, end IP address and network prefix
+- Network address, DNS IP(s), Gateway IP
+- `net-link-eth-id` can be obtained from looking up the `status.hardware.nics` field of the `bmh` CR created in above step
+
+Note: Replace the values under `spec.pipeline.mutators.configMap` with values specific to your environment.
+```bash
+cat << EOF | kubectl apply -f - 
+apiVersion: config.porch.kpt.dev/v1alpha1
+kind: PackageVariant
+metadata:
+  name: cluster-staticip
+spec:
+  upstream:
+    repo: baremetal-packages
+    package: kubeadm-cluster-template-staticip
+    revision: -1
+    workspaceName: main
+  downstream:
+    repo: mgmt
+    package: cluster-staticip
+  annotations:
+    approval.nephio.org/policy: initial
+  pipeline:
+    mutators:
+      - image: "gcr.io/kpt-fn/apply-setters:v0.2.0"
+        configMap:
+          cluster-name: staticip-cluster
+          namespace-value: default
+          ctrl-plane-ip: 172.168.14.37
+          ctrl-plane-port: "6443" 
+          k8s-version: v1.29.0
+          img-checksum: 5f1aea8dba3d7c5e0c4db8b2a83747f296adab6463e57a45610a5e544058aaca
+          img-checksum-type: sha256
+          img-format: qcow2
+          img-url: http://172.168.14.61:6180/images/ubuntu-22.04-server-cloudimg-amd64-updated.img
+          ippool-start-ip: 172.168.14.37
+          ippool-end-ip: 172.168.14.37
+          ippool-prefix: "27"
+          net-link-eth-id: "ens1f0"
+          net-link-eth-mac-addr: "00:11:22:33:44:55"
+          net-svc-dns: |
+            - 172.168.14.35
+          net-ipv4-gw: 172.168.14.33
+          net-ipv4-nw-addr: 0.0.0.0
+          ctrl-node-user: ubuntu
+          ctrl-node-hashed-passwd: $6$n7odPOnQCIM0c4qB$px8Vm7z/xj4TRAIvd3WTfIv4ZNbvelpXAZT1Sv3XppYquLbJ3abUUnXTR0vvOr/eeQJnmBxTSELoTPZnQ3ni50
+          ctrl-node-ssh-key: 'ssh-rsa key nobody@nobody'
+EOF
+```
+
+Verify that the packagevariant and cluster CRs are created using the below commands
+```bash
+kubectl get packagevariants
+kubectl get clusters
+```
+
+NOTE: The network diagram highlights simple connection between Nephio management cluster (provisioning cluster) and workload cluster (target). The diagram does not consider switches or routers. If you are using switches then make sure the connectivity is properly configured.
 
 ![Network Diagram](/static/images/install-guides/CapiMetal3.png)
