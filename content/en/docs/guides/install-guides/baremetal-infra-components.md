@@ -6,9 +6,12 @@ description: >
 weight: 3
 ---
 
+{{% alert title="Note" color="primary" %}}
+
 Note that the instructions are for installing on Nephio management non-KIND cluster (has been verified on kubeadm cluster). The ironic pods use host networking that KIND
 clusters do not support.
 
+{{% /alert %}}
 
 ## Pre-requisites
 
@@ -89,7 +92,7 @@ metadata:
 
 #### 1. Create search-replace.yaml file using the below command.
 The purpose of this step is to update the data.CACHEURL field with a placeholder value that can be customized in a later step.
-Note: Refer the function at https://catalog.kpt.dev/search-replace/v0.2/ to understand how this will be used by gcr.io/kpt-fn/search-replace:v0.2.0 function.
+Refer the function at https://catalog.kpt.dev/search-replace/v0.2/ to understand how this will be used by gcr.io/kpt-fn/search-replace:v0.2.0 function.
 ```bash
 cat <<EOF > search-replace.yaml
 apiVersion: v1
@@ -108,7 +111,7 @@ EOF
 #### 2. Create create-setters.yaml file using the below command.
 The purpose of this step is to add comments to the fields matching the setter values using setter names as parameters.
 This will help later when applying our customized values for those fields.
-Note: Refer the function at https://catalog.kpt.dev/create-setters/v0.1/ to understand how this will be used by gcr.io/kpt-fn/create-setters:v0.1.0 function.
+Refer the function at https://catalog.kpt.dev/create-setters/v0.1/ to understand how this will be used by gcr.io/kpt-fn/create-setters:v0.1.0 function.
 ```bash
 cat <<EOF > create-setters.yaml
 apiVersion: v1
@@ -186,8 +189,10 @@ deployment environment.
 Once the `apply-setters.yaml` file is reviewed and updated, issue the below command to update the configMap fields in the bmo and ironic directories.
 ```bash
 kpt fn render --truncate-output=false
+```
 
-# Sample output of above command below
+Sample output of above command below
+```
 Package "kpt_test/bmo": 
 Package "kpt_test/ironic": 
 Package "kpt_test/metal3": 
@@ -269,7 +274,10 @@ kpt live apply --reconcile-timeout=15m --output=table
 Verify that the pods are up and running using the below command
 ```bash
 kubectl get pods --all-namespaces | grep -E '^(capm3-system|baremetal-operator-system)'
+```
 
+Sample output
+```
 baremetal-operator-system           baremetal-operator-controller-manager-5c55b458cf-bcbkd           1/1     Running   0          28d
 baremetal-operator-system           baremetal-operator-ironic-6888bb9cd5-782px                       4/4     Running   0          28d
 capm3-system                        capm3-controller-manager-65c5895cc4-kznsm                        1/1     Running   0          28d
@@ -278,7 +286,11 @@ capm3-system                        ipam-controller-manager-69f4dd4cdf-zgl55    
 
 ## Baremetal cluster creation .
 
+{{% alert title="Note" color="primary" %}}
+
 Note that only a single node cluster with IPv4 static IP addressing is supported at this time.
+
+{{% /alert %}}
 
 ### Pre-requisites
 
@@ -440,6 +452,10 @@ kubectl get packagevariants
 kubectl get clusters
 ```
 
+{{% alert title="Note" color="primary" %}}
+
 NOTE: The network diagram highlights simple connection between Nephio management cluster (provisioning cluster) and workload cluster (target). The diagram does not consider switches or routers. If you are using switches then make sure the connectivity is properly configured.
+
+{{% /alert %}}
 
 ![Network Diagram](/static/images/install-guides/CapiMetal3.png)
