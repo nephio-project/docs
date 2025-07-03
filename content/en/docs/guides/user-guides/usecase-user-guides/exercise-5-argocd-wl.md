@@ -11,6 +11,9 @@ weight: 2
 - A Nephio Management cluster. See the [installation guides](/content/en/docs/guides/install-guides/_index.md) 
 for detailed environment options.
 - An ArgoCD installation, such as the [ArgoCD Full](https://github.com/nephio-project/catalog/tree/main/nephio/optional/argo-cd-full) package.
+- Optional:
+  - Access to Gitea, which is used in the demo environment as the Git provider.
+  - Access to the ArgoCD UI is optional, but highly recommended.
 
 {{% alert title="Note" color="primary" %}}
 
@@ -25,14 +28,6 @@ This exercise will take us from a system with only the Nephio Management cluster
 - A repository for said cluster, registered with Nephio Porch.
 - A sample workload deployed to said cluster via an ArgoCD Config Management Plugin (CMP).
 
-To perform these exercises, we will need:
-
-- Access to the installed demo VM environment as the ubuntu user.
-- Access to the Nephio WebUI as described in the installation guide.
-
-Access to Gitea, used in the demo environment as the Git provider, is optional.
-
-Access to the ArgoCD UI is optional, but highly recommended.
 
 ### Step 1: Deploy the ArgoCD Workload Cluster
 
@@ -171,10 +166,6 @@ to deploy the new Workload Cluster.
 
 This fully automates the onboarding process, including the auto approval and publishing of the new package.
 
-{{% alert title="Note" color="primary" %}}
-
-{{% /alert %}}
-
 Create a new *PackageVariant* CR for the Workload Cluster:
 
 ```bash
@@ -264,7 +255,7 @@ regional-md-0-lmsqz-7nzzc   regional   1          1       1           3h1m   v1.
 
 ## Step 3: Investigate the ArgoCD specific CRs
 
-Verify that the regional-flux-gitrepo-kustomize *PackageRevision* has been created for the ArgoCD specific CRs. 
+Verify that the regional-argo-gitrepo *PackageRevision* has been created for the ArgoCD specific CRs. 
 We want the *Published* v1 revision. 
 ```bash
 kubectl get packagerevision | grep "regional-argo-gitrepo"
@@ -395,42 +386,4 @@ Sample output:
 NAME                  SYNC STATUS   HEALTH STATUS
 regional              Synced        Healthy
 regional-free5gc-cp   Synced        Healthy
-```
-
-# Step 5: Remove Kubernetes Jobs (optional)
-
-Because ConfigSync is always trying to reconcile the manifests into the cluster, and because the pods started by our Kubernetes Jobs to create ArgoCD specific Secrets eventually end, they will run indefinitely. To remove these restarts from your cluster, you must inform ConfigSync that it should no longer manage the Jobs by using the `http://configmanagement.gke.io/managed` annotation. These steps are not necessary for functionality, but they do unclutter the Jobs, Pods, and presumably reduce resource use.
-
-*NOTE: This can be updated with porchctl steps, once defined*
-
-To do this, clone the mgmt repo, add the annotation to the Jobs, and then push them to the mgmt repo (authentication can be through the Git repo tokens or the default Gitea credentials, depending on installation). This will prevent ConfigSync from reconciling these manifests going forward:
-```bash
-git clone http://172.18.0.200:3000/nephio/mgmt.git
-cd mgmt/regional-argo-gitrepo/
-kpt fn eval --image "gcr.io/kpt-fn/set-annotations:v0.1.4" create-argocd-kubeconfig-secret-job.yaml -- "configmanagement.gke.io/managed=disabled"
-kpt fn eval --image "gcr.io/kpt-fn/set-annotations:v0.1.4" create-argocd-repo-secret-job.yaml -- "configmanagement.gke.io/managed=disabled"
-git add create-argocd-kubeconfig-secret-job.yaml create-argocd-repo-secret-job.yaml && git commit -m "Unmanaged Jobs" && git push
-```
-
-Sample output:
-```bash
-[RUNNING] "gcr.io/kpt-fn/set-annotations:v0.1.4"
-[PASS] "gcr.io/kpt-fn/set-annotations:v0.1.4" in 1.4s
-[RUNNING] "gcr.io/kpt-fn/set-annotations:v0.1.4"
-[PASS] "gcr.io/kpt-fn/set-annotations:v0.1.4" in 1.3s
-[main e5f5c72] Unmanaged Jobs
- 2 files changed, 4 insertions(+)
-...
-   b110ac9..e5f5c72  main -> main
-
-```
-
-After the Jobs and Pods expire (this may take a few minutes), you should no longer see Jobs being recreated:
-```bash
-kubectl get jobs
-```
-
-Sample output:
-```bash
-No resources found in default namespace.
 ```
