@@ -144,7 +144,7 @@ Sample output:
 argocd-repo-server-6d887d9cfc-9jvds                3/3     Running   0          3h29m
 ```
 
-Next, verify that the [catalog blueprint repositories](https://github.com/nephio-project/catalog.git) are registered 
+Verify that the [catalog blueprint repositories](https://github.com/nephio-project/catalog.git) are registered 
 and *Ready*:
 ```bash
 kubectl get repository
