@@ -326,7 +326,7 @@ cluster-regional              Opaque   3      4h22m
 regional-repo                 Opaque   4      4h22m
 ```
 
-Next check the *Ready* state of the associated ArgoCD App, ensuring that it is Synced and Healthy. This App will point at the `kpt-repo` CMP, acting as an app-of-apps for the regional cluster. The apps created subsequently through the workloads will target the `kpt-render` CMP:
+Next check the *Ready* state of the associated [ArgoCD App](https://argo-cd.readthedocs.io/en/stable/user-guide/application-specification/), ensuring that it is *Synced* and *Healthy*. This App will point at the `kpt-repo` CMP, acting as an [app-of-apps](https://argo-cd.readthedocs.io/en/latest/operator-manual/cluster-bootstrapping/#app-of-apps-pattern) for the regional cluster. The apps created subsequently through the workloads will target the `kpt-render` CMP:
 ```bash
 kubectl get apps -n argocd
 ```
