@@ -123,7 +123,13 @@ kubectl patch deployment argocd-repo-server -n argocd --type json -p='[
 ]'
 ```
 
-or, apply the patch via our shell script (which defaults to the `latest` tag):
+or, 
+b. apply the patch via our convenience shell script:
+
+{{% alert title="Note" color="primary" %}}
+The is will deploy the `latest` image versions.
+{{% /alert %}}
+
 ```bash
 curl -s https://raw.githubusercontent.com/nephio-project/nephio/refs/heads/main/gitops-tools/kpt-argocd-cmp/patch.sh > /tmp/patch.sh
 /bin/bash /tmp/patch.sh
