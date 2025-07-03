@@ -8,7 +8,7 @@ description:
 This tutorial gives short instructions on how to set up a development environment for Porch on a Nephio VM. It outlines the steps to
 get a [kind](https://kind.sigs.k8s.io/) cluster up and running to which a Porch instance running in Visual Studio Code
 can connect to and interact with. If you are not familiar with how porch works, it is highly recommended that you go
-through the [Starting with Porch tutorial](../user-guides/install-and-using-porch.md) before going through this one.
+through the [Starting with Porch tutorial](../user-guides/install-porch.md) before going through this one.
 
 ## Setting up the environment
 
