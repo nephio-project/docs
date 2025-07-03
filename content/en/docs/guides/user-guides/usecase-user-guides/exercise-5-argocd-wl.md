@@ -135,7 +135,7 @@ curl -s https://raw.githubusercontent.com/nephio-project/nephio/refs/heads/main/
 /bin/bash /tmp/patch.sh
 ```
 
-Now, verify that the patch has been applied, and the two CMPs are added to the argocd-repo-server (creating 3 containers):
+Verify that the patch has been applied, and that the 2 new CMP containers have been added to the argocd-repo-server:
 ```bash
 kubectl get pods -n argocd | grep argocd-repo-server
 ```
