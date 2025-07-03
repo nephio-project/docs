@@ -21,7 +21,7 @@ The following software should be installed prior to running through the tutorial
 
 1. [git](https://git-scm.com/)
 2. [Docker](https://www.docker.com/get-started/)
-3. [kubectl](https://kubernetes.io/docs/reference/kubectl/)
+3. [kubectl](https://kubernetes.io/docs/reference/kubectl/) - make sure that [kubectl context](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/) configured with your cluster
 4. [kind](https://kind.sigs.k8s.io/)
 5. [kpt](https://github.com/kptdev/kpt)
 6. [The go programming language](https://go.dev/)
