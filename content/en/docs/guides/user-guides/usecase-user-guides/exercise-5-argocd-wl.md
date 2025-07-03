@@ -45,7 +45,9 @@ If not, logout and login to the VM or execute the `newgrp docker` to ensure the 
 
 ArgoCD support in Nephio relies upon our custom [ArgoCD KPT Config Management Plugins (CMP)](https://github.com/nephio-project/nephio/blob/main/gitops-tools/kpt-argocd-cmp/README.md). To add the KPT Repo and KPT Render CMPs to the ArgoCD instance we can use one of the following options. 
 
-Either apply the patch directly, changing the version of the plugins:
+Either, 
+a. apply the patch directly, changing the `VERSION` of the plugins:
+
 ```json
 kubectl patch deployment argocd-repo-server -n argocd --type json -p='[
    {
