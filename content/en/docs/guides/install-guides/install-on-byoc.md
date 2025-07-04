@@ -34,15 +34,11 @@ be a non-EOL Kubernetes version. Additionally:
  - You will need cluster administrator privileges (in particular you will need
    to be able to create namespaces and other cluster-scoped resources).
 
-You will use *kpt* for most of the installation packages in these instructions,
-though you could also use *kubectl* directly to apply the resources, once they
-are configured.
-
 - Your default `kubectl` context should point to the cluster
 - You will need cluster administrator privileges (in particular you will need to be able to create namespaces and other
   cluster-scoped resources).
 
-You will use `kpt` for most of the installation packages in these instructions, though you could also use `kubectl`
+You will use `kpt` for most of the installation packages in these instructions. Alternatively, you could also use `kubectl`
 directly to apply the resources, once they are configured.
 
 After installing the prerequisites, create a local directory on your workstation to hold the local package instances for
