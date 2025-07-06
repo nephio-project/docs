@@ -3,7 +3,7 @@ title: Installing optional Baremetal components
 description: >
   Step by step guide to configure and install components supporting Baremetal cluster installation. 
 
-weight: 3
+weight: 2
 ---
 
 {{% alert title="Note" color="primary" %}}
