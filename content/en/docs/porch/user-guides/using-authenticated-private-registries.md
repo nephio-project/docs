@@ -1,7 +1,7 @@
 ---
 title: "Using authenticated private registries with the Porch function runner"
 type: docs
-weight: 4
+weight: 5
 description: ""
 ---
 
