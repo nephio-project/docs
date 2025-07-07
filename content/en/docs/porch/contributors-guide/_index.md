@@ -62,10 +62,6 @@ make push-images
 IMAGE_TAG=$(git rev-parse --short HEAD) make push-images
 ```
 
-## Running Locally
-
-Follow the [Running Porch Locally](../running-porch/running-locally.md) guide to run Porch locally.
-
 ## Debugging
 
 To debug Porch, run Porch locally [running-locally.md](../running-porch/running-locally.md), exit porch server running
