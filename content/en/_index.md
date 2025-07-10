@@ -35,15 +35,11 @@ contribute to the [Nephio docs](https://github.com/nephio-project/docs) project.
 {{% /blocks/feature %}}
 
 {{% blocks/feature icon="fab fa-wikipedia-w" title="Wiki" %}}
-Mass amount of developer information is available in the [wiki]([[params.versions]]
-  version = "R5"
-  url = "https://r5.docs.nephio.org/docs/"https://wiki.nephio.org/).
+Mass amount of developer information is available in the [wiki](https://wiki.nephio.org/).
 {{% /blocks/feature %}}
 
 {{% blocks/feature icon="fas fa-balance-scale-right" title="Charter" %}}
-Technical charter of the project can be found [here]([[params.versions]]
-  version = "R5"
-  url = "https://r5.docs.nephio.org/docs/"https://github.com/nephio-project/governance/blob/main/nephio-technical-charter-amended-2022-06-22.pdf).
+Technical charter of the project can be found [here](https://github.com/nephio-project/governance/blob/main/nephio-technical-charter-amended-2022-06-22.pdf).
 {{% /blocks/feature %}}
 
 {{% /blocks/section %}}
