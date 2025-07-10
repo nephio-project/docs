@@ -27,9 +27,11 @@ and network functions across large scale edge deployments."
 
 {{% blocks/section type="row" %}}
 
-{{% blocks/feature icon="fas fa-rocket" title="R3" %}}
-Welcome to the Release 3 of Nephio. This release is under ongoing development together with its documentation. It is
-possible to experience some incompleteness ;)
+{{% blocks/feature icon="fas fa-rocket" title="R5" %}}
+Welcome to Release 5 of Nephio. 
+Our documentation is being continually improved upon. So, if you do find and issue or bug, please do not hesitate to 
+inform us [here](https://github.com/nephio-project/nephio/issues/new/choose), or even better, get involved and 
+contribute to the [Nephio docs](https://github.com/nephio-project/docs) project.
 {{% /blocks/feature %}}
 
 {{% blocks/feature icon="fab fa-wikipedia-w" title="Wiki" %}}
