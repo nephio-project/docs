@@ -18,8 +18,8 @@
   },
   "homepage": "https://github.com/nephio-project/docs#readme",
   "devDependencies": {
-    "autoprefixer": "^10.4.16",
-    "postcss": "^8.4.31",
-    "postcss-cli": "^10.1.0"
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "postcss-cli": "^11.0.0"
   }
 }
