@@ -21,7 +21,7 @@ kubectl -n nephio-system rollout restart deploy nephio-controller
 
 ### `porchctl rpkg copy` Command Fails
 
-**Symptom:** Running the `porchctl rpkg copy` command occasionally fails with an error message similar to: `Error: Internal error occurred: error applying patch: conflict: fragment line does not match src line`.
+**Symptom:** Running the `porchctl rpkg copy` command occasionally fails with an error message similar to: *Error: Internal error occurred: error applying patch: conflict: fragment line does not match src line*.
 
 **Solution:** This is often a transient timing issue within the Porch server. Waiting a few moments and retrying the command usually resolves the error. If the problem persists, restarting the Porch server (as shown in the previous solution) can also help.
 
