@@ -10,7 +10,7 @@ This guide provides solutions to common issues encountered during the installati
 
 ### Packages Fail to Become Approved
 
-**Symptom:** After deploying a package, it remains in a `Proposed` state for a long time and is not automatically approved by the controller.
+**Symptom:** After deploying a package, it remains in a *Proposed* state for a long time and is not automatically approved by the controller.
 
 **Solution:** This can sometimes happen if the controllers become unresponsive. You can restart the Porch and Nephio controllers to resolve the issue. This is a safe operation and will cause the controllers to re-evaluate the current state.
 
