@@ -2,7 +2,7 @@
 title: Installation on BYOC
 description: >
   Step by step guide to install Nephio on any cluster
-weight: 3
+weight: 40
 ---
 
 ## Introduction
