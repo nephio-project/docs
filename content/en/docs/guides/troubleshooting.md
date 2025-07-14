@@ -27,7 +27,7 @@ kubectl -n nephio-system rollout restart deploy nephio-controller
 
 ### Duplicate `parameterRef` Extensions During Specialization
 
-**Symptom:** During the package specialization process, duplicate `parameterRef` extensions are created, leading to incorrect configurations and failed deployments.
+**Symptom:** During the package specialization process, duplicate *parameterRef* extensions are created, leading to incorrect configurations and failed deployments.
 
 **Solution:** This issue can be caused by the NFDeploy reconciliation not being idempotent. The current workaround is to redeploy the package. This will typically clear the invalid state and allow the specialization to proceed correctly.
 
