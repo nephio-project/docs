@@ -16,11 +16,11 @@ Then, we can utilize the flux Custom Resources defined in another test kpt packa
 
 ##  Prerequisites:
 
-* [Nephio R1 sandbox]/content/en/docs/guides/install-guides/install-guides/_index.md): Set up the Nephio sandbox environment.
-* [Access to the Nephio Web UI](/content/en/docs/guides/install-guides/_index.md#access-to-the-user-interfaces)
-* [Nephio R1 sandbox workload clusters](/content/en/docs/guides/user-guides/usecase-user-guides/exercise-1-free5gc.md):
+* [Nephio R1 sandbox](/docs/guides/install-guides/): Set up the Nephio sandbox environment.
+* [Access to the Nephio Web UI](/docs/guides/install-guides/_index.md#access-to-the-user-interfaces)
+* [Nephio R1 sandbox workload clusters](/docs/guides/user-guides/usecase-user-guides/exercise-1-free5gc.md):
   Create/Deploy the predefined set of workload clusters by completing the Free5GC Core quick start exercises up to and including
-  [Step 3](/content/en/docs/guides/user-guides/usecase-user-guides/exercise-1-free5gc.md#step-3-deploy-two-edge-clusters).
+  [Step 3](/docs/guides/user-guides/usecase-user-guides/exercise-1-free5gc.md#step-3-deploy-two-edge-clusters).
 
 ### Deploying the flux-helm-controllers pkg
 
@@ -67,7 +67,7 @@ Finally, we need to *propose* and then *approve* the pkg to initialize the deplo
 
 ![Install flux controllers - Step 6](/static/images/user-guides/approve-selection.png)
 
-Shortly thereafter, you should see flux helm and source controllers in the flux-system namespace:
+Shortly thereafter, you should see the flux helm and source controllers in the flux-system namespace:
 
 ```bash
 kubectl get po --context edge02-admin@edge02 -n flux-system
@@ -104,7 +104,7 @@ spec:
   git:
     branch: master
     directory: /packages
-    repo: https://github.com/Nordix/nordix-nephio-packages.git
+    repo: [https://github.com/Nordix/nordix-nephio-packages.git](https://github.com/Nordix/nordix-nephio-packages.git)
   type: git
 
 EOF
@@ -156,4 +156,3 @@ productcatalogservice-6d9568bddb-8z66q   1/1     Running   0          37s
 recommendationservice-c58857d6-qwrkd     1/1     Running   0          37s
 redis-cart-7495b4ff99-gbq4m              1/1     Running   0          37s
 shippingservice-6f65f85b8b-j5c28         1/1     Running   0          37s
-```

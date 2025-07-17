@@ -8,7 +8,7 @@ weight: 2
 
 ## Prerequisites
 
-- A Nephio Management cluster. See the [installation guides](/content/en/docs/guides/install-guides/_index.md) 
+- A Nephio Management cluster. See the [installation guides](/docs/guides/install-guides/) 
 for detailed environment options.
 - An ArgoCD installation, such as the [ArgoCD Full](https://github.com/nephio-project/catalog/tree/main/nephio/optional/argo-cd-full) package.
 - Optional:
@@ -17,7 +17,7 @@ for detailed environment options.
 
 {{% alert title="Note" color="primary" %}}
 
-If using a [sandbox demo environment](/content/en/docs/guides/install-guides/_index.md#kicking-off-an-installation-on-a-virtual-machine), 
+If using a [sandbox demo environment](/docs/guides/install-guides/_index.md#kicking-off-an-installation-on-a-virtual-machine), 
 most of the above prerequisites are already satisfied.
 
 {{% /alert %}}
@@ -126,7 +126,7 @@ The is will deploy the `latest` image versions.
 {{% /alert %}}
 
 ```bash
-curl -s https://raw.githubusercontent.com/nephio-project/nephio/refs/heads/main/gitops-tools/kpt-argocd-cmp/patch.sh > /tmp/patch.sh
+curl -s [https://raw.githubusercontent.com/nephio-project/nephio/refs/heads/main/gitops-tools/kpt-argocd-cmp/patch.sh](https://raw.githubusercontent.com/nephio-project/nephio/refs/heads/main/gitops-tools/kpt-argocd-cmp/patch.sh) > /tmp/patch.sh
 /bin/bash /tmp/patch.sh
 ```
 
@@ -147,21 +147,21 @@ kubectl get repository
 Sample output:
 ```bash
 NAME                        TYPE   CONTENT   DEPLOYMENT   READY   ADDRESS
-catalog-distros-sandbox     git    Package   false        True    https://github.com/nephio-project/catalog.git
-catalog-infra-capi          git    Package   false        True    https://github.com/nephio-project/catalog.git
-catalog-nephio-core         git    Package   false        True    https://github.com/nephio-project/catalog.git
-catalog-nephio-optional     git    Package   false        True    https://github.com/nephio-project/catalog.git
-catalog-workloads-free5gc   git    Package   false        True    https://github.com/nephio-project/catalog.git
-catalog-workloads-oai-ran   git    Package   false        True    https://github.com/nephio-project/catalog.git
-catalog-workloads-tools     git    Package   false        True    https://github.com/nephio-project/catalog.git
-mgmt                        git    Package   true         True    http://172.18.0.200:3000/nephio/mgmt.git
-mgmt-staging                git    Package   false        True    http://172.18.0.200:3000/nephio/mgmt-staging.git
-oai-core-packages           git    Package   false        True    https://github.com/OPENAIRINTERFACE/oai-packages.git
+catalog-distros-sandbox     git    Package   false        True    [https://github.com/nephio-project/catalog.git](https://github.com/nephio-project/catalog.git)
+catalog-infra-capi          git    Package   false        True    [https://github.com/nephio-project/catalog.git](https://github.com/nephio-project/catalog.git)
+catalog-nephio-core         git    Package   false        True    [https://github.com/nephio-project/catalog.git](https://github.com/nephio-project/catalog.git)
+catalog-nephio-optional     git    Package   false        True    [https://github.com/nephio-project/catalog.git](https://github.com/nephio-project/catalog.git)
+catalog-workloads-free5gc   git    Package   false        True    [https://github.com/nephio-project/catalog.git](https://github.com/nephio-project/catalog.git)
+catalog-workloads-oai-ran   git    Package   false        True    [https://github.com/nephio-project/catalog.git](https://github.com/nephio-project/catalog.git)
+catalog-workloads-tools     git    Package   false        True    [https://github.com/nephio-project/catalog.git](https://github.com/nephio-project/catalog.git)
+mgmt                        git    Package   true         True    [http://172.18.0.200:3000/nephio/mgmt.git](http://172.18.0.200:3000/nephio/mgmt.git)
+mgmt-staging                git    Package   false        True    [http://172.18.0.200:3000/nephio/mgmt-staging.git](http://172.18.0.200:3000/nephio/mgmt-staging.git)
+oai-core-packages           git    Package   false        True    [https://github.com/OPENAIRINTERFACE/oai-packages.git](https://github.com/OPENAIRINTERFACE/oai-packages.git)
 ```
 
 Once *Ready*, we can utilize blueprint packages from these upstream repositories.
 
-In this example, we will use the [Porch package variant controller](/content/en/docs/porch/package-variant.md#core-concepts) 
+In this example, we will use the [Porch package variant controller](/docs/porch/package-variant.md#core-concepts) 
 to deploy the new Workload Cluster.
 
 This fully automates the onboarding process, including the auto approval and publishing of the new package.
@@ -274,7 +274,7 @@ kubectl get repository regional
 Sample output:
 ```
 NAME       TYPE   CONTENT   DEPLOYMENT   READY   ADDRESS
-regional   git    Package   true         True    http://172.18.0.200:3000/nephio/regional.git
+regional   git    Package   true         True    [http://172.18.0.200:3000/nephio/regional.git](http://172.18.0.200:3000/nephio/regional.git)
 ```
 
 Now, we can get more details of the GitRepository CR:
@@ -290,7 +290,7 @@ Sample output:
   {
     "branch":"main",
     "directory":"/",
-    "repo":"http://172.18.0.200:3000/nephio/regional.git",
+    "repo":"[http://172.18.0.200:3000/nephio/regional.git](http://172.18.0.200:3000/nephio/regional.git)",
     "secretRef":
     {
       "name":"regional-access-token-porch"
@@ -386,4 +386,3 @@ Sample output:
 NAME                  SYNC STATUS   HEALTH STATUS
 regional              Synced        Healthy
 regional-free5gc-cp   Synced        Healthy
-```

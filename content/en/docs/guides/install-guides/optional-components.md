@@ -4,7 +4,7 @@ description: >
   After installing the environment-specific dependencies, and base components, the following optional Nephio 
   components can be installed. 
 
-weight: 2
+weight: 30
 ---
 
 {{% alert title="Note" color="primary" %}}

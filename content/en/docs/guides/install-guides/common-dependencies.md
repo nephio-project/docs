@@ -3,7 +3,7 @@ title: Installing common dependencies
 description: >
   This guide describes how to install some required dependencies that are the same across all environments.
 
-weight: 1
+weight: 10
 ---
 
 Some of these, like the resource-backend, will move out of the "required"
