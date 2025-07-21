@@ -80,7 +80,7 @@ archived_version = false
 # Used in the "version-banner" partial to display a version number for the 
 # current doc set.
 
-version = "main"
+version = "latest"
 
 # A link to latest version of the docs. Used in the "version-banner" partial to
 # point people to the main doc site.
@@ -216,8 +216,12 @@ enable = false
 # Add your release versions here
 
 [[params.versions]]
-  version = "main"
+  version = "latest"
   url = "https://docs.nephio.org/docs/"
+
+[[params.versions]]
+  version = "R5"
+  url = "https://r5.docs.nephio.org/docs/"
 
 [[params.versions]]
   version = "R4"
