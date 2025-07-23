@@ -7,8 +7,7 @@ description:
 
 ## Setting up the porchctl CLI
 
-When Porch was ported to Nephio, the `kpt alpha rpkg` commands in kpt were moved into a new command called `porchctl`. 
-
+The Porch CLI uses the `porchctl` command.
 To use it locally, [download](https://github.com/nephio-project/porch/releases/tag/dev), unpack and add it to your PATH.
 
 {{% alert title="Note" color="primary" %}}
@@ -100,9 +99,10 @@ package content. The matching resources share the same `name` (as well as API gr
 To use Porch with a Git repository, you will need:
 
 * A Git repository for your blueprints.
-* A [Personal Access Token](https://github.com/settings/tokens) (when using GitHub repository) for Porch to authenticate
-  with the repository. Porch requires the 'repo' scope.
-* Or Basic Auth credentials for Porch to authenticate with the repository.
+* If the repository requires authentication you will require either
+  - A [Personal Access Token](https://github.com/settings/tokens) (when using GitHub repository) for Porch to authenticate
+    with the repository if the repository. Porch requires the 'repo' scope.
+  - Basic Auth credentials for Porch to authenticate with the repository.
 
 To use Porch with an OCI repository ([Artifact Registry](https://console.cloud.google.com/artifacts) or
 [Google Container Registry](https://cloud.google.com/container-registry)), first make sure to:
@@ -112,10 +112,17 @@ To use Porch with an OCI repository ([Artifact Registry](https://console.cloud.g
   (`iam.gke.io/gcp-service-account=porch-server@$(GCP_PROJECT_ID).iam.gserviceaccount.com`)
   to have appropriate level of access to your OCI repository.
 
-Use the `porchctl repo register` command to register your repository with Porch:
+Use the `porchctl repo register` command to register your repository with Porch.
 
 ```bash
+# Unauthenticated Repositories
+porchctl repo register --namespace default https://github.com/platkrm/test-blueprints.git
+porchctl repo register --namespace default https://github.com/nephio-project/catalog --name=oai --directory=workloads/oai
+porchctl repo register --namespace default https://github.com/nephio-project/catalog --name=infra --directory=infra
+```
 
+```bash
+# Authenticated Repositories
 GITHUB_USERNAME=<your github username>
 GITHUB_TOKEN=<GitHub Personal Access Token>
 
@@ -126,7 +133,9 @@ $ porchctl repo register \
   https://github.com/${GITHUB_USERNAME}/blueprints.git
 ```
 
-All command line flags supported:
+For more details on configuring authenticated repositories see [Authenticating to Remote Git Repositories](git-authentication-config.md).
+
+The command line flags supported by `porchctl repo register` are:
 
 * `--directory` - Directory within the repository where to look for packages.
 * `--branch` - Branch in the repository where finalized packages are committed (defaults to `main`).
@@ -145,11 +154,11 @@ all `porchctl` CLI commands which interact with Porch).
 Use the `porchctl repo get` command to query registered repositories:
 
 ```bash
-$ porchctl repo get
-
-NAME         TYPE  CONTENT  DEPLOYMENT  READY  ADDRESS
-blueprints   git   Package              True   https://github.com/platkrm/blueprints.git
-deployments  git   Package  true        True   https://github.com/platkrm/deployments.git
+$ porchctl repo get -A
+NAMESPACE    NAME              TYPE   CONTENT   DEPLOYMENT   READY   ADDRESS
+default      oai               git    Package                True    https://github.com/nephio-project/catalog
+default      test-blueprints   git    Package                True    https://github.com/platkrm/test-blueprints.git
+porch-demo   porch-test        git    Package   true                 http://localhost:3000/nephio/porch-test.git
 ```
 
 The `porchctl <group> get` commands support common `kubectl`
@@ -159,7 +168,7 @@ The `porchctl <group> get` commands support common `kubectl`
 The command `porchctl repo unregister` can be used to unregister a repository:
 
 ```bash
-$ porchctl repo unregister deployments --namespace default
+$ porchctl repo unregister test-blueprints --namespace default
 ```
 
 ## Package Discovery And Introspection
@@ -170,67 +179,146 @@ service. the `r` prefix used in the command group name stands for 'remote'.
 The `porchctl rpkg get` command list the packages in registered repositories:
 
 ```bash
-$ porchctl rpkg get
-
-NAME                                                 PACKAGE  WORKSPACENAME  REVISION  LATEST  LIFECYCLE  REPOSITORY
-blueprints-0349d71330b89ee48ac85167598ef23021fd0484  basens   main           main      false   Published  blueprints
-blueprints-2e47615fda05664491f72c58b8ab658683afa036  basens   v1             v1        true    Published  blueprints
-blueprints-7e2fe44bfdbb744d49bdaaaeac596200102c5f7c  istions  main           main      false   Published  blueprints
-blueprints-ac6e872be4a4a3476922deca58cca3183b16a5f7  istions  v1             v1        false   Published  blueprints
-blueprints-421a5b5e43b03bc697d96f471929efc6ba3f54b3  istions  v2             v2        true    Published  blueprints
-...
+$ porchctl rpkg get -A
+NAMESPACE    NAME                                                           PACKAGE                                     WORKSPACENAME   REVISION   LATEST   LIFECYCLE          REPOSITORY
+default      infra.infra.baremetal.bmh-template.main                        infra/baremetal/bmh-template                main            -1         false    Published          infra
+default      infra.infra.capi.cluster-capi.main                             infra/capi/cluster-capi                     main            -1         false    Published          infra
+default      infra.infra.capi.cluster-capi.v2.0.0                           infra/capi/cluster-capi                     v2.0.0          -1         false    Published          infra
+default      infra.infra.capi.cluster-capi.v3.0.0                           infra/capi/cluster-capi                     v3.0.0          -1         false    Published          infra
+default      infra.infra.capi.vlanindex.main                                infra/capi/vlanindex                        main            -1         false    Published          infra
+default      infra.infra.capi.vlanindex.v2.0.0                              infra/capi/vlanindex                        v2.0.0          -1         false    Published          infra
+default      infra.infra.capi.vlanindex.v3.0.0                              infra/capi/vlanindex                        v3.0.0          -1         false    Published          infra
+default      infra.infra.gcp.nephio-blueprint-repo.main                     infra/gcp/nephio-blueprint-repo             main            -1         false    Published          infra
+default      infra.infra.gcp.nephio-blueprint-repo.v1                       infra/gcp/nephio-blueprint-repo             v1              1          true     Published          infra
+default      infra.infra.gcp.nephio-blueprint-repo.v2.0.0                   infra/gcp/nephio-blueprint-repo             v2.0.0          -1         false    Published          infra
+default      infra.infra.gcp.nephio-blueprint-repo.v3.0.0                   infra/gcp/nephio-blueprint-repo             v3.0.0          -1         false    Published          infra
+default      oai.workloads.oai.oai-ran-operator.main                        workloads/oai/oai-ran-operator              main            -1         false    Published          oai
+default      oai.workloads.oai.oai-ran-operator.v1                          workloads/oai/oai-ran-operator              v1              1          true     Published          oai
+default      oai.workloads.oai.oai-ran-operator.v2.0.0                      workloads/oai/oai-ran-operator              v2.0.0          -1         false    Published          oai
+default      oai.workloads.oai.oai-ran-operator.v3.0.0                      workloads/oai/oai-ran-operator              v3.0.0          -1         false    Published          oai
+default      oai.workloads.oai.pkg-example-cucp-bp.main                     workloads/oai/pkg-example-cucp-bp           main            -1         false    Published          oai
+default      oai.workloads.oai.pkg-example-cucp-bp.v1                       workloads/oai/pkg-example-cucp-bp           v1              1          true     Published          oai
+default      oai.workloads.oai.pkg-example-cucp-bp.v2.0.0                   workloads/oai/pkg-example-cucp-bp           v2.0.0          -1         false    Published          oai
+default      oai.workloads.oai.pkg-example-cucp-bp.v3.0.0                   workloads/oai/pkg-example-cucp-bp           v3.0.0          -1         false    Published          oai
+default      oai.workloads.oai.pkg-example-cuup-bp.main                     workloads/oai/pkg-example-cuup-bp           main            -1         false    Published          oai
+default      test-blueprints.basens.main                                    basens                                      main            -1         false    Published          test-blueprints
+default      test-blueprints.basens.v1                                      basens                                      v1              1          false    Published          test-blueprints
+default      test-blueprints.basens.v2                                      basens                                      v2              2          false    Published          test-blueprints
+default      test-blueprints.basens.v3                                      basens                                      v3              3          true     Published          test-blueprints
+default      test-blueprints.empty.main                                     empty                                       main            -1         false    Published          test-blueprints
+default      test-blueprints.empty.v1                                       empty                                       v1              1          true     Published          test-blueprints
+porch-demo   porch-test.basedir.subdir.subsubdir.edge-function.inadir       basedir/subdir/subsubdir/edge-function      inadir          0          false    Draft              porch-test
+porch-demo   porch-test.basedir.subdir.subsubdir.network-function.dirdemo   basedir/subdir/subsubdir/network-function   dirdemo         0          false    Draft              porch-test
+porch-demo   porch-test.network-function.innerhome                          network-function                            innerhome       2          true     Published          porch-test
+porch-demo   porch-test.network-function.innerhome3                         network-function                            innerhome3      0          false    Proposed           porch-test
+porch-demo   porch-test.network-function.innerhome4                         network-function                            innerhome4      0          false    Draft              porch-test
+porch-demo   porch-test.network-function.main                               network-function                            main            -1         false    Published          porch-test
+porch-demo   porch-test.network-function.outerspace                         network-function                            outerspace      1          false    DeletionProposed   porch-test
 ```
 
+The `NAME` column gives the kubernetes name of the package revision resource. Names are of the form:
+
+**repository.([pathnode.]*)package.workspace**
+
+1. The first part up to the first dot is the **repository** that the package revision is in.
+1. The scond (optional) part is zero or more **pathnode** nodes, identifying the path of the package.
+1. The second last part between the second last and last dots is the **package** that the package revision is in.
+1. The last part after the last dot is the **workspace** of the package revision, which uniquely identifies the package revision in the package.
+
+From the listing above the package revision with name `test-blueprints.basens.v3` is in a repository called `test-blueprints`. It is in the root of that
+repository because there are no **pathnode** entries in its name. It is in a package called `basens` and its workspace name is `v3`.
+
+The package revision with the name `porch-test.basedir.subdir.subsubdir.edge-function.inadir` is in the repo `porch-test`. It has a path of
+`basedir/subdir/subsubdir`. The package name is `edge-function` and its workspace name is `inadir`.
+
+The `PACKAGE` column contains the package name of a pacakge revision. Of course, all package revisions in a package have the same package name. The
+package name includes the path to the directory containing the package if the package is not in the root directory of the repo. For example, in the listing above
+the packages `basedir/subdir/subsubdir/edge-function` and `basedir/subdir/subsubdir/network-function` are in the directory `basedir/subdir/subsubdir`. THe
+`basedir/subdir/subsubdir/network-function` and `network-function` packages are different packages because they are in different directories.
+
+The `REVISION` column indicates the revision of the package.
+- Revisions of `1` or greater indicate released packages. When a package is `Published`. When a package is published, it is assigned the next
+  available revision number, startting at `1`. In the isting above the `porch-test.network-function.innerhome` revision of package `network-function`
+  has a revision of `2` and is the latest revision of the package. The `porch-test.network-function.outerspace` revision of the package has a
+  revision of `1`. If the `porch-test.network-function.innerhome3` revision is published, it will be assigned a revision of `3` and will become
+  the latest package revision.
+- Packages that are not published (packages with a lifecycle status of `Draft` or `Proposed`) have a revision number of `0`. There can be may revisions
+  of a package with revision `0` as is shown with revisions `porch-test.network-function.innerhome3` and `porch-test.network-function.innerhome4`
+  of package `network-function` above.
+- Placeholder packages that point at the tip of a branch or tag have a revision number of `-1`
+
 The `LATEST` column indicates whether the package revision is the latest among the revisions of the same package. In the
-output above, `v2` is the latest revision of `istions` package and `v1` is the latest revision of `basens` package.
+output above, `3` is the latest revision of `basens` package and `1` is the latest revision of `empty` package.
 
-The `LIFECYCLE` column indicates the lifecycle stage of the package revision, one of: `Draft`, `Proposed` or `Published`.
+The `LIFECYCLE` column indicates the lifecycle stage of the package revision, one of: `Draft`, `Proposed`, `Published` or `DeletionProposed`.
 
-The `REVISION` column indicates the revision of the package. Revisions are assigned when a package is `Published` and
-starts at `v1`.
+The `WORKSPACENAME` column indicates the workspace name of the package. The workspace name is selected by a user when a draft
+revision is created. The workspace name must be unique among package revisions in the same package. 
 
-The `WORKSPACENAME` column indicates the workspace name of the package. The workspace name is assigned when a draft
-revision is created and is used as the branch name for proposed and draft package revisions. The workspace name 
-must be unique among package revisions in the same package.
-
-{{% alert title="Note" color="primary" %}}
-
-Packages exist in a hierarchical directory structure maintained by the underlying repository such as git, or in a
-filesystem bundle of OCI images. The hierarchical, filesystem-compatible names of packages do not satisfy the
-Kubernetes naming [constraints](https://kubernetes.io/docs/concepts/overview/working-with-objects/names/#names).
-Therefore, the names of the Kubernetes resources representing package revisions are computed as a hash.
-
+{{% alert title="Scope of WORKSPACENAME" color="primary" %}}
+The scope of a workspace name is restricted to its package and it is merely a string that identifies a package revision within a package. A user is free to
+pick any workspace name that complies with [kubernetes rules for naming objects and IDs](https://kubernetes.io/docs/concepts/overview/working-with-objects/names/).
+The workspace name `V1` on the `empty` package has no relation whatever to the workspace name `V1` on the `basens` package on the listing above,
+a user has decided to use the same workspace name on two separate packages.
 {{% /alert %}}
 
+{{% alert title="Setting WORKSPACENAME and REVISION from repositories" color="primary" %}}
+When Porch connects to a repository, it scans the branches and tags of the Git repository for package revisions. It descends the directory tree of the repo
+looking for files called `Kptfile`. When it finds a Kptfile in a directory, Porch knows that it has found a kpt package and it does not search any child directories
+of this directory. Porch then examines all branches and tags that have references to that package and finds package revisions using the following rules:
+1. Look for a commit message of the form `kpt:{"package":"network-function","workspaceName":"outerspace","revision":"1"}` at the tip of the branch/tag and
+   set the workspace name and revision from the commit message, `outerspace` and `1` respectively in the case of the `porch-test.network-function.outerspace`
+   package revision in the listing above.
+2. If 1. fails, if the reference is of the form `<package>.v1`, set the workspace name to `v1` and the revision to `1` as in the case of the
+   `test-blueprints.basens.v1` package revision in the listing above.
+3. if 2. fails, set the workspace name to the branch or tag name and the revision to `-1`, so in the case of the `infra.infra.gcp.nephio-blueprint-repo.v3.0.0`
+   package revision in the listing above, the workspace name is set to the branch name `v3.0.0` and the revision is set to `-1`.
+{{% /alert %}}
+
+## Package Revision Filtering
 
 Simple filtering of package revisions by name (substring) and revision (exact match) is supported by the CLI using
-`--name` and `--revision` flags:
+`--name`, `--revision` and `--workspace` flags:
 
 ```bash
-$ porchctl rpkg get --name istio --revision=v2
+$ porchctl -n porch-demo rpkg get --name network-function
+NAME                                    PACKAGE            WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
+porch-test.network-function.dirdemo     network-function   dirdemo         1          false    Published   porch-test
+porch-test.network-function.innerhome   network-function   innerhome       2          true     Published   porch-test
+porch-test.network-function.main        network-function   main            -1         false    Published   porch-test
 
-NAME                                                 PACKAGE  WORKSPACENAME  REVISION  LATEST  LIFECYCLE  REPOSITORY
-blueprints-421a5b5e43b03bc697d96f471929efc6ba3f54b3  istions  v2             v2        true    Published  blueprints
+$ porchctl -n porch-demo rpkg get --revision 1
+NAME                                                         PACKAGE                                   WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
+porch-test.basedir.subdir.subsubdir.edge-function2.diredge   basedir/subdir/subsubdir/edge-function2   diredge         1          true     Published   porch-test
+porch-test.edge-function2.diredgeab                          edge-function2                            diredgeab       1          true     Published   porch-test
+porch-test.edge-function.diredge                             edge-function                             diredge         1          true     Published   porch-test
+porch-test.network-function3.outerspace                      network-function3                         outerspace      1          true     Published   porch-test
+porch-test.network-function.dirdemo                          network-function                          dirdemo         1          false    Published   porch-test
+
+$ porchctl -n porch-demo rpkg get --workspace outerspace
+NAME                                      PACKAGE             WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
+porch-test.network-function2.outerspace   network-function2   outerspace      0          false    Draft       porch-test
+porch-test.network-function3.outerspace   network-function3   outerspace      1          true     Published   porch-test
 ```
 
 The common `kubectl` flags that control output format are available as well:
 
 ```bash
-$ porchctl rpkg get blueprints-421a5b5e43b03bc697d96f471929efc6ba3f54b3 -ndefault -oyaml
 
+$ porchctl rpkg get -n porch-demo porch-test.network-function.innerhome -o yaml
 apiVersion: porch.kpt.dev/v1alpha1
 kind: PackageRevision
 metadata:
   labels:
     kpt.dev/latest-revision: "true"
-  name: blueprints-421a5b5e43b03bc697d96f471929efc6ba3f54b3
-  namespace: default
+  name: porch-test.network-function.innerhome
+  namespace: porch-demo
 spec:
   lifecycle: Published
-  packageName: istions
-  repository: blueprints
-  revision: v2
-  workspaceName: v2
+  packageName: network-function
+  repository: porch-test
+  revision: 2
+  workspaceName: innerhome
 ...
 ```
 
@@ -241,31 +329,30 @@ The command can be used to print the package revision resources as `ResourceList
 evaluation of functions on the package revision pulled from the Package Orchestration server.
 
 ```bash
-$ porchctl rpkg pull blueprints-421a5b5e43b03bc697d96f471929efc6ba3f54b3 -ndefault
-
+$ porchctl rpkg pull -n porch-demo porch-test.network-function.innerhome    
 apiVersion: config.kubernetes.io/v1
 kind: ResourceList
 items:
-- apiVersion: kpt.dev/v1
-  kind: Kptfile
+- apiVersion: ""
+  kind: KptRevisionMetadata
   metadata:
-    name: istions
+    name: porch-test.network-function.innerhome
+    namespace: porch-demo
 ...
 ```
 
 Or, the package contents can be saved on local disk for direct introspection or editing:
 
 ```bash
-$ porchctl rpkg pull blueprints-421a5b5e43b03bc697d96f471929efc6ba3f54b3 ./istions -ndefault
+$ porchctl rpkg pull -n porch-demo porch-test.network-function.innerhome ./innerhome
 
-$ find istions
+$ find innerhome
 
-istions
-istions/istions.yaml
-istions/README.md
-istions/Kptfile
-istions/package-context.yaml
-...
+./innerhome
+./innerhome/.KptRevisionMetadata
+./innerhome/README.md
+./innerhome/Kptfile
+./innerhome/package-context.yaml
 ```
 
 ## Authoring Packages
@@ -282,15 +369,12 @@ The `porchctl rpkg init` command can be used to initialize a new package revisio
 initialize a new package (as a draft) and save it in the specified repository.
 
 ```bash
-$ porchctl rpkg init new-package --repository=deployments --workspace=v1 -ndefault
+$ porchctl rpkg init new-package --repository=porch-test --workspace=my-workspace -nporch-demo
+porch-test.new-package.my-workspace created
 
-deployments-c32b851b591b860efda29ba0e006725c8c1f7764 created
-
-$ porchctl rpkg get
-
-NAME                                                  PACKAGE      WORKSPACENAME  REVISION  LATEST  LIFECYCLE  REPOSITORY
-deployments-c32b851b591b860efda29ba0e006725c8c1f7764  new-package  v1                       false   Draft      deployments
-...
+$ porchctl rpkg get -n porch-demo porch-test.new-package.my-workspace
+NAME                                  PACKAGE       WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
+porch-test.new-package.my-workspace   new-package   my-workspace    0          false    Draft       porch-test
 ```
 
 The new package is created in the `Draft` lifecycle stage. This is true also for all commands that create new package
@@ -308,14 +392,13 @@ Additional flags supported by the `porchctl rpkg init` command are:
 Use `porchctl rpkg clone` command to create a _downstream_ package by cloning an _upstream_ package:
 
 ```bash
-$ porchctl rpkg clone blueprints-421a5b5e43b03bc697d96f471929efc6ba3f54b3 istions-clone \
-  --repository=deployments -ndefault
-deployments-11ca1db650fa4bfa33deeb7f488fbdc50cdb3b82 created
+$ porchctl rpkg clone porch-test.new-package.my-workspace new-package-clone --repository=porch-deployment -nporch-demo
+porch-deployment.new-package-clone.v1 created
 
 # Confirm the package revision was created
-porchctl rpkg get deployments-11ca1db650fa4bfa33deeb7f488fbdc50cdb3b82 -ndefault
-NAME                                                   PACKAGE         WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
-deployments-11ca1db650fa4bfa33deeb7f488fbdc50cdb3b82   istions-clone   v1                         false    Draft       deployments
+porchctl rpkg get porch-deployment.new-package-clone.v1 -nporch-demo
+NAME                                    PACKAGE             WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
+porch-deployment.new-package-clone.v1   new-package-clone   v1              0          false    Draft       porch-deployment
 ```
 
 `porchctl rpkg clone` can also be used to clone packages that are in repositories not registered with Porch, for
@@ -323,17 +406,16 @@ example:
 
 ```bash
 $ porchctl rpkg clone \
-  https://github.com/GoogleCloudPlatform/blueprints.git cloned-bucket \
-  --directory=catalog/bucket \
+  https://github.com/nephio-project/catalog.git cloned-pkg-example-ue-bp \
+  --directory=workloads/oai/pkg-example-ue-bp \
   --ref=main \
-  --repository=deployments \
-  --namespace=default
-deployments-e06c2f6ec1afdd8c7d977fcf204e4d543778ddac created
+  --repository=porch-deployment \
+  --namespace=porch-demo
+porch-deployment.cloned-pkg-example-ue-bp.v1 created
 
 # Confirm the package revision was created
-porchctl rpkg get deployments-e06c2f6ec1afdd8c7d977fcf204e4d543778ddac -ndefault
-NAME                                                   PACKAGE         WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
-deployments-e06c2f6ec1afdd8c7d977fcf204e4d543778ddac   cloned-bucket   v1                         false    Draft       deployments
+NAME                                           PACKAGE                    WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
+porch-deployment.cloned-pkg-example-ue-bp.v1   cloned-pkg-example-ue-bp   v1              0          false    Draft       porch-deployment
 ```
 
 The flags supported by the `porchctl rpkg clone` command are:
@@ -346,47 +428,43 @@ The flags supported by the `porchctl rpkg clone` command are:
   repository).
 * `--workspace` - Workspace to assign to the downstream package.
 * `--strategy` - Update strategy that should be used when updating this package;
-  one of: `resource-merge`, `fast-forward`, `force-delete-replace`.
+  one of: `resource-merge`, `fast-forward`, `force-delete-replace`, `copy-merge`.
 
 
 The `porchctl rpkg copy` command can be used to create a new revision of an existing package. It is a means to
 modifying an already published package revision.
 
 ```bash
-$ porchctl rpkg copy \
-  blueprints-421a5b5e43b03bc697d96f471929efc6ba3f54b3 \
-  --workspace=v3 -ndefault
+$ porchctl rpkg copy porch-test.network-function.innerhome --workspace=great-outdoors -nporch-demo
+porch-test.network-function.great-outdoors created
 
 # Confirm the package revision was created
-$ porchctl rpkg get blueprints-bf11228f80de09f1a5dd9374dc92ebde3b503689 -ndefault
-NAME                                                  PACKAGE   WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
-blueprints-bf11228f80de09f1a5dd9374dc92ebde3b503689   istions   v3                         false    Draft       blueprints
+$ porchctl rpkg get porch-test.network-function.great-outdoors -nporch-demo
+NAME                                         PACKAGE            WORKSPACENAME    REVISION   LATEST   LIFECYCLE   REPOSITORY
+porch-test.network-function.great-outdoors   network-function   great-outdoors   0          false    Draft       porch-test
 ```
 
-The `porchctl rpkg push` command can be used to update the resources (package contents) of a package _draft_:
+The `porchctl rpkg pull` and `porchctl rpkg push` commands can be used to update the resources (package contents) of a package _draft_:
 
 ```bash
-$ porchctl rpkg pull \
-  deployments-c32b851b591b860efda29ba0e006725c8c1f7764 ./new-package -ndefault
+$ porchctl rpkg pull porch-test.network-function.great-outdoors ./great-outdoors -nporch-demo
 
 # Make edits using your favorite YAML editor, for example adding a new resource
-$ cat <<EOF > ./new-package/config-map.yaml
+$ cat <<EOF > ./great-outdoors/config-map.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: example-config-map
 data:
-  color: orange
+  color: green
 EOF
 
 # Push the updated contents to the Package Orchestration server, updating the
 # package contents.
-$ porchctl rpkg push \
-  deployments-c32b851b591b860efda29ba0e006725c8c1f7764 ./new-package -ndefault
+$ porchctl rpkg push porch-test.network-function.great-outdoors ./great-outdoors -nporch-demo
 
 # Confirm that the remote package now includes the new ConfigMap resource
-$ porchctl rpkg pull deployments-c32b851b591b860efda29ba0e006725c8c1f7764 -ndefault
-
+$ porchctl rpkg pull porch-test.network-function.great-outdoors -nporch-demo
 apiVersion: config.kubernetes.io/v1
 kind: ResourceList
 items:
@@ -395,23 +473,26 @@ items:
   kind: ConfigMap
   metadata:
     name: example-config-map
+    annotations:
+      config.kubernetes.io/index: '0'
+      internal.config.kubernetes.io/index: '0'
+      internal.config.kubernetes.io/path: 'config-map.yaml'
+      config.kubernetes.io/path: 'config-map.yaml'
   data:
-    color: orange
+    color: green
 ...
 ```
-
 Package revision can be deleted using `porchctl rpkg del` command:
 
 ```bash
 # Delete package revision
-$ porchctl rpkg del blueprints-bf11228f80de09f1a5dd9374dc92ebde3b503689 -ndefault
-
-blueprints-bf11228f80de09f1a5dd9374dc92ebde3b503689 deleted
+$ porchctl rpkg del porch-test.network-function.great-outdoors -nporch-demo
+porch-test.network-function.great-outdoors deleted
 ```
 
 ## Package Lifecycle and Approval Flow
 
-Authoring is performed on the package revisions in the _Draft_ lifecycle stage. Before a package can be deployed or
+Authoring is performed on the package revisions in the _Draft_ lifecycle stage. Before a package can be deployed, copied or
 cloned, it must be _Published_. The approval flow is the process by which the package is advanced from _Draft_ state
 through _Proposed_ state and finally to _Published_ lifecycle stage.
 
@@ -427,28 +508,35 @@ we will create proposals for publishing some of them.
 ```bash
 # List package revisions to identify relevant drafts:
 $ porchctl rpkg get
-NAME                                                   PACKAGE         WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
+NAME                                           PACKAGE                    WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
 ...
-deployments-e06c2f6ec1afdd8c7d977fcf204e4d543778ddac   cloned-bucket   v1                         false    Draft       deployments
-deployments-11ca1db650fa4bfa33deeb7f488fbdc50cdb3b82   istions-clone   v1                         false    Draft       deployments
-deployments-c32b851b591b860efda29ba0e006725c8c1f7764   new-package     v1                         false    Draft       deployments
+porch-deployment.cloned-pkg-example-ue-bp.v1   cloned-pkg-example-ue-bp   v1              0          false    Draft       porch-deployment
+porch-deployment.new-package-clone.v1          new-package-clone          v1              0          false    Draft       porch-deployment
+porch-test.network-function2.outerspace        network-function2          outerspace      0          false    Draft       porch-test
+porch-test.network-function3.innerhome5        network-function3          innerhome5      0          false    Draft       porch-test
+porch-test.network-function3.innerhome6        network-function3          innerhome6      0          false    Draft       porch-test
+porch-test.new-package.my-workspace            new-package                my-workspace    0          false    Draft       porch-test
+...
 
 # Propose two package revisions to be be published
 $ porchctl rpkg propose \
-  deployments-11ca1db650fa4bfa33deeb7f488fbdc50cdb3b82 \
-  deployments-c32b851b591b860efda29ba0e006725c8c1f7764 \
-  -ndefault
+  porch-deployment.new-package-clone.v1 \
+  porch-test.network-function3.innerhome6 \
+  -nporch-demo
 
-deployments-11ca1db650fa4bfa33deeb7f488fbdc50cdb3b82 proposed
-deployments-c32b851b591b860efda29ba0e006725c8c1f7764 proposed
+porch-deployment.new-package-clone.v1 proposed
+porch-test.network-function3.innerhome6 proposed
 
 # Confirm the package revisions are now Proposed
 $ porchctl rpkg get
-NAME                                                   PACKAGE         WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
+NAME                                           PACKAGE                    WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
 ...
-deployments-e06c2f6ec1afdd8c7d977fcf204e4d543778ddac   cloned-bucket   v1                         false    Draft       deployments
-deployments-11ca1db650fa4bfa33deeb7f488fbdc50cdb3b82   istions-clone   v1                         false    Proposed    deployments
-deployments-c32b851b591b860efda29ba0e006725c8c1f7764   new-package     v1                         false    Proposed    deployments
+porch-deployment.cloned-pkg-example-ue-bp.v1   cloned-pkg-example-ue-bp   v1              0          false    Draft       porch-deployment
+porch-deployment.new-package-clone.v1          new-package-clone          v1              0          false    Proposed    porch-deployment
+porch-test.network-function2.outerspace        network-function2          outerspace      0          false    Draft       porch-test
+porch-test.network-function3.innerhome5        network-function3          innerhome5      0          false    Draft       porch-test
+porch-test.network-function3.innerhome6        network-function3          innerhome6      0          false    Proposed    porch-test
+porch-test.new-package.my-workspace            new-package                my-workspace    0          false    Draft       porch-test
 ```
 
 At this point, a person in _platform administrator_ role, or even an automated process, will review and either approve
@@ -457,12 +545,12 @@ commands above, such as `porchctl rpkg pull`.
 
 ```bash
 # Approve a proposal to publish a package revision
-$ porchctl rpkg approve deployments-11ca1db650fa4bfa33deeb7f488fbdc50cdb3b82 -ndefault
-deployments-11ca1db650fa4bfa33deeb7f488fbdc50cdb3b82 approved
+$ porchctl rpkg approve porch-deployment.new-package-clone.v1 -nporch-demo
+porch-deployment.new-package-clone.v1 approved
 
 # Reject a proposal to publish a package revision
-$ porchctl rpkg reject deployments-c32b851b591b860efda29ba0e006725c8c1f7764 -ndefault
-deployments-c32b851b591b860efda29ba0e006725c8c1f7764 rejected
+$ porchctl rpkg reject porch-test.network-function3.innerhome6 -nporch-demo
+porch-test.network-function3.innerhome6 no longer proposed for approval
 ```
 
 Now the user can confirm lifecycle stages of the package revisions:
@@ -470,12 +558,84 @@ Now the user can confirm lifecycle stages of the package revisions:
 ```bash
 # Confirm package revision lifecycle stages after approvals:
 $ porchctl rpkg get
-NAME                                                   PACKAGE         WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
+NAME                                           PACKAGE                    WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
 ...
-deployments-e06c2f6ec1afdd8c7d977fcf204e4d543778ddac   cloned-bucket   v1                         false    Draft       deployments
-deployments-11ca1db650fa4bfa33deeb7f488fbdc50cdb3b82   istions-clone   v1              v1         true     Published   deployments
-deployments-c32b851b591b860efda29ba0e006725c8c1f7764   new-package     v1                         false    Draft       deployments
+porch-deployment.cloned-pkg-example-ue-bp.v1   cloned-pkg-example-ue-bp   v1              0          false    Draft       porch-deployment
+porch-deployment.new-package-clone.v1          new-package-clone          v1              1          true     Published   porch-deployment
+porch-test.network-function2.outerspace        network-function2          outerspace      0          false    Draft       porch-test
+porch-test.network-function3.innerhome5        network-function3          innerhome5      0          false    Draft       porch-test
+porch-test.network-function3.innerhome6        network-function3          innerhome6      0          false    Draft       porch-test
+porch-test.new-package.my-workspace            new-package                my-workspace    0          false    Draft       porch-test
 ```
 
 Observe that the rejected proposal returned the package revision back to _Draft_ lifecycle stage. The package whose
 proposal was approved is now in _Published_ state.
+
+An approved pacakge revision cannot be directly deleted, it must first be proposed for deletion.
+
+```bash
+porchctl rpkg propose-delete -n porch-demo porch-deployment.new-package-clone.v1
+
+# Confirm package revision lifecycle stages after deletion proposed:
+$ porchctl rpkg get
+NAME                                           PACKAGE                    WORKSPACENAME   REVISION   LATEST   LIFECYCLE          REPOSITORY
+...
+porch-deployment.cloned-pkg-example-ue-bp.v1   cloned-pkg-example-ue-bp   v1              0          false    Draft              porch-deployment
+porch-deployment.new-package-clone.v1          new-package-clone          v1              1          true     DeletionProposed   porch-deployment
+porch-test.network-function2.outerspace        network-function2          outerspace      0          false    Draft              porch-test
+porch-test.network-function3.innerhome5        network-function3          innerhome5      0          false    Draft              porch-test
+porch-test.network-function3.innerhome6        network-function3          innerhome6      0          false    Draft              porch-test
+porch-test.new-package.my-workspace            new-package                my-workspace    0          false    Draft              porch-test
+```
+
+At this point, a person in _platform administrator_ role, or even an automated process, will review and either approve
+or reject the deletion.
+
+```bash
+porchctl rpkg reject -n porch-demo porch-deployment.new-package-clone.v1
+
+# Confirm package revision deletion has been rejected:
+$ porchctl rpkg get
+NAME                                           PACKAGE                    WORKSPACENAME   REVISION   LATEST   LIFECYCLE          REPOSITORY
+...
+porch-deployment.cloned-pkg-example-ue-bp.v1   cloned-pkg-example-ue-bp   v1              0          false    Draft       porch-deployment
+porch-deployment.new-package-clone.v1          new-package-clone          v1              1          true     Published   porch-deployment
+porch-test.network-function2.outerspace        network-function2          outerspace      0          false    Draft       porch-test
+porch-test.network-function3.innerhome5        network-function3          innerhome5      0          false    Draft       porch-test
+porch-test.network-function3.innerhome6        network-function3          innerhome6      0          false    Draft       porch-test
+porch-test.new-package.my-workspace            new-package                my-workspace    0          false    Draft       porch-test
+```
+
+The package revision can again be proposed for deletion.
+
+```bash
+porchctl rpkg propose-delete -n porch-demo porch-deployment.new-package-clone.v1
+
+# Confirm package revision lifecycle stages after deletion proposed:
+$ porchctl rpkg get
+NAME                                           PACKAGE                    WORKSPACENAME   REVISION   LATEST   LIFECYCLE          REPOSITORY
+...
+porch-deployment.cloned-pkg-example-ue-bp.v1   cloned-pkg-example-ue-bp   v1              0          false    Draft              porch-deployment
+porch-deployment.new-package-clone.v1          new-package-clone          v1              1          true     DeletionProposed   porch-deployment
+porch-test.network-function2.outerspace        network-function2          outerspace      0          false    Draft              porch-test
+porch-test.network-function3.innerhome5        network-function3          innerhome5      0          false    Draft              porch-test
+porch-test.network-function3.innerhome6        network-function3          innerhome6      0          false    Draft              porch-test
+porch-test.new-package.my-workspace            new-package                my-workspace    0          false    Draft              porch-test
+```
+
+At this point, a person in _platform administrator_ role, or even an automated process, decides to proceed with the deletion.
+
+```bash
+porchctl rpkg delete -n porch-demo porch-deployment.new-package-clone.v1
+
+# Confirm package revision is deleted:
+$ porchctl rpkg get
+NAME                                           PACKAGE                    WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
+...
+porch-deployment.cloned-pkg-example-ue-bp.v1   cloned-pkg-example-ue-bp   v1              0          false    Draft       porch-deployment
+porch-test.network-function2.outerspace        network-function2          outerspace      0          false    Draft       porch-test
+porch-test.network-function3.innerhome5        network-function3          innerhome5      0          false    Draft       porch-test
+porch-test.network-function3.innerhome6        network-function3          innerhome6      0          false    Draft       porch-test
+porch-test.new-package.my-workspace            new-package                my-workspace    0          false    Draft       porch-test
+```
+
