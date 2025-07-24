@@ -549,7 +549,7 @@ $ porchctl rpkg approve porch-deployment.new-package-clone.v1 -n porch-demo
 porch-deployment.new-package-clone.v1 approved
 
 # Reject a proposal to publish a package revision
-$ porchctl rpkg reject porch-test.network-function3.innerhome6 -nporch-demo
+$ porchctl rpkg reject porch-test.network-function3.innerhome6 -n porch-demo
 porch-test.network-function3.innerhome6 no longer proposed for approval
 ```
 
