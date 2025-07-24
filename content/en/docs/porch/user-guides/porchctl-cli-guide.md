@@ -396,7 +396,7 @@ $ porchctl rpkg clone porch-test.new-package.my-workspace new-package-clone --re
 porch-deployment.new-package-clone.v1 created
 
 # Confirm the package revision was created
-porchctl rpkg get porch-deployment.new-package-clone.v1 -nporch-demo
+porchctl rpkg get porch-deployment.new-package-clone.v1 -n porch-demo
 NAME                                    PACKAGE             WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
 porch-deployment.new-package-clone.v1   new-package-clone   v1              0          false    Draft       porch-deployment
 ```
