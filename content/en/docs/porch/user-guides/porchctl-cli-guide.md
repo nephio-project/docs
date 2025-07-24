@@ -225,7 +225,7 @@ The `NAME` column gives the kubernetes name of the package revision resource. Na
 1. The second last part between the second last and last dots is the **package** that the package revision is in.
 1. The last part after the last dot is the **workspace** of the package revision, which uniquely identifies the package revision in the package.
 
-From the listing above the package revision with name `test-blueprints.basens.v3` is in a repository called `test-blueprints`. It is in the root of that
+From the listing above, the package revision with the name `test-blueprints.basens.v3`, is in a repository called `test-blueprints`. It is in the root of that
 repository because there are no **pathnode** entries in its name. It is in a package called `basens` and its workspace name is `v3`.
 
 The package revision with the name `porch-test.basedir.subdir.subsubdir.edge-function.inadir` is in the repo `porch-test`. It has a path of
