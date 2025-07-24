@@ -220,16 +220,34 @@ The `NAME` column gives the kubernetes name of the package revision resource. Na
 
 **repository.([pathnode.]*)package.workspace**
 
-1. The first part up to the first dot is the **repository** that the package revision is in.
+1. The first part (up to the first dot) is the **repository** that the package revision is in.
 1. The second (optional) part is zero or more **pathnode** nodes, identifying the path of the package.
-1. The second last part between the second last and last dots is the **package** that the package revision is in.
-1. The last part after the last dot is the **workspace** of the package revision, which uniquely identifies the package revision in the package.
+1. The second last part (between the second last and last dots) is the **package** that the package revision is in.
+1. The last part (after the last dot) is the **workspace** of the package revision, which uniquely identifies the package revision in the package.
 
-From the listing above, the package revision with the name `test-blueprints.basens.v3`, is in a repository called `test-blueprints`. It is in the root of that
+From the listing above, the package revision with the name `test-blueprints.basens.v3` is in a repository called `test-blueprints`. It is in the root of that
 repository because there are no **pathnode** entries in its name. It is in a package called `basens` and its workspace name is `v3`.
 
 The package revision with the name `porch-test.basedir.subdir.subsubdir.edge-function.inadir` is in the repo `porch-test`. It has a path of
 `basedir/subdir/subsubdir`. The package name is `edge-function` and its workspace name is `inadir`.
+
+The entire name must comply with the constraints on DNS Subdomain Names
+specified in [kubernetes rules for naming objects and IDs](https://kubernetes.io/docs/concepts/overview/working-with-objects/names/).
+The name must:
+
+- contain no more than 253 characters
+- contain only lowercase alphanumeric characters, '-' or '.'
+- start with an alphanumeric character
+- end with an alphanumeric character
+
+Each part of the name must comply with the constraints on RFC 1123 label names
+specified in [kubernetes rules for naming objects and IDs](https://kubernetes.io/docs/concepts/overview/working-with-objects/names/).
+Each part of the name must:
+
+- contain at most 63 characters
+- contain only lowercase alphanumeric characters or '-'
+- start with an alphanumeric character
+- end with an alphanumeric character
 
 The `PACKAGE` column contains the package name of a pacakge revision. Of course, all package revisions in a package have the same package name. The
 package name includes the path to the directory containing the package if the package is not in the root directory of the repo. For example, in the listing above
@@ -237,7 +255,7 @@ the packages `basedir/subdir/subsubdir/edge-function` and `basedir/subdir/subsub
 `basedir/subdir/subsubdir/network-function` and `network-function` packages are different packages because they are in different directories.
 
 The `REVISION` column indicates the revision of the package.
-- Revisions of `1` or greater indicate released packages. When a package is `Published`. When a package is published, it is assigned the next
+- Revisions of `1` or greater indicate released packages. When a package revision is `Published` it is assigned the next
   available revision number, starting at `1`. In the listing above, the `porch-test.network-function.innerhome` revision of package `network-function`
   has a revision of `2` and is the latest revision of the package. The `porch-test.network-function.outerspace` revision of the package has a
   revision of `1`. If the `porch-test.network-function.innerhome3` revision is published, it will be assigned a revision of `3` and will become
@@ -253,24 +271,26 @@ output above, `3` is the latest revision of `basens` package and `1` is the late
 The `LIFECYCLE` column indicates the lifecycle stage of the package revision, one of: `Draft`, `Proposed`, `Published` or `DeletionProposed`.
 
 The `WORKSPACENAME` column indicates the workspace name of the package. The workspace name is selected by a user when a draft
-revision is created. The workspace name must be unique among package revisions in the same package. 
+revision is created. The workspace name must be unique among package revisions in the same package. A user is free to
+select any workspace name that complies with the constraints on DNS Subdomain Names specified in
+[kubernetes rules for naming objects and IDs](https://kubernetes.io/docs/concepts/overview/working-with-objects/names/).
 
 {{% alert title="Scope of WORKSPACENAME" color="primary" %}}
-The scope of a workspace name is restricted to its package and it is merely a string that identifies a package revision within a package. A user is free to
-pick any workspace name that complies with [kubernetes rules for naming objects and IDs](https://kubernetes.io/docs/concepts/overview/working-with-objects/names/).
+The scope of a workspace name is restricted to its package and it is merely a string that identifies a package revision within a package.
 The workspace name `V1` on the `empty` package has no relation to the workspace name `V1` on the `basens` package listed above.
-A user has simply decided to use the same workspace name on two separate packages.
+A user has simply decided to use the same workspace name on two separate package revisions.
 {{% /alert %}}
 
 {{% alert title="Setting WORKSPACENAME and REVISION from repositories" color="primary" %}}
 When Porch connects to a repository, it scans the branches and tags of the Git repository for package revisions. It descends the directory tree of the repo
 looking for files called `Kptfile`. When it finds a Kptfile in a directory, Porch knows that it has found a kpt package and it does not search any child directories
 of this directory. Porch then examines all branches and tags that have references to that package and finds package revisions using the following rules:
-1. Look for a commit message of the form `kpt:{"package":"network-function","workspaceName":"outerspace","revision":"1"}` at the tip of the branch/tag and
-   set the workspace name and revision from the commit message, `outerspace` and `1` respectively in the case of the `porch-test.network-function.outerspace`
+1. Look for a commit message of the form `kpt:{"package":"<package>","workspaceName":"<workspace>","revision":"<revision>"}` at the tip of the branch/tag and
+   set the workspace name and revision from the commit message. The commit message `kpt:{"package":"network-function","workspaceName":"outerspace","revision":"1"}`
+   is used to set the workspace name to `outerspace` and the revision to `1` in the case of the `porch-test.network-function.outerspace`
    package revision in the listing above.
 2. If 1. fails, and if the reference is of the form `<package>.v1`, set the workspace name to `v1` and the revision to `1` as is the case for the
-   `test-blueprints.basens.v1` package revision in the listing above.
+   `oai.workloads.oai.oai-ran-operator.v1` package revision in the listing above.
 3. If 2. fails, set the workspace name to the branch or tag name, and the revision to `-1`, as is the case for the `infra.infra.gcp.nephio-blueprint-repo.v3.0.0`
    package revision in the listing above. The workspace name is set to the branch name `v3.0.0`, and the revision is set to `-1`.
 {{% /alert %}}
@@ -414,6 +434,7 @@ $ porchctl rpkg clone \
 porch-deployment.cloned-pkg-example-ue-bp.v1 created
 
 # Confirm the package revision was created
+$ porchctl rpkg get -n porch-demo porch-deployment.cloned-pkg-example-ue-bp.v1
 NAME                                           PACKAGE                    WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
 porch-deployment.cloned-pkg-example-ue-bp.v1   cloned-pkg-example-ue-bp   v1              0          false    Draft       porch-deployment
 ```
