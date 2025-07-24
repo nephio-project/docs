@@ -522,7 +522,7 @@ porch-test.new-package.my-workspace            new-package                my-wor
 $ porchctl rpkg propose \
   porch-deployment.new-package-clone.v1 \
   porch-test.network-function3.innerhome6 \
-  -nporch-demo
+  -n porch-demo
 
 porch-deployment.new-package-clone.v1 proposed
 porch-test.network-function3.innerhome6 proposed
