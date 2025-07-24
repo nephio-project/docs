@@ -486,7 +486,7 @@ Package revision can be deleted using `porchctl rpkg del` command:
 
 ```bash
 # Delete package revision
-$ porchctl rpkg del porch-test.network-function.great-outdoors -nporch-demo
+$ porchctl rpkg del porch-test.network-function.great-outdoors -n porch-demo
 porch-test.network-function.great-outdoors deleted
 ```
 
