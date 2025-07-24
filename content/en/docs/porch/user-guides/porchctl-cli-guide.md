@@ -272,7 +272,7 @@ of this directory. Porch then examines all branches and tags that have reference
 2. If 1. fails, and if the reference is of the form `<package>.v1`, set the workspace name to `v1` and the revision to `1` as is the case for the
    `test-blueprints.basens.v1` package revision in the listing above.
 3. If 2. fails, set the workspace name to the branch or tag name, and the revision to `-1`, as is the case for the `infra.infra.gcp.nephio-blueprint-repo.v3.0.0`
-   package revision in the listing above, the workspace name is set to the branch name `v3.0.0` and the revision is set to `-1`.
+   package revision in the listing above. The workspace name is set to the branch name `v3.0.0`, and the revision is set to `-1`.
 {{% /alert %}}
 
 ## Package Revision Filtering
