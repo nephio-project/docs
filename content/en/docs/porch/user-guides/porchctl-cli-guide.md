@@ -464,7 +464,7 @@ EOF
 $ porchctl rpkg push porch-test.network-function.great-outdoors ./great-outdoors -nporch-demo
 
 # Confirm that the remote package now includes the new ConfigMap resource
-$ porchctl rpkg pull porch-test.network-function.great-outdoors -nporch-demo
+$ porchctl rpkg pull porch-test.network-function.great-outdoors -n porch-demo
 apiVersion: config.kubernetes.io/v1
 kind: ResourceList
 items:
