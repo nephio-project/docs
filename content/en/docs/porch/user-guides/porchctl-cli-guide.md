@@ -259,7 +259,7 @@ revision is created. The workspace name must be unique among package revisions i
 The scope of a workspace name is restricted to its package and it is merely a string that identifies a package revision within a package. A user is free to
 pick any workspace name that complies with [kubernetes rules for naming objects and IDs](https://kubernetes.io/docs/concepts/overview/working-with-objects/names/).
 The workspace name `V1` on the `empty` package has no relation whatever to the workspace name `V1` on the `basens` package on the listing above,
-a user has decided to use the same workspace name on two separate packages.
+A user has simply decided to use the same workspace name on two separate packages.
 {{% /alert %}}
 
 {{% alert title="Setting WORKSPACENAME and REVISION from repositories" color="primary" %}}
