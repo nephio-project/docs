@@ -392,7 +392,7 @@ Additional flags supported by the `porchctl rpkg init` command are:
 Use `porchctl rpkg clone` command to create a _downstream_ package by cloning an _upstream_ package:
 
 ```bash
-$ porchctl rpkg clone porch-test.new-package.my-workspace new-package-clone --repository=porch-deployment -nporch-demo
+$ porchctl rpkg clone porch-test.new-package.my-workspace new-package-clone --repository=porch-deployment -n porch-demo
 porch-deployment.new-package-clone.v1 created
 
 # Confirm the package revision was created
