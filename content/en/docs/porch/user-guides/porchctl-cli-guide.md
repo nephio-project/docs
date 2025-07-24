@@ -545,7 +545,7 @@ commands above, such as `porchctl rpkg pull`.
 
 ```bash
 # Approve a proposal to publish a package revision
-$ porchctl rpkg approve porch-deployment.new-package-clone.v1 -nporch-demo
+$ porchctl rpkg approve porch-deployment.new-package-clone.v1 -n porch-demo
 porch-deployment.new-package-clone.v1 approved
 
 # Reject a proposal to publish a package revision
