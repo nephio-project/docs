@@ -56,8 +56,7 @@ The commands for administering package revisions are:
 * [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
 
 Make sure that your `kubectl` context is set up for `kubectl` to interact with the correct Kubernetes instance (see
-[installation instructions](install-porch.md) or the [running-locally](../running-porch/running-locally.md)
-guide for details).
+[installation instructions](install-porch.md) guide for details).
 
 To check whether `kubectl` is configured with your Porch cluster (or local instance), run:
 
