@@ -310,7 +310,19 @@ The GRPC technology was chosen for the function runner service because the [requ
 choice of KRM API for the Package Orchestration service do not apply. The function runner is an internal microservice,
 an implementation detail not exposed to external callers. This makes GRPC perfectly suitable.
 
-The function runner also maintains cache of functions to support low latency function evaluation.
+The function runner also maintains a cache of functions to support low latency function evaluation. It achieves this through
+two mechanisms available to it for evaluation of a function
+
+**Executable Evaluation** approach executes the function within the Pod runtime through shell based invocation of function 
+binary; for which function binaries are bundled inside the function runner image itself
+
+**Pod Evaluation** approach is utilized when invoked function is not available via Executable Evaluation approach wherein
+function runner pod starts the function pod corresponding to invoked function along with a front-end service. Once 
+the pod and service are up and running, it's exposed GRPC endpoint is invoked for function evaluation, passing the input 
+package. For this mechanism, function runner reads the list of functions and their images supplied via a config
+file at startup, and spawns function pods, along with a corresponding front-end service for each configured function.
+These function pods/services are terminated after a pre-configured period of inactivity (default 30 minutes) by function
+runner and recreated on the next invocation.
 
 #### CaD Library
 

@@ -26,7 +26,7 @@ In this guide, you will set up Nephio running in a single VM with:
 In addition to the general prerequisites, you will need:
 
 * Access to a Virtual Machine provided by an hypervisor ([VirtualBox](https://www.virtualbox.org/),
-  [Libvirt](https://libvirt.org/)) and running an OS supported by Nephio (Ubuntu 20.04/22.04, Fedora 34) with a minimum
+  [Libvirt](https://libvirt.org/)) and running an OS supported by Nephio (Ubuntu 22.04, Fedora 34) with a minimum
   of 16 vCPUs and 32 GB in RAM.
 * [Kubernetes IN Docker](https://kind.sigs.k8s.io/) (*kind*) installed and set up your workstation.
 
@@ -55,7 +55,7 @@ While you may use other Git providers as well, Gitea is required in the R2 setup
 *nephio-install* directory, run:
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/distros/sandbox/gitea@origin/v3.0.0
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/distros/sandbox/gitea@origin/main
 kpt fn render gitea
 kpt live init gitea
 kpt live apply gitea --reconcile-timeout 15m --output=table
@@ -79,7 +79,7 @@ For managing the Kubernetes cluster infrastructure, it is necessary to install
 [cert-manager project](https://cert-manager.io/) to generate certificates.
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/distros/sandbox/cert-manager@origin/v3.0.0
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/distros/sandbox/cert-manager@origin/main
 kpt fn render cert-manager
 kpt live init cert-manager
 kpt live apply cert-manager --reconcile-timeout 15m --output=table
@@ -88,7 +88,7 @@ kpt live apply cert-manager --reconcile-timeout 15m --output=table
 Once *cert-manager* is installed, you can proceed with the installation of Cluster API components
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/infra/capi/cluster-capi@origin/v3.0.0
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/infra/capi/cluster-capi@origin/main
 kpt fn render cluster-capi
 kpt live init cluster-capi
 kpt live apply cluster-capi --reconcile-timeout 15m --output=table
@@ -98,7 +98,7 @@ Cluster API uses infrastructure providers to provision cloud resources required 
 resources with the Docker provider, it can be installed with the followed package.
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/infra/capi/cluster-capi-infrastructure-docker@origin/v3.0.0
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/infra/capi/cluster-capi-infrastructure-docker@origin/main
 kpt fn render cluster-capi-infrastructure-docker
 kpt live init cluster-capi-infrastructure-docker
 kpt live apply cluster-capi-infrastructure-docker --reconcile-timeout 15m --output=table
@@ -109,7 +109,7 @@ machines. These templates define the kubelet arguments, etcd and coreDNS configu
 things.
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/infra/capi/cluster-capi-kind-docker-templates@origin/v3.0.0
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/infra/capi/cluster-capi-kind-docker-templates@origin/main
 kpt fn render cluster-capi-kind-docker-templates
 kpt live init cluster-capi-kind-docker-templates
 kpt live apply cluster-capi-kind-docker-templates --reconcile-timeout 15m --output=table
@@ -124,7 +124,7 @@ The management or workload cluster both need *config-sync*, *root-sync* and a cl
 Install *config-sync* using:
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/core/configsync@origin/v3.0.0
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/core/configsync@origin/main
 kpt fn render configsync
 kpt live init configsync
 kpt live apply configsync --reconcile-timeout=15m --output=table
@@ -137,14 +137,14 @@ For the management cluster, you need to create two repositories named *mgmt* and
 If you are using Gitea then you can use the following steps:
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/distros/sandbox/repository@origin/v3.0.0 mgmt
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/distros/sandbox/repository@origin/main mgmt
 kpt fn render mgmt
 kpt live init mgmt
 kpt live apply mgmt --reconcile-timeout=15m --output=table
 ```
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/distros/sandbox/repository@origin/v3.0.0 mgmt-staging
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/distros/sandbox/repository@origin/main mgmt-staging
 kpt fn render mgmt-staging
 kpt live init mgmt-staging
 kpt live apply mgmt-staging --reconcile-timeout=15m --output=table
@@ -166,7 +166,7 @@ You would need the name of the config-sync token to provide it to root-sync.
 Get the *root-sync* kpt package and edit it:
 
 ```bash
-kpt pkg get https://github.com/nephio-project/catalog.git/nephio/optional/rootsync@origin/v3.0.0
+kpt pkg get https://github.com/nephio-project/catalog.git/nephio/optional/rootsync@origin/main
 ```
 
 Open *./rootsync/rootsync.yaml* file and update the *spec.git.secretRef.name* to name of config-sync token created in previous step and *metadata.name* to *mgmt*. Also verify that spec.git.repo has correct URL of mgmt git repository

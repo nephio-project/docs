@@ -39,7 +39,7 @@ The below steps have to be repeated for each workload cluster:
 Install *config-sync* using:
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/core/configsync@origin/v3.0.0
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/core/configsync@origin/main
 kpt fn render configsync
 kpt live init configsync
 kpt live apply configsync --reconcile-timeout=15m --output=table
@@ -73,7 +73,7 @@ porchctl repo register \
 In case, you are using Gitea then you can use the following steps
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/distros/sandbox/repository@origin/v3.0.0 <cluster-name>
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/distros/sandbox/repository@origin/main <cluster-name>
 kpt fn render <cluster-name>
 kpt live init <cluster-name>
 kpt live apply <cluster-name> --reconcile-timeout=15m --output=table
@@ -95,7 +95,7 @@ kpt live apply <cluster-name> --reconcile-timeout=15m --output=table
 Get the *root-sync* *kpt* package and edit it:
 
 ```bash
-kpt pkg get https://github.com/nephio-project/catalog.git/nephio/optional/rootsync@origin/v3.0.0
+kpt pkg get https://github.com/nephio-project/catalog.git/nephio/optional/rootsync@origin/main
 ```
 
 Change *./rootsync/rootsync.yaml* and point *spec.git.repo* to the edge git repository and the  
@@ -146,7 +146,7 @@ config-management-system   mgmt   ddc9676c997696d4a102a5cf2c67d0a0c459ceb3      
 Workload CRDs are required to manage network functions. 
 
 ```bash
-kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/core/workload-crds@origin/v3.0.0
+kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/core/workload-crds@origin/main
 kpt live init workload-crds
 kpt live apply workload-crds --reconcile-timeout=15m --output=table
 ```
