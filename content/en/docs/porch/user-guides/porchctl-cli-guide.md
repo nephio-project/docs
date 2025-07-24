@@ -439,7 +439,7 @@ $ porchctl rpkg copy porch-test.network-function.innerhome --workspace=great-out
 porch-test.network-function.great-outdoors created
 
 # Confirm the package revision was created
-$ porchctl rpkg get porch-test.network-function.great-outdoors -nporch-demo
+$ porchctl rpkg get porch-test.network-function.great-outdoors -n porch-demo
 NAME                                         PACKAGE            WORKSPACENAME    REVISION   LATEST   LIFECYCLE   REPOSITORY
 porch-test.network-function.great-outdoors   network-function   great-outdoors   0          false    Draft       porch-test
 ```
