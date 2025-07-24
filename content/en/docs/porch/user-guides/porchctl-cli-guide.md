@@ -242,7 +242,7 @@ The `REVISION` column indicates the revision of the package.
   has a revision of `2` and is the latest revision of the package. The `porch-test.network-function.outerspace` revision of the package has a
   revision of `1`. If the `porch-test.network-function.innerhome3` revision is published, it will be assigned a revision of `3` and will become
   the latest package revision.
-- Packages that are not published (packages with a lifecycle status of `Draft` or `Proposed`) have a revision number of `0`. There can be may revisions
+- Packages that are not published (packages with a lifecycle status of `Draft` or `Proposed`) have a revision number of `0`. There can be many revisions
   of a package with revision `0` as is shown with revisions `porch-test.network-function.innerhome3` and `porch-test.network-function.innerhome4`
   of package `network-function` above.
 - Placeholder packages that point at the tip of a branch or tag have a revision number of `-1`
