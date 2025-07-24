@@ -35,20 +35,20 @@ The commands for administering repositories are:
 
 The commands for administering package revisions are:
 
-| Command                        | Description                                                                             |
-| ------------------------------ | --------------------------------------------------------------------------------------- |
-| `porchctl rpkg approve`        | Approve a proposal to publish a package revision.                                       |
-| `porchctl rpkg clone`          | Create a clone of an existing package revision.                                         |
-| `porchctl rpkg copy`           | Create a new package revision from an existing one.                                     |
-| `porchctl rpkg del`            | Delete a package revision.                                                              |
-| `porchctl rpkg get`            | List package revisions in registered repositories.                                      |
-| `porchctl rpkg init`           | Initializes a new package in a repository.                                              |
-| `porchctl rpkg propose`        | Propose that a package revision should be published.                                    |
-| `porchctl rpkg propose-delete` | Propose deletion of a published package revision.                                       |
-| `porchctl rpkg pull`           | Pull the content of the package revision.                                               |
-| `porchctl rpkg push`           | Push resources to a package revision.                                                   |
-| `porchctl rpkg reject`         | Reject a proposal to publish or delete a package revision.                              |
-| `porchctl rpkg update`         | Update a downstream package revision to a more recent revision of its upstream package. |
+| Command                        | Description                                                                                      |
+| ------------------------------ | ------------------------------------------------------------------------------------------------ |
+| `porchctl rpkg approve`        | Approve a proposal to publish a package revision.                                                |
+| `porchctl rpkg clone`          | Create a clone of an existing package revision.                                                  |
+| `porchctl rpkg copy`           | Create a new package revision from an existing one.                                              |
+| `porchctl rpkg del`            | Delete a package revision.                                                                       |
+| `porchctl rpkg get`            | List package revisions in registered repositories.                                               |
+| `porchctl rpkg init`           | Initializes a new package revision in a repository.                                              |
+| `porchctl rpkg propose`        | Propose that a package revision should be published.                                             |
+| `porchctl rpkg propose-delete` | Propose deletion of a published package revision.                                                |
+| `porchctl rpkg pull`           | Pull the content of the package revision.                                                        |
+| `porchctl rpkg push`           | Push resources to a package revision.                                                            |
+| `porchctl rpkg reject`         | Reject a proposal to publish or delete a package revision.                                       |
+| `porchctl rpkg update`         | Update a downstream package revision to a more recent revision of its upstream package revision. |
 
 ## Using the porchctl CLI
 
@@ -173,10 +173,10 @@ $ porchctl repo unregister test-blueprints --namespace default
 
 ## Package Discovery And Introspection
 
-The `porchctl rpkg` command group contains commands for interacting with packages managed by the Package Orchestration
+The `porchctl rpkg` command group contains commands for interacting with package revisions managed by the Package Orchestration
 service. the `r` prefix used in the command group name stands for 'remote'.
 
-The `porchctl rpkg get` command list the packages in registered repositories:
+The `porchctl rpkg get` command list the package revisions in registered repositories:
 
 ```bash
 $ porchctl rpkg get -A
@@ -255,23 +255,23 @@ the packages `basedir/subdir/subsubdir/edge-function` and `basedir/subdir/subsub
 `basedir/subdir/subsubdir/network-function` and `network-function` packages are different packages because they are in different directories.
 
 The `REVISION` column indicates the revision of the package.
-- Revisions of `1` or greater indicate released packages. When a package revision is `Published` it is assigned the next
+- Revisions of `1` or greater indicate released package revisions. When a package revision is `Published` it is assigned the next
   available revision number, starting at `1`. In the listing above, the `porch-test.network-function.innerhome` revision of package `network-function`
   has a revision of `2` and is the latest revision of the package. The `porch-test.network-function.outerspace` revision of the package has a
   revision of `1`. If the `porch-test.network-function.innerhome3` revision is published, it will be assigned a revision of `3` and will become
   the latest package revision.
-- Packages that are not published (packages with a lifecycle status of `Draft` or `Proposed`) have a revision number of `0`. There can be many revisions
-  of a package with revision `0` as is shown with revisions `porch-test.network-function.innerhome3` and `porch-test.network-function.innerhome4`
+- Package revisions that are not published (package revisions with a lifecycle status of `Draft` or `Proposed`) have a revision number of `0`. There can be many
+  revisions of a package with revision `0` as is shown with revisions `porch-test.network-function.innerhome3` and `porch-test.network-function.innerhome4`
   of package `network-function` above.
-- Placeholder packages that point at the head of a git branch or tag have a revision number of `-1`
+- Placeholder package revisions that point at the head of a git branch or tag have a revision number of `-1`
 
 The `LATEST` column indicates whether the package revision is the latest among the revisions of the same package. In the
 output above, `3` is the latest revision of `basens` package and `1` is the latest revision of `empty` package.
 
 The `LIFECYCLE` column indicates the lifecycle stage of the package revision, one of: `Draft`, `Proposed`, `Published` or `DeletionProposed`.
 
-The `WORKSPACENAME` column indicates the workspace name of the package. The workspace name is selected by a user when a draft
-revision is created. The workspace name must be unique among package revisions in the same package. A user is free to
+The `WORKSPACENAME` column indicates the workspace name of a package revision. The workspace name is selected by a user when a draft
+package revision is created. The workspace name must be unique among package revisions in the same package. A user is free to
 select any workspace name that complies with the constraints on DNS Subdomain Names specified in
 [kubernetes rules for naming objects and IDs](https://kubernetes.io/docs/concepts/overview/working-with-objects/names/).
 
@@ -342,7 +342,7 @@ spec:
 ...
 ```
 
-The `porchctl rpkg pull` command can be used to read the package resources.
+The `porchctl rpkg pull` command can be used to read the package revision resources.
 
 The command can be used to print the package revision resources as `ResourceList` to `stdout`, which enables
 [chaining](https://kpt.dev/book/04-using-functions/02-imperative-function-execution?id=chaining-functions-using-the-unix-pipe)
@@ -361,7 +361,7 @@ items:
 ...
 ```
 
-Or, the package contents can be saved on local disk for direct introspection or editing:
+Or, the package revision contents can be saved on local disk for direct introspection or editing:
 
 ```bash
 $ porchctl rpkg pull -n porch-demo porch-test.network-function.innerhome ./innerhome
@@ -380,13 +380,13 @@ $ find innerhome
 Several commands in the `porchctl rpkg` group support package authoring:
 
 * `init` - Initializes a new package revision in the target repository.
-* `clone` - Creates a clone of a source package in the target repository.
+* `clone` - Creates a clone of a source package revision in the target repository.
 * `copy` - Creates a new package revision from an existing one.
-* `push` - Pushes package resources into a remote package.
-* `del` - Deletes one or more packages in registered repositories.
+* `push` - Pushes package revision resources into a remote package.
+* `del` - Deletes one or more package revisions in registered repositories.
 
 The `porchctl rpkg init` command can be used to initialize a new package revision. Porch server will create and
-initialize a new package (as a draft) and save it in the specified repository.
+initialize a new package revision (as a draft) and save it in the specified repository.
 
 ```bash
 $ porchctl rpkg init new-package --repository=porch-test --workspace=my-workspace -n porch-demo
@@ -397,19 +397,19 @@ NAME                                  PACKAGE       WORKSPACENAME   REVISION   L
 porch-test.new-package.my-workspace   new-package   my-workspace    0          false    Draft       porch-test
 ```
 
-The new package is created in the `Draft` lifecycle stage. This is true also for all commands that create new package
+The new package revision is created in the `Draft` lifecycle stage. This is true also for all commands that create new package
 revision (`init`, `clone` and `copy`).
 
 Additional flags supported by the `porchctl rpkg init` command are:
 
-* `--repository` - Repository in which the package will be created.
-* `--workspace` - Workspace of the new package.
-* `--description` -  Short description of the package.
-* `--keywords` - List of keywords for the package.
-* `--site` - Link to page with information about the package.
+* `--repository` - Repository in which the package revision will be created.
+* `--workspace` - Workspace of the new package revision.
+* `--description` -  Short description of the package revision.
+* `--keywords` - List of keywords for the package revision.
+* `--site` - Link to page with information about the package revision.
 
 
-Use `porchctl rpkg clone` command to create a _downstream_ package by cloning an _upstream_ package:
+Use `porchctl rpkg clone` command to create a _downstream_ package revision by cloning an _upstream_ package revision:
 
 ```bash
 $ porchctl rpkg clone porch-test.new-package.my-workspace new-package-clone --repository=porch-deployment -n porch-demo
@@ -421,7 +421,7 @@ NAME                                    PACKAGE             WORKSPACENAME   REVI
 porch-deployment.new-package-clone.v1   new-package-clone   v1              0          false    Draft       porch-deployment
 ```
 
-`porchctl rpkg clone` can also be used to clone packages that are in repositories not registered with Porch, for
+`porchctl rpkg clone` can also be used to clone package revisions that are in repositories not registered with Porch, for
 example:
 
 ```bash
@@ -442,13 +442,13 @@ porch-deployment.cloned-pkg-example-ue-bp.v1   cloned-pkg-example-ue-bp   v1    
 The flags supported by the `porchctl rpkg clone` command are:
 
 * `--directory` - Directory within the upstream repository where the upstream
-  package is located.
-* `--ref` - Ref in the upstream repository where the upstream package is
+  package revision is located.
+* `--ref` - Ref in the upstream repository where the upstream package revision is
   located. This can be a branch, tag, or SHA.
-* `--repository` - Repository to which package will be cloned (downstream
+* `--repository` - Repository to which package revision will be cloned (downstream
   repository).
-* `--workspace` - Workspace to assign to the downstream package.
-* `--strategy` - Update strategy that should be used when updating this package;
+* `--workspace` - Workspace to assign to the downstream package revision.
+* `--strategy` - Update strategy that should be used when updating this package revision;
   one of: `resource-merge`, `fast-forward`, `force-delete-replace`, `copy-merge`.
 
 
@@ -465,7 +465,7 @@ NAME                                         PACKAGE            WORKSPACENAME   
 porch-test.network-function.great-outdoors   network-function   great-outdoors   0          false    Draft       porch-test
 ```
 
-The `porchctl rpkg pull` and `porchctl rpkg push` commands can be used to update the resources (package contents) of a package _draft_:
+The `porchctl rpkg pull` and `porchctl rpkg push` commands can be used to update the resources (package revision contents) of a package _draft_:
 
 ```bash
 $ porchctl rpkg pull porch-test.network-function.great-outdoors ./great-outdoors -n porch-demo
@@ -481,10 +481,10 @@ data:
 EOF
 
 # Push the updated contents to the Package Orchestration server, updating the
-# package contents.
+# package revision contents.
 $ porchctl rpkg push porch-test.network-function.great-outdoors ./great-outdoors -n porch-demo
 
-# Confirm that the remote package now includes the new ConfigMap resource
+# Confirm that the remote package revision now includes the new ConfigMap resource
 $ porchctl rpkg pull porch-test.network-function.great-outdoors -n porch-demo
 apiVersion: config.kubernetes.io/v1
 kind: ResourceList
@@ -513,17 +513,17 @@ porch-test.network-function.great-outdoors deleted
 
 ## Package Lifecycle and Approval Flow
 
-Authoring is performed on the package revisions in the _Draft_ lifecycle stage. Before a package can be deployed, copied or
-cloned, it must be _Published_. The approval flow is the process by which the package is advanced from _Draft_ state
+Authoring is performed on the package revisions in the _Draft_ lifecycle stage. Before a package revision can be deployed, copied or
+cloned, it must be _Published_. The approval flow is the process by which the package revision is advanced from _Draft_ state
 through _Proposed_ state and finally to _Published_ lifecycle stage.
 
-The commands used to manage package lifecycle stages include:
+The commands used to manage package revision lifecycle stages include:
 
 * `propose` - Proposes to finalize a package revision draft
 * `approve` - Approves a proposal to finalize a package revision.
 * `reject`  - Rejects a proposal to finalize a package revision
 
-In the [Authoring Packages](#authoring-packages) section above we created several _draft_ packages and in this section
+In the [Authoring Packages](#authoring-packages) section above we created several _draft_ package revisions and in this section
 we will create proposals for publishing some of them.
 
 ```bash
@@ -561,7 +561,7 @@ porch-test.new-package.my-workspace            new-package                my-wor
 ```
 
 At this point, a person in _platform administrator_ role, or even an automated process, will review and either approve
-or reject the proposals. To aid with the decision, the platform administrator may inspect the package contents using the
+or reject the proposals. To aid with the decision, the platform administrator may inspect the package revision contents using the
 commands above, such as `porchctl rpkg pull`.
 
 ```bash
@@ -589,7 +589,7 @@ porch-test.network-function3.innerhome6        network-function3          innerh
 porch-test.new-package.my-workspace            new-package                my-workspace    0          false    Draft       porch-test
 ```
 
-Observe that the rejected proposal returned the package revision back to _Draft_ lifecycle stage. The package whose
+Observe that the rejected proposal returned the package revision back to _Draft_ lifecycle stage. The package revision whose
 proposal was approved is now in _Published_ state.
 
 An approved pacakge revision cannot be directly deleted, it must first be proposed for deletion.
