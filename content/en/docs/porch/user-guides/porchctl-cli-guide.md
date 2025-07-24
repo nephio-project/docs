@@ -435,7 +435,7 @@ The `porchctl rpkg copy` command can be used to create a new revision of an exis
 modifying an already published package revision.
 
 ```bash
-$ porchctl rpkg copy porch-test.network-function.innerhome --workspace=great-outdoors -nporch-demo
+$ porchctl rpkg copy porch-test.network-function.innerhome --workspace=great-outdoors -n porch-demo
 porch-test.network-function.great-outdoors created
 
 # Confirm the package revision was created
