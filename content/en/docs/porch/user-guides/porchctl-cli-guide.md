@@ -233,7 +233,7 @@ The package revision with the name `porch-test.basedir.subdir.subsubdir.edge-fun
 
 The `PACKAGE` column contains the package name of a pacakge revision. Of course, all package revisions in a package have the same package name. The
 package name includes the path to the directory containing the package if the package is not in the root directory of the repo. For example, in the listing above
-the packages `basedir/subdir/subsubdir/edge-function` and `basedir/subdir/subsubdir/network-function` are in the directory `basedir/subdir/subsubdir`. THe
+the packages `basedir/subdir/subsubdir/edge-function` and `basedir/subdir/subsubdir/network-function` are in the directory `basedir/subdir/subsubdir`. The
 `basedir/subdir/subsubdir/network-function` and `network-function` packages are different packages because they are in different directories.
 
 The `REVISION` column indicates the revision of the package.
