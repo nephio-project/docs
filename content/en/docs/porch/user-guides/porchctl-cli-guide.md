@@ -447,7 +447,7 @@ porch-test.network-function.great-outdoors   network-function   great-outdoors  
 The `porchctl rpkg pull` and `porchctl rpkg push` commands can be used to update the resources (package contents) of a package _draft_:
 
 ```bash
-$ porchctl rpkg pull porch-test.network-function.great-outdoors ./great-outdoors -nporch-demo
+$ porchctl rpkg pull porch-test.network-function.great-outdoors ./great-outdoors -n porch-demo
 
 # Make edits using your favorite YAML editor, for example adding a new resource
 $ cat <<EOF > ./great-outdoors/config-map.yaml
