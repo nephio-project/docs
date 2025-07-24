@@ -6,7 +6,7 @@ description:
 ---
 
 Customers who want to take advantage of the benefits of [Configuration as Data](config-as-data.md)
-can do so today using a [kpt](https://kpt.dev) CLI and the kpt function ecosystem, including its
+can do so today using the [kpt](https://kpt.dev) CLI and the kpt function ecosystem, including its
 [functions catalog](https://catalog.kpt.dev/). Package authoring is possible using a variety of
 editors with [YAML](https://yaml.org/) support. That said, a UI experience of
 what-you-see-is-what-you-get (WYSIWYG) package authoring which supports a broader package lifecycle,
@@ -22,10 +22,10 @@ experience for supporting the configuration lifecycle.
 This section briefly describes core concepts of package orchestration:
 
 ***Package***: A package is a collection of related configuration files containing configurations
-of [KRM][krm] **resources**. Specifically, configuration packages are [kpt packages](https://kpt.dev/).
+of [KRM][krm] **resources**. Specifically, configuration packages are [kpt packages](https://kpt.dev/book/02-concepts/01-packages).
 Packages are sequentially ***versioned***. Multiple versions of the same package may exist in a
-repository. ([more details](#package-versioning)) A package may have a link (URL) to an
-***upstream package*** (a specific version) from which it was cloned. ([more details](#package-relationships)) Packages go through three lifecycle stages: ***Draft***, ***Proposed***, and ***Published***:
+([repository](#package-versioning)). A package may have a link (URL) to an
+***upstream package*** (a specific version) ([from which it was cloned](#package-relationships)) . Packages go through three lifecycle stages: ***Draft***, ***Proposed***, and ***Published***:
 
   * ***Draft***: The package is being created or edited. The contents of the package can be
   modified; however, the package is not ready to be used (or deployed).
@@ -34,15 +34,15 @@ repository. ([more details](#package-versioning)) A package may have a link (URL
   used. Published packages can be deployed or cloned.
 
 ***Repository***: The repository stores packages. [git][] and [OCI][oci] are two examples of a
-repository. ([more details](#repositories)) A repository can be designated as a
+([repository](#repositories)). A repository can be designated as a
 ***deployment repository***. *Published* packages in a deployment repository are considered to be
-deployment-ready. ([more details](#deployment))
+([deployment-ready](#deployment)).
 ***Functions***: Functions (specifically, [KRM functions][krm functions]) can be applied to
-packages to mutate or validate resources the resources within them. Functions can be applied to a
+packages to mutate or validate the resources within them. Functions can be applied to a
 package to create specific package mutations while editing a package draft. Functions can be added
 to a package's Kptfile [pipeline][].
 
-## Core components of the Configuration as Data implementation
+## Core components of the Configuration as Data (CAD) implementation 
 
 The core implementation of Configuration as Data, or *CaD Core*, is a set of components and APIs
 which collectively enable the following:
@@ -59,7 +59,7 @@ the approved package.
 
 * The deployment of the packages from the deployment repositories, and the observability of their
 deployment status.
-* A permission model that allows role-based access control.
+* A permission model that allows role-based access control (RBAC).
 
 ### High-level architecture
 
@@ -135,7 +135,7 @@ then the upstream link can be used to update the downstream package.
 
 The deployment mechanism is responsible for deploying the configuration packages from a repository
 and affecting the live state. Because the configuration is stored in standard repositories (Git,
-and in the future OCI), the deployment component is pluggable. By default, [configsync][] is the
+and in the future OCI), the deployment component is pluggable. By default, [configsync][https://cloud.google.com/kubernetes-engine/enterprise/config-sync/docs/overview] is the
 deployment mechanism used by CaD Core implementation. However, other deployment mechanisms can be
 also used.
 
@@ -342,7 +342,7 @@ The **Porch server** itself comprises several key components, including the foll
   The *package cache* enables both local caching, as well as the abstract manipulation of packages
   and their contents, irrespective of the underlying storage mechanism, such as Git, or OCI.
 * The *repository adapters* for Git and OCI
-  The *repository adapters* implement the specific logic of interacting with those types of package
+  The *repository adapters* for Git and OCI implement the specific logic of interacting with those types of package
   repositories.
 * The *function runtime*
   The *function runtime* implements support for evaluating the [kpt functions][functions] and the
