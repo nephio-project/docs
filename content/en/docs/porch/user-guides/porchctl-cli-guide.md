@@ -369,7 +369,7 @@ The `porchctl rpkg init` command can be used to initialize a new package revisio
 initialize a new package (as a draft) and save it in the specified repository.
 
 ```bash
-$ porchctl rpkg init new-package --repository=porch-test --workspace=my-workspace -nporch-demo
+$ porchctl rpkg init new-package --repository=porch-test --workspace=my-workspace -n porch-demo
 porch-test.new-package.my-workspace created
 
 $ porchctl rpkg get -n porch-demo porch-test.new-package.my-workspace
