@@ -221,7 +221,7 @@ The `NAME` column gives the kubernetes name of the package revision resource. Na
 **repository.([pathnode.]*)package.workspace**
 
 1. The first part up to the first dot is the **repository** that the package revision is in.
-1. The scond (optional) part is zero or more **pathnode** nodes, identifying the path of the package.
+1. The second (optional) part is zero or more **pathnode** nodes, identifying the path of the package.
 1. The second last part between the second last and last dots is the **package** that the package revision is in.
 1. The last part after the last dot is the **workspace** of the package revision, which uniquely identifies the package revision in the package.
 
