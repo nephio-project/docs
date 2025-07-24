@@ -238,7 +238,7 @@ the packages `basedir/subdir/subsubdir/edge-function` and `basedir/subdir/subsub
 
 The `REVISION` column indicates the revision of the package.
 - Revisions of `1` or greater indicate released packages. When a package is `Published`. When a package is published, it is assigned the next
-  available revision number, startting at `1`. In the isting above the `porch-test.network-function.innerhome` revision of package `network-function`
+  available revision number, starting at `1`. In the listing above, the `porch-test.network-function.innerhome` revision of package `network-function`
   has a revision of `2` and is the latest revision of the package. The `porch-test.network-function.outerspace` revision of the package has a
   revision of `1`. If the `porch-test.network-function.innerhome3` revision is published, it will be assigned a revision of `3` and will become
   the latest package revision.
