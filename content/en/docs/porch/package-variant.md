@@ -5,24 +5,24 @@ weight: 3
 description: 
 ---
 
-## Why
+When deploying workloads across large fleets of clusters, it is often necessary to modify the
+workload configuration for a specific cluster. Additionally, those workloads may evolve over time
+with security or other patches that require updates. [Configuration as Data](config-as-data.md) in
+general, and [Package Orchestration](package-orchestration.md) in particular, can assist in this.
+However, they are still centered around a manual, one-by-one hydration and configuration of a
+workload.
 
-When deploying workloads across large fleets of clusters, it is often necessary to modify the workload configuration for
-a specific cluster. Additionally, those workloads may evolve over time with security or other patches that require
-updates. [Configuration as Data](config-as-data.md) in general and [Package Orchestration](package-orchestration.md) in
-particular can assist in this. However, they are still centered around manual, one-by-one hydration and configuration of
-a workload.
+This proposal introduces a number of concepts and a set of resources for automating the creation
+and lifecycle management of the package variants. These are designed to address several different
+dimensions of scalability:
 
-This proposal introduces concepts and a set of resources for automating the creation and lifecycle management of package
-variants. These are designed to address several different dimensions of scalability:
+- the number of different workloads for a given cluster
+- the number of clusters across which the workloads are deployed
+- the different types or characteristics of the clusters
+- the complexity of the organizations deploying the workloads
+- changes to those workloads over time
 
-- Number of different workloads for a given cluster
-- Number of clusters across which those workloads are deployed
-- Different types or characteristics of those clusters
-- Complexity of the organizations deploying those workloads
-- Changes to those workloads over time
-
-## See Also
+For further information, see the following links:
 
 - [Package Orchestration](package-orchestration.md)
 - [#3347](https://github.com/GoogleContainerTools/kpt/issues/3347) Bulk package creation
@@ -34,7 +34,7 @@ variants. These are designed to address several different dimensions of scalabil
 - [Porch UpstreamPolicy Resource
   API](https://docs.google.com/document/d/1OxNon_1ri4YOqNtEQivBgeRzIPuX9sOyu-nYukjwN1Q/edit?usp=sharing&resourcekey=0-2nDYYH5Kw58IwCatA4uDQw)
 
-## Core Concepts
+## Core concepts
 
 For this solution, workloads are represented by packages. Package is a more general concept, being an arbitrary
 bundle of resources, and therefore is sufficient to solve the originally stated problem.
