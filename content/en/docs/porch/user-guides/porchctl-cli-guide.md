@@ -269,7 +269,7 @@ of this directory. Porch then examines all branches and tags that have reference
 1. Look for a commit message of the form `kpt:{"package":"network-function","workspaceName":"outerspace","revision":"1"}` at the tip of the branch/tag and
    set the workspace name and revision from the commit message, `outerspace` and `1` respectively in the case of the `porch-test.network-function.outerspace`
    package revision in the listing above.
-2. If 1. fails, if the reference is of the form `<package>.v1`, set the workspace name to `v1` and the revision to `1` as in the case of the
+2. If 1. fails, and if the reference is of the form `<package>.v1`, set the workspace name to `v1` and the revision to `1` as is the case for the
    `test-blueprints.basens.v1` package revision in the listing above.
 3. if 2. fails, set the workspace name to the branch or tag name and the revision to `-1`, so in the case of the `infra.infra.gcp.nephio-blueprint-repo.v3.0.0`
    package revision in the listing above, the workspace name is set to the branch name `v3.0.0` and the revision is set to `-1`.
