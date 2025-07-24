@@ -461,7 +461,7 @@ EOF
 
 # Push the updated contents to the Package Orchestration server, updating the
 # package contents.
-$ porchctl rpkg push porch-test.network-function.great-outdoors ./great-outdoors -nporch-demo
+$ porchctl rpkg push porch-test.network-function.great-outdoors ./great-outdoors -n porch-demo
 
 # Confirm that the remote package now includes the new ConfigMap resource
 $ porchctl rpkg pull porch-test.network-function.great-outdoors -n porch-demo
