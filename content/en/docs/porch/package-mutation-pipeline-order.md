@@ -180,4 +180,4 @@ Both strategies include:
 - **Source Code**: https://github.com/nephio-project/porch
 - **File**: `internal/kpt/util/render/executor.go`
 - **Key Functions**: `hydrate()` and `hydrateBfsOrder()`
-- **Configuration**: `kpt.dev/bfs-rendering` annotation in `api/porch/v1alpha1/types.go`
+- **Configuration**: `kpt.dev/bfs-rendering` annotation in `pkg/kpt/api/kptfile/v1/types.go`
