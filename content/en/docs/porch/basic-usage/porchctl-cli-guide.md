@@ -1,7 +1,7 @@
 ---
 title: "Using the Porch CLI tool"
 type: docs
-weight: 2
+weight: 3
 description: 
 ---
 
@@ -12,7 +12,7 @@ To use it locally, [download](https://github.com/nephio-project/porch/releases/t
 
 {{% alert title="Note" color="primary" %}}
 
-Installation of Porch, including its prerequisites, is covered in a [dedicated document](install-and-using-porch.md).
+Installation of Porch, including its prerequisites, is covered in a [dedicated document](install-porch.md).
 
 {{% /alert %}}
 
@@ -56,8 +56,7 @@ The commands for administering package revisions are:
 * [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
 
 Make sure that your `kubectl` context is set up for `kubectl` to interact with the correct Kubernetes instance (see
-[installation instructions](install-and-using-porch.md) or the [running-locally](../running-porch/running-locally.md)
-guide for details).
+[installation instructions](install-porch.md) guide for details).
 
 To check whether `kubectl` is configured with your Porch cluster (or local instance), run:
 
