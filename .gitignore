@@ -14,3 +14,8 @@ public/
 # nodejs
 package-lock.json
 node_modules/
+
+# AI DEV Tools
+*.mcp
+.mcp.json
+.env
