@@ -1,6 +1,6 @@
 ---
 title: Helm to Operator Codegen SDK Developer Guide
-weight: 1
+weight: 2
 ---
 
 The [Helm to Operator Codegen SDK](https://github.com/nephio-project/nephio-sdk/tree/main/helm-to-operator-codegen-sdk) offers a streamlined solution for translating existing Helm charts into Kubernetes operators with minimal effort and cost.
