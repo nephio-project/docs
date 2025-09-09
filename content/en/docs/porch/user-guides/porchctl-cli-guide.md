@@ -22,7 +22,7 @@ Installation of Porch, including its prerequisites, is covered in a [dedicated d
 porchctl completion bash
 ```
 
-The `porchtcl` command is an administration command for acting on Porch *Repository* (repo) and *PackageRevision* (rpkg)
+The `porchctl` command is an administration command for acting on Porch *Repository* (repo) and *PackageRevision* (rpkg)
 CRs.
 
 The commands for administering repositories are:
@@ -320,10 +320,49 @@ porch-test.network-function2.outerspace   network-function2   outerspace      0 
 porch-test.network-function3.outerspace   network-function3   outerspace      1          true     Published   porch-test
 ```
 
+You can also filter package revisions using the `kubectl` CLI with the `--selector` and `--field-selector` flags under the same conventions as for other KRM objects.
+
+`--selector` filters by the values of one or more metadata labels (see [Kubernetes documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#list-and-watch-filtering) for full details):
+```bash
+$ kubectl get packagerevisions --show-labels --selector 'kpt.dev/latest-revision=true'
+NAME                        PACKAGE   WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY        LABELS
+test-blueprints.basens.v3   basens    v3              3          true     Published   test-blueprints   kpt.dev/latest-revision=true
+test-blueprints.empty.v1    empty     v1              1          true     Published   test-blueprints   kpt.dev/latest-revision=true
+```
+
+`--field-selector` filters by the values of one or more package revision fields (see [Kubernetes documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/field-selectors/)):
+```bash
+$ kubectl get packagerevisions --show-labels --field-selector 'spec.repository==oai'
+NAME                        PACKAGE            WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY   LABELS
+oai.database.main           database           main            -1         false    Published   oai          <none>
+oai.oai-amf.main            oai-amf            main            -1         false    Published   oai          <none>
+oai.oai-ausf.main           oai-ausf           main            -1         false    Published   oai          <none>
+oai.oai-cp-operators.main   oai-cp-operators   main            -1         false    Published   oai          <none>
+oai.oai-nrf.main            oai-nrf            main            -1         false    Published   oai          <none>
+oai.oai-repository.main     oai-repository     main            -1         false    Published   oai          <none>
+oai.oai-smf.main            oai-smf            main            -1         false    Published   oai          <none>
+oai.oai-udm.main            oai-udm            main            -1         false    Published   oai          <none>
+oai.oai-udr.main            oai-udr            main            -1         false    Published   oai          <none>
+oai.oai-upf-edge.main       oai-upf-edge       main            -1         false    Published   oai          <none>
+oai.oai-up-operators.main   oai-up-operators   main            -1         false    Published   oai          <none>
+```
+
+### List of supported fields
+
+As per Kubernetes convention, `--field-selector` supports a subset of the PackageRevision resource type's fields:
+| Kind            | Fields                                                                                                                                                  |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| PackageRevision | `metadata.name`<br/>`metadata.namespace`<br/>`spec.revision`<br/>`spec.packageName`<br/>`spec.repository`<br/>`spec.workspaceName`<br/>`spec.lifecycle` |
+
+{{% alert title="Note" color="primary" %}}
+
+The PackageRevision kind is not managed as a custom resource type, but through an aggregated API in the porch-server microservice. This means that changing the fields supported by `--field-selector` requires editing the Porch source code and rebuilding the porch-server microservice. There is no CustomResourceDefinition and the `spec.versions[*].selectableFields` field is not supported.
+
+{{% /alert %}}
+
 The common `kubectl` flags that control output format are available as well:
 
 ```bash
-
 $ porchctl rpkg get -n porch-demo porch-test.network-function.innerhome -o yaml
 apiVersion: porch.kpt.dev/v1alpha1
 kind: PackageRevision
