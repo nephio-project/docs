@@ -57,7 +57,7 @@ spec:
 ...
 ```
 
-Additionally, porch-fn-runner pod needs to be have access to read this pod template configmap. Assuming porch-fn-runner pod is running in porch-system namespace, following Role and Rolebindings needs to be added to porch deployment manifests.
+Additionally, porch-fn-runner Pod requires `read` access to this Pod template ConfigMap. Assuming porch-fn-runner Pod is running in the porch-system Namespace, the following Role and Rolebindings need to be added to porch deployment manifests.
 
 ```yaml
 kind: Role
