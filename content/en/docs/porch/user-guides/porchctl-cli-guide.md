@@ -322,7 +322,7 @@ porch-test.network-function3.outerspace   network-function3   outerspace      1 
 
 You can also filter package revisions using the `kubectl` CLI with the `--selector` and `--field-selector` flags under the same conventions as for other KRM objects.
 
-`--selector` filters by the values of one or more metadata labels (see [Kubernetes documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#list-and-watch-filtering) for full details):
+The `--selector` flag filters by the values of one or more metadata labels (see [Kubernetes documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#list-and-watch-filtering) for full details):
 ```bash
 $ kubectl get packagerevisions --show-labels --selector 'kpt.dev/latest-revision=true'
 NAME                        PACKAGE   WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY        LABELS
@@ -330,7 +330,7 @@ test-blueprints.basens.v3   basens    v3              3          true     Publis
 test-blueprints.empty.v1    empty     v1              1          true     Published   test-blueprints   kpt.dev/latest-revision=true
 ```
 
-`--field-selector` filters by the values of one or more package revision fields (see [Kubernetes documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/field-selectors/)):
+The `--field-selector` flag filters by the values of one or more package revision fields (see [Kubernetes documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/field-selectors/)):
 ```bash
 $ kubectl get packagerevisions --show-labels --field-selector 'spec.repository==oai'
 NAME                        PACKAGE            WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY   LABELS
@@ -350,9 +350,13 @@ oai.oai-up-operators.main   oai-up-operators   main            -1         false 
 ### List of supported fields
 
 As per Kubernetes convention, `--field-selector` supports a subset of the PackageRevision resource type's fields:
-| Kind            | Fields                                                                                                                                                  |
-| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| PackageRevision | `metadata.name`<br/>`metadata.namespace`<br/>`spec.revision`<br/>`spec.packageName`<br/>`spec.repository`<br/>`spec.workspaceName`<br/>`spec.lifecycle` |
+- `metadata.name`
+- `metadata.namespace`
+- `spec.revision`
+- `spec.packageName`
+- `spec.repository`
+- `spec.workspaceName`
+- `spec.lifecycle`
 
 {{% alert title="Note" color="primary" %}}
 
@@ -360,7 +364,7 @@ The PackageRevision kind is not managed as a custom resource type, but through a
 
 {{% /alert %}}
 
-The common `kubectl` flags that control output format are available as well:
+The common `kubectl` [flags that control output format](https://kubernetes.io/docs/reference/kubectl/#output-options) are available as well:
 
 ```bash
 $ porchctl rpkg get -n porch-demo porch-test.network-function.innerhome -o yaml
