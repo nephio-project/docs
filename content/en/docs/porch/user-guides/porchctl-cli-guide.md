@@ -382,7 +382,7 @@ Several commands in the `porchctl rpkg` group support package authoring:
 * `clone` - Creates a clone of a source package revision in the target repository.
 * `copy` - Creates a new package revision from an existing one.
 * `push` - Pushes package revision resources into a remote package.
-* `del` - Deletes one or more non-approved package revisions in registered repositories.
+* `del` - Deletes one or more package revisions in registered repositories.
 
 The `porchctl rpkg init` command can be used to initialize a new package revision. Porch server will create and
 initialize a new package revision (as a draft) and save it in the specified repository.
