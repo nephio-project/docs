@@ -57,6 +57,33 @@ spec:
 ...
 ```
 
+Additionally, porch-fn-runner Pod requires `read` access to this Pod template ConfigMap. Assuming porch-fn-runner Pod is running in the porch-system Namespace, the following Role and Rolebindings need to be added to porch deployment manifests.
+
+```yaml
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: porch-fn-runner
+  namespace: porch-system
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: porch-fn-runner
+  namespace: porch-system
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: porch-fn-runner
+subjects:
+  - kind: ServiceAccount
+    name: porch-fn-runner
+```
+
 ## Example pod template
 
 The below pod template ConfigMap matches the default behavior:
@@ -68,31 +95,42 @@ metadata:
   name: kpt-function-eval-pod-template
 data:
   template: |
-  apiVersion: v1
-  kind: Pod
-  annotations:
-    cluster-autoscaler.kubernetes.io/safe-to-evict: true
-  spec:
-    initContainers:
-      - name: copy-wrapper-server
-        image: gcr.io/example-google-project-id/porch-wrapper-server:latest
-        command: 
-          - cp
-          - -a
-          - /wrapper-server/.
-          - /wrapper-server-tools
-        volumeMounts:
-          - name: wrapper-server-tools
-            mountPath: /wrapper-server-tools
-    containers:
-      - name: function
-        image: image-replaced-by-kpt-func-image
-        command: 
-          - /wrapper-server-tools/wrapper-server
-        volumeMounts:
-          - name: wrapper-server-tools
-            mountPath: /wrapper-server-tools
-    volumes:
-      - name: wrapper-server-tools
-        emptyDir: {}
+    apiVersion: v1
+    kind: Pod
+    annotations:
+      cluster-autoscaler.kubernetes.io/safe-to-evict: true
+    spec:
+      initContainers:
+        - name: copy-wrapper-server
+          image: docker.io/nephio/porch-wrapper-server:latest
+          command: 
+            - cp
+            - -a
+            - /wrapper-server/.
+            - /wrapper-server-tools
+          volumeMounts:
+            - name: wrapper-server-tools
+              mountPath: /wrapper-server-tools
+      containers:
+        - name: function
+          image: image-replaced-by-kpt-func-image
+          command: 
+            - /wrapper-server-tools/wrapper-server
+          volumeMounts:
+            - name: wrapper-server-tools
+              mountPath: /wrapper-server-tools
+      volumes:
+        - name: wrapper-server-tools
+          emptyDir: {}
+  serviceTemplate: |
+    apiVersion: v1
+    kind: Service
+    spec:
+      ports:
+      - port: 9446
+        protocol: TCP
+        targetPort: 9446
+      selector:
+        fn.kpt.dev/image: to-be-replaced
+      type: ClusterIP
 ```

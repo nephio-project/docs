@@ -2,7 +2,7 @@
 title: "Using the Porch CLI tool"
 type: docs
 weight: 3
-description: 
+description:
 ---
 
 ## Setting up the porchctl CLI
@@ -48,7 +48,7 @@ The commands for administering package revisions are:
 | `porchctl rpkg pull`           | Pull the content of the package revision.                                                        |
 | `porchctl rpkg push`           | Push resources to a package revision.                                                            |
 | `porchctl rpkg reject`         | Reject a proposal to publish or delete a package revision.                                       |
-| `porchctl rpkg update`         | Update a downstream package revision to a more recent revision of its upstream package revision. |
+| `porchctl rpkg upgrade`         | Update a downstream package revision to a more recent revision of its upstream package revision. |
 
 ## Using the porchctl CLI
 
@@ -391,7 +391,7 @@ The command can be used to print the package revision resources as `ResourceList
 evaluation of functions on the package revision pulled from the Package Orchestration server.
 
 ```bash
-$ porchctl rpkg pull -n porch-demo porch-test.network-function.innerhome    
+$ porchctl rpkg pull -n porch-demo porch-test.network-function.innerhome
 apiVersion: config.kubernetes.io/v1
 kind: ResourceList
 items:
@@ -490,9 +490,6 @@ The flags supported by the `porchctl rpkg clone` command are:
 * `--repository` - Repository to which package revision will be cloned (downstream
   repository).
 * `--workspace` - Workspace to assign to the downstream package revision.
-* `--strategy` - Update strategy that should be used when updating this package revision;
-  one of: `resource-merge`, `fast-forward`, `force-delete-replace`, `copy-merge`.
-
 
 The `porchctl rpkg copy` command can be used to create a new revision of an existing package. It is a means to
 modifying an already published package revision.
@@ -702,3 +699,27 @@ porch-test.network-function3.innerhome6        network-function3          innerh
 porch-test.new-package.my-workspace            new-package                my-workspace    0          false    Draft       porch-test
 ```
 
+## Package Upgrade
+
+
+The flags supported by the `porchctl rpkg upgrade` command are:
+
+* `--revision` - (*Optional*) The revision number of the upstream package that the target
+  downstream package revision should be upgraded to.
+  The corresponding revision must be published. If not set, the latest will be chosen.
+* `--workspace` - The workspace name of the newly created package revision.
+* `--strategy` - The strategy to use for the upgrade.
+Options: `resource-merge` (*default*), `fast-forward`, `force-delete-replace`, `copy-merge`.
+
+The `porchctl rpkg upgrade` command can be used to create a new revision which upgrades a published downstream to a more recent published revision of its upstream package.
+
+```bash
+# upgrade repository.package.v1 package to the latest of its upstream, using resource-merge strategy
+$ porchctl rpkg upgrade repository.package.1 --workspace=2
+
+# upgrade repository.package.v1 package to revision v3 of its upstream, using resource-merge strategy
+$ porchctl rpkg upgrade repository.package.1 --workspace=2 --revision=3
+
+# upgrade repository.package.v1 package to revision v3 of its upstream, using copy-merge strategy
+$ porchctl rpkg upgrade repository.package.1 --workspace=2 --revision=3 --strategy=copy-merge
+```
