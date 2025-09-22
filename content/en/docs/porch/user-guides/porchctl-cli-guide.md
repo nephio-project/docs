@@ -48,7 +48,7 @@ The commands for administering package revisions are:
 | `porchctl rpkg pull`           | Pull the content of the package revision.                                                        |
 | `porchctl rpkg push`           | Push resources to a package revision.                                                            |
 | `porchctl rpkg reject`         | Reject a proposal to publish or delete a package revision.                                       |
-| `porchctl rpkg upgrade`         | Update a downstream package revision to a more recent revision of its upstream package revision. |
+| `porchctl rpkg upgrade`        | Update a downstream package revision to a more recent revision of its upstream package revision. |
 
 ## Using the porchctl CLI
 
