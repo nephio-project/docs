@@ -347,6 +347,12 @@ oai.oai-upf-edge.main       oai-upf-edge       main            -1         false 
 oai.oai-up-operators.main   oai-up-operators   main            -1         false    Published   oai          <none>
 ```
 
+{{% alert title="Note" color="primary" %}}
+
+To ensure optimal cache performance, package revision field selector behaviour deviates from the behaviour specified in the [Kubernetes documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/field-selectors/#supported-operators). **The `!=` operator is not supported**.
+
+{{% /alert %}}
+
 ### List of supported fields
 
 As per Kubernetes convention, `--field-selector` supports a subset of the PackageRevision resource type's fields:
