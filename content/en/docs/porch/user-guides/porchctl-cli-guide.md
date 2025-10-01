@@ -322,7 +322,7 @@ porch-test.network-function3.outerspace   network-function3   outerspace      1 
 
 You can also filter package revisions using the `kubectl` CLI with the `--selector` and `--field-selector` flags under the same conventions as for other KRM objects.
 
-The `--selector` flag filters by the values of one or more metadata labels (see [Kubernetes documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#list-and-watch-filtering) for full details):
+The `--selector` flag can be used to filter on one or more [metadata labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#list-and-watch-filtering):
 ```bash
 $ kubectl get packagerevisions --show-labels --selector 'kpt.dev/latest-revision=true'
 NAME                        PACKAGE   WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY        LABELS
@@ -330,7 +330,26 @@ test-blueprints.basens.v3   basens    v3              3          true     Publis
 test-blueprints.empty.v1    empty     v1              1          true     Published   test-blueprints   kpt.dev/latest-revision=true
 ```
 
-The `--field-selector` flag filters by the values of one or more package revision fields (see [Kubernetes documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/field-selectors/)):
+The `--field-selector` flag can be used to filter on one or more package revision [fields](https://kubernetes.io/docs/concepts/overview/working-with-objects/field-selectors/).
+
+### Supported Fields
+
+As per Kubernetes convention, the `--field-selector` flag supports a subset of the PackageRevision resource type's fields:
+- `metadata.name`
+- `metadata.namespace`
+- `spec.revision`
+- `spec.packageName`
+- `spec.repository`
+- `spec.workspaceName`
+- `spec.lifecycle`
+
+{{% alert title="Note" color="primary" %}}
+
+ The `spec.versions[*].selectableFields` field is not available for the PackageRevision resource type. Changing the fields supported by `--field-selector` requires editing Porch's source code and rebuilding the porch-server microservice.
+
+{{% /alert %}}
+
+For example:
 ```bash
 $ kubectl get packagerevisions --show-labels --field-selector 'spec.repository==oai'
 NAME                        PACKAGE            WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY   LABELS
@@ -349,24 +368,7 @@ oai.oai-up-operators.main   oai-up-operators   main            -1         false 
 
 {{% alert title="Note" color="primary" %}}
 
-To ensure optimal cache performance, package revision field selector behaviour deviates from the behaviour specified in the [Kubernetes documentation](https://kubernetes.io/docs/concepts/overview/working-with-objects/field-selectors/#supported-operators). **The `!=` operator is not supported**.
-
-{{% /alert %}}
-
-### List of supported fields
-
-As per Kubernetes convention, `--field-selector` supports a subset of the PackageRevision resource type's fields:
-- `metadata.name`
-- `metadata.namespace`
-- `spec.revision`
-- `spec.packageName`
-- `spec.repository`
-- `spec.workspaceName`
-- `spec.lifecycle`
-
-{{% alert title="Note" color="primary" %}}
-
-The PackageRevision kind is not managed as a custom resource type, but through an aggregated API in the porch-server microservice. This means that changing the fields supported by `--field-selector` requires editing the Porch source code and rebuilding the porch-server microservice. There is no CustomResourceDefinition and the `spec.versions[*].selectableFields` field is not supported.
+Due to the restrictions of Porch's internal caching behavior, the `--field-selector` flag supports only the `=` and `==` operators. **The `!=` operator is not supported.**
 
 {{% /alert %}}
 
