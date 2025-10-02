@@ -5,28 +5,31 @@ weight: 4
 description: 
 ---
 
-## Why 
+## Overiew 
 
-`porch-fn-runner` implements a simplistic function-as-a-service for executing kpt functions, running the needed kpt
-functions wrapped in a GRPC server. The function is starting up a number of function evaluator pods for each of the kpt
-functions, along with a front-end service, pointing to its respective pod. As with any operator that manages pods, it's good
-to provide some templating and parametrization capabilities of the pods that will be managed by the function runner.
+The `porch-fn-runner` implements a simple function-as-a-service for executing kpt functions, running
+the necessary kpt functions wrapped in a GRPC server. The function of the `porch-fn-runner` is to
+start up a number of function evaluator pods for each of the kpt functions, along with a front-end
+service, pointing to its respective pod. As with any operator that manages pods, it is good to
+provide some templating and parameterization capabilities of the pods that will be managed by the
+function runner.
 
 ## Contract for writing pod templates
 
 The following contract needs to be fulfilled by any function evaluator pod template:
 
-1. There is a container named "function".
-2. The entrypoint of the "function" container will start the wrapper GRPC server.
-3. The image of the "function" container can be set to the kpt function's image without impacting starting the 
-   entrypoint.
-4. The arguments of the "function" container can be appended with the entries from the Dockerfile  ENTRYPOINT of the kpt
-   function image.
+1. There is a container. The container is named "function".
+2. The entry point of the “function” container will start the wrapper GRPC server.
+3. The image of the “function” container can be set to the image of the kpt function without
+   impacting the starting of the entry point.
+4. The arguments of the “function” container can be appended with the entries from the Dockerfile
+   ENTRYPOINT of the kpt function image.
 
 ## Enabling pod templating on function runner
 
-A ConfigMap with the pod template should be created in the namespace where the porch-fn-runner pod is running.
-The ConfigMap's name should be included as `--function-pod-template` in the command line arguments in the pod spec of the function runner.
+A ConfigMap with the pod template should be created in the namespace where the porch-fn-runner pod
+is running. The name of the ConfigMap should be included as `--function-pod-template`, in the
+command line arguments in the pod specification of the function runner.
 
 ```yaml
 ...
@@ -57,7 +60,9 @@ spec:
 ...
 ```
 
-Additionally, porch-fn-runner Pod requires `read` access to this Pod template ConfigMap. Assuming porch-fn-runner Pod is running in the porch-system Namespace, the following Role and Rolebindings need to be added to porch deployment manifests.
+Additionally, the porch-fn-runner pod requires `read` access to the pod template ConfigMap. Assuming
+the porch-fn-runner pod is running in the porch-system namespace, the following Role and
+RoleBindings need to be added to the Porch deployment manifests.
 
 ```yaml
 kind: Role
@@ -86,7 +91,7 @@ subjects:
 
 ## Example pod template
 
-The below pod template ConfigMap matches the default behavior:
+The pod template ConfigMap below matches the default behavior:
 
 ```yaml
 apiVersion: v1
