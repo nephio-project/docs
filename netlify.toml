@@ -6,8 +6,8 @@ command = "hugo"
 publish = "public"
 
 [build.environment]
-GO_VERSION = "1.18.1"
-HUGO_VERSION = "v0.120.4"
+GO_VERSION = "1.24.5"
+HUGO_VERSION = "v0.148.2"
 HUGO_ENV = "production"
 
 [context.production]
