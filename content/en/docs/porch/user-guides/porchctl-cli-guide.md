@@ -35,21 +35,21 @@ The commands for administering repositories are:
 
 The commands for administering package revisions are:
 
-| Command                        | Description                                                                                                    |
-| ------------------------------ | -------------------------------------------------------------------------------------------------------------- |
-| `porchctl rpkg approve`        | Approve a proposal to publish a package revision.                                                              |
-| `porchctl rpkg clone`          | Create a clone of an existing package revision.                                                                |
-| `porchctl rpkg copy`           | Create a new package revision from an existing one.                                                            |
-| `porchctl rpkg del`            | Delete a package revision.                                                                                     |
-| `porchctl rpkg get`            | List package revisions in registered repositories.                                                             |
-| `porchctl rpkg init`           | Initializes a new package in a repository.                                                                     |
-| `porchctl rpkg propose`        | Propose that a package revision should be published.                                                           |
-| `porchctl rpkg propose-delete` | Propose deletion of a published package revision.                                                              |
-| `porchctl rpkg pull`           | Pull the content of the package revision.                                                                      |
-| `porchctl rpkg push`           | Push resources to a package revision.                                                                          |
-| `porchctl rpkg reject`         | Reject a proposal to publish or delete a package revision.                                                     |
-| `porchctl rpkg update`         | Deprecated, please use the upgrade functionality instead. See: [Deprecation of update](./deprecation-of-update) |
-| `porchctl rpkg upgrade`        | Update a downstream package revision to a more recent revision of its upstream package using 3 way merge.      |
+| Command                        | Description                                                                                                        |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| `porchctl rpkg approve`        | Approve a proposal to publish a package revision.                                                                  |
+| `porchctl rpkg clone`          | Create a clone of an existing package revision.                                                                    |
+| `porchctl rpkg copy`           | Create a new package revision from an existing one.                                                                |
+| `porchctl rpkg del`            | Delete a package revision.                                                                                         |
+| `porchctl rpkg get`            | List package revisions in registered repositories.                                                                 |
+| `porchctl rpkg init`           | Initializes a new package in a repository.                                                                         |
+| `porchctl rpkg propose`        | Propose that a package revision should be published.                                                               |
+| `porchctl rpkg propose-delete` | Propose deletion of a published package revision.                                                                  |
+| `porchctl rpkg pull`           | Pull the content of the package revision.                                                                          |
+| `porchctl rpkg push`           | Push resources to a package revision.                                                                              |
+| `porchctl rpkg reject`         | Reject a proposal to publish or delete a package revision.                                                         |
+| `porchctl rpkg update`         | Deprecated, please use the upgrade functionality instead. See: [Deprecation of update](./deprecation-of-update.md) |
+| `porchctl rpkg upgrade`        | Update a downstream package revision to a more recent revision of its upstream package using 3 way merge.          |
 
 ## Using the porchctl CLI
 

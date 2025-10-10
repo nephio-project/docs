@@ -1,8 +1,6 @@
 dirs:
   - .
 useGitIgnore: true
-root: .
-localFiles: true
 
 aliveStatusCodes:
   - 200
