@@ -7,4 +7,4 @@ description: Package Revision
 
 ## Package Revision
 
-low level explination of Package Revision
+low level explanation of Package Revision

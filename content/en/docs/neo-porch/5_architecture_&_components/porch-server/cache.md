@@ -2,13 +2,13 @@
 title: "Cache"
 type: docs
 weight: 5
-description: Cacheing
+description: Caching
 ---
 
-## CR cache explination
+## CR cache explanation
 
-Lorem Ipsum low level explinations
+Lorem Ipsum low level explanations
 
-## DB cache explination
+## DB cache explanation
 
-Lorem Ipsum low level explinations
+Lorem Ipsum low level explanations
