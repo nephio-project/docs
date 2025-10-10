@@ -25,9 +25,6 @@ ignorePatterns:
   - pattern: "https://github\\.com/nephio-project/porch/releases/download/.*/porchctl_.*_linux_amd64\\.tar\\.gz"
   - pattern: "https://kubernetes\\.io/.*"
 
-
-
-
 replacementPatterns:
   - pattern: ".md#.*$"
     replacement: ".md"
