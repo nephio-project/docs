@@ -1,6 +1,8 @@
 dirs:
   - .
 useGitIgnore: true
+root: .
+checkLocalFiles: true
 
 aliveStatusCodes:
   - 200
@@ -24,9 +26,6 @@ ignorePatterns:
   - pattern: "https://docs\\.google\\.com/.*"
   - pattern: "https://github\\.com/nephio-project/porch/releases/download/.*/porchctl_.*_linux_amd64\\.tar\\.gz"
   - pattern: "https://kubernetes\\.io/.*"
-
-
-
 
 replacementPatterns:
   - pattern: ".md#.*$"
