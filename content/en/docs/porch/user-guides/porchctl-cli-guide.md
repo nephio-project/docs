@@ -430,7 +430,7 @@ Save the changes and push the package contents back to the server:
 
 ```sh
 # Push updated package contents to the server
-$ porchctl rpkg push -n porch-demo porch-test.network-function.innerhome ./innerhome -ndefault
+$ porchctl rpkg push -n porch-demo porch-test.network-function.innerhome ./innerhome
 ```
 
 Now, pull the contents of the package revision again, and inspect one of the
@@ -438,7 +438,7 @@ configuration files.
 
 ```sh
 # Pull the updated package contents to local drive for inspection:
-$ porchctl rpkg pull -n porch-demo porch-test.network-function.innerhome ./updated-innerhome -ndefault
+$ porchctl rpkg pull -n porch-demo porch-test.network-function.innerhome ./updated-innerhome
 
 # Inspect updated-innerhome/namespace.yaml
 $ cat updated-innerhome/namespace.yaml 
@@ -455,8 +455,9 @@ spec: {}
 
 The updated namespace now has new labels! What happened?
 
-Whenever package is updated during the authoring process, Porch automatically
-re-renders the package to make sure that all mutators and validators are
+Whenever a package is updated during the authoring process, in case current functions
+of the pipline were changed or a new function was added to the pipeline list,
+Porch automatically re-renders the package to make sure that all mutators and validators are
 executed. So when we added the new `set-labels` mutator, as soon as we pushed
 the updated package contents to Porch, Porch re-rendered the package and
 the `set-labels` function applied the labels we requested (`color: orange` and
@@ -496,7 +497,7 @@ Additional flags supported by the `porchctl rpkg init` command are:
 * `--site` - Link to page with information about the package revision.
 
 
-Use `porchctl rpkg clone` command to create a _downstream_ package revision by cloning an _upstream_ package revision. You can find out more about the _upstream_ and _downstream_ sections of the `Kptfile` in a [Getting a Package](https://kpt.dev/book/03-packages/01-getting-a-package).
+Use `porchctl rpkg clone` command to create a _downstream_ package revision by cloning an _upstream_ package revision. You can find out more about the _upstream_ and _downstream_ sections of the `Kptfile` in a [Getting a Package](https://kpt.dev/book/03-packages/#getting-a-package).
 
 ```bash
 $ porchctl rpkg clone porch-test.new-package.my-workspace new-package-clone --repository=porch-deployment -n porch-demo
