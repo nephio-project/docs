@@ -8,7 +8,7 @@ weight: 2
 
 ## Prerequisites
 
-- A Nephio Management cluster. See the [installation guides](/content/en/docs/guides/install-guides/_index.md) 
+- A Nephio Management cluster. See the [installation guides](/docs/guides/install-guides/_index.md) 
 for detailed environment options.
 - An ArgoCD installation, such as the [ArgoCD Full](https://github.com/nephio-project/catalog/tree/main/nephio/optional/argo-cd-full) package.
 - Optional:
@@ -17,7 +17,7 @@ for detailed environment options.
 
 {{% alert title="Note" color="primary" %}}
 
-If using a [sandbox demo environment](/content/en/docs/guides/install-guides/_index.md#kicking-off-an-installation-on-a-virtual-machine), 
+If using a [sandbox demo environment](/docs/guides/install-guides/_index.md#kicking-off-an-installation-on-a-virtual-machine), 
 most of the above prerequisites are already satisfied.
 
 {{% /alert %}}
@@ -161,7 +161,7 @@ oai-core-packages           git    Package   false        True    https://github
 
 Once *Ready*, we can utilize blueprint packages from these upstream repositories.
 
-In this example, we will use the [Porch package variant controller](/content/en/docs/porch/package-variant.md#core-concepts) 
+In this example, we will use the [Porch package variant controller](/docs/porch/package-variant.md#core-concepts) 
 to deploy the new Workload Cluster.
 
 This fully automates the onboarding process, including the auto approval and publishing of the new package.
