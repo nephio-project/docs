@@ -12,7 +12,7 @@ aggregation layer. The benefits of this approach are:
 
 Resources implemented by the Porch server include:
 
-* For each package revision (see [Package Versioning](#package-versioning)):
+* For each package revision (see [Package Versioning](../../2_concepts/concepts_elaborated.md#package-versioning)):
   * `PackageRevision` - represents the *metadata* of the package revision stored in a repository.
   * `PackageRevisionResources` - represents the *file contents* of the package revision
   * Note that each package revision is represented by a *pair* of resources, each presenting a different view (or
@@ -41,7 +41,7 @@ The **Porch server** itself includes the following key components:
 The **Function Runner** is a separate microservice responsible for evaluating [kpt functions][functions]. It exposes
 a [GRPC](https://grpc.io/) endpoint which enables evaluating a specified kpt function on a provided configuration package.
 
-GRPC was chosen for the function runner service because the [benefits of an API server](#grpc-api) that prompted its use
+GRPC was chosen for the function runner service because the [benefits of an API server](../../2_concepts/package_orchestration_concepts.md#grpc-api) that prompted its use
 for the Porch server do not apply. The function runner is an internal microservice, an implementation detail not exposed
 to external callers. This makes GRPC perfectly suitable.
 

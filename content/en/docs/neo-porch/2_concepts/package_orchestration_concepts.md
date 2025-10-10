@@ -25,9 +25,9 @@ Some core concepts of package orchestration:
 more **[KRM resources][krm]**. **N.B.**: there is no such thing as a "Porch Package", but **kpt packages can be stored
 in/managed by Porch**.
 
-***Repository***: a version-control [repository](#repositories) used to store packages. For example, a[Git][git] or [OCI][oci] repository.
+***Repository***: a version-control [repository](./concepts_elaborated.md#repositories) used to store packages. For example, a[Git][git] or [OCI][oci] repository.
 
-***Package Revision***: packages are sequentially ***[versioned](#package-versioning)*** and multiple versions of the same package may exist in a
+***Package Revision***: packages are sequentially ***[versioned](./concepts_elaborated.md#package-versioning)*** and multiple versions of the same package may exist in a
 repository. Each successive version is considered a *package revision*.
 
 ***Lifecycle***: a package revision may be in one of several lifecycle stages:
@@ -57,7 +57,7 @@ is published. Package variant sets enable the same behaviour for package variant
 involves advanced concepts worthy of their own separate document: [Package Variants](../5_architecture_&_components/controllers/pkg-variant-controllers.md)
 
 ***Deployment repository***: A repository can be designated as a deployment repository. Package revisions in *Published*
-state in a deployment repository are considered [deployment-ready](#deployment).
+state in a deployment repository are considered [deployment-ready](./concepts_elaborated.md#deployment).
 
 Some of these concepts bear examination in more detail - see [Package Orchestration Concepts Elaborated](./concepts_elaborated.md)
 
@@ -87,7 +87,7 @@ At the high level, the CaD functionality comprises:
   * package revision authoring and lifecycle management
   * package repository management
 
-* [porchctl](../7_cli_api/porchctl-cli-guide.md) - a Git-native, schema-aware, extensible client-side tool for managing
+* [porchctl](../7_cli_api/porchctl.md) - a Git-native, schema-aware, extensible client-side tool for managing
   KRM packages in Porch
 * a GitOps-based deployment mechanism (for example [Config Sync][Config Sync]), which distributes and deploys configuration,
   and provides observability of the status of deployed resources
@@ -210,7 +210,7 @@ The primary Porch components are:
 The Porch server is implemented as a [Kubernetes extension API server][apiserver]. It serves the primary Kubernetes
 resources required for basic package authoring and lifeycle management, including:
 
-* For each package revision (see [Package Versioning](#package-versioning)):
+* For each package revision (see [Package Versioning](./concepts_elaborated.md#package-versioning)):
   * `PackageRevision` - represents the *metadata* of the package revision stored in a repository.
   * `PackageRevisionResources` - represents the *file contents* of the package revision
   * Note that each package revision is represented by a *pair* of resources, each presenting a different view (or
@@ -256,11 +256,6 @@ such as upgrade of multiple packages, etc.).
 A longer-term goal is to refactor kpt and Porch to extract the package manipulation operations into a reusable CaD Library,
 consumed by both the kpt CLI and the Package Orchestration service to maintain functional parity between kpt and Porch.
 
-## User Guide
-
-Find the Porch User Guide in a dedicated
-[document](https://github.com/kptdev/kpt/blob/main/site/guides/porch-user-guide.md).
-
 ## Open Issues/Questions
 
 ### Deployment Rollouts & Orchestration
@@ -290,5 +285,5 @@ Kubernetes apiserver are:
 [krm functions]: https://github.com/kubernetes-sigs/kustomize/blob/master/cmd/config/docs/api-conventions/functions-spec.md
 [oci]: https://github.com/opencontainers/image-spec/blob/main/spec.md
 [optimistic-concurrency]: https://en.wikipedia.org/wiki/Optimistic_concurrency_control
-[pipeline]: https://kpt.dev/book/04-using-functions/01-declarative-function-execution
+[pipeline]: https://kpt.dev/book/04-using-functions/#declarative-function-execution
 [representation]: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#differing-representations
