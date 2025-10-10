@@ -6,7 +6,7 @@ weight: 5
 ---
 
 
-You have installed the Nephio single VM [using the installation instructions](/content/en/docs/guides/install-guides/install-on-single-vm.md).
+You have installed the Nephio single VM [using the installation instructions](/docs/guides/install-guides/install-on-single-vm.md).
 The installation has done a good job of installing a complex software stack without any fuss. Let's take a look around.
 
 ![Software Installed by the Nephio Sandbox Installation](/static/images/install-guides/ManagementCluster.png)

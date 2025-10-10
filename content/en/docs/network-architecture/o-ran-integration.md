@@ -131,4 +131,4 @@ The following sequence chart depicts the flow between the NFO and Workload Clust
 #### Demo User Guide
 
 For a detailed demo user guide, see 
-[O-RAN O-Cloud K8s Cluster deployment](/content/en/docs/guides/user-guides/usecase-user-guides/exercise-4-ocloud-cluster-prov.md)
+[O-RAN O-Cloud K8s Cluster deployment](/docs/guides/user-guides/usecase-user-guides/exercise-4-ocloud-cluster-prov.md)

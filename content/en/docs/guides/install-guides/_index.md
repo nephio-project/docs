@@ -198,12 +198,12 @@ ssh <user>@<vm-address>
 ## Next steps
 
 * Go through the following exercises:
-  * [Free5GC Testbed Deployment and E2E testing with UERANSIM](/content/en/docs/guides/user-guides/usecase-user-guides/exercise-1-free5gc.md)
-  * [OAI Core and RAN Testbed Deployment and E2E testing](/content/en/docs/guides/user-guides/usecase-user-guides/exercise-2-oai.md)
-* Dig in to the [user guide](/content/en/docs/guides/user-guides/_index.md).
+  * [Free5GC Testbed Deployment and E2E testing with UERANSIM](/docs/guides/user-guides/usecase-user-guides/exercise-1-free5gc.md)
+  * [OAI Core and RAN Testbed Deployment and E2E testing](/docs/guides/user-guides/usecase-user-guides/exercise-2-oai.md)
+* Dig in to the [user guide](/docs/guides/user-guides/_index.md).
 * Nephio sandbox environment:
   * Install on preprovisioned single VM.
   * Install on a GCE.
-  * [Explore sandbox environment](/content/en/docs/guides/install-guides/explore-sandbox.md)
-* [Bring-Your-Own-Cluster](/content/en/docs/guides/install-guides/install-on-byoc.md) 
-* [Install using vagrant on Windows (for development)](/content/en/docs/guides/install-guides/demo-vagrant-windows.md) 
+  * [Explore sandbox environment](/docs/guides/install-guides/explore-sandbox.md)
+* [Bring-Your-Own-Cluster](/docs/guides/install-guides/install-on-byoc.md) 
+* [Install using vagrant on Windows (for development)](/docs/guides/install-guides/demo-vagrant-windows.md) 

@@ -7,7 +7,7 @@ weight: 2
 
 ## Introduction
 
-Be sure you have followed the [installation guide](/content/en/docs/guides/install-guides/_index.md)
+Be sure you have followed the [installation guide](/docs/guides/install-guides/_index.md)
 before trying these exercises.
 
 These exercises will take you from a system with only the Nephio Management cluster setup to a deployment with:
@@ -1011,7 +1011,7 @@ Additionally you can check the Gitea edge01 repository (accessible at http://loc
 ![Commits in Gitea made by porch](/static/images/user-guides/gitea-porch.png)
 
 After the package is approved, the results can be observed in Nephio Web UI. Head over to http://localhost:7007/config-as-data
-([port forwarding](/content/en/docs/guides/install-guides/_index.md#access-to-the-user-interfaces) must be running).
+([port forwarding](/docs/guides/install-guides/_index.md#access-to-the-user-interfaces) must be running).
 
 ![Deployments in Nephio UI](/static/images/user-guides/UPF-Capacity.png)
 
