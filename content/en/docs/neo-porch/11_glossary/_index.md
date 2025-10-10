@@ -7,4 +7,4 @@ description: Glossary Description
 
 ## Lorem Ipsum
 
-Lorem Ipsum
+We need a refurbish of the [old-glossary-guide](./relevant_old_docs/glossary-abbreviations.md)

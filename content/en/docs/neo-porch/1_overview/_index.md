@@ -5,6 +5,10 @@ weight: -1
 description: Overview of Porch
 ---
 
+## What is Porch
+
+Lorem Ipsum
+
 ## Introduction to Packages in Porch
 
 A Porch package refers to a KPT package.
@@ -17,6 +21,8 @@ KPT is an open-source tool developed by Google to manage Kubernetes [“Configur
 Think of kpt as "package management for Kubernetes configurations", similar to how [apt](https://en.wikipedia.org/wiki/APT_(software)) or [yum](https://en.wikipedia.org/wiki/Yum_(software)) works for software packages but in this case, it deals with YAML files that define Kubernetes resources.
 
 ### What is a KPT package?
+
+simply a directory/folder with a kpt file and some yaml files?
 
 | Concept           | Description                                                                                           |
 | ----------------- | ----------------------------------------------------------------------------------------------------- |

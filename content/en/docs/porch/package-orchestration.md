@@ -22,7 +22,7 @@ experience for supporting the configuration lifecycle.
 This section briefly describes core concepts of package orchestration:
 
 ***Package***: A package is a collection of related configuration files containing configurations
-of [KRM][krm] **resources**. Specifically, configuration packages are [kpt packages](https://kpt.dev/book/02-concepts/01-packages).
+of [KRM][krm] **resources**. Specifically, configuration packages are [kpt packages](https://kpt.dev/book/02-concepts/#packages).
 Packages are sequentially ***versioned***. Multiple versions of the same package may exist in a
 ([repository](#package-versioning)). A package may have a link (URL) to an
 ***upstream package*** (a specific version) ([from which it was cloned](#package-relationships)) . Packages go through three lifecycle stages: ***Draft***, ***Proposed***, and ***Published***:

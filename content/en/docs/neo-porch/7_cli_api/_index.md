@@ -1,8 +1,8 @@
 ---
-title: "CLI / API Refference"
+title: "CLI / API Reference"
 type: docs
 weight: 7
-description: Refference to the underlying porch cli and api
+description: Reference to the underlying porch cli and api
 ---
 
 ## Lorem Ipsum

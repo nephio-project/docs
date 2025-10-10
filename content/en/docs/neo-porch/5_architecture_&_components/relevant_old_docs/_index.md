@@ -1,10 +1,10 @@
 ---
-title: "Old Docs"
+title: "[### Old Docs ###]"
 type: docs
-weight: 2
+weight: -1
 description: 
 ---
 
-## Lorem Ipsum
+## Lorem Ipsum Heading
 
-Lorem Ipsum
+Lorem Ipsum content

@@ -105,7 +105,7 @@ the following:
   * Cloud storage
 * Saving a serialized package (as a ResourceList) to a package repository.
 * Evaluating a function on a serialized package (ResourceList).
-* [Rendering](https://kpt.dev/book/04-using-functions/01-declarative-function-execution) a package
+* [Rendering](https://kpt.dev/book/04-using-functions/#declarative-function-execution) a package
   (evaluating the functions declared within the package itself).
 * Creating a new (empty) package.
 * Forking (or cloning) an existing package from one package repository (called upstream) to another
