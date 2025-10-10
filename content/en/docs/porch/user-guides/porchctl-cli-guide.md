@@ -346,7 +346,7 @@ spec:
 The `porchctl rpkg pull` command can be used to read the package revision resources.
 
 The command can be used to print the package revision resources as `ResourceList` to `stdout`, which enables
-[chaining](https://kpt.dev/book/04-using-functions/02-imperative-function-execution?id=chaining-functions-using-the-unix-pipe)
+[chaining](https://kpt.dev/book/04-using-functions/#chaining-functions-using-the-unix-pipe)
 evaluation of functions on the package revision pulled from the Package Orchestration server.
 
 ```bash
