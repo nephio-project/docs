@@ -44,13 +44,22 @@ Package revisions are sequentially versioned using a simple integer sequence. Th
 * ability to compare any two versions of a package to establish "newer than", equal, or "older than" relationships
 * ability to support automatic assignment of versions
 * ability to support [optimistic concurrency][optimistic-concurrency] of package revisions by comparing version numbers
+* ability to identify the latest (most recently published) package revision
 * a simple versioning model which easily supports automation
+
+Porch's get/list operations provide these versions to the user in a package revision's `revision` field.
+
+#### Latest Package Revision
+
+The "latest" package revision is the one most recently published, corresponding to the numerically-greatest revision number.
+For additional ease of use, the PackageRevision resource type applies a Kubernetes label to the latest package revision
+when read using the `porchctl` or `kubectl` CLI: `kpt.dev/latest-revision: "true"`
 
 ### Package Relationships - Upstream and Downstream
 
 kpt packages support the concept of ***upstream*** and ***downstream*** relationships. When a package is cloned from another,
 the new package (the downstream package) maintains an upstream link to the specific package revision from which it was cloned.
-If a new package revision is published of the upstream package, the upstream link can be used to update the downstream package.
+If a new revision of the upstream package is published, the upstream link can be used to update the downstream package.
 
 ### Deployment
 

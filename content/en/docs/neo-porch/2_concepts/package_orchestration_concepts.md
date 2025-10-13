@@ -6,7 +6,7 @@ weight: 2
 
 ### Package Orchestration: Why?
 
-The benefits of [Configuration as Data](TODO - REFER TO DOCUMENT UNDER 1_overview, ONCE WRITTEN) (CaD) are already
+The benefits of [Configuration as Data](TODO:REFER_TO_DOCUMENT_UNDER_1_overview_ONCE_WRITTEN) (CaD) are already
 available in CLI form, using [kpt](https://kpt.dev) and the kpt function ecosystem, including a hosted [functions catalog](https://catalog.kpt.dev/).
 [YAML](https://yaml.org/) files can be created and organised into packages using any editor with YAML support. However,
 a UI experience of WYSIWYG package management is not yet available which can support broader package lifecycle management
@@ -25,10 +25,11 @@ Some core concepts of package orchestration:
 more **[KRM resources][krm]**. **N.B.**: there is no such thing as a "Porch Package", but **kpt packages can be stored
 in/managed by Porch**.
 
-***Repository***: a version-control [repository](./concepts_elaborated.md#repositories) used to store packages. For example, a[Git][git] or [OCI][oci] repository.
+***Repository***: a version-control [repository](./concepts_elaborated.md#repositories) used to store packages. For
+example, a [Git][git] or [OCI][oci] repository.
 
-***Package Revision***: packages are sequentially ***[versioned](./concepts_elaborated.md#package-versioning)*** and multiple versions of the same package may exist in a
-repository. Each successive version is considered a *package revision*.
+***Package Revision***: packages are sequentially ***[versioned](./concepts_elaborated.md#package-versioning)*** and
+multiple versions of the same package may exist in a repository. Each successive version is considered a *package revision*.
 
 ***Lifecycle***: a package revision may be in one of several lifecycle stages:
 
@@ -56,8 +57,14 @@ downstream packages, as well as preparing new downstream package revisions when 
 is published. Package variant sets enable the same behaviour for package variants themselves. Use of package variants
 involves advanced concepts worthy of their own separate document: [Package Variants](../5_architecture_&_components/controllers/pkg-variant-controllers.md)
 
-***Deployment repository***: A repository can be designated as a deployment repository. Package revisions in *Published*
+***Deployment repository***: a repository can be designated as a deployment repository. Package revisions in *Published*
 state in a deployment repository are considered [deployment-ready](./concepts_elaborated.md#deployment).
+
+***Package revision workspace***, or `workspaceName`: a user-defined string and element of package revision names automatically
+assembled by Porch. Used to uniquely identify a package revision while in *Draft* state, especially to distinguish between
+multiple drafts undergoing concurrent development. **N.B.**: a package revision workspace does not refer to any distinct
+"folder" or "space", but only to the in-development draft. The same workspace name may be assigned to multiple package
+revisions **of different packages** and **does not of itself indicate any connection between the packages**.
 
 Some of these concepts bear examination in more detail - see [Package Orchestration Concepts Elaborated](./concepts_elaborated.md)
 
@@ -154,7 +161,7 @@ Porch's package lifecycle management enables the client to:
   Example edits:
   * add/change/delete resources in the package
   * add/change/delete the KRM functions in the pipeline in the package's `kptfile`
-    * e.g.: mutators to transform the KRM resources in the package contents; validators to enforce validation
+    * e.g.: mutator functions to transform the KRM resources in the package contents; validator functions to enforce validation
   * add/change/delete sub-package
 
 * Guard against pushing invalid package changes:
