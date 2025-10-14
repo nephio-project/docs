@@ -7,7 +7,7 @@ weight: 2
 ### Package Orchestration: Why?
 
 The benefits of [Configuration as Data](TODO:REFER_TO_DOCUMENT_UNDER_1_overview_ONCE_WRITTEN) (CaD) are already
-available in CLI form, using [kpt](https://kpt.dev) and the kpt function ecosystem, including a hosted [functions catalog](https://catalog.kpt.dev/).
+available in CLI form, using [kpt](https://kpt.dev) and the KRM function ecosystem, including a kpt-hosted [function catalog](https://catalog.kpt.dev/).
 [YAML](https://yaml.org/) files can be created and organised into packages using any editor with YAML support. However,
 a UI experience of WYSIWYG package management is not yet available which can support broader package lifecycle management
 and necessary development guardrails.
@@ -202,7 +202,8 @@ user, service account) can perform. For example, access can be segregated to res
 
 Porch consists of several microservices, designed to be hosted in a [Kubernetes](https://kubernetes.io/) cluster.
 
-The overall architecture is shown below, including additional components external to Porch (k8s API server and deployment mechanism).
+The overall architecture is shown below, including additional components external to Porch (k8s API server and deployment
+mechanism).
 ![Porch Architecture](/static/images/porch/Porch-Architecture.drawio.svg)
 
 In addition to satisfying requirements highlighted above, the focus of the architecture was to:
@@ -226,8 +227,8 @@ resources required for basic package authoring and lifeycle management, includin
 
 #### Function Runner
 
-The **Function Runner** is a separate microservice responsible for evaluating [kpt functions][functions]. It exposes
-a [GRPC](https://grpc.io/) endpoint which enables evaluating a specified kpt function on a provided configuration package.
+The **Function Runner** is a separate microservice responsible for evaluating [KRM functions][functions]. It exposes
+a [GRPC](https://grpc.io/) endpoint which enables evaluating a specified KRM function on a provided configuration package.
 
 GRPC was chosen for the function runner service because the [benefits of an API server](#grpc-api) that prompted its use
 for the Porch server do not apply. The function runner is an internal microservice, an implementation detail not exposed
@@ -250,7 +251,7 @@ command line user experience:
   set up the upstream reference of the downstream package
 * [kpt pkg update](https://kpt.dev/reference/cli/pkg/update/) - update the downstream package with changes from new
   version of upstream, 3-way merge
-* [kpt fn eval](https://kpt.dev/reference/cli/fn/eval/) - evaluate a kpt function on a package
+* [kpt fn eval](https://kpt.dev/reference/cli/fn/eval/) - evaluate a KRM function on a package
 * [kpt fn render](https://kpt.dev/reference/cli/fn/render/) - render the package by executing the function pipeline of
   the package and its nested packages
 * [kpt fn source](https://kpt.dev/reference/cli/fn/source/) and [kpt fn sink](https://kpt.dev/reference/cli/fn/sink/) -
@@ -276,8 +277,8 @@ A, and only on success, the same (or a different) package deployed by Config Syn
 
 ### GRPC API
 
-We considered the use of [GRPC](https://grpc.io/) for the Porch API. The primary advantages of implementing Porch as an extension
-Kubernetes apiserver are:
+We considered the use of [GRPC](https://grpc.io/) for the Porch API. The primary advantages of implementing Porch as an
+extension Kubernetes apiserver are:
 
 * customers won't have to open another port to their Kubernetes cluster and can reuse their existing infrastructure
 * customers can likewise reuse existing, familiar, Kubernetes tooling ecosystem
