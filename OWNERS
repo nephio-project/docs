@@ -1,6 +1,5 @@
 approvers:
   - johnbelamaric
-  - henderiw
   - s3wong
   - tliron
   - liamfallon
@@ -9,10 +8,11 @@ approvers:
   - arora-sagar
   - timop62
   - Catalin-Stratulat-Ericsson
+  - lovesprung
+  - mpgreaves
 
 reviewers:
   - johnbelamaric
-  - henderiw
   - s3wong
   - tliron
   - efiacor
@@ -21,3 +21,5 @@ reviewers:
   - arora-sagar
   - timop62
   - Catalin-Stratulat-Ericsson
+  - lovesprung
+  - mpgreaves
