@@ -45,8 +45,8 @@ enableMissingTranslationPlaceholders = true
       unsafe= true
     [markup.highlight]
 
-      # Setting no default style and allows style to auto adjust between night and dark default markdown themes
-      
+      # Setting no default style; allows style to auto adjust between light and dark default markdown themes
+
       noClasses = false
 
       # Uncomment if you want your chosen highlight style used for code blocks without a specified language
