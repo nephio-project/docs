@@ -45,9 +45,9 @@ enableMissingTranslationPlaceholders = true
       unsafe= true
     [markup.highlight]
 
-      # See a complete list of available styles at https://xyproto.github.io/splash/docs/all.html
+      # Setting no default style; allows style to auto adjust between light and dark default markdown themes
 
-      style = "tango"
+      noClasses = false
 
       # Uncomment if you want your chosen highlight style used for code blocks without a specified language
 
@@ -123,6 +123,10 @@ offlineSearchMaxResults = 10
 # User interface configuration
 
 [params.ui]
+
+# Enable Visibility of Light/Dark Mode Toggle
+
+showLightDarkModeMenu = true
 
 # Enable to show the side bar menu in its compact state.
 
