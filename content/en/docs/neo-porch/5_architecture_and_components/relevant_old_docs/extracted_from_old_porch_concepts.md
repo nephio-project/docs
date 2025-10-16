@@ -41,7 +41,7 @@ The **Porch server** itself includes the following key components:
 The **Function Runner** is a separate microservice responsible for evaluating [kpt functions][functions]. It exposes
 a [GRPC](https://grpc.io/) endpoint which enables evaluating a specified kpt function on a provided configuration package.
 
-GRPC was chosen for the function runner service because the [benefits of an API server](../../2_concepts/package_orchestration_concepts.md#grpc-api) that prompted its use
+GRPC was chosen for the function runner service because the [benefits of an API server](../../2_concepts/porch_concepts.md#grpc-api) that prompted its use
 for the Porch server do not apply. The function runner is an internal microservice, an implementation detail not exposed
 to external callers. This makes GRPC perfectly suitable.
 

@@ -1,53 +1,60 @@
 ---
-title: "Package Orchestration Concepts"
+title: "Porch Concepts"
 type: docs
 weight: 2
 ---
 
-### Package Orchestration: Why?
+## Porch: Why?
 
-The benefits of [Configuration as Data](TODO - REFER TO DOCUMENT UNDER 1_overview, ONCE WRITTEN) (CaD) are already
-available in CLI form, using [kpt](https://kpt.dev) and the kpt function ecosystem, including a hosted [functions catalog](https://catalog.kpt.dev/).
-[YAML](https://yaml.org/) files can be created and organised into packages using any editor with YAML support. However,
+The benefits of [Configuration as Data](TODO:REFER_TO_DOCUMENT_UNDER_1_overview_ONCE_WRITTEN) (CaD) are already
+available in CLI form, using [kpt](https://kpt.dev) and the KRM function ecosystem, including a kpt-hosted [function catalog](https://catalog.kpt.dev/).
+YAML files can be created and organised into packages using any editor with YAML support. However,
 a UI experience of WYSIWYG package management is not yet available which can support broader package lifecycle management
 and necessary development guardrails.
 
-*Package Orchestration* (Porch) enables development of such a UI experience. Part of the Nephio Configuration as Data
-implementation, it offers an API and CLI which provide lifecycle management of kpt packages, including package authoring
-with guardrails, a proposal/approval workflow, package deployment, and more.
+Porch enables development of such a UI experience. Part of the Nephio Configuration as Data implementation, it offers an
+API and CLI which provide lifecycle management of kpt packages, including package authoring with guardrails, a proposal/approval
+workflow, package deployment, and more.
 
 
 ## Core Concepts
 
-Some core concepts of package orchestration:
+Some core concepts of Porch's package orchestration:
 
-***Package***: specifically, a [kpt package](https://kpt.dev/) - a collection of related YAML files containing one or
-more **[KRM resources][krm]**. **N.B.**: there is no such thing as a "Porch Package", but **kpt packages can be stored
-in/managed by Porch**.
+***Package***: A package, in Porch, is specifically a [kpt package](https://kpt.dev/) - a collection of related YAML
+files including one or more **[KRM resources][krm]** and a [Kptfile](https://kpt.dev/book/02-concepts/#packages).
 
-***Repository***: a version-control [repository](./concepts_elaborated.md#repositories) used to store packages. For example, a[Git][git] or [OCI][oci] repository.
+{{% alert title="N.B." color="warning" %}}
 
-***Package Revision***: packages are sequentially ***[versioned](./concepts_elaborated.md#package-versioning)*** and multiple versions of the same package may exist in a
-repository. Each successive version is considered a *package revision*.
+There is no such thing as a "Porch Package" - rather, **Porch stores and orchestrates kpt packages**.
 
-***Lifecycle***: a package revision may be in one of several lifecycle stages:
+{{% /alert %}}
 
+***Repository***: This is a version-control [repository](./concepts_elaborated.md#repositories) used to store packages.
+For example, a [Git][git] or (experimentally) [OCI][oci] repository.
+
+***Package Revision***: This refers to the state of a package as of a specific version. Packages are sequentially
+[versioned](./concepts_elaborated.md#package-revisions) such that multiple versions of the same package may exist in
+a repository. Each successive version is considered a *package revision*.
+
+***Lifecycle***: This refers to a package revision's current stage in the process of its orchestration by Porch. A package
+revision may be in one of several lifecycle stages:
 * ***Draft*** - the package is being created or edited. The package contents can be modified but the package revision is not
   ready to be used/deployed. Previously-published package revisions, reflecting earlier states of the package files, can
   still be deployed
-* ***Proposed*** - intermediate state. The package's author has proposed that a new version of the package be published
-  with its files in the current state
+* ***Proposed*** - intermediate state. The package's author has proposed that the package revision be published as a new
+  version of the package with its files in the current state
 * ***Published*** - the changes to the package have been approved and the package is ready to be used. Published packages
   may be deployed, cloned to a new package, or edited to continue development
-* ***DeletionProposed*** - intermediate state. A user has proposed that this version of the package be deleted from the
+* ***DeletionProposed*** - intermediate state. A user has proposed that this package revision be deleted from the
   repository
 
 ***Functions***: specifically, [KRM functions][krm functions]. Functions can be added to a package's kptfile [pipeline][pipeline]
 in the course of modifying a package revision in *Draft* state. Porch runs the pipeline on the package contents, mutating
 or validating the KRM resource files.
 
-***Upstream package revision***: a package revision (a specific version of a package) may be cloned, producing a new,
-***downstream package*** and package revision. The downstream package maintains a link (URL) to the upstream from which
+***Upstream package revision***: a package revision of an ***upstream package*** may be cloned, producing a new,
+***downstream package*** and associated package revision. The downstream package maintains a link (URL) to the upstream from which
 it was cloned. ([more details](./concepts_elaborated.md#package-relationships---upstream-and-downstream))
 
 ***Package Variant*** and ***Package Variant Set***: higher levels of package revision automation. Package variants can
@@ -59,7 +66,13 @@ involves advanced concepts worthy of their own separate document: [Package Varia
 ***Deployment repository***: A repository can be designated as a deployment repository. Package revisions in *Published*
 state in a deployment repository are considered [deployment-ready](./concepts_elaborated.md#deployment).
 
-Some of these concepts bear examination in more detail - see [Package Orchestration Concepts Elaborated](./concepts_elaborated.md)
+***Package revision workspace***, or `workspaceName`: a user-defined string and element of package revision names automatically
+assembled by Porch. Used to uniquely identify a package revision while in *Draft* state, especially to distinguish between
+multiple drafts undergoing concurrent development. **N.B.**: a package revision workspace does not refer to any distinct
+"folder" or "space", but only to the in-development draft. The same workspace name may be assigned to multiple package
+revisions **of different packages** and **does not of itself indicate any connection between the packages**.
+
+Some of these concepts bear examination in more detail - see [Porch Concepts Elaborated](./concepts_elaborated.md)
 
 
 ## Core Components of Configuration as Data Implementation
@@ -69,13 +82,13 @@ The CaD implementation consists of a set of components and APIs enabling the fol
 * Register repositories (Git, OCI) containing kpt packages
 * Automatically discover existing packages in registered repositories
 * Manage package revision lifecycle, including:
-  * authoring and versioning of a package through creation, mutation, and deletion of package revision drafts
-  * a 2-step approval process where a draft package revision is first proposed for publishing, and only published on a
+  * Authoring and versioning of a package through creation, mutation, and deletion of package revision drafts
+  * A 2-step approval process where a draft package revision is first proposed for publishing, and only published on a
     second (approval) operation
 * Manage package lifecycle - operations such as:
-  * package upgrade - assisted or automated rollout of a downstream (cloned) package when a new version of the upstream
-    package revision is published
-  * package rollback to a previous package revision
+  * Package upgrade - assisted or automated rollout of a downstream (cloned) package when a new revision of the upstream
+    package is published
+  * Package rollback to a previous package revision
 * Deploy packages from deployment repositories and observe their deployment status
 * Role-based access control to Porch APIs via Kubernetes standard roles
 
@@ -83,15 +96,15 @@ The CaD implementation consists of a set of components and APIs enabling the fol
 
 At the high level, the CaD functionality comprises:
 
-* a generic (i.e. not task-specific) package orchestration service implementing
+* A generic (i.e. not task-specific) package orchestration service implementing
   * package revision authoring and lifecycle management
   * package repository management
 
 * [porchctl](../7_cli_api/porchctl.md) - a Git-native, schema-aware, extensible client-side tool for managing
-  KRM packages in Porch
-* a GitOps-based deployment mechanism (for example [Config Sync][Config Sync]), which distributes and deploys configuration,
-  and provides observability of the status of deployed resources
-* a task-specific UI supporting repository management, package discovery, authoring, and lifecycle
+  KRM packages in Porch.
+* A GitOps-based deployment mechanism (for example [Config Sync][Config Sync] or [FluxCD](https://fluxcd.io/)), which
+  distributes and deploys configuration, and provides observability of the status of deployed resources.
+* A task-specific UI supporting repository management, package discovery, authoring, and lifecycle.
 
 ![CaD Core Architecture](/static/images/porch/CaD-Core-Architecture.svg)
 
@@ -113,69 +126,68 @@ interacting with the API (e.g., through a web application or a command-line tool
 
 Porch's repository management functionality enables the client to manage Porch repositories:
 
-* Register (create) and unregister (delete) repositories
-  * a repository may be registered as a *deployment* repository to indicate that it contains deployment-ready packages
-* Discover (read) and update registered repositories
-  * since Porch repositories are Kubernetes objects, the update operation may be used to add arbitrary metadata, in the
-    form of annotations or labels, for the benefit of applications or customers
+* Register (create) and unregister (delete) repositories.
+  * A repository may be registered as a *deployment* repository to indicate that it contains deployment-ready packages.
+* Discover (read) and update registered repositories.
+  * Since Porch repositories are Kubernetes objects, the update operation may be used to add arbitrary metadata, in the
+    form of annotations or labels, for the benefit of applications or customers.
 
 Git repository integration is available, with limited experimental support for OCI.
 
 ### Package Discovery
 
-Porch's package discovery functionality enables the client to:
+Porch's package discovery functionality enables the client to read package data:
 
-* List package revisions in registered repositories
-  * and sort/filter based on package metadata (labels) or a selection of field values
-  * package revisions are automatically discovered and cached in Porch upon repository registration. Porch then polls the
-    repository at a user-customisable interval to keep the cache up to date.
-* Retrieve details of an individual package revision
-* Discover upstream packages with new latest revisions to which their downstream packages can be upgraded
-* Identify deployment-ready packages that are available to be deployed by the chosen deployment software
+* List package revisions in registered repositories.
+  * Sort and filter based on package metadata (labels) or a selection of field values.
+  * To improve performance and latency, package revisions are automatically discovered and cached in Porch upon repository
+    registration. Porch then polls the repository at a user-customisable interval to keep the cache up to date.
+* Retrieve details of an individual package revision.
+* Discover upstream packages with new latest revisions to which their downstream packages can be upgraded.
+* Identify deployment-ready packages that are available to be deployed by the chosen deployment software.
 
 ### Package Authoring
 
-Porch's package lifecycle management enables the client to:
+Porch's package lifecycle management enables the client to orchestrate packages and package revisions:
 
 * Create a *draft* package revision in any of the following ways:
-  * create an empty draft 'from scratch' (`porchctl rpkg init`)
-  * clone an upstream package (`porchctl rpkg clone`) from either a registered upstream repository or from an unregistered
-    repository accessible by URL
-  * edit an existing package (`porchctl rpkg edit`)
+  * Create an empty draft 'from scratch' (`porchctl rpkg init`).
+  * Clone an upstream package (`porchctl rpkg clone`) from either a registered upstream repository or from an unregistered
+    repository accessible by URL.
+  * Edit an existing package (`porchctl rpkg edit`).
 
-* Retrieve the contents of a package's files for local review or editing (`porchctl rpkg pull`)
+* Retrieve the contents of a package's files for local review or editing (`porchctl rpkg pull`).
 
 * Manage approval status of a package revision:
-  * Propose a *draft* package for publication, moving it to *proposed* status
-  * Reject a *proposed* package, setting it back to *draft* status
-  * Approve a *proposed* package, releasing it to *published* status.
+  * Propose a *Draft* package for publication, moving it to *Proposed* status.
+  * Reject a *Proposed* package, setting it back to *Draft* status.
+  * Approve a *Proposed* package, releasing it to *Published* status.
 
 * Update the package contents of a draft package revision by pushing an edited local copy to the draft (`porchctl rpkg push`).
   Example edits:
-  * add/change/delete resources in the package
-  * add/change/delete the KRM functions in the pipeline in the package's `kptfile`
-    * e.g.: mutators to transform the KRM resources in the package contents; validators to enforce validation
-  * add/change/delete sub-package
+  * Add, modify, or delete resources in the package.
+  * Add, modiy, or delete the KRM functions in the pipeline in the package's `kptfile`.
+    * e.g.: mutator functions to transform the KRM resources in the package contents; validator functions to enforce validation
+  * Add, modify, or delete a sub-package.
 
 * Guard against pushing invalid package changes:
-  * as part of the `porchctl rpkg push` operation, Porch renders the kpt package, running the pipeline
-  * if the pipeline encounters a failure, error, or validation violation, Porch refuses to update the package contents
+  * As part of the `porchctl rpkg push` operation, Porch renders the kpt package, running the pipeline.
+  * If the pipeline encounters a failure, error, or validation violation, Porch refuses to update the package contents.
 
 * Perform bulk operations using package variants, such as:
-  * Assisted/automated update (upgrade, rollback) of groups of packages matching specific criteria (i.e. base package
-    has new version or specific base package version has a vulnerability and should be rolled back)
+  * Assisted/automated update (upgrade, rollback) of groups of packages matching specific criteria (e.g. base package has
+    a new version; specific base package version has a vulnerability and should be rolled back)
   * Proposed change validation (pre-validating change that adds a validator function to a base package)
 
-
-* Delete an existing package or package revision
+* Delete an existing package or package revision.
 
 #### Authoring & Latency
 
-An important goal of the Package Orchestration service is to support building of task-specific UIs. In order for Porch to
+An important goal of Porch is to support building of task-specific UIs. In order for Porch to
 sustain a quick turnaround of operations, package authors must ensure their packages allow the innermost authoring loop
 (depicted below) to execute quickly in the following areas:
-* low-latency execution of mutations and transformations on the package contents
-* low-latency rendering of the package's [KRM function][krm functions] pipeline
+* Low-latency execution of mutations and transformations on the package contents
+* Low-latency rendering of the package's [KRM function][krm functions] pipeline
 
 ![Inner Loop](/static/images/porch/Porch-Inner-Loop.svg)
 
@@ -188,7 +200,7 @@ user, service account) can perform. For example, access can be segregated to res
 * create a new draft package revision and propose it for publication
 * approve (or reject) the a proposed package revision
 * clone packages from a specific upstream repository
-* (with package variants, scripts, user-developed client etc.) perform bulk operations such as rolling out upgrade of
+* perform bulk operations (using package variants, scripts, user-developed client, etc.) such as rolling out upgrade of
   downstream packages, including rollouts across multiple downstream repositories
 
 ### Porch Architecture
@@ -210,12 +222,12 @@ The primary Porch components are:
 The Porch server is implemented as a [Kubernetes extension API server][apiserver]. It serves the primary Kubernetes
 resources required for basic package authoring and lifeycle management, including:
 
-* For each package revision (see [Package Versioning](./concepts_elaborated.md#package-versioning)):
-  * `PackageRevision` - represents the *metadata* of the package revision stored in a repository.
+* For each package revision (see [Package Versioning](./concepts_elaborated.md#package-revisions)):
+  * `PackageRevision` - represents the *metadata* of the package revision stored in a repository
   * `PackageRevisionResources` - represents the *file contents* of the package revision
   * Note that each package revision is represented by a *pair* of resources, each presenting a different view (or
     [representation][representation]) of the same underlying package revision.
-* a `Repository` [custom resource][crds], which supports repository registration
+* A `Repository` [custom resource][crds], which supports repository registration
 
 #### Function Runner
 
@@ -254,16 +266,7 @@ operations (for example, Porch renders packages automatically on changes; future
 such as upgrade of multiple packages, etc.).
 
 A longer-term goal is to refactor kpt and Porch to extract the package manipulation operations into a reusable CaD Library,
-consumed by both the kpt CLI and the Package Orchestration service to maintain functional parity between kpt and Porch.
-
-## Open Issues/Questions
-
-### Deployment Rollouts & Orchestration
-
-**Not Yet Resolved**
-
-Cross-cluster rollouts and orchestration of deployment activity. For example, a package deployed by Config Sync in cluster
-A, and only on success, the same (or a different) package deployed by Config Sync in cluster B.
+consumed by both the kpt CLI and Porch to maintain functional parity between kpt and Porch.
 
 ## Alternatives Considered
 
