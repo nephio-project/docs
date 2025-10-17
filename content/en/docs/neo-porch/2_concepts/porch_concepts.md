@@ -41,13 +41,13 @@ a repository. Each successive version is considered a *package revision*.
 revision may be in one of several lifecycle stages:
 * ***Draft*** - the package is being created or edited. The package contents can be modified but the package revision is not
   ready to be used/deployed. Previously-published package revisions, reflecting earlier states of the package files, can
-  still be deployed
+  still be deployed.
 * ***Proposed*** - intermediate state. The package's author has proposed that the package revision be published as a new
-  version of the package with its files in the current state
+  version of the package with its files in the current state.
 * ***Published*** - the changes to the package have been approved and the package is ready to be used. Published packages
-  may be deployed, cloned to a new package, or edited to continue development
+  may be deployed, cloned to a new package, or edited to continue development.
 * ***DeletionProposed*** - intermediate state. A user has proposed that this package revision be deleted from the
-  repository
+  repository.
 
 ***Functions***: specifically, [KRM functions][krm functions]. Functions can be added to a package's kptfile [pipeline][pipeline]
 in the course of modifying a package revision in *Draft* state. Porch runs the pipeline on the package contents, mutating
@@ -74,39 +74,6 @@ revisions **of different packages** and **does not of itself indicate any connec
 
 Some of these concepts bear examination in more detail - see [Porch Concepts Elaborated](./concepts_elaborated.md)
 
-
-## Core Components of Configuration as Data Implementation
-
-The CaD implementation consists of a set of components and APIs enabling the following broad use cases:
-
-* Register repositories (Git, OCI) containing kpt packages
-* Automatically discover existing packages in registered repositories
-* Manage package revision lifecycle, including:
-  * Authoring and versioning of a package through creation, mutation, and deletion of package revision drafts
-  * A 2-step approval process where a draft package revision is first proposed for publishing, and only published on a
-    second (approval) operation
-* Manage package lifecycle - operations such as:
-  * Package upgrade - assisted or automated rollout of a downstream (cloned) package when a new revision of the upstream
-    package is published
-  * Package rollback to a previous package revision
-* Deploy packages from deployment repositories and observe their deployment status
-* Role-based access control to Porch APIs via Kubernetes standard roles
-
-### High-Level Architecture
-
-At the high level, the CaD functionality comprises:
-
-* A generic (i.e. not task-specific) package orchestration service implementing
-  * package revision authoring and lifecycle management
-  * package repository management
-
-* [porchctl](../7_cli_api/porchctl.md) - a Git-native, schema-aware, extensible client-side tool for managing
-  KRM packages in Porch.
-* A GitOps-based deployment mechanism (for example [Config Sync][Config Sync] or [FluxCD](https://fluxcd.io/)), which
-  distributes and deploys configuration, and provides observability of the status of deployed resources.
-* A task-specific UI supporting repository management, package discovery, authoring, and lifecycle.
-
-![CaD Core Architecture](/static/images/porch/CaD-Core-Architecture.svg)
 
 ## Package Orchestration - Porch
 
@@ -167,7 +134,7 @@ Porch's package lifecycle management enables the client to orchestrate packages 
   Example edits:
   * Add, modify, or delete resources in the package.
   * Add, modiy, or delete the KRM functions in the pipeline in the package's `kptfile`.
-    * e.g.: mutator functions to transform the KRM resources in the package contents; validator functions to enforce validation
+    * e.g.: mutator functions to transform the KRM resources in the package contents; validator functions to enforce validation.
   * Add, modify, or delete a sub-package.
 
 * Guard against pushing invalid package changes:
@@ -176,8 +143,8 @@ Porch's package lifecycle management enables the client to orchestrate packages 
 
 * Perform bulk operations using package variants, such as:
   * Assisted/automated update (upgrade, rollback) of groups of packages matching specific criteria (e.g. base package has
-    a new version; specific base package version has a vulnerability and should be rolled back)
-  * Proposed change validation (pre-validating change that adds a validator function to a base package)
+    a new version; specific base package version has a vulnerability and should be rolled back).
+  * Proposed change validation (pre-validating change that adds a validator function to a base package).
 
 * Delete an existing package or package revision.
 
@@ -186,8 +153,8 @@ Porch's package lifecycle management enables the client to orchestrate packages 
 An important goal of Porch is to support building of task-specific UIs. In order for Porch to
 sustain a quick turnaround of operations, package authors must ensure their packages allow the innermost authoring loop
 (depicted below) to execute quickly in the following areas:
-* Low-latency execution of mutations and transformations on the package contents
-* Low-latency rendering of the package's [KRM function][krm functions] pipeline
+* Low-latency execution of mutations and transformations on the package contents.
+* Low-latency rendering of the package's [KRM function][krm functions] pipeline.
 
 ![Inner Loop](/static/images/porch/Porch-Inner-Loop.svg)
 
@@ -196,12 +163,12 @@ sustain a quick turnaround of operations, package authors must ensure their pack
 Using Kubernetes Roles and RoleBindings, a user can apply role-based access control to limit the operations an actor (other
 user, service account) can perform. For example, access can be segregated to restrict who can:
 
-* register and unregister repositories
-* create a new draft package revision and propose it for publication
-* approve (or reject) the a proposed package revision
-* clone packages from a specific upstream repository
+* register and unregister repositories.
+* create a new draft package revision and propose it for publication.
+* approve (or reject) the a proposed package revision.
+* clone packages from a specific upstream repository.
 * perform bulk operations (using package variants, scripts, user-developed client, etc.) such as rolling out upgrade of
-  downstream packages, including rollouts across multiple downstream repositories
+  downstream packages, including rollouts across multiple downstream repositories.
 
 ### Porch Architecture
 
@@ -212,8 +179,8 @@ The overall architecture is shown below, including additional components externa
 
 In addition to satisfying requirements highlighted above, the focus of the architecture was to:
 
-* establish clear components and interfaces
-* support low latency in package authoring operations
+* establish clear components and interfaces.
+* support low latency in package authoring operations.
 
 The primary Porch components are:
 
@@ -223,11 +190,11 @@ The Porch server is implemented as a [Kubernetes extension API server][apiserver
 resources required for basic package authoring and lifeycle management, including:
 
 * For each package revision (see [Package Versioning](./concepts_elaborated.md#package-revisions)):
-  * `PackageRevision` - represents the *metadata* of the package revision stored in a repository
-  * `PackageRevisionResources` - represents the *file contents* of the package revision
+  * `PackageRevision` - represents the *metadata* of the package revision stored in a repository.
+  * `PackageRevisionResources` - represents the *file contents* of the package revision.
   * Note that each package revision is represented by a *pair* of resources, each presenting a different view (or
     [representation][representation]) of the same underlying package revision.
-* A `Repository` [custom resource][crds], which supports repository registration
+* A `Repository` [custom resource][crds], which supports repository registration.
 
 #### Function Runner
 
@@ -241,25 +208,25 @@ to external callers. This makes GRPC perfectly suitable.
 The function runner maintains a cache of functions to support low-latency function evaluation. It achieves this through
 two mechanisms available to it for evaluation of a function:
 
-* The **Executable Evaluation** mechanism, directly using function binaries baked into the function-runner image at compile-time
+* The **Executable Evaluation** mechanism, directly using function binaries baked into the function-runner image at compile-time.
 * The **Pod Evaluation** mechanism, spawning a separate function pod, based on the image of the invoked function, to run
-  the function on the package contents
+  the function on the package contents.
 
 #### CaD Library
 
 The [kpt](https://kpt.dev/) CLI already implements the fundamental package manipulation algorithms in order to provide its
 command line user experience:
 
-* [kpt pkg init](https://kpt.dev/reference/cli/pkg/init/) - create a bare-bones, valid, KRM package
+* [kpt pkg init](https://kpt.dev/reference/cli/pkg/init/) - create a bare-bones, valid, KRM package.
 * [kpt pkg get](https://kpt.dev/reference/cli/pkg/get/) - create a downstream package by cloning an upstream package;
-  set up the upstream reference of the downstream package
+  set up the upstream reference of the downstream package.
 * [kpt pkg update](https://kpt.dev/reference/cli/pkg/update/) - update the downstream package with changes from new
-  version of upstream, 3-way merge
-* [kpt fn eval](https://kpt.dev/reference/cli/fn/eval/) - evaluate a kpt function on a package
+  version of upstream, 3-way merge.
+* [kpt fn eval](https://kpt.dev/reference/cli/fn/eval/) - evaluate a KRM function on a package.
 * [kpt fn render](https://kpt.dev/reference/cli/fn/render/) - render the package by executing the function pipeline of
-  the package and its nested packages
+  the package and its nested packages.
 * [kpt fn source](https://kpt.dev/reference/cli/fn/source/) and [kpt fn sink](https://kpt.dev/reference/cli/fn/sink/) -
-  read package from local disk as a `ResourceList` and write package represented as `ResourcesList` into local disk
+  read package from local disk as a `ResourceList` and write package represented as `ResourcesList` into local disk.
 
 Porch contains a fork of the kpt code in order to reuse this set of primitive operations and combine them into higher-level
 operations (for example, Porch renders packages automatically on changes; future versions will support bulk operations
@@ -268,6 +235,39 @@ such as upgrade of multiple packages, etc.).
 A longer-term goal is to refactor kpt and Porch to extract the package manipulation operations into a reusable CaD Library,
 consumed by both the kpt CLI and Porch to maintain functional parity between kpt and Porch.
 
+## Core Components of Configuration as Data Implementation
+
+The CaD implementation consists of a set of components and APIs enabling the following broad use cases:
+
+* Register repositories (Git, OCI) containing kpt packages.
+* Automatically discover existing packages in registered repositories.
+* Manage package revision lifecycle, including:
+  * Authoring and versioning of a package through creation, mutation, and deletion of package revision drafts.
+  * A 2-step approval process where a draft package revision is first proposed for publishing, and only published on a
+    second (approval) operation.
+* Manage package lifecycle - operations such as:
+  * Package upgrade - assisted or automated rollout of a downstream (cloned) package when a new revision of the upstream
+    package is published.
+  * Package rollback to a previous package revision.
+* Deploy packages from deployment repositories and observe their deployment status.
+* Role-based access control to Porch APIs via Kubernetes standard roles.
+
+### High-Level Architecture
+
+At the high level, the CaD functionality comprises:
+
+* A generic (i.e. not task-specific) package orchestration service implementing:
+  * package revision authoring and lifecycle management.
+  * package repository management.
+
+* [porchctl](../7_cli_api/porchctl.md) - a Git-native, schema-aware, extensible client-side tool for managing
+  KRM packages in Porch.
+* A GitOps-based deployment mechanism (for example [Config Sync][Config Sync] or [FluxCD](https://fluxcd.io/)), which
+  distributes and deploys configuration, and provides observability of the status of deployed resources.
+* A task-specific UI supporting repository management, package discovery, authoring, and lifecycle.
+
+![CaD Core Architecture](/static/images/porch/CaD-Core-Architecture.svg)
+
 ## Alternatives Considered
 
 ### GRPC API
@@ -275,8 +275,8 @@ consumed by both the kpt CLI and Porch to maintain functional parity between kpt
 We considered the use of [GRPC](https://grpc.io/) for the Porch API. The primary advantages of implementing Porch as an extension
 Kubernetes apiserver are:
 
-* customers won't have to open another port to their Kubernetes cluster and can reuse their existing infrastructure
-* customers can likewise reuse existing, familiar, Kubernetes tooling ecosystem
+* customers won't have to open another port to their Kubernetes cluster and can reuse their existing infrastructure.
+* customers can likewise reuse existing, familiar, Kubernetes tooling ecosystem.
 
 <!-- Reference links -->
 [apiserver]: https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/apiserver-aggregation/

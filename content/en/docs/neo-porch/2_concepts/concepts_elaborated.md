@@ -13,7 +13,7 @@ Let us elaborate in more detail on some of the concepts briefly introduced in [P
 {{% alert title="Note" color="primary" %}}
 
 Currently, Porch primarily integrates with [Git][git] repositories as the priority target repository type, so for ease of
-writing, this document will refer only to Git repositories. OCI support is available, but experimental and possibly unstable.
+writing, this document will refer only to Git repositories. OCI support is available, but it is experimental and possibly unstable.
 Support for additional repository types may be added in the future as required.
 
 {{% /alert %}}
@@ -24,13 +24,13 @@ Once a repository is *registered* (created in Porch), Porch performs an initial 
 file structure to discover kpt packages, and building a local cache to improve the performance of subsequent operations.
 
 Any repositories added must be capable of storing the following minimum data and metadata:
-* kpt packages' file contents
-* Package versions
+* kpt packages' file contents.
+* Package versions.
 * Sufficient metadata associated with the package to capture:
-  * Package dependency relationships (upstream - downstream)
-  * Package lifecycle state (draft, proposed, published)
-  * Package purpose (base package)
-  * Customer-defined attributes (optionally)
+  * Package dependency relationships (upstream - downstream).
+  * Package lifecycle state (draft, proposed, published).
+  * Package purpose (base package).
+  * Customer-defined attributes (optionally).
 
 At repository registration, customers must be able to specify details needed to store packages in an appropriate location
 in the repository. For example, registration of a Git repository must accept a URL or directory path to locate the repository,
@@ -86,7 +86,7 @@ in repositories of standard types, the exact software used for deployment is les
 
 Here we highlight some key attributes of the deployment mechanism and its integration within the CaD paradigm:
 
-* _Published_ packages in a deployment repository are considered ready to be deployed
+* _Published_ packages in a deployment repository are considered ready to be deployed.
 * _Draft_ packages need to be identified in such a way that Config Sync can easily avoid deploying them.
 * Config Sync supports deploying individual packages and whole repositories. For Git specifically, this translates to a
   requirement to be able to specify repository, branch/tag/ref, and directory when instructing Config Sync to deploy a

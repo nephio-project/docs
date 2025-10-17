@@ -14,27 +14,28 @@ Resources implemented by the Porch server include:
 
 * For each package revision (see [Package Versioning](../../2_concepts/concepts_elaborated.md#package-versioning)):
   * `PackageRevision` - represents the *metadata* of the package revision stored in a repository.
-  * `PackageRevisionResources` - represents the *file contents* of the package revision
-  * Note that each package revision is represented by a *pair* of resources, each presenting a different view (or
-    [representation][representation]) of the same underlying package revision.
-* a `Repository` [custom resource][crds], which supports repository registration
+  * `PackageRevisionResources` - represents the *file contents* of the package revision.
+    {{% alert color="primary" %}}
+    Note that each package revision is represented by a *pair* of resources, each presenting a different view (or [representation][representation]) of the same underlying package revision.
+    {{% /alert %}}
+* A `Repository` [custom resource][crds], which supports repository registration.
 
 The **Porch server** itself includes the following key components:
 
 * The *aggregated API server*, which implements the integration into the main Kubernetes API server and 
   serves API requests for the `PackageRevision` and `PackageRevisionResources` resources.
-* Package orchestration *engine*, which implements the package lifecycle operations and package mutation workflows
+* Package orchestration *engine*, which implements the package lifecycle operations and package mutation workflows.
 * *CaD Library*, which implements specific package manipulation algorithms such as package rendering (evaluation of
   package's function *pipeline*), initialization of a new package, etc. The CaD Library is a fork of `kpt` to allow Porch
-  to reuse the `kpt` algorithms and fulfil its overarching use case to be "kpt as a service"
+  to reuse the `kpt` algorithms and fulfil its overarching use case to be "kpt as a service".
 * *Package cache*, which enables:
   * local caching to allow package lifecycle and content manipulation operations to be executed within the Porch server
-    with minimal latency
+    with minimal latency.
   * abstracting package operations upward so they can be used without having to take account of the underlying storage
-    repository software mechanism (Git or OCI)
+    repository software mechanism (Git or OCI).
 * *Repository adapters* for Git and OCI, which implement the specific logic of interacting with each repository type.
 * *Function Runner runtime*, which evaluates individual [kpt functions][functions], incorporating a multi-tier cache of
-  functions to support low-latency evaluation
+  functions to support low-latency evaluation.
 
 #### Function Runner
 
@@ -64,16 +65,16 @@ two mechanisms available to it for evaluation of a function:
 The [kpt](https://kpt.dev/) CLI already implements the fundamental package manipulation algorithms in order to provide its
 command line user experience:
 
-* [kpt pkg init](https://kpt.dev/reference/cli/pkg/init/) - create a bare-bones, valid, KRM package
+* [kpt pkg init](https://kpt.dev/reference/cli/pkg/init/) - create a bare-bones, valid, KRM package.
 * [kpt pkg get](https://kpt.dev/reference/cli/pkg/get/) - create a downstream package by cloning an upstream package;
-  set up the upstream reference of the downstream package
+  set up the upstream reference of the downstream package.
 * [kpt pkg update](https://kpt.dev/reference/cli/pkg/update/) - update the downstream package with changes from new
-  version of upstream, 3-way merge
-* [kpt fn eval](https://kpt.dev/reference/cli/fn/eval/) - evaluate a kpt function on a package
+  version of upstream, 3-way merge.
+* [kpt fn eval](https://kpt.dev/reference/cli/fn/eval/) - evaluate a kpt function on a package.
 * [kpt fn render](https://kpt.dev/reference/cli/fn/render/) - render the package by executing the function pipeline of
-  the package and its nested packages
+  the package and its nested packages.
 * [kpt fn source](https://kpt.dev/reference/cli/fn/source/) and [kpt fn sink](https://kpt.dev/reference/cli/fn/sink/) -
-  read package from local disk as a `ResourceList` and write package represented as `ResourcesList` into local disk
+  read package from local disk as a `ResourceList` and write package represented as `ResourcesList` into local disk.
 
 The same set of primitive operations form the foundational building blocks of the package orchestration service. Further,
 Porch combines these blocks into higher-level operations (for example, Porch renders packages automatically on changes;
@@ -81,20 +82,24 @@ future versions will support bulk operations such as upgrade of multiple package
 
 The implementation of the package manipulation primitives in kpt was refactored in order to:
 
-* create a reusable CaD library, usable by both the kpt CLI and the Package Orchestration service
+* create a reusable CaD library, usable by both the kpt CLI and the Package Orchestration service.
 * create abstractions for dependencies which differ between CLI and Porch (most notably the dependency on Docker for
-  function evaluation and on the local file system for package rendering)
+  function evaluation and on the local file system for package rendering).
 
 Over time, the CaD Library will provide the package manipulation primitives:
 
-* create a valid empty package (init)
-* clone a package and add upstream pointers (get)
-* perform 3-way merge (upgrade)
+* create a valid empty package (init).
+* clone a package and add upstream pointers (get).
+* perform 3-way merge (upgrade).
 * render - core package rendering algorithm using a pluggable function evaluator to support:
-  * function evaluation via Docker (as used by kpt CLI)
-  * function evaluation via an RPC to a service or appropriate function sandbox
-  * high-performance evaluation of trusted, built-in, functions without sandbox
-* heal configuration (restore comments after lossy transformation)
+  * function evaluation via Docker (as used by kpt CLI).
+  * function evaluation via an RPC to a service or appropriate function sandbox.
+  * high-performance evaluation of trusted, built-in, functions without sandbox.
+* heal configuration (restore comments after lossy transformation).
 
 and both kpt CLI and Porch will consume the library. This approach will allow leveraging the investment already made into
 the high quality package manipulation primitives, and enable functional parity between the kpt CLI and Porch.
+
+
+<!-- Reference links -->
+[crds]: https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/
