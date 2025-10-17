@@ -1,2 +1,2 @@
 # Ignore drafts in production
-ignoreFiles = ["^en/docs/neo-porch/"]
+ignoreFiles = ["content/en/docs/neo-porch/.*"]
