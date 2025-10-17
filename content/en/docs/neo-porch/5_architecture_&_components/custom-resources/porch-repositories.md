@@ -7,7 +7,7 @@ description: Porch Repositories
 
 ## Porch Repositories
 
-low level explination of Porch Repositories
+low level explanation of Porch Repositories
 
 ## Git vs OCI
 
