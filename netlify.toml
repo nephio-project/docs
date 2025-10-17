@@ -10,11 +10,6 @@
   HUGO_VERSION = "v0.148.2"
   HUGO_ENV = "production"
 
-# Production context
-[context.production]
-  command = "hugo"
-  publish = "public"
-
 [context.production.environment]
   HUGO_ENV = "production"
 
