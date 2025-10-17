@@ -1,9 +1,13 @@
 ---
-title: "Package Orchestration"
+title: "Porch Concepts"
 type: docs
 weight: 2
 description: 
 ---
+
+<div style="border: 1px solid red; background-color: #ffe6e6; color: #b30000; padding: 1em; margin-bottom: 1em;">
+  <strong>⚠️ Outdated Notice:</strong> This page refers to an older version of the documentation. This content has simply been moved into its relevant new section here and must be checked, modified, rewritten, updated, or removed entirely.
+</div>
 
 Customers who want to take advantage of the benefits of [Configuration as Data](config-as-data.md)
 can do so today using the [kpt](https://kpt.dev) CLI and the kpt function ecosystem, including its
