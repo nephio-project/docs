@@ -193,8 +193,9 @@ resources required for basic package authoring and lifeycle management, includin
 * For each package revision (see [Package Versioning](./concepts_elaborated.md#package-revisions)):
   * `PackageRevision` - represents the *metadata* of the package revision stored in a repository.
   * `PackageRevisionResources` - represents the *file contents* of the package revision.
-  * Note that each package revision is represented by a *pair* of resources, each presenting a different view (or
-    [representation][representation]) of the same underlying package revision.
+    {{% alert color="primary" %}}
+  Note that each package revision is represented by a *pair* of resources, each presenting a different view (or [representation](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#differing-representations)) of the same underlying package revision.
+    {{% /alert %}}
 * A `Repository` [custom resource][crds], which supports repository registration.
 
 #### Function Runner
@@ -290,4 +291,3 @@ extension Kubernetes apiserver are:
 [oci]: https://github.com/opencontainers/image-spec/blob/main/spec.md
 [optimistic-concurrency]: https://en.wikipedia.org/wiki/Optimistic_concurrency_control
 [pipeline]: https://kpt.dev/book/04-using-functions/#declarative-function-execution
-[representation]: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#differing-representations
