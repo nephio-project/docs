@@ -11,6 +11,9 @@ defaultContentLanguage = "en"
 defaultContentLanguageInSubdir = false
 enableMissingTranslationPlaceholders = true
 
+# Default: include everything
+ignoreFiles = []
+
 
 [module]
   proxy = "direct"
