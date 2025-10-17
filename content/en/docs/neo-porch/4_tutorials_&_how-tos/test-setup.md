@@ -22,7 +22,7 @@ This guide provides instructions for setting up a local development environment 
 
 Before you begin, ensure you have the following tools installed on your system:
 
-*   **[Docker](httpss://docs.docker.com/get-docker/):** For running containers, including the `kind` cluster.
+*   **[Docker](https://docs.docker.com/get-docker/):** For running containers, including the `kind` cluster.
 *   **[kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/):** The Kubernetes command-line tool for interacting with your cluster.
 *   **[kind](https://kind.sigs.k8s.io/docs/user/quick-start/#installation):** A tool for running local Kubernetes clusters using Docker container "nodes".
 
