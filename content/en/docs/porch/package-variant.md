@@ -5,8 +5,10 @@ weight: 3
 description: 
 ---
 
+## Overview
+
 When deploying workloads across large fleets of clusters, it is often necessary to modify the
-workload configuration for a specific cluster. Additionally, those workloads may evolve over time
+workload configuration for a specific cluster. Additionally, these workloads may evolve over time
 with security or other patches that require updates. [Configuration as Data](config-as-data.md) in
 general, and [Package Orchestration](package-orchestration.md) in particular, can assist in this.
 However, they are still centered around a manual, one-by-one hydration and configuration of a
