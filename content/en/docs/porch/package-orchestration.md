@@ -135,7 +135,7 @@ then the upstream link can be used to update the downstream package.
 
 The deployment mechanism is responsible for deploying the configuration packages from a repository
 and affecting the live state. Because the configuration is stored in standard repositories (Git,
-and in the future OCI), the deployment component is pluggable. By default, [configsync][https://cloud.google.com/kubernetes-engine/enterprise/config-sync/docs/overview] is the
+and in the future OCI), the deployment component is pluggable. By default, [Config Sync](https://cloud.google.com/kubernetes-engine/enterprise/config-sync/docs/overview) is the
 deployment mechanism used by CaD Core implementation. However, other deployment mechanisms can be
 also used.
 

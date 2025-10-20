@@ -455,7 +455,7 @@ kpt package for provisioning Innerhome namespace
 ```
 
 In the second change, add a new mutator to the `Kptfile` pipeline. Use the
-[set-labels](https://catalog.kpt.dev/set-labels/v0.1/) function which will add
+[set-labels](https://catalog.kpt.dev/function-catalog/set-labels/v0.1/) function which will add
 labels to all resources in the package. Add the following mutator to the
 `Kptfile` `pipeline` section:
 
