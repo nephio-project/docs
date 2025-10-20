@@ -6,7 +6,7 @@ weight: 2
 
 ## Porch: Why?
 
-The benefits of [Configuration as Data](TODO:REFER_TO_DOCUMENT_UNDER_1_overview_ONCE_WRITTEN) (CaD) are already
+The benefits of [Configuration as Data]<!-- (TODO:REFER_TO_DOCUMENT_UNDER_1_overview_ONCE_WRITTEN) --> (CaD) are already
 available in CLI form, using [kpt](https://kpt.dev) and the KRM function ecosystem, including a kpt-hosted [function catalog](https://catalog.kpt.dev/).
 YAML files can be created and organised into packages using any editor with YAML support. However,
 a UI experience of WYSIWYG package management is not yet available which can support broader package lifecycle management
