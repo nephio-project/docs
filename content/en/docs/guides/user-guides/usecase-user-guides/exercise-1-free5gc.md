@@ -270,8 +270,21 @@ regional-md-0-m6cr5-wtzlx   regional   1          1       1           5m36s   v1
 
 Next, you can deploy two Edge clusters by applying the PackageVariantSet that can be found in the *tests* directory:
 
+{{% alert title="Note" color="primary" %}}
+
+Some of the KRM used in this guide forms part of the Nephio CI e2e test suites, which uses environment 
+variable substitution. This requires the `BRANCH` environment variable to be set before applying the KRM to the cluster.
+
 ```bash
-kubectl apply -f test-infra/e2e/tests/free5gc/002-edge-clusters.yaml
+export BRANCH=main
+```
+In the example above, we set the `BRANCH` to `main`. 
+This should match the `NEPHIO_BRANCH` used during the [sandbox installation](/docs/guides/install-guides/).
+
+{{% /alert %}}
+
+```bash
+envsubst < test-infra/e2e/tests/free5gc/002-edge-clusters.yaml | kubectl apply -f -
 ```
 
 
@@ -378,7 +391,7 @@ specialization pipeline will determine the exact VLAN tags and IP addresses for 
 clusters. There is a predefined PackageVariant in the tests directory for this:
 
 ```bash
-kubectl apply -f test-infra/e2e/tests/free5gc/002-network.yaml
+envsubst < test-infra/e2e/tests/free5gc/002-network.yaml | kubectl apply -f -
 ```
 
 
@@ -526,7 +539,7 @@ added to the Management cluster when you had deployed the *nephio-workload-clust
 PackageVariantSet).
 
 ```bash
-kubectl apply -f test-infra/e2e/tests/free5gc/004-free5gc-operator.yaml
+envsubst < test-infra/e2e/tests/free5gc/004-free5gc-operator.yaml | kubectl apply -f -
 ```
 
 
@@ -590,9 +603,9 @@ yet-another-package - a "topology" package - and deploy them all as a unit. Or y
 create them. But for now, let's do each manually.
 
 ```bash
-kubectl apply -f test-infra/e2e/tests/free5gc/005-edge-free5gc-upf.yaml
-kubectl apply -f test-infra/e2e/tests/free5gc/006-regional-free5gc-amf.yaml
-kubectl apply -f test-infra/e2e/tests/free5gc/006-regional-free5gc-smf.yaml
+envsubst < test-infra/e2e/tests/free5gc/005-edge-free5gc-upf.yaml | kubectl apply -f -
+envsubst < test-infra/e2e/tests/free5gc/006-regional-free5gc-amf.yaml | kubectl apply -f -
+envsubst < test-infra/e2e/tests/free5gc/006-regional-free5gc-smf.yaml | kubectl apply -f -
 ```
 
 Free5gc requires that the SMF and AMF NFs be explicitly configured with information about each UPF. Therefore, the AMF
@@ -782,7 +795,7 @@ Step 4.
 Once the subscriber is registered, you can deploy UERANSIM:
 
 ```bash
-kubectl apply -f test-infra/e2e/tests/free5gc/007-edge01-ueransim.yaml
+envsubst < test-infra/e2e/tests/free5gc/007-edge01-ueransim.yaml | kubectl apply -f -
 ```
 
 You can check to see if the simulated UE is up and running by checking the UERANSIM deployment. First, you can use the

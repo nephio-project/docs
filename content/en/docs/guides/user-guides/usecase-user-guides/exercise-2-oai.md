@@ -79,8 +79,22 @@ oai-core-packages           git    Package   false        True    https://github
 
 Since those are Ready, you can deploy packages from these repositories. You can use our pre-defined *PackageVariantSets* for creating workload clusters
 
+{{% alert title="Note" color="primary" %}}
+
+Some of the KRM used in this guide forms part of the Nephio CI e2e test suites, which uses environment 
+variable substitution. This requires the `BRANCH` environment variable to be set before applying the KRM to the cluster.
+
 ```bash
-kubectl apply -f test-infra/e2e/tests/oai/001-infra.yaml
+export BRANCH=main
+```
+In the example above, we set the `BRANCH` to `main`. 
+This should match the `NEPHIO_BRANCH` used during the [sandbox installation](/docs/guides/install-guides/).
+
+{{% /alert %}}
+
+
+```bash
+envsubst < test-infra/e2e/tests/oai/001-infra.yaml | kubectl apply -f -
 ```
 
 
@@ -231,7 +245,7 @@ First, you will apply a package to define the high-level networks for attaching 
 clusters. There is a predefined *PackageVariant* in the tests directory for this:
 
 ```bash
-kubectl apply -f test-infra/e2e/tests/oai/001-network.yaml
+envsubst < test-infra/e2e/tests/oai/001-network.yaml | kubectl apply -f -
 ```
 
 
@@ -342,8 +356,8 @@ packagerevision.porch.kpt.dev/mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601
 Now you will need to deploy the MySQL database required by OAI UDR network function, OAI Core and RAN operators across the Workload clusters. To do this, you use *PackageVariant* and *PackageVariantSet*. Later uses an objectSelector to select the WorkloadCluster resources previously added to the Management cluster when you had deployed the *nephio-workload-cluster* packages (manually as well as via *PackageVariantSet*).
 
 ```bash
-kubectl apply -f test-infra/e2e/tests/oai/002-database.yaml
-kubectl apply -f test-infra/e2e/tests/oai/002-operators.yaml
+envsubst < test-infra/e2e/tests/oai/002-database.yaml | kubectl apply -f -
+envsubst < test-infra/e2e/tests/oai/002-operators.yaml | kubectl apply -f -
 ```
 
 
@@ -489,7 +503,7 @@ You can start by deploying the core network functions which the operator will in
 yet-another-package - a "topology" package - and deploy them all as a unit. Or you can use a topology controller to create them. But for now, let's do each manually.
 
 ```bash
-kubectl create -f test-infra/e2e/tests/oai/003-core-network.yaml
+envsubst < test-infra/e2e/tests/oai/003-core-network.yaml | kubectl apply -f -
 ```
 
 The output is similar to:
@@ -589,7 +603,8 @@ In the logs you should see **Received SX HEARTBEAT REQUEST** statement. If that 
 If the core network functions are running and configured properly then you can start by deploying RAN network function *PackageVariants*.
 
 ```bash
-kubectl create -f test-infra/e2e/tests/oai/004-ran-network.yaml
+envsubst < test-infra/e2e/tests/oai/004a-ran-network.yaml | kubectl apply -f -
+envsubst < test-infra/e2e/tests/oai/004b-ran-network.yaml | kubectl apply -f -
 ```
 
 The output is similar to:
@@ -690,7 +705,7 @@ The output is similar to:
 If all three links are configured then you can proceed with deploying the UE *PackageVariants*
 
 ```bash
-kubectl create -f test-infra/e2e/tests/oai/005-ue.yaml
+envsubst < test-infra/e2e/tests/oai/005-ue.yaml | kubectl apply -f -
 ```
 
 The output is similar to:
