@@ -16,7 +16,7 @@ To use it locally, [download](https://github.com/nephio-project/porch/releases/t
 
 {{% alert title="Note" color="primary" %}}
 
-Installation of Porch, including its prerequisites, is covered in a [dedicated document](install-porch.md).
+Installation of Porch, including its prerequisites, is covered in a [dedicated document]({{< relref "/docs/porch/user-guides/install-porch.md" >}}).
 
 {{% /alert %}}
 
@@ -26,7 +26,7 @@ Installation of Porch, including its prerequisites, is covered in a [dedicated d
 porchctl completion bash
 ```
 
-The `porchtcl` command is an administration command for acting on Porch *Repository* (repo) and *PackageRevision* (rpkg)
+The `porchctl` command is an administration command for acting on Porch *Repository* (repo) and *PackageRevision* (rpkg)
 CRs.
 
 The commands for administering repositories are:
@@ -52,7 +52,7 @@ The commands for administering package revisions are:
 | `porchctl rpkg pull`           | Pull the content of the package revision.                                                        |
 | `porchctl rpkg push`           | Push resources to a package revision.                                                            |
 | `porchctl rpkg reject`         | Reject a proposal to publish or delete a package revision.                                       |
-| `porchctl rpkg upgrade`         | Update a downstream package revision to a more recent revision of its upstream package revision. |
+| `porchctl rpkg upgrade`        | Update a downstream package revision to a more recent revision of its upstream package revision. |
 
 ## Using the porchctl CLI
 
@@ -60,7 +60,7 @@ The commands for administering package revisions are:
 * [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
 
 Make sure that your `kubectl` context is set up for `kubectl` to interact with the correct Kubernetes instance (see
-[installation instructions](install-porch.md) guide for details).
+[installation instructions]({{< relref "/docs/porch/user-guides/install-porch.md" >}}) guide for details).
 
 To check whether `kubectl` is configured with your Porch cluster (or local instance), run:
 
@@ -101,7 +101,9 @@ package content. The matching resources share the same `name` (as well as API gr
 
 To use Porch with a Git repository, you will need:
 
-* A Git repository for your blueprints.
+* A Git repository for your blueprints. An otherwise empty repository with an
+  initial commit works best. The initial commit is required to establish the
+  `main` branch.
 * If the repository requires authentication you will require either
   - A [Personal Access Token](https://github.com/settings/tokens) (when using GitHub repository) for Porch to authenticate
     with the repository if the repository. Porch requires the 'repo' scope.
@@ -136,7 +138,7 @@ $ porchctl repo register \
   https://github.com/${GITHUB_USERNAME}/blueprints.git
 ```
 
-For more details on configuring authenticated repositories see [Authenticating to Remote Git Repositories](git-authentication-config.md).
+For more details on configuring authenticated repositories see [Authenticating to Remote Git Repositories]({{< relref "/docs/porch/user-guides/git-authentication-config.md" >}}).
 
 The command line flags supported by `porchctl repo register` are:
 
@@ -324,10 +326,61 @@ porch-test.network-function2.outerspace   network-function2   outerspace      0 
 porch-test.network-function3.outerspace   network-function3   outerspace      1          true     Published   porch-test
 ```
 
-The common `kubectl` flags that control output format are available as well:
+You can also filter package revisions using the `kubectl` CLI with the `--selector` and `--field-selector` flags under the same conventions as for other KRM objects.
+
+The `--selector` flag can be used to filter on one or more [metadata labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#list-and-watch-filtering):
+```bash
+$ kubectl get packagerevisions --show-labels --selector 'kpt.dev/latest-revision=true'
+NAME                        PACKAGE   WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY        LABELS
+test-blueprints.basens.v3   basens    v3              3          true     Published   test-blueprints   kpt.dev/latest-revision=true
+test-blueprints.empty.v1    empty     v1              1          true     Published   test-blueprints   kpt.dev/latest-revision=true
+```
+
+The `--field-selector` flag can be used to filter on one or more package revision [fields](https://kubernetes.io/docs/concepts/overview/working-with-objects/field-selectors/).
+
+### Supported Fields
+
+As per Kubernetes convention, the `--field-selector` flag supports a subset of the PackageRevision resource type's fields:
+- `metadata.name`
+- `metadata.namespace`
+- `spec.revision`
+- `spec.packageName`
+- `spec.repository`
+- `spec.workspaceName`
+- `spec.lifecycle`
+
+{{% alert title="Note" color="primary" %}}
+
+ The `spec.versions[*].selectableFields` field is not available for the PackageRevision resource type. Changing the fields supported by `--field-selector` requires editing Porch's source code and rebuilding the porch-server microservice.
+
+{{% /alert %}}
+
+For example:
+```bash
+$ kubectl get packagerevisions --show-labels --field-selector 'spec.repository==oai'
+NAME                        PACKAGE            WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY   LABELS
+oai.database.main           database           main            -1         false    Published   oai          <none>
+oai.oai-amf.main            oai-amf            main            -1         false    Published   oai          <none>
+oai.oai-ausf.main           oai-ausf           main            -1         false    Published   oai          <none>
+oai.oai-cp-operators.main   oai-cp-operators   main            -1         false    Published   oai          <none>
+oai.oai-nrf.main            oai-nrf            main            -1         false    Published   oai          <none>
+oai.oai-repository.main     oai-repository     main            -1         false    Published   oai          <none>
+oai.oai-smf.main            oai-smf            main            -1         false    Published   oai          <none>
+oai.oai-udm.main            oai-udm            main            -1         false    Published   oai          <none>
+oai.oai-udr.main            oai-udr            main            -1         false    Published   oai          <none>
+oai.oai-upf-edge.main       oai-upf-edge       main            -1         false    Published   oai          <none>
+oai.oai-up-operators.main   oai-up-operators   main            -1         false    Published   oai          <none>
+```
+
+{{% alert title="Note" color="primary" %}}
+
+Due to the restrictions of Porch's internal caching behavior, the `--field-selector` flag supports only the `=` and `==` operators. **The `!=` operator is not supported.**
+
+{{% /alert %}}
+
+The common `kubectl` [flags that control output format](https://kubernetes.io/docs/reference/kubectl/#output-options) are available as well:
 
 ```bash
-
 $ porchctl rpkg get -n porch-demo porch-test.network-function.innerhome -o yaml
 apiVersion: porch.kpt.dev/v1alpha1
 kind: PackageRevision
@@ -348,7 +401,7 @@ spec:
 The `porchctl rpkg pull` command can be used to read the package revision resources.
 
 The command can be used to print the package revision resources as `ResourceList` to `stdout`, which enables
-[chaining](https://kpt.dev/book/04-using-functions/02-imperative-function-execution?id=chaining-functions-using-the-unix-pipe)
+[chaining](https://kpt.dev/book/04-using-functions/#chaining-functions-using-the-unix-pipe)
 evaluation of functions on the package revision pulled from the Package Orchestration server.
 
 ```bash
@@ -364,7 +417,13 @@ items:
 ...
 ```
 
-Or, the package revision contents can be saved on local disk for direct introspection or editing:
+One of the driving motivations for the Package Orchestration service is enabling
+WYSIWYG authoring of packages, including their contents, in highly usable UIs.
+Porch therefore supports reading and updating package *contents*.
+
+In addition to using a [UI](https://kpt.dev/guides/namespace-provisioning-ui/) with Porch, we
+can change the package contents by pulling the package from Porch onto the local
+disk, make any desired changes, and then pushing the updated contents to Porch.
 
 ```bash
 $ porchctl rpkg pull -n porch-demo porch-test.network-function.innerhome ./innerhome
@@ -377,6 +436,87 @@ $ find innerhome
 ./innerhome/Kptfile
 ./innerhome/package-context.yaml
 ```
+
+The command downloaded the `innerhome/v1` package revision contents and saved
+them in the `./innerhome` directory. Now you will make some changes.
+
+First, note that even though Porch updated the namespace name (in
+`namespace.yaml`) to `innerhome` when the package was cloned, the `README.md`
+was not updated. Let's fix it first.
+
+Open the `README.md` in your favorite editor and update its contents, for
+example:
+
+```
+# innerhome
+
+## Description
+kpt package for provisioning Innerhome namespace
+```
+
+In the second change, add a new mutator to the `Kptfile` pipeline. Use the
+[set-labels](https://catalog.kpt.dev/set-labels/v0.1/) function which will add
+labels to all resources in the package. Add the following mutator to the
+`Kptfile` `pipeline` section:
+
+```yaml
+  - image: gcr.io/kpt-fn/set-labels:v0.1.5
+    configMap:
+      color: orange
+      fruit: apple
+```
+
+The whole `pipeline` section now looks like this:
+
+```yaml
+pipeline:
+  mutators:
+  - image: gcr.io/kpt-fn/set-namespace:v0.4.1
+    configPath: package-context.yaml
+  - image: gcr.io/kpt-fn/apply-replacements:v0.1.1
+    configPath: update-rolebinding.yaml
+  - image: gcr.io/kpt-fn/set-labels:v0.1.5
+    configMap:
+      color: orange
+      fruit: apple
+```
+
+Save the changes and push the package contents back to the server:
+
+```sh
+# Push updated package contents to the server
+$ porchctl rpkg push -n porch-demo porch-test.network-function.innerhome ./innerhome
+```
+
+Now, pull the contents of the package revision again, and inspect one of the
+configuration files.
+
+```sh
+# Pull the updated package contents to local drive for inspection:
+$ porchctl rpkg pull -n porch-demo porch-test.network-function.innerhome ./updated-innerhome
+
+# Inspect updated-innerhome/namespace.yaml
+$ cat updated-innerhome/namespace.yaml 
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: innerhome
+  labels:
+    color: orange
+    fruit: apple
+spec: {}
+```
+
+The updated namespace now has new labels! What happened?
+
+Whenever a package is updated during the authoring process, in case current functions
+of the pipline were changed or a new function was added to the pipeline list,
+Porch automatically re-renders the package to make sure that all mutators and validators are
+executed. So when we added the new `set-labels` mutator, as soon as we pushed
+the updated package contents to Porch, Porch re-rendered the package and
+the `set-labels` function applied the labels we requested (`color: orange` and
+`fruit: apple`).
 
 ## Authoring Packages
 
@@ -412,7 +552,7 @@ Additional flags supported by the `porchctl rpkg init` command are:
 * `--site` - Link to page with information about the package revision.
 
 
-Use `porchctl rpkg clone` command to create a _downstream_ package revision by cloning an _upstream_ package revision:
+Use `porchctl rpkg clone` command to create a _downstream_ package revision by cloning an _upstream_ package revision. You can find out more about the _upstream_ and _downstream_ sections of the `Kptfile` in a [Getting a Package](https://kpt.dev/book/03-packages/#getting-a-package).
 
 ```bash
 $ porchctl rpkg clone porch-test.new-package.my-workspace new-package-clone --repository=porch-deployment -n porch-demo
@@ -423,6 +563,15 @@ porchctl rpkg get porch-deployment.new-package-clone.v1 -n porch-demo
 NAME                                    PACKAGE             WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
 porch-deployment.new-package-clone.v1   new-package-clone   v1              0          false    Draft       porch-deployment
 ```
+
+{{% alert title="Note" color="primary" %}}
+ A cloned package must be created in a repository in the same namespace as
+ the source package. Cloning a package with the Package Orchestration Service
+ retains a reference to the upstream package revision in the clone, and
+ cross-namespace references are not allowed. Package revisions in repositories
+ in other namespaces can be cloned using a reference directly to the underlying
+ oci or git repository as described below.
+{{% /alert %}}
 
 `porchctl rpkg clone` can also be used to clone package revisions that are in repositories not registered with Porch, for
 example:
@@ -464,6 +613,13 @@ $ porchctl rpkg get porch-test.network-function.great-outdoors -n porch-demo
 NAME                                         PACKAGE            WORKSPACENAME    REVISION   LATEST   LIFECYCLE   REPOSITORY
 porch-test.network-function.great-outdoors   network-function   great-outdoors   0          false    Draft       porch-test
 ```
+Unlike `clone` of a package which establishes the upstream-downstream
+relationship between the respective packages, and updates the `Kptfile`
+to reflect the relationship, the `copy` command does *not* change the
+upstream-downstream relationships. The copy of a package shares the same
+upstream package as the package from which it was copied. Specifically,
+in this case both packages have identical contents,
+including upstream information, and differ in revision only.
 
 The `porchctl rpkg pull` and `porchctl rpkg push` commands can be used to update the resources (package revision contents) of a package _draft_:
 

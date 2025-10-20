@@ -13,7 +13,7 @@ description: ""
 
 The porch server handles interaction with associated git repositories through the use of porch repository CR (Custom Resource) which act as a link between the porch server and the git repositories the server is meant to interact with and store packages on.
 
-More information on porch repositories can be found [here](../package-orchestration.md#repositories).
+More information on porch repositories can be found [here]({{< relref "/docs/porch/package-orchestration.md#repositories" >}}).
 
 There are 2 main methods of authenticating to a git repository and an additional configuration.
 These are
@@ -32,7 +32,7 @@ The basic authentication secret must meet the following criteria:
 - Have a Data keys named *username* and *password* containing the relevant information.
 - Be of type *basic-auth*.
 
-The value used in the *password* field can be substituted for a base64 encoded Personal Access Token (PAT) from the GIT instance being used. An Example of this can be found [here](./porchctl-cli-guide.md#repository-registration)
+The value used in the *password* field can be substituted for a base64 encoded Personal Access Token (PAT) from the GIT instance being used. An Example of this can be found [here]({{< relref "/docs/porch/user-guides/porchctl-cli-guide.md#repository-registration" >}})
 
 Which would be the equivalent of doing a `kubectl apply -f` on a yaml file with the following content (assuming the porch-test namespace exists on the cluster):
 

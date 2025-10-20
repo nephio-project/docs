@@ -27,7 +27,7 @@ kpt pkg get --for-deployment <git-repository>@v4.0.0
 ## Nephio WebUI
 
 The Nephio WebUI can be installed using the following
-[document](/content/en/docs/guides/install-guides/web-ui/_index.md)
+[document]({{< relref "/docs/guides/install-guides/web-ui/_index.md" >}})
 
 
 ## FluxCD Controllers
