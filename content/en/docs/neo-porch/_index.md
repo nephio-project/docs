@@ -83,10 +83,10 @@ Sections marked as <span style="color: red;">[Section in Red]</span> means they 
 **Currently Available Resources:**
 
 * [Porch Concepts](https://docs.nephio.org/docs/porch/package-orchestration/)
-* [Configuration as Data](https://docs.nephio.org/docs/porch/concepts/configuration-as-data/)
-* [Package Mutation Pipeline Order](https://docs.nephio.org/docs/porch/concepts/package-mutation-pipeline/)
-* [Function Runner Pod Templating](https://docs.nephio.org/docs/porch/concepts/function-runner/)
-* [Package Variant Controller](https://docs.nephio.org/docs/porch/concepts/variant-controller/)
+* [Configuration as Data](https://docs.nephio.org/docs/porch/config-as-data/)
+* [Package Mutation Pipeline Order](https://docs.nephio.org/docs/porch/package-mutation-pipeline-order/)
+* [Function Runner Pod Templating](https://docs.nephio.org/docs/porch/function-runner-pod-templates/)
+* [Package Variant Controller](https://docs.nephio.org/docs/porch/package-variant/)
 
 **Gaps / additions Required:**
 
