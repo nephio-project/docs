@@ -9,14 +9,12 @@ description: "A guide to upgrade package revisions using Porch and porchctl"
 
 The package upgrade feature in Porch is a powerful mechanism for keeping deployed packages (downstream) up-to-date with their source blueprints (upstream). This guide walks through the entire workflow, from creating packages to performing an upgrade, with a special focus on the different upgrade scenarios and merge strategies.
 
-<!-- toc -->
 ## Table of Contents
 
 - [Key Concepts](#key-concepts)
 - [End-to-End Upgrade Example](#end-to-end-upgrade-example)
 - [Understanding Merge Strategies](#understanding-merge-strategies)
 - [Reference](#reference)
-<!-- /toc -->
 
 ## Key Concepts
 
