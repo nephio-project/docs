@@ -45,7 +45,7 @@ ignoreFiles = []
 
   [markup.goldmark]
     [markup.goldmark.renderer]
-      unsafe= true
+      unsafe = true
     [markup.highlight]
 
       # Setting no default style; allows style to auto adjust between light and dark default markdown themes
