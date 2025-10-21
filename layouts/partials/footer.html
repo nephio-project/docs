@@ -38,6 +38,11 @@
   </div>
 </footer>
 {{ define "footer-links-block" }}
+<!-- Mermaid.js - included in footer for rendering diagrams -->
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+<script>
+  mermaid.initialize({ startOnLoad: true });
+</script>
 <ul class="list-inline mb-0">
   {{ range . }}
   <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="{{ .name }}" aria-label="{{ .name }}">
