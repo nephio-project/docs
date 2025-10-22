@@ -1,13 +1,9 @@
 ---
-title: "Porch Concepts"
+title: "Package Orchestration"
 type: docs
 weight: 2
 description: 
 ---
-
-<div style="border: 1px solid red; background-color: #ffe6e6; color: #b30000; padding: 1em; margin-bottom: 1em;">
-  <strong>⚠️ Outdated Notice:</strong> This page refers to an older version of the documentation. This content has simply been moved into its relevant new section here and must be checked, modified, rewritten, updated, or removed entirely.
-</div>
 
 Customers who want to take advantage of the benefits of [Configuration as Data]({{ relref "/docs/porch/config-as-data.md" }})
 can do so today using the [kpt](https://kpt.dev) CLI and the kpt function ecosystem, including its
@@ -31,10 +27,10 @@ Packages are sequentially ***versioned***. Multiple versions of the same package
 ([repository](#package-versioning)). A package may have a link (URL) to an
 ***upstream package*** (a specific version) ([from which it was cloned](#package-relationships)) . Packages go through three lifecycle stages: ***Draft***, ***Proposed***, and ***Published***:
 
-* ***Draft***: The package is being created or edited. The contents of the package can be
+  * ***Draft***: The package is being created or edited. The contents of the package can be
   modified; however, the package is not ready to be used (or deployed).
-* ***Proposed***: The author of the package has proposed that the package be published.
-* ***Published***: The changes to the package have been approved and the package is ready to be
+  * ***Proposed***: The author of the package has proposed that the package be published.
+  * ***Published***: The changes to the package have been approved and the package is ready to be
   used. Published packages can be deployed or cloned.
 
 ***Repository***: The repository stores packages. [git][] and [OCI][oci] are two examples of a
@@ -146,11 +142,11 @@ also used.
 Some of the key attributes of the deployment mechanism and its integration within the CaD Core are
 highlighted here:
 
-* *Published* packages in a deployment repository are considered to be ready to be deployed.
+* _Published_ packages in a deployment repository are considered to be ready to be deployed.
 * configsync supports the deployment of individual packages and whole repositories. For Git
   specifically, that translates to a requirement to be able to specify the repository,
   branch/tag/ref, and directory when instructing configsync to deploy a package.
-* *Draft* packages need to be identified in such a way that configsync can easily avoid deploying
+* _Draft_ packages need to be identified in such a way that configsync can easily avoid deploying
   them.
 * configsync needs to be able to pin to specific versions of deployable packages, in order to
   orchestrate rollouts and rollbacks. This means it must be possible to get a specific version of a
@@ -169,7 +165,7 @@ areas:
 * [Package Discovery](#package-discovery)
 * [Package Authoring](#package-authoring) and Lifecycle
 
-In the next sections we will expand on each of these areas. The term *client* used in these
+In the next sections we will expand on each of these areas. The term _client_ used in these
 sections can be either a person interacting with the user interface, such as a web application or a
 command-line tool, or an automated agent or process.
 
@@ -198,7 +194,7 @@ the following:
 * Retrieve the resources and metadata of an individual package, including the latest version, or
   any specific version or draft of a package, for the purpose of introspection of a single package,
   or for comparison of the contents of multiple versions of a package or related packages.
-* Enumerate the *upstream* packages that are available for creating (cloning) a *downstream*
+* Enumerate the _upstream_ packages that are available for creating (cloning) a _downstream_
   package.
 * Identify the downstream packages that need to be upgraded after a change has been made to an
   upstream package.
@@ -212,7 +208,7 @@ the following:
 The package authoring and lifecycle functionality of the package Orchestration service enables the
 client to do the following:
 
-* Create a package *draft* via one of the following means:
+* Create a package _draft_ via one of the following means:
 
   * An empty draft from scratch (`porchctl rpkg init`).
   * A clone of an upstream package (`porchctl rpkg clone`) from a registered upstream repository or
@@ -221,7 +217,7 @@ client to do the following:
   * Rolling back or restoring a package to any of its previous versions
     (`porchctl rpkg pull` of a previous version).
 
-* Push changes to a package *draft*. In general, mutations include adding, modifying, and deleting
+* Push changes to a package _draft_. In general, mutations include adding, modifying, and deleting
   any part of the package's contents. Specific examples include the following:
 
   * Adding, changing, or deleting package metadata (that is, some properties in the `Kptfile`).
@@ -239,9 +235,9 @@ client to do the following:
 * Get feedback during package authoring, and assistance in recovery from merge conflicts, invalid
   package changes, or guardrail violations.
 
-* Propose that a *draft* package be *published*.
+* Propose that a _draft_ package be _published_.
 * Apply arbitrary decision criteria, and by a manual or an automated action, approve or reject a
-  proposal for *draft* package to be *published*.
+  proposal for _draft_ package to be _published_.
 * Perform bulk operations, such as the following:
 
   * Assisted/automated updates (upgrades and rollbacks) of groups of packages matching specific
@@ -315,13 +311,13 @@ using the Kubernetes extension API server are as follows:
 
 The resources implemented by Porch include the following:
 
-* `PackageRevision`: This represents the *metadata* of the configuration package revision stored in
-  a *package* repository.
-* `PackageRevisionResources`: This represents the *contents* of the package revision.
+* `PackageRevision`: This represents the _metadata_ of the configuration package revision stored in
+  a _package_ repository.
+* `PackageRevisionResources`: This represents the _contents_ of the package revision.
 
 {{% alert title="Note" color="primary"%}}
 
-Each configuration package revision is represented by a *pair* of resources, each of which presents
+Each configuration package revision is represented by a _pair_ of resources, each of which presents
 a different view, or a [representation][] of the same underlying package revision.
 
 {{% /alert %}}
@@ -374,7 +370,7 @@ the function runner image itself.
 The **Pod Evaluation** approach is used when the invoked function is not available via the
 Executable Evaluation approach, wherein the function runner pod starts the function pod that
 corresponds to the invoked function, along with a front-end service. Once the pod and the service
-are up and running, its exposed GRPC endpoint is invoked for function evaluation, passing the input
+are up and running, its exposed GRPC endpoint is invoked for function evaluation, passing the input 
 package. For this mechanism, the function runner reads the list of functions and their images
 supplied via a configuration file at startup, and spawns function pods, along with a corresponding
 front-end service for each configured function. These function pods and services are terminated
@@ -433,13 +429,13 @@ functional parity between the kpt CLI and the Package Orchestration service.
 ## User Guide
 
 The Porch User Guide can be found in a dedicated document, via this link:
-[document](https://github.com/kptdev/kpt/blob/main/site/guides/porch-user-guide.md).
+[document]({{ relref "/docs/porch/user-guides/" }}).
 
 ## Open issues and questions
 
 ### Deployment rollouts and orchestration
 
-**Not Yet Resolved**
+__Not Yet Resolved__
 
 Cross-cluster rollouts and orchestration of deployment activity. For example, a package deployed by
 configsync in cluster A, and only on success, the same (or a different) package deployed by
@@ -458,9 +454,11 @@ advantages of implementing Porch as an extension of the Kubernetes apiserver are
 
 <!-- Reference links -->
 [krm]: https://github.com/kubernetes/design-proposals-archive/blob/main/architecture/resource-management.md
-[functions]: https://kpt.dev/book/02-concepts/03-functions
+[functions]: https://kpt.dev/book/02-concepts/#functions
 [krm functions]: https://github.com/kubernetes-sigs/kustomize/blob/master/cmd/config/docs/api-conventions/functions-spec.md
-[pipeline]: https://kpt.dev/book/04-using-functions/01-declarative-function-execution
+[pipeline]: https://kpt.dev/book/04-using-functions/#declarative-function-execution
+[Config Sync]: https://cloud.google.com/anthos-config-management/docs/config-sync-overview
+[kpt]: https://kpt.dev/
 [git]: https://git-scm.org/
 [optimistic-concurrency]: https://en.wikipedia.org/wiki/Optimistic_concurrency_control
 [apiserver]: https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/apiserver-aggregation/
