@@ -22,7 +22,7 @@
   HUGO_ENV = "development"
 
 [[plugins]]
-package = "netlify-plugin-checklinks"
+package = "netlify-plugin-checklinks@4.0.0"
 
   [plugins.inputs]
   # An array of glob patterns for pages on your site
