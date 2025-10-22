@@ -17,7 +17,7 @@ As a matter of fact there is no such thing as a "Porch" package but rather Porch
 
 ### What is KPT?
 
-KPT is an open-source tool developed by Google to manage Kubernetes [“Configuration as Data”]({{ relref "/docs/porch/config-as-data.md" }}) to simplify management of [Kubernetes Resource Model](https://github.com/kubernetes/design-proposals-archive/blob/main/architecture/resource-management.md) (KRM)-driven infrastructure at scale using standard YAML and [Git](https://git-scm.com/). KPT originated as a Google ContainerTools project and was later contributed to the CNCF.
+KPT is an open-source tool developed by Google to manage Kubernetes [“Configuration as Data”]({{< relref "/docs/porch/config-as-data.md"> }}) to simplify management of [Kubernetes Resource Model](https://github.com/kubernetes/design-proposals-archive/blob/main/architecture/resource-management.md) (KRM)-driven infrastructure at scale using standard YAML and [Git](https://git-scm.com/). KPT originated as a Google ContainerTools project and was later contributed to the CNCF.
 Think of kpt as "package management for Kubernetes configurations", similar to how [apt](https://en.wikipedia.org/wiki/APT_(software)) or [yum](https://en.wikipedia.org/wiki/Yum_(software)) works for software packages but in this case, it deals with YAML files that define Kubernetes resources.
 
 ### What is a KPT package?

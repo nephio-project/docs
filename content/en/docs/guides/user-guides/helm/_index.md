@@ -13,7 +13,7 @@ for deploying on Kubernetes, legacy helm support will be required for a number o
 
 ### Deployment options
 
-* [Using Helm To Operator Codegen SDK]({{ relref "/docs/guides/user-guides/helm/helm-to-operator-codegen-sdk-user-guide.md" }})
-* [Using Flux CD]({{ relref "/docs/guides/user-guides/helm/flux-helm.md" }})
+* [Using Helm To Operator Codegen SDK]({{< relref "/docs/guides/user-guides/helm/helm-to-operator-codegen-sdk-user-guide.md"> }})
+* [Using Flux CD]({{< relref "/docs/guides/user-guides/helm/flux-helm.md"> }})
 * [Operator SDK](https://sdk.operatorframework.io/docs/building-operators/helm/)
 

@@ -13,8 +13,8 @@ description:
 
 When deploying workloads across large fleets of clusters, it is often necessary to modify the
 workload configuration for a specific cluster. Additionally, these workloads may evolve over time
-with security or other patches that require updates. [Configuration as Data]({{ relref "/docs/porch/config-as-data.md" }}) in
-general, and [Package Orchestration]({{ relref "/docs/porch/package-orchestration.md" }}) in particular, can assist in this.
+with security or other patches that require updates. [Configuration as Data]({{< relref "/docs/porch/config-as-data.md"> }}) in
+general, and [Package Orchestration]({{< relref "/docs/porch/package-orchestration.md"> }}) in particular, can assist in this.
 However, they are still centered around a manual, one-by-one hydration and configuration of a
 workload.
 
@@ -30,7 +30,7 @@ dimensions of scalability:
 
 For further information, see the following links:
 
-- [Package Orchestration]({{ relref "/docs/porch/package-orchestration.md" }})
+- [Package Orchestration]({{< relref "/docs/porch/package-orchestration.md"> }})
 - [#3347](https://github.com/GoogleContainerTools/kpt/issues/3347) Bulk package creation
 - [#3243](https://github.com/GoogleContainerTools/kpt/issues/3243) Support bulk package upgrades
 - [#3488](https://github.com/GoogleContainerTools/kpt/issues/3488) Porch: BaseRevision controller aka Fan Out

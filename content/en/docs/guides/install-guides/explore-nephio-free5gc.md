@@ -5,11 +5,11 @@ description: >
 weight: 6
 ---
 
-Concepts as [Operator]({{ relref "/docs/glossary-abbreviations.md#operator" }}) and
+Concepts as [Operator]({{< relref "/docs/glossary-abbreviations.md#operator"> }}) and
 
-[Controller]({{ relref "/docs/glossary-abbreviations.md#controller" }}) and
+[Controller]({{< relref "/docs/glossary-abbreviations.md#controller"> }}) and
 
-[CR]({{ relref "/docs/glossary-abbreviations.md#custom-resource" }}) have already been explained here.
+[CR]({{< relref "/docs/glossary-abbreviations.md#custom-resource"> }}) have already been explained here.
 
 
 ## Deploy the operator to the cluster

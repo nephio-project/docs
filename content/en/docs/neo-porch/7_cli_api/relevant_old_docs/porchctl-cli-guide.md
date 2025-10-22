@@ -16,7 +16,7 @@ To use it locally, [download](https://github.com/nephio-project/porch/releases/t
 
 {{% alert title="Note" color="primary" %}}
 
-Installation of Porch, including its prerequisites, is covered in a [dedicated document]({{ relref "/docs/porch/user-guides/install-porch.md" }}).
+Installation of Porch, including its prerequisites, is covered in a [dedicated document]({{< relref "/docs/porch/user-guides/install-porch.md"> }}).
 
 {{% /alert %}}
 
@@ -60,7 +60,7 @@ The commands for administering package revisions are:
 * [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl)
 
 Make sure that your `kubectl` context is set up for `kubectl` to interact with the correct Kubernetes instance (see
-[installation instructions]({{ relref "/docs/porch/user-guides/install-porch.md" }}) guide for details).
+[installation instructions]({{< relref "/docs/porch/user-guides/install-porch.md"> }}) guide for details).
 
 To check whether `kubectl` is configured with your Porch cluster (or local instance), run:
 
@@ -138,7 +138,7 @@ $ porchctl repo register \
   https://github.com/${GITHUB_USERNAME}/blueprints.git
 ```
 
-For more details on configuring authenticated repositories see [Authenticating to Remote Git Repositories]({{ relref "/docs/porch/user-guides/git-authentication-config.md" }}).
+For more details on configuring authenticated repositories see [Authenticating to Remote Git Repositories]({{< relref "/docs/porch/user-guides/git-authentication-config.md"> }}).
 
 The command line flags supported by `porchctl repo register` are:
 
