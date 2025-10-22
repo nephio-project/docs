@@ -5,7 +5,7 @@ weight: 2
 description: 
 ---
 
-Customers who want to take advantage of the benefits of [Configuration as Data]({{< relref "/docs/porch/config-as-data.md"> }})
+Customers who want to take advantage of the benefits of [Configuration as Data]({{< relref "/docs/porch/config-as-data.md" >}})
 can do so today using the [kpt](https://kpt.dev) CLI and the kpt function ecosystem, including its
 [functions catalog](https://catalog.kpt.dev/). Package authoring is possible using a variety of
 editors with [YAML](https://yaml.org/) support. That said, a UI experience of
@@ -70,7 +70,7 @@ At the high level, the Core CaD functionality consists of the following componen
   * package repository management
   * package discovery, authoring, and lifecycle management
 
-* The Porch CLI tool [porchctl]({{< relref "/docs/porch/user-guides/porchctl-cli-guide.md"> }}): this is a Git-native,
+* The Porch CLI tool [porchctl]({{< relref "/docs/porch/user-guides/porchctl-cli-guide.md" >}}): this is a Git-native,
 schema-aware, extensible client-side tool for managing KRM packages.
 * A GitOps-based deployment mechanism (for example [configsync][]), which distributes and deploys
 configurations, and provides observability of the status of the deployed resources.

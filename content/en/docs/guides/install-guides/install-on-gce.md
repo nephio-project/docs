@@ -77,10 +77,10 @@ gcloud compute ssh ubuntu@nephio-main-e2e
 ## Next Steps
 
 * Step through the exercises
-  * [Free5GC Testbed Deployment and E2E testing with UERANSIM]({{< relref "/docs/guides/user-guides/usecase-user-guides/exercise-1-free5gc.md"> }})
-  * [OAI Core and RAN Testbed Deployment and E2E testing]({{< relref "/docs/guides/user-guides/usecase-user-guides/exercise-2-oai.md"> }})
-* Dig into the [user guide]({{< relref "/docs/guides/user-guides/_index.md"> }})
+  * [Free5GC Testbed Deployment and E2E testing with UERANSIM]({{< relref "/docs/guides/user-guides/usecase-user-guides/exercise-1-free5gc.md" >}})
+  * [OAI Core and RAN Testbed Deployment and E2E testing]({{< relref "/docs/guides/user-guides/usecase-user-guides/exercise-2-oai.md" >}})
+* Dig into the [user guide]({{< relref "/docs/guides/user-guides/_index.md" >}})
 * In case you want to install Nephio on pre-provisioned VMs:
-  * [Single VM]({{< relref "/docs/guides/install-guides/install-on-single-vm.md"> }})
-  * [Multiple VM]({{< relref "/docs/guides/install-guides/install-on-multiple-vm.md"> }}) 
+  * [Single VM]({{< relref "/docs/guides/install-guides/install-on-single-vm.md" >}})
+  * [Multiple VM]({{< relref "/docs/guides/install-guides/install-on-multiple-vm.md" >}}) 
   

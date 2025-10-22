@@ -1024,9 +1024,9 @@ git commit -m "Initial checking of nephio-mgmt"
 **Prior to deploying the package, we need to manually setup the secret for the
 WebUI.**
 
-See [Google OAuth 2.0 or OIDC]({{< relref "/docs/guides/install-guides/web-ui/webui-auth-gcp.md"> }}) for details on how to
-set up OAuth. In particular you need to [create the client ID]({{< relref "/docs/guides/install-guides/web-ui/webui-auth-gcp.md#creating-an-oauth-20-client-id"> }})
-and the [secret]({{< relref "/docs/guides/install-guides/web-ui/webui-auth-gcp.md#create-the-secret-in-the-cluster"> }})
+See [Google OAuth 2.0 or OIDC]({{< relref "/docs/guides/install-guides/web-ui/webui-auth-gcp.md" >}}) for details on how to
+set up OAuth. In particular you need to [create the client ID]({{< relref "/docs/guides/install-guides/web-ui/webui-auth-gcp.md#creating-an-oauth-20-client-id" >}})
+and the [secret]({{< relref "/docs/guides/install-guides/web-ui/webui-auth-gcp.md#create-the-secret-in-the-cluster" >}})
 manually.
 
 The *nephio-webui* subpackage in *nephio-mgmt* is already set up for
@@ -1389,6 +1389,6 @@ use workloads that do not rely on that functionality in order to experiment with
 
 {{% /alert %}}
 
-* Step through the [Free5GC]({{< relref "/docs/guides/user-guides/usecase-user-guides/exercise-1-free5gc.md"> }}) and
-[OAI]({{< relref "/docs/guides/user-guides/usecase-user-guides/exercise-2-oai.md"> }}) exercises
-* Dig into the [user guide]({{< relref "/docs/guides/user-guides/_index.md"> }})
+* Step through the [Free5GC]({{< relref "/docs/guides/user-guides/usecase-user-guides/exercise-1-free5gc.md" >}}) and
+[OAI]({{< relref "/docs/guides/user-guides/usecase-user-guides/exercise-2-oai.md" >}}) exercises
+* Dig into the [user guide]({{< relref "/docs/guides/user-guides/_index.md" >}})

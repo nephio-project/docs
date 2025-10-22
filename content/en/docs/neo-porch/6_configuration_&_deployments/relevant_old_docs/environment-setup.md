@@ -12,7 +12,7 @@ description:
 This tutorial gives short instructions on how to set up a development environment for Porch on your local machine. It outlines the steps to
 get a [kind](https://kind.sigs.k8s.io/) cluster up and running to which a Porch instance running in Visual Studio Code
 can connect to and interact with. If you are not familiar with how porch works, it is highly recommended that you go
-through the [Starting with Porch tutorial]({{< relref "/docs/porch/user-guides/install-porch.md"> }}) before going through this one.
+through the [Starting with Porch tutorial]({{< relref "/docs/porch/user-guides/install-porch.md" >}}) before going through this one.
 
 {{% alert title="Note" color="primary" %}}
 
@@ -87,7 +87,7 @@ You can build all of porch, and also deploy it into your newly created kind clus
 make run-in-kind
 ```
 
-See more advanced variants of this command in the [detailed description of the development process]({{< relref "/docs/porch/contributors-guide/dev-process.md"> }}).
+See more advanced variants of this command in the [detailed description of the development process]({{< relref "/docs/porch/contributors-guide/dev-process.md" >}}).
 
 ## Check that everything works as expected
 
@@ -127,7 +127,7 @@ packages                                         porch.kpt.dev/v1alpha1         
 
 ## Create Repositories using your local Porch server
 
-To connect Porch to Gitea, follow [step 7 in the Starting with Porch]({{< relref "/docs/porch/user-guides/install-porch.md"> }})
+To connect Porch to Gitea, follow [step 7 in the Starting with Porch]({{< relref "/docs/porch/user-guides/install-porch.md" >}})
 tutorial to create the repositories in Porch.
 
 You will notice logging messages in VS Code when you run the `kubectl apply -f porch-repositories.yaml` command.
@@ -180,7 +180,7 @@ and running the [setup script](https://github.com/nephio-project/porch/blob/main
 
 ## Getting started with actual development
 
-You can find a detailed description of the actual development process [here]({{< relref "/docs/porch/contributors-guide/environment-setup.md"> }}).
+You can find a detailed description of the actual development process [here]({{< relref "/docs/porch/contributors-guide/environment-setup.md" >}}).
 
 ## Enabling Open Telemetry/Jaeger tracing
 

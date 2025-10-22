@@ -12,12 +12,12 @@ description:
 This tutorial gives short instructions on how to set up a development environment for Porch on a Nephio VM. It outlines the steps to
 get a [kind](https://kind.sigs.k8s.io/) cluster up and running to which a Porch instance running in Visual Studio Code
 can connect to and interact with. If you are not familiar with how porch works, it is highly recommended that you go
-through the [Starting with Porch tutorial]({{< relref "/docs/porch/user-guides/install-porch.md"> }}) before going through this one.
+through the [Starting with Porch tutorial]({{< relref "/docs/porch/user-guides/install-porch.md" >}}) before going through this one.
 
 ## Setting up the environment
 
 1. The first step is to install the Nephio sandbox environment on your VM using the procedure described in
-[Installation on a single VM]({{< relref "/docs/guides/install-guides/install-on-single-vm.md"> }}). In short, log onto your VM and give the command
+[Installation on a single VM]({{< relref "/docs/guides/install-guides/install-on-single-vm.md" >}}). In short, log onto your VM and give the command
 below:
 
 ```bash
@@ -163,4 +163,4 @@ You have now set up VS Code so that it can be used for remove debugging of Porch
 
 ## Getting started with actual development
 
-You can find a detailed description of the actual development process [here]({{< relref "/docs/porch/contributors-guide/dev-process.md"> }}).
+You can find a detailed description of the actual development process [here]({{< relref "/docs/porch/contributors-guide/dev-process.md" >}}).

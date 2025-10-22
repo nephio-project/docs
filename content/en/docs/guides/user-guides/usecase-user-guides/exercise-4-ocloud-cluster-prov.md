@@ -8,9 +8,9 @@ weight: 2
 ## Prerequisites
 
 - A Nephio Management cluster: 
-  - See the [installation guides]({{< relref "/docs/guides/install-guides/_index.md#introduction"> }}) for detailed demo environment options.
+  - See the [installation guides]({{< relref "/docs/guides/install-guides/_index.md#introduction" >}}) for detailed demo environment options.
 - With the following *optional* operator pkgs deployed:
-  - [o2ims operator]({{< relref "/docs/guides/install-guides/optional-components.md#o2ims-operator"> }})
+  - [o2ims operator]({{< relref "/docs/guides/install-guides/optional-components.md#o2ims-operator" >}})
 
 
 This exercise will take us from a system with only the Nephio Management cluster setup, to a deployment with:
@@ -23,8 +23,8 @@ To perform these exercises, we will need:
 
 - Access to the installed demo VM environment as the ubuntu user.
 
-The exercise will attempt to simulate the [O-RAN O-Cloud]({{< relref "/docs/network-architecture/o-ran-integration.md#overview"> }}) 
-architecture by deploying the [focom operator]({{< relref "/docs/guides/install-guides/optional-components.md#focom-operator"> }})
+The exercise will attempt to simulate the [O-RAN O-Cloud]({{< relref "/docs/network-architecture/o-ran-integration.md#overview" >}}) 
+architecture by deploying the [focom operator]({{< relref "/docs/guides/install-guides/optional-components.md#focom-operator" >}})
 to a separate KinD cluster, which will represent the SMO Nephio Management Cluster.
 
 ### Step 1: Verify the O2IMS operator deployment
@@ -60,7 +60,7 @@ Verify the cluster is healthy
 kubectl get po -A --kubeconfig /tmp/focom-kubeconfig
 ```
 
-Deploy the [focom operator]({{< relref "/docs/guides/install-guides/optional-components.md#focom-operator"> }}) to the new cluster
+Deploy the [focom operator]({{< relref "/docs/guides/install-guides/optional-components.md#focom-operator" >}}) to the new cluster
 ```bash
 kpt pkg get --for-deployment https://github.com/nephio-project/catalog.git/nephio/optional/focom-operator@origin/main /tmp/focom
 kpt fn render /tmp/focom
