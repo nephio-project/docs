@@ -60,7 +60,7 @@ If using init.sh directly to deploy Nephio management components, as one would f
 - A default StorageClass must be configured providing persistent storage for PVCs (for instance through the LVMS Operator and an LVMCluster)
 - [Security Context Constraints](https://github.com/nephio-project/catalog/tree/main/distros/openshift/security-context-constraints) must be applied for successful Nephio component deployment
 
-Follow the steps present in the [Install Guide]({{< relref "/docs/guides/install-guides/_index.md" >}}) for a Pre-installed K8s Cluster to install management components
+Follow the steps present in the [Install Guide]({{ relref "/docs/guides/install-guides/_index.md" }}) for a Pre-installed K8s Cluster to install management components
 
 
 ### Option 2: Using Blueprints Nephio OpenShift Repository OpenShift Package Repository
@@ -79,8 +79,8 @@ Application:
 oc apply -f https://raw.githubusercontent.com/openshift-telco/blueprints-nephio-openshift/v1.0.1/nephio-mgnt/app-of-apps.yaml
 ```
 
-This will take care of applying the [common dependencies]({{< relref "/docs/guides/install-guides/common-dependencies.md" >}})
-and the [common components]({{< relref "/docs/guides/install-guides/common-components.md" >}})
+This will take care of applying the [common dependencies]({{ relref "/docs/guides/install-guides/common-dependencies.md" }})
+and the [common components]({{ relref "/docs/guides/install-guides/common-components.md" }})
 
 ### Access the Nephio WebUI
 
