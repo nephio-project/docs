@@ -376,7 +376,7 @@ Orchestration service.
 ## User Guide
 
 Find the Porch User Guide in a dedicated
-[document](https://github.com/kptdev/kpt/blob/main/site/guides/porch-user-guide.md).
+[document]({{ relref "/docs/porch/user-guides/" }}).
 
 ## Open Issues/Questions
 
@@ -399,9 +399,9 @@ Kubernetes apiserver are:
 
 <!-- Reference links -->
 [krm]: https://github.com/kubernetes/design-proposals-archive/blob/main/architecture/resource-management.md
-[functions]: https://kpt.dev/book/02-concepts/03-functions
+[functions]: https://kpt.dev/book/02-concepts/#functions
 [krm functions]: https://github.com/kubernetes-sigs/kustomize/blob/master/cmd/config/docs/api-conventions/functions-spec.md
-[pipeline]: https://kpt.dev/book/04-using-functions/01-declarative-function-execution
+[pipeline]: https://kpt.dev/book/04-using-functions/#declarative-function-execution
 [Config Sync]: https://cloud.google.com/anthos-config-management/docs/config-sync-overview
 [kpt]: https://kpt.dev/
 [git]: https://git-scm.org/
