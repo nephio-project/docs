@@ -25,7 +25,7 @@ generated from the code, where available.
 This is a high-level overview of the Nephio models and their relationships, with links to the
 relevant API documentation where available, and to the source code where not.
 
-{{< mermaid >}}
+```mermaid
 flowchart TD
     %% Topology constructs
     NFTopology-- 1 .. n -->NFInstance
@@ -65,7 +65,7 @@ flowchart TD
     click NetworkInstance "https://doc.crds.dev/github.com/nephio-project/api/req.nephio.org/NetworkInstance/v1alpha1@v2.0.0" "NetworkInstance"
     style Pool fill:#CCCCFF
     click Pool "https://github.com/nephio-project/api/blob/main/workload/v1alpha1/nf_deployment_types.go#L165" "Pool"
-{{< /mermaid >}}
+```
 
 A detailed API description can be found [here](topology-and-networking/).
 
