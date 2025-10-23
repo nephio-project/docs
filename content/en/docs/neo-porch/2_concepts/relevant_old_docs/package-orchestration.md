@@ -1,15 +1,11 @@
 ---
-title: "Porch Concepts"
+title: "Package Orchestration"
 type: docs
 weight: 2
 description: 
 ---
 
-<div style="border: 1px solid red; background-color: #ffe6e6; color: #b30000; padding: 1em; margin-bottom: 1em;">
-  <strong>⚠️ Outdated Notice:</strong> This page refers to an older version of the documentation. This content has simply been moved into its relevant new section here and must be checked, modified, rewritten, updated, or removed entirely.
-</div>
-
-Customers who want to take advantage of the benefits of [Configuration as Data](config-as-data.md)
+Customers who want to take advantage of the benefits of [Configuration as Data]({{< relref "/docs/porch/config-as-data.md" >}})
 can do so today using the [kpt](https://kpt.dev) CLI and the kpt function ecosystem, including its
 [functions catalog](https://catalog.kpt.dev/). Package authoring is possible using a variety of
 editors with [YAML](https://yaml.org/) support. That said, a UI experience of
@@ -46,7 +42,7 @@ packages to mutate or validate the resources within them. Functions can be appli
 package to create specific package mutations while editing a package draft. Functions can be added
 to a package's Kptfile [pipeline][].
 
-## Core components of the Configuration as Data (CAD) implementation 
+## Core components of the Configuration as Data (CAD) implementation
 
 The core implementation of Configuration as Data, or *CaD Core*, is a set of components and APIs
 which collectively enable the following:
@@ -74,7 +70,7 @@ At the high level, the Core CaD functionality consists of the following componen
   * package repository management
   * package discovery, authoring, and lifecycle management
 
-* The Porch CLI tool [porchctl](user-guides/porchctl-cli-guide.md): this is a Git-native,
+* The Porch CLI tool [porchctl]({{< relref "/docs/porch/user-guides/porchctl-cli-guide.md" >}}): this is a Git-native,
 schema-aware, extensible client-side tool for managing KRM packages.
 * A GitOps-based deployment mechanism (for example [configsync][]), which distributes and deploys
 configurations, and provides observability of the status of the deployed resources.
@@ -139,7 +135,7 @@ then the upstream link can be used to update the downstream package.
 
 The deployment mechanism is responsible for deploying the configuration packages from a repository
 and affecting the live state. Because the configuration is stored in standard repositories (Git,
-and in the future OCI), the deployment component is pluggable. By default, [configsync][https://cloud.google.com/kubernetes-engine/enterprise/config-sync/docs/overview] is the
+and in the future OCI), the deployment component is pluggable. By default, [Config Sync](https://cloud.google.com/kubernetes-engine/enterprise/config-sync/docs/overview) is the
 deployment mechanism used by CaD Core implementation. However, other deployment mechanisms can be
 also used.
 
@@ -433,7 +429,7 @@ functional parity between the kpt CLI and the Package Orchestration service.
 ## User Guide
 
 The Porch User Guide can be found in a dedicated document, via this link:
-[document](https://github.com/kptdev/kpt/blob/main/site/guides/porch-user-guide.md).
+[document]({{< relref "/docs/porch/user-guides/" >}}).
 
 ## Open issues and questions
 
@@ -458,9 +454,9 @@ advantages of implementing Porch as an extension of the Kubernetes apiserver are
 
 <!-- Reference links -->
 [krm]: https://github.com/kubernetes/design-proposals-archive/blob/main/architecture/resource-management.md
-[functions]: https://kpt.dev/book/02-concepts/03-functions
+[functions]: https://kpt.dev/book/02-concepts/#functions
 [krm functions]: https://github.com/kubernetes-sigs/kustomize/blob/master/cmd/config/docs/api-conventions/functions-spec.md
-[pipeline]: https://kpt.dev/book/04-using-functions/01-declarative-function-execution
+[pipeline]: https://kpt.dev/book/04-using-functions/#declarative-function-execution
 [Config Sync]: https://cloud.google.com/anthos-config-management/docs/config-sync-overview
 [kpt]: https://kpt.dev/
 [git]: https://git-scm.org/

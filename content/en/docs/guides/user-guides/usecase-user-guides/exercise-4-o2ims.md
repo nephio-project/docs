@@ -9,13 +9,13 @@ weight: 2
 ## Prerequisites
 
 - A Nephio Management cluster: 
-  - [installation guides](/content/en/docs/guides/install-guides/_index.md) for detailed environment options.
+  - [installation guides]({{< relref "/docs/guides/install-guides/_index.md" >}}) for detailed environment options.
 - The following *optional* operator package deployed:
-  - [o2ims operator](/content/en/docs/guides/install-guides/optional-components.md#o2ims-operator)
+  - [o2ims operator]({{< relref "/docs/guides/install-guides/optional-components.md#o2ims-operator" >}})
 
 {{% alert title="Note" color="primary" %}}
 
-If using a [sandbox demo environment](/content/en/docs/guides/install-guides/_index.md#kicking-off-an-installation-on-a-virtual-machine), 
+If using a [sandbox demo environment]({{< relref "/docs/guides/install-guides/_index.md#kicking-off-an-installation-on-a-virtual-machine" >}}), 
 most of the above prerequisites are already satisfied.
 
 {{% /alert %}}
