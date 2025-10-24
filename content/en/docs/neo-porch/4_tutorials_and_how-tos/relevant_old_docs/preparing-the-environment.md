@@ -880,7 +880,7 @@ status:
 ## The porchctl command
 
 The `porchtcl` command is an administration command for acting on Porch `Repository` (repo) and `PackageRevision` (rpkg)
-CRs. See its [documentation for usage information]({{< relref "/docs/porch/user-guides/porchctl-cli-guide.md" >}}).
+CRs. See its [documentation for usage information]({{% relref "/docs/porch/user-guides/porchctl-cli-guide.md" %}}).
 
 Check that <code>porchctl</code> lists our repositories:</summary>
 
