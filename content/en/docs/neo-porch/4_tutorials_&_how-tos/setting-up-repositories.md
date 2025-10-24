@@ -1,5 +1,5 @@
 ---
-title: "Setting Up Repositories"
+title: "Managing Porch Repositories"
 type: docs
 weight: 2
 description: "A how-to guide on registering Git repositories with Porch"
