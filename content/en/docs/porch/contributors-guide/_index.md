@@ -39,8 +39,8 @@ Porch comprises of several software components:
 
 See dedicated documentation on running Porch:
 
-* [locally]({{< relref "/docs/porch/contributors-guide/environment-setup.md" >}})
-* [on GKE]({{< relref "/docs/porch/running-porch/running-on-GKE.md" >}})
+* [locally]({{% relref "/docs/porch/contributors-guide/environment-setup.md" %}})
+* [on GKE]({{% relref "/docs/porch/running-porch/running-on-GKE.md" %}})
 
 ## Build the Container Images
 
@@ -64,7 +64,7 @@ IMAGE_TAG=$(git rev-parse --short HEAD) make push-images
 
 ## Debugging
 
-To debug Porch, run Porch locally [running-locally.md]({{< relref "/docs/porch/contributors-guide/environment-setup.md" >}}), exit porch server running
+To debug Porch, run Porch locally [running-locally.md]({{% relref "/docs/porch/contributors-guide/environment-setup.md" %}}), exit porch server running
 in the shell, and launch Porch under the debugger. VS Code debug session is pre-configured in
 [launch.json](https://github.com/nephio-project/porch/blob/main/.vscode/launch.json).
 
@@ -102,7 +102,7 @@ then run test suite against the Porch instance.
    The deployment-ready configuration is copied into `./.build/deploy`
 * `make deploy`: deploys Porch in the k8s cluster configured with current kubectl context
 * `make push-and-deploy`: builds, pushes Porch Docker images, creates deployment configuration, and deploys Porch
-* `make` or `make all`: builds and runs Porch [locally]({{< relref "/docs/porch/contributors-guide/environment-setup.md" >}})
+* `make` or `make all`: builds and runs Porch [locally]({{% relref "/docs/porch/contributors-guide/environment-setup.md" %}})
 * `make test`: runs tests
 
 ## VS Code

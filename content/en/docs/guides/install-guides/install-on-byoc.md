@@ -21,7 +21,7 @@ your environment and choices.
  - *kubectl* [installed ](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)on your workstation
  - *kpt* [installed](https://kpt.dev/installation/kpt-cli) on your workstation
    (version v1.0.0-beta.43 or later)
- - *porchctl* [installed]({{< relref "/docs/porch/user-guides/porchctl-cli-guide.md" >}}) on your workstation
+ - *porchctl* [installed]({{% relref "/docs/porch/user-guides/porchctl-cli-guide.md" %}}) on your workstation
  - Sudo-less *docker*, *Podman*, or *nerdctl*. If using *Podman* or *nerdctl*,
    you must set the
 [`KPT_FN_RUNTIME`](https://kpt.dev/reference/cli/fn/render/?id=environment-variables)
@@ -59,10 +59,10 @@ descriptions of the various options, if you wish to assemble your own set of com
 
 | Environment | Description                                                |
 | ----------- | ---------------------------------------------------------- |
-| [Single VM]({{< relref "/docs/guides/install-guides/install-on-single-vm.md" >}}) | The single VM demo environment, set up "the hard way" - without using the included provisioning script. This creates a complete Nephio-in-a-VM, just like the R1 demo environment. These instructions cover both Ubuntu and Fedora. |
-| [Multiple VM]({{< relref "/docs/guides/install-guides/install-on-multiple-vm.md" >}}) | The multiple VM environment, set up Nephio on multiple VMs. These instructions cover both Ubuntu and Fedora. |
-| [Google Cloud Platform]({{< relref "/docs/guides/install-guides/install-on-gcp.md" >}}) | Nephio running in GCP. A GKE cluster is used as the management cluster, with Anthos Config Controller for GCP infrastructure provisioning, Gitea as the Git provider, and WebUI authentication and authorization via Google OAuth 2.0 |
-| [OpenShift]({{< relref "/docs/guides/install-guides/install-on-openshift.md" >}}) | Nephio running in OpenShift, with Cluster API as the cluster provisioner, Gitea as the Git provider and WebUI authentication backed by OpenShift OIDC. |
+| [Single VM]({{% relref "/docs/guides/install-guides/install-on-single-vm.md" %}}) | The single VM demo environment, set up "the hard way" - without using the included provisioning script. This creates a complete Nephio-in-a-VM, just like the R1 demo environment. These instructions cover both Ubuntu and Fedora. |
+| [Multiple VM]({{% relref "/docs/guides/install-guides/install-on-multiple-vm.md" %}}) | The multiple VM environment, set up Nephio on multiple VMs. These instructions cover both Ubuntu and Fedora. |
+| [Google Cloud Platform]({{% relref "/docs/guides/install-guides/install-on-gcp.md" %}}) | Nephio running in GCP. A GKE cluster is used as the management cluster, with Anthos Config Controller for GCP infrastructure provisioning, Gitea as the Git provider, and WebUI authentication and authorization via Google OAuth 2.0 |
+| [OpenShift]({{% relref "/docs/guides/install-guides/install-on-openshift.md" %}}) | Nephio running in OpenShift, with Cluster API as the cluster provisioner, Gitea as the Git provider and WebUI authentication backed by OpenShift OIDC. |
 
 ## À La Carte Installation
 
@@ -95,7 +95,7 @@ environment, so that installation will be documented in the specific environment
 ### GitOps Tool
 
 As configured in the R1, R2 and R3 reference implementation, Nephio relies on ConfigSync. However, it is possible to
-configure it to use a different GitOps tool, such as [FluxCD]({{< relref "/docs/guides/install-guides/optional-components.md#fluxcd-controllers" >}})
+configure it to use a different GitOps tool, such as [FluxCD]({{% relref "/docs/guides/install-guides/optional-components.md#fluxcd-controllers" %}})
 or ArgoCD to apply packages to the clusters.
 
 ### Cluster Provisioner
@@ -133,8 +133,8 @@ LoadBalancer service, Ingress, or Route).
 
 The WebUI currently supports the following options:
 
-- [Google OAuth or OIDC]({{< relref "/docs/guides/install-guides/web-ui/webui-auth-gcp.md" >}})
-- [OIDC with Okta]({{< relref "/docs/guides/install-guides/web-ui/webui-auth-okta.md" >}})
+- [Google OAuth or OIDC]({{% relref "/docs/guides/install-guides/web-ui/webui-auth-gcp.md" %}})
+- [OIDC with Okta]({{% relref "/docs/guides/install-guides/web-ui/webui-auth-okta.md" %}})
 
 ### Nephio Stock Repositories
 
