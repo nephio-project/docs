@@ -5,11 +5,11 @@ weight: 3
 description:
 ---
 
-After you ran the setup script as explained in the [environment setup](environment-setup.md) you are ready to start the actual development of porch. That process involves (among others) a combination of the tasks explained below.
+After you ran the setup script as explained in the [environment setup]({{< relref "/docs/porch/contributors-guide/environment-setup.md" >}}) you are ready to start the actual development of porch. That process involves (among others) a combination of the tasks explained below.
 
 ## Build and deploy all of porch
 
-The following command will rebuild all of porch and deploy all of its components into your porch-test kind cluster (created in the [environment setup](environment-setup.md)):
+The following command will rebuild all of porch and deploy all of its components into your porch-test kind cluster (created in the [environment setup]({{< relref "/docs/porch/contributors-guide/environment-setup.md" >}})):
 
 ```bash
 make run-in-kind

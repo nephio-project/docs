@@ -5,7 +5,7 @@ description: >
 weight: 2
 ---
 
-Be sure you have followed the [installation guide](/content/en/docs/guides/install-guides/_index.md) before trying these exercises.
+Be sure you have followed the [installation guide]({{< relref "/docs/guides/install-guides/_index.md" >}}) before trying these exercises.
 
 These exercises will take you from a system with only the Nephio Management cluster setup to a deployment with:
 
@@ -91,6 +91,7 @@ In the example above, we set the `BRANCH` to `main`.
 This should match the `NEPHIO_BRANCH` used during the [sandbox installation](/docs/guides/install-guides/).
 
 {{% /alert %}}
+
 
 ```bash
 envsubst < test-infra/e2e/tests/oai/001-infra.yaml | kubectl apply -f -

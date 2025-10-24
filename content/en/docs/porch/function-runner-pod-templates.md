@@ -5,7 +5,7 @@ weight: 4
 description: 
 ---
 
-## Overiew 
+## Overview
 
 The `porch-fn-runner` implements a simple function-as-a-service for executing kpt functions, running
 the necessary kpt functions wrapped in a GRPC server. The function of the `porch-fn-runner` is to

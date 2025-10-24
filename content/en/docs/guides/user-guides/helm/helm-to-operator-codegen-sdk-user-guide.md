@@ -342,4 +342,4 @@ release-name-free5gc-webui-webui-7dccf6c877-lj5p5        1/1     Running        
 ```
 
 ----
-For advanced requirements, Please refer to the developer guide [here](/content/en/docs/guides/contributor-guides/helm-to-operator-codegen-sdk-developer-guide.md)
+For advanced requirements, Please refer to the developer guide [here]({{< relref "/docs/guides/contributor-guides/helm-to-operator-codegen-sdk-developer-guide.md" >}})

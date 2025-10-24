@@ -877,6 +877,60 @@ status:
 ```
 </details>
 
+## The porchctl command
+
+The `porchtcl` command is an administration command for acting on Porch `Repository` (repo) and `PackageRevision` (rpkg)
+CRs. See its [documentation for usage information]({{< relref "/docs/porch/user-guides/porchctl-cli-guide.md" >}}).
+
+Check that <code>porchctl</code> lists our repositories:</summary>
+
+```bash
+porchctl repo -n porch-demo get
+NAME                  TYPE   CONTENT   DEPLOYMENT   READY   ADDRESS
+edge1                 git    Package   true         True    http://172.18.255.200:3000/nephio/edge1.git
+external-blueprints   git    Package   false        True    https://github.com/nephio-project/free5gc-packages.git
+management            git    Package   false        True    http://172.18.255.200:3000/nephio/management.git
+```
+
+<details>
+<summary>Check that porchctl lists our remote packages (PackageRevisions):</summary>
+
+```
+porchctl rpkg -n porch-demo get
+NAME                                                           PACKAGE              WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
+porch-test.network-function.great-outdoors                     free5gc-cp           main            main       false    Published   external-blueprints
+porch-test.network-function.great-outdoors                     free5gc-cp           v1              v1         true     Published   external-blueprints
+porch-test.network-function.great-outdoors                     free5gc-operator     main            main       false    Published   external-blueprints
+porch-test.network-function.great-outdoors                     free5gc-operator     v1              v1         false    Published   external-blueprints
+porch-test.network-function.great-outdoors                     free5gc-operator     v2              v2         false    Published   external-blueprints
+porch-test.network-function.great-outdoors                     free5gc-operator     v3              v3         false    Published   external-blueprints
+porch-test.network-function.great-outdoors                     free5gc-operator     v4              v4         false    Published   external-blueprints
+porch-test.network-function.great-outdoors                     free5gc-operator     v5              v5         true     Published   external-blueprints
+porch-test.network-function.great-outdoors                     free5gc-upf          main            main       false    Published   external-blueprints
+porch-test.network-function.great-outdoors                     free5gc-upf          v1              v1         true     Published   external-blueprints
+porch-test.network-function.great-outdoors                     pkg-example-amf-bp   main            main       false    Published   external-blueprints
+porch-test.network-function.great-outdoors                     pkg-example-amf-bp   v1              v1         false    Published   external-blueprints
+porch-test.network-function.great-outdoors                     pkg-example-amf-bp   v2              v2         false    Published   external-blueprints
+porch-test.network-function.great-outdoors                     pkg-example-amf-bp   v3              v3         false    Published   external-blueprints
+porch-test.network-function.great-outdoors                     pkg-example-amf-bp   v4              v4         false    Published   external-blueprints
+porch-test.network-function.great-outdoors                     pkg-example-amf-bp   v5              v5         true     Published   external-blueprints
+porch-test.network-function.great-outdoors                     pkg-example-smf-bp   main            main       false    Published   external-blueprints
+porch-test.network-function.great-outdoors                     pkg-example-smf-bp   v1              v1         false    Published   external-blueprints
+porch-test.network-function.great-outdoors                     pkg-example-smf-bp   v2              v2         false    Published   external-blueprints
+porch-test.network-function.great-outdoors                     pkg-example-smf-bp   v3              v3         false    Published   external-blueprints
+porch-test.network-function.great-outdoors                     pkg-example-smf-bp   v4              v4         false    Published   external-blueprints
+porch-test.network-function.great-outdoors                     pkg-example-smf-bp   v5              v5         true     Published   external-blueprints
+porch-test.network-function.great-outdoors                     pkg-example-upf-bp   main            main       false    Published   external-blueprints
+porch-test.network-function.great-outdoors                     pkg-example-upf-bp   v1              v1         false    Published   external-blueprints
+porch-test.network-function.great-outdoors                     pkg-example-upf-bp   v2              v2         false    Published   external-blueprints
+porch-test.network-function.great-outdoors                     pkg-example-upf-bp   v3              v3         false    Published   external-blueprints
+porch-test.network-function.great-outdoors                     pkg-example-upf-bp   v4              v4         false    Published   external-blueprints
+porch-test.network-function.great-outdoors                     pkg-example-upf-bp   v5              v5         true     Published   external-blueprints
+```
+</details>
+
+The output above is similar to the output of `kubectl get packagerevision -n porch-demo` above.
+
 ## Creating a blueprint in Porch
 
 ### Blueprint with no Kpt pipelines

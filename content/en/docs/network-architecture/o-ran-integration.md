@@ -85,7 +85,6 @@ The Nephio based IMS implementation supports an IMS-side O2ims operator that wil
 
 ![ims-provisioning-create-cluster.png](/static/images/network-architecture/o-ran/ims-provisioning-create-cluster.png)
 
-
 ## Lifecycle management of deployments for O-RAN NFs
 
 ### Introduction
@@ -131,4 +130,4 @@ The following sequence chart depicts the flow between the NFO and Workload Clust
 #### Demo User Guide
 
 For a detailed demo user guide, see 
-[O-RAN O-Cloud K8s Cluster deployment](/content/en/docs/guides/user-guides/usecase-user-guides/exercise-4-ocloud-cluster-prov.md)
+[O-RAN O-Cloud K8s Cluster deployment]({{< relref "/docs/guides/user-guides/usecase-user-guides/exercise-4-ocloud-cluster-prov.md" >}})
