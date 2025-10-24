@@ -57,7 +57,7 @@ resources required for basic package authoring and lifeycle management, includin
   * `PackageRevisionResources` - represents the *file contents* of the package revision.
     {{% alert color="primary" %}}
   Note that each package revision is represented by a *pair* of resources, each presenting a different view
-  (or [representation](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#differing-representations))
+  (or [representation][differing representations])
   of the same underlying package revision.
     {{% /alert %}}
 * A `Repository` [custom resource][crds], which supports repository registration.
@@ -137,4 +137,5 @@ This approach will allow leveraging the investment already made into the high-qu
 <!-- Reference links -->
 [apiserver]: https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/apiserver-aggregation/
 [crds]: https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/
+[differing representations]: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#differing-representations
 [functions]: https://kpt.dev/book/02-concepts/#functions
