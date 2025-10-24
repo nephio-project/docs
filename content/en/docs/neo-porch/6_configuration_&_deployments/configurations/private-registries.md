@@ -15,8 +15,8 @@ by default we have [PUBLIC IMAGE REPOSITORIES] GCR OR KPT/DEV
 
 ## Setting up Private Registries
 
-old guide can be found here [old-private-registry-setup-guide]({{< relref "/docs/neo-porch/6_configuration_&_deployments/relevant_old_docs/git-authentication-config.md" >}})
+old guide can be found here [old-private-registry-setup-guide]({{% relref "/docs/neo-porch/6_configuration_&_deployments/relevant_old_docs/git-authentication-config.md" %}})
 
 ## Setting up TLS Authentication for Private Registries
 
-old guide can be found here [old-private-registry-tls-setup-guide]({{< relref "/docs/neo-porch/6_configuration_&_deployments/relevant_old_docs/using-authenticated-private-registries.md" >}})
+old guide can be found here [old-private-registry-tls-setup-guide]({{% relref "/docs/neo-porch/6_configuration_&_deployments/relevant_old_docs/using-authenticated-private-registries.md" %}})

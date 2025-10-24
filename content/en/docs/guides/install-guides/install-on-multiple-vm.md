@@ -19,14 +19,14 @@ weight: 7
   * Kubernetes version 1.26+
   * *kubectl* [installed ](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
 * *kpt* [installed](https://kpt.dev/installation/kpt-cli) (version v1.0.0-beta.43 or later)
-* *porchctl* [installed]({{< relref "/docs/porch/user-guides/porchctl-cli-guide.md" >}}) on your workstation
+* *porchctl* [installed]({{% relref "/docs/porch/user-guides/porchctl-cli-guide.md" %}}) on your workstation
 
 ## Installation of the management cluster
 
 ### Manual Installation of the management cluster using kpt
 
-- [Common Dependencies]({{< relref "/docs/guides/install-guides/common-dependencies.md" >}})
-- [Common Components]({{< relref "/docs/guides/install-guides/common-components.md" >}})
+- [Common Dependencies]({{% relref "/docs/guides/install-guides/common-dependencies.md" %}})
+- [Common Components]({{% relref "/docs/guides/install-guides/common-components.md" %}})
 
 ## Manual Installation of the Edge cluster using kpt
 

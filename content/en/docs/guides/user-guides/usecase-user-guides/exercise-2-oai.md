@@ -5,7 +5,7 @@ description: >
 weight: 2
 ---
 
-Be sure you have followed the [installation guide]({{< relref "/docs/guides/install-guides/_index.md" >}}) before trying these exercises.
+Be sure you have followed the [installation guide]({{% relref "/docs/guides/install-guides/_index.md" %}}) before trying these exercises.
 
 These exercises will take you from a system with only the Nephio Management cluster setup to a deployment with:
 

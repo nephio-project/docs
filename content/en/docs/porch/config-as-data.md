@@ -6,7 +6,7 @@ description:
 ---
 
 This document provides the background context for Package Orchestration, which is further
-elaborated in a dedicated [document]({{< relref "/docs/porch/package-orchestration.md" >}}).
+elaborated in a dedicated [document]({{% relref "/docs/porch/package-orchestration.md" %}}).
 
 ## Configuration as data (CaD)
 
