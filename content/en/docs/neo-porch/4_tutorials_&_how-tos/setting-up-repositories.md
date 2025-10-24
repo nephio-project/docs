@@ -2,7 +2,7 @@
 title: "Setting Up Repositories"
 type: docs
 weight: 2
-description: "A guide on how to register Git and OCI repositories with Porch using both `porchctl` and `kubectl`."
+description: "A how-to guide on registering Git repositories with Porch"
 ---
 
 # Setting Up Repositories
