@@ -12,7 +12,7 @@ The Porch sync system manages the synchronization of package repositories betwee
 
 ### High-Level Architecture
 
-![Repository Sync Architecture](/static/images/porch/repositorySync.svg)
+![Repository Sync Architecture](/static/images/porch/repository-sync.svg)
 
 ## Core Components
 
@@ -27,8 +27,19 @@ The Porch sync system manages the synchronization of package repositories betwee
 - `lastSyncError` (error tracking)
 
 **Goroutines**:
+
 1. **syncForever()** - Periodic sync with cron scheduling
+   - Syncs once at startup, then uses ticker to check countdown
+   - Supports both cron expressions (spec.sync.schedule) and default frequency fallback
+   - Recalculates next sync time when cron expression changes
+   - Updates repository conditions after each sync
+
 2. **handleRunOnceAt()** - One-time sync with timer-based execution
+   - Monitors spec.sync.runOnceAt field for scheduled one-time syncs
+   - Creates/cancels timers when the runOnceAt time changes
+   - Skips past timestamps and handles timer cleanup
+   - Independent of periodic sync schedule
+
 
 ### 2. Cache Handlers (Implements SyncHandler)
 
