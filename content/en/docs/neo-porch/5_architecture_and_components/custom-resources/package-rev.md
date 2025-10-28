@@ -7,4 +7,4 @@ description: Package Rev
 
 ## Package Rev
 
-low level explanation of Package Rev's
+low level explanation of Package Revs
