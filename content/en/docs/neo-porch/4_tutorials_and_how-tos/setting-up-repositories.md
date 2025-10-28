@@ -7,16 +7,11 @@ description: "A how-to guide on registering Git repositories with Porch"
 
 # Setting Up Repositories
 
-Before Porch can manage packages, you must register the repositories where those packages are stored. This tells Porch where to find package blueprints and where to store deployment packages. Porch supports both Git repositories and OCI registries.
+Before Porch can manage packages, you must register the repositories where those packages are stored. This tells Porch where to find package blueprints and where to store deployment packages. Porch supports both Git repositories and OCI registries (OCI is not fully supported).
 
-This guide covers the two primary methods for registering a repository with Porch.
+This guide covers the primary method for registering a repository with Porch.
 
-## Table of Contents
-
-- [Method 1: Using `porchctl`](#method-1-using-porchctl)
-- [Method 2: Using `kubectl`](#method-2-using-kubectl)
-
-## Method 1: Using `porchctl`
+## Using `porchctl`
 
 The `porchctl` command-line tool provides a straightforward way to register a repository.
 
@@ -30,7 +25,6 @@ porchctl repo register REPOSITORY [flags]
 
 *   **`REPOSITORY`**: The URI for the repository.
     *   For a Git repository, use the standard Git URL (e.g., `http://my-gitea.com/user/repo.git`).
-    *   For an OCI registry, the URI must have the `oci://` prefix (e.g., `oci://us-central1-docker.pkg.dev/my-project/my-repo`).
 
 ### Command Flags
 
@@ -61,78 +55,19 @@ porchctl repo register http://gitea.gitea:3000/nephio/porch-test.git \
   --repo-basic-password=secret
 ```
 
-## Method 2: Using `kubectl`
-
-Alternatively, you can register a repository by directly applying a `Repository` Custom Resource (CR) to your Kubernetes cluster. This method is ideal for declarative, GitOps-driven workflows.
-
-### Example
-
-This example accomplishes the same goal as the `porchctl` command above. It creates a `Secret` for authentication and a `Repository` CR that references it.
-
-```yaml
-# Apply the YAML directly to the cluster
-kubectl apply -f - <<EOF
-# A dedicated namespace for our Porch resources
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: porch-demo
----
-# A secret to store the Git repository credentials
-apiVersion: v1
-kind: Secret
-metadata:
-  name: gitea
-  namespace: porch-demo
-type: kubernetes.io/basic-auth
-data:
-  # The username and password must be base64-encoded
-  # username: nephio -> bmVwaGlv
-  # password: secret -> c2VjcmV0
-  username: bmVwaGlv
-  password: c2VjcmV0
----
-# The Repository Custom Resource definition
-apiVersion: config.porch.kpt.dev/v1alpha1
-kind: Repository
-metadata:
-  name: porch-test
-  namespace: porch-demo
-spec:
-  description: "Test repository for Porch packages"
-  # The type of content stored in the repository
-  content: Package
-  # Marks this as a deployment repository
-  deployment: true
-  # The repository type (git or oci)
-  type: git
-  git:
-    # The URL of the Git repository
-    repo: http://gitea.gitea:3000/nephio/porch-test.git
-    # The directory where packages are stored
-    directory: /
-    # The branch for published packages
-    branch: main
-    # Whether Porch should create the branch if it doesn't exist
-    createBranch: true
-    # Reference to the secret containing authentication credentials
-    secretRef:
-      name: gitea
-EOF
-```
 
 ### Test Environment Git: Gitea
 
-To create extra repositories via CLI, in this example we create "blueprints" and "deployment" repositories and we gister them with porch.
+To create extra repositories via CLI, in this example we create "blueprints" and "deployment" repositories and we register them with porch.
 
 ```bash
+# Define repository names to be created
+REPOS=(blueprints deployment)
+GIT_HOST="172.18.255.200:30000" # "localhost:3000" for docker-desktop users in WSL
 GIT_USER="nephio"
 GIT_PASS="secret"
-GIT_HOST="172.18.255.200:30000" # "localhost:3000" for docker-desktop users in WSL
 API_URL="http://$GIT_USER:$GIT_PASS@$GIT_HOST/api/v1/user/repos"
-
-# Define repository names
-REPOS=(blueprints deployment)
+NAMESPACE="porch-demo"
 GIT_ROOT=$(pwd)
 # Loop through each repo
 for REPO_NAME in "${REPOS[@]}"; do
@@ -165,26 +100,20 @@ for REPO_NAME in "${REPOS[@]}"; do
   rm -rf "$TMP_DIR"
 
 
-  kubectl apply -f - <<EOF
-apiVersion: config.porch.kpt.dev/v1alpha1
-kind: Repository
+  porchctl repo register http://gitea.gitea:3000/nephio/$REPO_NAME.git \
+    --name=$REPO_NAME \
+    --namespace=$NAMESPACE \
+    --description="$REPO_NAME repository for Porch packages" \
+    --branch=main \
+    --deployment=true \
+    --repo-basic-username=nephio \
+    --repo-basic-password=secret
 
-metadata:
-  name: $REPO_NAME
-  namespace: porch-demo
-
-spec:
-  description: $REPO_NAME packages repo
-  content: Package
-  deployment: true
-  type: git
-  git:
-    repo: http://gitea.gitea:3000/nephio/$REPO_NAME.git
-    directory: /
-    branch: main
-    createBranch: true
-    secretRef:
-      name: gitea
-EOF
 done
 ```
+
+# See Also
+
+In this example we demonstrate a simple HTTP Basic auth setup using a Kubernetes `Secret`. For production environments, prefer secret management solutions (external secret stores, sealed-secrets, or platform secrets) and avoid embedding plaintext credentials in scripts.
+
+*   [Authenticating to Remote Git Repositories](/docs/neo-porch/7_cli_api/porchctl.md)
