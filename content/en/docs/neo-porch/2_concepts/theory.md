@@ -44,10 +44,15 @@ Having established the basics of a very generic CaD architecture, the remainder 
 on **Porch** - the Package Orchestration service.
 
 Package Orchestration - "Porch" for short - is "[kpt][kpt]-as-a-service". It provides opinionated, Kubernetes-based interfaces
-to manage and orchestrate kpt packages, allowing a user to automate package management, content manipulation, version control,
-and lifecycle operations using standard Kubernetes controller techniques.
+to manage and orchestrate kpt configuration packages, allowing the use of standard Kubernetes controller techniques to automate:
+* package management, including [CRUD][CRUD] operations, content manipulation, and lifecycle operations
+* connection to package repositories, with automatic discovery of packages contained in them
+* [WYSIWYG](https://en.wikipedia.org/wiki/WYSIWYG) package authoring
+* evaluation of [KRM functions][krm functions] on package contents
+* package version control, with a proposal/approval workflow around publishing new package versions
+* package customization with guardrails
 
-To cement the role of Porch-as-CaD-implementation, it covers:
+To cement the role of Porch as part of the Nephio CaD implementation, it covers:
 
 * [Repository Management](#repository-management)
 * [Package Discovery](#package-discovery)
@@ -56,17 +61,16 @@ To cement the role of Porch-as-CaD-implementation, it covers:
 The following section expands more on each of these areas. The term *client* used in these sections can be either a person
 interacting with the API (e.g., through a web application or a command-line tool), or an automated agent or process.
 
-### Porch: Why?
+### Rationale behind Porch
 
 The benefits of Configuration as Data are already available in CLI form, using kpt and the KRM function ecosystem, which
 includes a kpt-hosted [function catalog](https://catalog.kpt.dev/). YAML files can be created and organised into packages
-using any editor with YAML support. However, a UI experience of [WYSIWYG](https://en.wikipedia.org/wiki/WYSIWYG) package
-management is not yet available which can support broader package lifecycle management and necessary development guardrails.
+using any editor with YAML support. However, a WYSIWYG user experience of package management is not yet available which can
+support broader package lifecycle management and necessary development guardrails.
 
-Porch enables development of such a UI experience. Part of the Nephio Configuration as Data implementation, it offers an
-API and CLI which provide lifecycle management of kpt packages, including package authoring with guardrails, a proposal/approval
-workflow, package deployment, and more.
-
+Porch enables development of such a user experience. It enables workflows similar to those supported by the kpt CLI, offering
+them as-a-service over an API and CLI which provide lifecycle management of kpt packages, package authoring with guardrails,
+a proposal/approval workflow, package deployment, and more.
 
 ### Repository Management
 
@@ -88,7 +92,7 @@ Porch's package discovery functionality enables the client to read package data:
   * Sort and filter based on package metadata (labels) or a selection of field values.
   * To improve performance and latency, package revisions are automatically discovered and cached in Porch upon repository
     registration.
-  * Porch's repository-synchronisation then polls the repository at a user-customisable interval to keep the cache up to date.
+  * Porch's repository-synchronisation then polls the repository at a user-customizable interval to keep the cache up to date.
 * Retrieve details of an individual package revision.
 * Discover upstream packages with new latest revisions to which their downstream packages can be upgraded.
 * Identify deployment-ready packages that are available to be deployed by the chosen deployment software.
@@ -113,7 +117,7 @@ Porch's package lifecycle management enables the client to orchestrate packages 
 * Update the package contents of a draft package revision by pushing an edited local copy to the draft (`porchctl rpkg push`).
   Example edits:
   * Add, modify, or delete resources in the package.
-  * Add, modiy, or delete the KRM functions in the pipeline in the package's `kptfile`.
+  * Add, modify, or delete the KRM functions in the pipeline in the package's `kptfile`.
     * e.g.: mutator functions to transform the KRM resources in the package contents; validator functions to enforce validation.
   * Add, modify, or delete a sub-package.
 
@@ -152,6 +156,7 @@ user, service account) can perform. For example, access can be segregated to res
 
 <!-- Reference links -->
 [Config Sync]: https://cloud.google.com/anthos-config-management/docs/config-sync-overview
+[CRUD]: https://en.wikipedia.org/wiki/Create,_read,_update_and_delete
 [kpt]: https://kpt.dev/
 [krm]: https://github.com/kubernetes/design-proposals-archive/blob/main/architecture/resource-management.md
 [krm functions]: https://github.com/kubernetes-sigs/kustomize/blob/master/cmd/config/docs/api-conventions/functions-spec.md
