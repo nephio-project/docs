@@ -23,22 +23,7 @@ The basic command for registering a repository is:
 porchctl repo register REPOSITORY [flags]
 ```
 
-*   **`REPOSITORY`**: The URI for the repository.
-    *   For a Git repository, use the standard Git URL (e.g., `http://my-gitea.com/user/repo.git`).
-
-### Command Flags
-
-The following flags can be used to configure the repository registration:
-
-| Flag                    | Description                                                                                                |
-| ----------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `--name`                | A unique name for the repository. If not specified, it defaults to the last segment of the repository URL.   |
-| `--branch`              | The branch where finalized packages are committed (Git-only). Defaults to `main`.                            |
-| `--directory`           | The directory within the repository where packages are located. Defaults to the repository root (`/`).       |
-| `--deployment`          | If set to `true`, marks the repository as a "deployment" repository, where ready-to-deploy packages reside. |
-| `--description`         | A human-readable description of the repository.                                                            |
-| `--repo-basic-username` | The username for basic authentication if the repository is private.                                        |
-| `--repo-basic-password` | The password for basic authentication if the repository is private.                                        |
+For more information about the `repo` command and available flags, see the porchctl CLI guide [Repository registration]({{% relref "/docs/neo-porch/7_cli_api/relevant_old_docs/porchctl-cli-guide.md#repository-registration" %}}).
 
 ### Example
 
@@ -55,62 +40,7 @@ porchctl repo register http://gitea.gitea:3000/nephio/porch-test.git \
   --repo-basic-password=secret
 ```
 
-
-### Test Environment Git: Gitea
-
-To create extra repositories via CLI, in this example we create "blueprints" and "deployment" repositories and we register them with porch.
-
-```bash
-# Define repository names to be created
-REPOS=(blueprints deployment)
-GIT_HOST="172.18.255.200:30000" # "localhost:3000" for docker-desktop users in WSL
-GIT_USER="nephio"
-GIT_PASS="secret"
-API_URL="http://$GIT_USER:$GIT_PASS@$GIT_HOST/api/v1/user/repos"
-NAMESPACE="porch-demo"
-GIT_ROOT=$(pwd)
-# Loop through each repo
-for REPO_NAME in "${REPOS[@]}"; do
-  echo "Creating repo: $REPO_NAME"
-
-  # Create the repository via API
-  curl -v -k -H "Content-Type: application/json" "$API_URL" --data "{\"name\":\"$REPO_NAME\"}"
-
-  # Create temp directory and clone repo
-  TMP_DIR=$(mktemp -d)
-  cd "$TMP_DIR"
-  git clone "http://$GIT_USER:$GIT_PASS@$GIT_HOST/$GIT_USER/$REPO_NAME.git"
-  cd "$REPO_NAME"
-
-  # Check if 'main' branch exists
-  if ! git rev-parse -q --verify refs/remotes/origin/main >/dev/null; then
-    echo "Add main branch to git repo: $REPO_NAME"
-    git switch -c main
-    touch README.md
-    git add README.md
-    git config user.name "$GIT_USER"
-    git commit -m "first commit"
-    git push -u origin main
-  else
-    echo "main branch already exists in git repo: $REPO_NAME"
-  fi
-
-  # Cleanup
-  cd "$GIT_ROOT"
-  rm -rf "$TMP_DIR"
-
-
-  porchctl repo register http://gitea.gitea:3000/nephio/$REPO_NAME.git \
-    --name=$REPO_NAME \
-    --namespace=$NAMESPACE \
-    --description="$REPO_NAME repository for Porch packages" \
-    --branch=main \
-    --deployment=true \
-    --repo-basic-username=nephio \
-    --repo-basic-password=secret
-
-done
-```
+To create additional repositories you can use the Gitea web UI or the Gitea API/CLI. The Porch project includes an example automated setup script that demonstrates creating repositories and initializing branches: [install-dev-gitea-setup.sh](https://github.com/nephio-project/porch/blob/main/scripts/install-dev-gitea-setup.sh#L82). Afterwards, register your new repositories directly with Porch using the `porchctl repo register` command shown above.
 
 # See Also
 
