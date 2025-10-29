@@ -2,11 +2,13 @@
 title: "Porch Fundamentals"
 type: docs
 weight: 2
+description: |
+  The fundamental topics necessary to understand Porch as "package orchestration" on a conceptual level.
 ---
 
 ## Core Concepts
 
-This document introduces some core concepts of Porch's package orchestration:
+Let us introduce some core concepts of Porch's package orchestration:
 
 * ***Package***: A package, in Porch, is specifically a [kpt package](https://kpt.dev/) - a collection of related YAML
 files including one or more **[KRM resources][krm]** and a [Kptfile](https://kpt.dev/book/02-concepts/#packages).
@@ -25,9 +27,9 @@ a repository. Each successive version is considered a *package revision*.
 
 * ***Lifecycle***: This refers to a package revision's current stage in the process of its orchestration by Porch. A package
 revision may be in one of several lifecycle stages:
-  * ***Draft*** - the package is being created or edited. The package contents can be modified but the package revision
-    is not ready to be used/deployed. Previously-published package revisions, reflecting earlier states of the package files,
-    can still be deployed.
+  * ***Draft*** - the package is being authored (created or edited). The package contents can be modified but the package
+    revision is not ready to be used/deployed. Previously-published package revisions, reflecting earlier states of the
+    package files, can still be deployed.
   * ***Proposed*** - intermediate state. The package's author has proposed that the package revision be published as a new
     version of the package with its files in the current state.
   * ***Published*** - the changes to the package have been approved and the package is ready to be used. Published packages
@@ -49,9 +51,9 @@ or validating the KRM resource files.
 
 In addition, some terms may be used with specific qualifiers, frequently enough to count them as sub-concepts:
 
-* ***Upstream package revision***: a package revision of an ***upstream package*** may be cloned, producing a new,
+* ***Upstream package revision***: a package revision of an ***upstream package*** may be *cloned*, producing a new,
 ***downstream package*** and associated package revision. The downstream package maintains a link (URL) to the upstream
-package revision from which it was cloned. ([more details](#package-relationships---upstream-and-downstream))
+package revision from which it was cloned. [More details](#package-relationships---upstream-and-downstream)
 
 * ***Deployment repository***: a repository can be designated as a deployment repository. Package revisions in *Published*
 state in a deployment repository are considered [deployment-ready]({{% relref "/docs/neo-porch/2_concepts/theory.md#deployment-mechanism" %}}).

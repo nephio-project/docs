@@ -2,6 +2,8 @@
 title: "Architectural Concepts"
 type: docs
 weight: 4
+description: |
+  The architectual concepts behind Porch; Porch microservices and their primary components.
 ---
 
 ### High-Level CaD Architecture
@@ -25,8 +27,8 @@ At the high level, the CaD functionality comprises:
 
 Porch consists of several microservices, designed to be hosted in a [Kubernetes](https://kubernetes.io/) cluster.
 
-The overall architecture is shown below, including additional components external to Porch (Kubernetes API server and deployment
-mechanism).
+The overall architecture is shown below, including additional components external to Porch (Kubernetes API server and
+deployment mechanism).
 
 ![Porch Architecture](/static/images/porch/Porch-Architecture.drawio.svg)
 
@@ -56,8 +58,8 @@ resources required for basic package authoring and lifeycle management, includin
   * `PackageRevision` - represents the *metadata* of the package revision stored in a repository.
   * `PackageRevisionResources` - represents the *file contents* of the package revision.
     {{% alert color="primary" %}}
-  Note that each package revision is represented by a *pair* of resources, each presenting a different view
-  (or [representation][differing representations])
+  Note that each package revision is represented by both a `PackageRevision` and a `PackageRevisionResources` - each presents
+  a different view (or [representation](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#differing-representations))
   of the same underlying package revision.
     {{% /alert %}}
 * A `Repository` [custom resource][crds], which supports repository registration.
@@ -81,12 +83,12 @@ The **Porch server** itself includes the following key components:
 
 #### Function Runner
 
-The **Function Runner** is a separate microservice responsible for evaluating [KRM functions][functions]. It exposes
-a [GRPC](https://grpc.io/) endpoint which enables evaluating a specified kpt function on a provided configuration package.
+The **Function Runner** is a separate microservice responsible for evaluating [KRM functions][functions]. It exposes a
+[GRPC](https://grpc.io/) endpoint which enables evaluating a specified kpt function on a provided configuration package.
 
-GRPC was chosen for the function runner service because the [benefits of an API server](#porch-server) that prompted its use
-for the Porch server do not apply in this case. The function runner is an internal microservice, an implementation detail not exposed
-to external callers, which makes GRPC perfectly suitable.
+GRPC was chosen for the function runner service because the [benefits of an API server](#porch-server) that prompted its
+use for the Porch server do not apply in this case. The function runner is an internal microservice, an implementation
+detail not exposed to external callers, which makes GRPC perfectly suitable.
 
 The function runner maintains a cache of functions to support low-latency function evaluation. It achieves this through
 two mechanisms available to it for evaluation of a function:
@@ -102,40 +104,17 @@ two mechanisms available to it for evaluation of a function:
   it can be re-used quickly as a cache hit. After a pre-configured period of disuse (default 30 minutes), the function
   runner terminates the function pod and its service, to recreate them from the start on the next invocation of that function.
 
-#### CaD Library
+#### CaD (kpt) Operations
 
-The [kpt](https://kpt.dev/) CLI already implements the fundamental package manipulation algorithms in order to provide its command line user experience:
-
-* [kpt pkg init](https://kpt.dev/reference/cli/pkg/init/) - create a bare-bones, valid, kpt package.
-* [kpt pkg get](https://kpt.dev/reference/cli/pkg/get/) - create a downstream package by cloning an upstream package;
-  set up the upstream reference of the downstream package.
-* [kpt pkg update](https://kpt.dev/reference/cli/pkg/update/) - update the downstream package with changes from new
-  version of upstream, 3-way merge.
-* [kpt fn eval](https://kpt.dev/reference/cli/fn/eval/) - evaluate a KRM function on a package.
-* [kpt fn render](https://kpt.dev/reference/cli/fn/render/) - render the package by executing the function pipeline of
-  the package and its nested packages.
-* [kpt fn source](https://kpt.dev/reference/cli/fn/source/) and [kpt fn sink](https://kpt.dev/reference/cli/fn/sink/) -
-  read package from local disk as a `ResourceList` and write package represented as `ResourcesList` into local disk.
+The [kpt](https://kpt.dev/) CLI already implements the fundamental package manipulation algorithms (explained
+[in kpt documentation](https://kpt.dev/book/03-packages/)) in order to provide its command line user experience.
 
 The same set of primitive operations form the foundational building blocks of the package orchestration service. Further,
 Porch combines these blocks into higher-level operations (for example, Porch renders packages automatically on changes;
 future versions will support bulk operations such as upgrade of multiple packages, etc.).
 
-A longer-term goal is to refactor kpt and Porch to extract the package manipulation operations into a reusable CaD Library, which will consumed by both the kpt CLI and Porch to allow them equal reuse of the same operations:
-* create a valid empty package (init).
-* clone a package and add upstream pointers (get).
-* perform 3-way merge (upgrade).
-* render - core package rendering algorithm using a pluggable function evaluator to support:
-  * function evaluation via Docker (as used by kpt CLI).
-  * function evaluation via an RPC to a service or appropriate function sandbox.
-  * high-performance evaluation of trusted, built-in, functions without sandbox.
-* heal configuration (restore comments after lossy transformation).
-
-This approach will allow leveraging the investment already made into the high-quality package manipulation operations, maintain functional parity between the kpt CLI and Porch, and allow dependencies to be abstracted away which differ between CLI and Porch (most notably the dependency on Docker for function evaluation and on the local file system for package rendering).
-
 
 <!-- Reference links -->
 [apiserver]: https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/apiserver-aggregation/
 [crds]: https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/
-[differing representations]: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#differing-representations
 [functions]: https://kpt.dev/book/02-concepts/#functions
