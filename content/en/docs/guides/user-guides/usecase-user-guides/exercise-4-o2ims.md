@@ -77,7 +77,7 @@ provisioningrequests.o2ims.provisioning.oran.org             2025-02-18T20:20:06
 
 ## Step 2: Create a new `ProvisioningRequest` CR that will create a Workload Cluster:
 ```bash
-cat << EOF | kubectl apply -f
+cat << EOF | kubectl apply -f -
 apiVersion: o2ims.provisioning.oran.org/v1alpha1
 kind: ProvisioningRequest
 metadata:
