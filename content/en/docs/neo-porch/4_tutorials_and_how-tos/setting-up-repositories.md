@@ -40,7 +40,21 @@ porchctl repo register http://gitea.gitea:3000/nephio/porch-test.git \
   --repo-basic-password=secret
 ```
 
-To create additional repositories you can use the Gitea web UI or the Gitea API/CLI. The Porch project includes an example automated setup script that demonstrates creating repositories and initializing branches: [install-dev-gitea-setup.sh](https://github.com/nephio-project/porch/blob/main/scripts/install-dev-gitea-setup.sh#L82). Afterwards, register your new repositories directly with Porch using the `porchctl repo register` command shown above.
+## Creating Additional Gitea Repositories
+
+You can create repositories **manually** using the Gitea web UI by following the displayed steps, or you can **automate** their creation using the Gitea API or CLI. The Porch project includes an example automated setup script that demonstrates how to create repositories and initialize branches:
+
+[install-dev-gitea-setup.sh](https://github.com/nephio-project/porch/blob/23da894a8ef61fea4a4843294f249c3e1817a104/scripts/install-dev-gitea-setup.sh#L82-L100)
+
+You can customize the `$git_repo_name` variable for the custom repository you wish to create.
+
+Below is a high-level explanation of the steps performed by that script when initializing a new Gitea repository for use with Porch.
+
+1. Create the repository via the Gitea REST API
+2. Clone the (now-empty) repository locally
+3. Ensure a main branch exists and push an initial commit
+4. Clean up temporary files
+5. Register the new repository with Porch using the command above
 
 # See Also
 
