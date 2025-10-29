@@ -116,4 +116,4 @@ done
 
 In this example we demonstrate a simple HTTP Basic auth setup using a Kubernetes `Secret`. For production environments, prefer secret management solutions (external secret stores, sealed-secrets, or platform secrets) and avoid embedding plaintext credentials in scripts.
 
-[Authenticating to Remote Git Repositories]({{% relref "/docs/neo-porch/7_cli_api/porchctl.md" %}})
+[Authenticating to Remote Git Repositories]({{% relref "/docs/neo-porch/6_configuration_and_deployments/configurations/private-registries.md" %}})
