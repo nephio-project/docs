@@ -7,4 +7,4 @@ description: Package Revision Resources
 
 ## Package Revision Resources
 
-low level explination of Package Revision Resources
+low level explanation of Package Revision Resources
