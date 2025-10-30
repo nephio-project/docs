@@ -3,8 +3,8 @@ title: "Theoretical Concepts"
 type: docs
 weight: 3
 description: |
-  The principles and theories behind Porch; Porch as "kpt as a service", implementing a "configuration as data" approach
-  to management of kpt packages.
+  The principles and theories behind Porch; Porch as a service which provides kpt workflows, implementing a "configuration as
+  data" approach to management of kpt packages.
 ---
 
 ## Configuration as Data (CaD)

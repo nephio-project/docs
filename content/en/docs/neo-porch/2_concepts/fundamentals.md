@@ -8,7 +8,7 @@ description: |
 
 ## Core Concepts
 
-Let us introduce some core concepts of Porch's package orchestration:
+This section introduces some core concepts of Porch's package orchestration:
 
 * ***Package***: A package, in Porch, is specifically a [kpt package](https://kpt.dev/) - a collection of related YAML
 files including one or more **[KRM resources][krm]** and a [Kptfile](https://kpt.dev/book/02-concepts/#packages).
