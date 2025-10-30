@@ -31,11 +31,12 @@ CRs.
 
 The commands for administering repositories are:
 
-| Command               | Description                    |
-| --------------------- | ------------------------------ |
-| `porchctl repo get`   | List registered repositories.  |
-| `porchctl repo reg`   | Register a package repository. |
-| `porchctl repo unreg` | Unregister a repository.       |
+| Command               | Description                        |
+| --------------------- | -----------------------------------|
+| `porchctl repo get`   | List registered repositories.      |
+| `porchctl repo reg`   | Register a package repository.     |
+| `porchctl repo unreg` | Unregister a repository.           |
+| `porchctl repo sync`  | schedules one-time synchronization.|     |
 
 The commands for administering package revisions are:
 
@@ -121,9 +122,9 @@ Use the `porchctl repo register` command to register your repository with Porch.
 
 ```bash
 # Unauthenticated Repositories
-porchctl repo register --namespace default https://github.com/platkrm/test-blueprints.git
+porchctl repo register --namespace default https://github.com/platkrm/test-blueprints.git --name=test-blueprints --sync-schedule="*/10 * * * *"
 porchctl repo register --namespace default https://github.com/nephio-project/catalog --name=oai --directory=workloads/oai
-porchctl repo register --namespace default https://github.com/nephio-project/catalog --name=infra --directory=infra
+porchctl repo register --namespace default https://github.com/nephio-project/catalog --name=infra --directory=infra --deployment=true --sync-schedule="*/10 * * * *"
 ```
 
 ```bash
@@ -135,7 +136,8 @@ $ porchctl repo register \
   --namespace default \
   --repo-basic-username=${GITHUB_USERNAME} \
   --repo-basic-password=${GITHUB_TOKEN} \
-  https://github.com/${GITHUB_USERNAME}/blueprints.git
+  https://github.com/${GITHUB_USERNAME}/blueprints.git \
+  --sync-schedule="*/10 * * * *"
 ```
 
 For more details on configuring authenticated repositories see [Authenticating to Remote Git Repositories]({{% relref "/docs/porch/user-guides/git-authentication-config.md" %}}).
@@ -151,6 +153,7 @@ The command line flags supported by `porchctl repo register` are:
   deployment repository are considered deployment-ready.
 * `--repo-basic-username` - Username for repository authentication using basic auth.
 * `--repo-basic-password` - Password for repository authentication using basic auth.
+* `--sync-schedule:`  - Cron schedule for reconciling packages in the repository. If not specified, porch will use --repo-sync-frequency.
 
 Additionally, common `kubectl` command line flags for controlling aspects of
 interaction with the Kubernetes apiserver, logging, and more (this is true for
@@ -160,10 +163,10 @@ Use the `porchctl repo get` command to query registered repositories:
 
 ```bash
 $ porchctl repo get -A
-NAMESPACE    NAME              TYPE   CONTENT   DEPLOYMENT   READY   ADDRESS
-default      oai               git    Package                True    https://github.com/nephio-project/catalog
-default      test-blueprints   git    Package                True    https://github.com/platkrm/test-blueprints.git
-porch-demo   porch-test        git    Package   true                 http://localhost:3000/nephio/porch-test.git
+NAMESPACE    NAME              TYPE   CONTENT   SYNC SCHEDULE   DEPLOYMENT   READY   ADDRESS
+default      oai               git    Package                                True    https://github.com/nephio-project/catalog
+default      test-blueprints   git    Package   */10 * * * *                 True    https://github.com/platkrm/test-blueprints.git
+default      infra             git    Package   */10 * * * *    true         True    https://github.com/nephio-project/catalog
 ```
 
 The `porchctl <group> get` commands support common `kubectl`
@@ -174,6 +177,15 @@ The command `porchctl repo unregister` can be used to unregister a repository:
 
 ```bash
 $ porchctl repo unregister test-blueprints --namespace default
+```
+
+The command `porchctl repo sync` can be used to schedule one-time synchronization of repositories:
+
+```bash
+$ porchctl repo sync test-blueprints --namespace default
+$ porchctl repo sync foo --namespace bar --run-once=10m
+$ porchctl repo sync foo1 foo2 --namespace bar --run-once=2025-09-16T14:00:00Z
+$ porchctl repo sync --all --namespace bar
 ```
 
 ## Package Discovery And Introspection
