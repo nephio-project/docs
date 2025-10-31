@@ -13,22 +13,22 @@ If you don't have an Git repository already created and initialized then follow 
 
 ## Creating Additional Gitea Repositories (Optional)
 
-You can create repositories:
+You can create repositories in two ways:
 
-- **manually** using the Gitea web UI by following the displayed steps
-- **automate** their creation using the Gitea API/CLI. The Porch project includes an example automated setup script that demonstrates how to create repositories and initialize branches:
+- **Manual — Gitea web UI:** Open your Gitea instance, sign in, and click the **New Repository** (or **+**) button in the top-right of the UI. Follow the form to set the repository name, description, visibility, and initialize the repository. This is the simplest option for one-off repositories.
+- **Automated — API / CLI / script:** Automate repository creation via the Gitea REST API, the `gitea` CLI, or an automation script. The Porch project includes an example automated setup script that demonstrates creating repositories and initializing branches:
 
 [install-dev-gitea-setup.sh](https://github.com/nephio-project/porch/blob/23da894a8ef61fea4a4843294f249c3e1817a104/scripts/install-dev-gitea-setup.sh#L82-L100)
 
 You can customize the `$git_repo_name` variable for the custom repository you wish to create.
 
-Below is a high-level explanation of the steps performed by that script when initializing a new Gitea repository for use with Porch.
+Below is a high-level explanation of the steps performed by the automated script when initializing a new Gitea repository for use with Porch. These numbered steps reflect the scripted (API/CLI) approach — you may copy the equivalent commands to run them manually if you prefer.
 
 1. Create the repository via the Gitea REST API
 2. Clone the (now-empty) repository locally
 3. Ensure a main branch exists and push an initial commit
 4. Clean up temporary files
-5. Register the new repository with Porch using the command below
+5. Register the new repository with Porch using the command shown in the `porchctl` section above
 
 ## Using `porchctl`
 
