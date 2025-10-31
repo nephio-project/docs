@@ -150,6 +150,62 @@ A fail-fast safety check. The upgrade only succeeds if the local package has **z
 
 *   **When to use:** To guarantee that you are only upgrading unmodified packages, preventing accidental overwrites of important local customizations.
 
+## Practical examples: upgrade strategies in action
+
+This section contains short, focused examples showing how each merge strategy behaves in realistic scenarios. Each example assumes you have a deployment package `porch-test.deployment.1` cloned from `porch-test.blueprint.1` and that `porch-test.blueprint.2` is available upstream.
+
+### Example A — `resource-merge` (default)
+
+Scenario: Upstream adds a new ConfigMap and local changes added an annotation to Kptfile. `resource-merge` should apply the upstream addition while preserving the local annotation.
+
+Commands (happy path):
+
+```bash
+# discover available upgrades
+porchctl rpkg upgrade --discover=upstream
+
+# perform upgrade using the default strategy
+porchctl rpkg upgrade porch-test.deployment.1 --namespace=porch-demo --revision=2 --workspace=2
+```
+
+Outcome: A new draft `porch-test.deployment.2` is created containing both the new `ConfigMap` and the local annotation.
+
+### Example B — `copy-merge`
+
+Scenario: Upstream changes a file that the local package also modified, but you want the upstream version to win (file-level overwrite).
+
+Commands:
+
+```bash
+porchctl rpkg upgrade porch-test.deployment.1 --namespace=porch-demo --revision=2 --workspace=2 --strategy=copy-merge
+```
+
+Outcome: Files present in both upstream and local are replaced with the upstream copy. Files only present locally are preserved.
+
+### Example C — `force-delete-replace`
+
+Scenario: The blueprint has diverged substantially; you want to reset the deployment package to exactly match upstream v2.
+
+Commands:
+
+```bash
+porchctl rpkg upgrade porch-test.deployment.1 --namespace=porch-demo --revision=2 --workspace=2 --strategy=force-delete-replace
+```
+
+Outcome: The new draft contains only the upstream contents; local customizations are discarded.
+
+### Example D — `fast-forward`
+
+Scenario: You want to ensure upgrades are only applied to unmodified, pristine clones.
+
+Commands:
+
+```bash
+porchctl rpkg upgrade porch-test.deployment.1 --namespace=porch-demo --revision=2 --workspace=2 --strategy=fast-forward
+```
+
+Outcome: The upgrade succeeds only if `porch-test.deployment.1` has no local modifications compared to the original clone. If local changes exist, the command fails and reports the modifications that prevented a fast-forward.
+
 ## Reference
 
 ### Command Flags
