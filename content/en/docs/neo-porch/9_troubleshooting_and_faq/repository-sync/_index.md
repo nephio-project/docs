@@ -22,7 +22,7 @@ kubectl describe repository <repo-name> -n <namespace>
 # Verify sync configuration
 kubectl get repository <repo-name> -n <namespace> -o yaml | grep -A5 sync
 
-# Check sync manager logs
+# Check repository synchronization logs
 kubectl logs -n porch-system deployment/porch-server | grep "repositorySync.*<repo-name>"
 
 # Check for sync errors
@@ -95,7 +95,7 @@ porchctl repo reg <repo> --sync-schedule "0 9 * * 1-5"   # 9 AM weekdays
 # Check Porch logs
 kubectl logs -n porch-system deployment/porch-server
 
-# Look for sync manager errors
+# Look for repository synchronization errors
 kubectl logs -n porch-system deployment/porch-server | grep "repositorySync.*<repo-name>"
 
 # Check repository accessibility
@@ -119,7 +119,7 @@ kubectl get repository <repo-name> -n <namespace> -o jsonpath='{.spec.sync.runOn
 # Verify timestamp is in future
 date -u  # Compare with runOnceAt value
 
-# Check sync manager logs
+# Check one-time synchronization logs
 kubectl logs -n porch-system deployment/porch-server | grep "one-time sync"
 ```
 
@@ -177,7 +177,7 @@ kubectl get repositories -w -n <namespace>
 kubectl get events -n <namespace> --field-selector involvedObject.kind=Repository
 ```
 
-### Check Sync Manager Status
+### Check Repository Synchronization Status
 ```bash
 # Repository sync logs
 kubectl logs -n porch-system deployment/porch-server | grep "repositorySync.*<repo-name>"
@@ -199,10 +199,10 @@ git branch -r | grep <branch-name>
 ## FAQ
 
 ### Q: How often do repositories sync by default?
-**A**: Without `spec.sync.schedule`, repositories use the system default frequency(10m). Check Porch server configuration (repo-sync-frequency) for exact default.
+**A**: Without a custom sync schedule, repositories use the system default frequency of 10 minutes. This default can be customized by setting the `repo-sync-frequency` parameter in the Porch server deployment.
 
 ### Q: Can I have both periodic and one-time sync?
-**A**: Yes, `schedule` and `runOnceAt` work independently. One-time sync executes regardless of periodic schedule.
+**A**: Yes, periodic scheduling and one-time sync work independently. One-time synchronization executes regardless of the periodic schedule.
 
 ### Q: Why is my cron expression not working?
 **A**: Porch uses standard 5-field cron format. Common mistakes:
@@ -211,7 +211,7 @@ git branch -r | grep <branch-name>
 - Invalid ranges or values
 
 ### Q: How do I stop repository syncing?
-**A**: Repository syncing cannot be completely stopped. Porch continuously monitors repositories for changes. You can only modify the sync frequency by updating the `spec.sync.schedule` field or remove custom schedules to use the default frequency.
+**A**: Repository synchronization cannot be completely stopped. Porch continuously monitors repositories for changes. You can only modify the sync frequency by updating the sync schedule configuration or remove custom schedules to use the default frequency.
 
 ### Q: Can I sync repositories across namespaces?
 **A**: Use `--all-namespaces` flag:
@@ -220,7 +220,11 @@ porchctl repo sync --all --all-namespaces
 ```
 
 ### Q: What happens if repository is deleted during sync?
-**A**: Sync manager gracefully handles repository deletion and stops sync operations for that repository.
+**A**: The synchronization system gracefully handles repository deletion and stops sync operations for that repository.
 
 ### Q: How do I check if authentication is working?
 **A**: Repository condition will show `Ready: True` if authentication succeeds. Check `kubectl describe repository` for detailed status.
+
+---
+
+*OCI repository support is experimental and may not have full feature parity with Git repositories.

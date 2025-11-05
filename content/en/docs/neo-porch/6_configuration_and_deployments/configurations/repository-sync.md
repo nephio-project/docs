@@ -7,7 +7,7 @@ description: Repository Sync Configuration
 
 # Repository Sync Configuration
 
-This document describes how to configure repository synchronization in Porch using the Repository Custom Resource (CR).
+This document describes how to configure repository synchronization for Porch Repositories.
 
 ## Sync Configuration Fields
 
@@ -27,7 +27,7 @@ spec:
 
 ### Schedule Field
 
-The `schedule` field accepts standard cron expressions for periodic synchronization:
+The `schedule` field accepts standard cron expressions(https://en.wikipedia.org/wiki/Cron) for periodic synchronization:
 
 - **Format**: Standard 5-field cron expression (`minute hour day month weekday`)
 - **Examples**:
@@ -115,7 +115,7 @@ status:
   - type: Ready
     status: "True"
     reason: Ready
-    message: "Repository Ready"
+    message: 'Repository Ready (next sync scheduled at: 2025-11-05T11:55:38Z)'
     lastTransitionTime: "2024-01-15T10:30:00Z"
 ```
 
@@ -157,7 +157,7 @@ porchctl repo reg https://github.com/example/repo.git \
   --namespace default \
   --sync-schedule "*/10 * * * *"
 
-# Register OCI repository with sync
+# Register OCI* repository with sync
 porchctl repo reg oci://gcr.io/example/packages \
   --name oci-repo \
   --sync-schedule "0 */2 * * *"
@@ -216,3 +216,7 @@ porchctl repo sync my-repo --run-once "2024-01-15T14:30:00Z"
 - Updates `spec.sync.runOnceAt` field in Repository CR
 - Independent of existing periodic sync schedule
 - Past timestamps automatically adjusted to minimum delay
+
+---
+
+*OCI repository support is experimental and may not have full feature parity with Git repositories.

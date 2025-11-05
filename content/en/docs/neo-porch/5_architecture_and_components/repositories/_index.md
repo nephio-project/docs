@@ -4,11 +4,11 @@ type: docs
 weight: 4
 ---
 
-# Repository Custom Resource (CR) Overview
+# Porch Repository Overview
 
 ## What is a Repository CR?
 
-The Repository Custom Resource (CR) is a Kubernetes resource that represents an external repository containing KRM (Kubernetes Resource Model) configuration packages. It serves as Porch's interface to Git repositories and OCI registries that store package content.
+The Porch Repository is a Kubernetes custom resource (https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) that represents an external repository containing KPT packages. It serves as Porch's interface to Git repositories and OCI* registries that store package content.
 
 ## Purpose and Use Cases
 
@@ -20,7 +20,7 @@ The Repository Custom Resource (CR) is a Kubernetes resource that represents an 
 
 ### Use Cases
 - **Blueprint Repositories**: Store reusable configuration templates and blueprints
-- **Deployment Repositories**: Contain deployment-ready configurations for specific environments
+- **Deployment Repositories**: Store deployment-ready configurations for specific environments
 - **Package Catalogs**: Centralized repositories of shareable configuration packages
 - **Multi-Environment Management**: Separate repositories for dev, staging, and production configurations
 
@@ -41,23 +41,10 @@ spec:
     directory: packages
 ```
 
-### OCI Repositories
-```yaml
-apiVersion: config.porch.kpt.dev/v1alpha1
-kind: Repository
-metadata:
-  name: oci-packages
-  namespace: default
-spec:
-  type: oci
-  oci:
-    registry: gcr.io/example/packages
-```
-
 ## Key Specifications
 
 ### Repository Spec Fields
-- **type**: Repository type (`git` or `oci`)
+- **type**: Repository type (`git` or `oci*`)
 - **description**: Human-readable description
 - **deployment**: Boolean flag indicating if repository contains deployment-ready packages
 - **sync**: Synchronization configuration (schedule, one-time sync)
@@ -148,7 +135,7 @@ status:
   - type: Ready
     status: "True"
     reason: Ready
-    message: "Repository Ready"
+    message: 'Repository Ready (next sync scheduled at: 2025-11-05T11:55:38Z)'
     lastTransitionTime: "2024-01-15T10:30:00Z"
 ```
 
@@ -191,3 +178,7 @@ status:
 - Avoid overly large repositories
 - Use directory filtering to limit package scope
 - Monitor sync performance and adjust schedules accordingly
+
+---
+
+*OCI repository support is experimental and may not have full feature parity with Git repositories.

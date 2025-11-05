@@ -8,7 +8,7 @@ weight: 4
 
 ## Overview
 
-The Porch sync system manages the synchronization of package repositories between external sources (Git/OCI) and the internal cache. It consists of two main cache implementations that both utilize a common sync manager to handle periodic and one-time synchronization operations. The architecture consists of two main flows: **SyncManager-driven synchronization** for package content and **Background process** for Repository CR lifecycle management.
+The Porch sync system manages the synchronization of package repositories between external sources (Git/OCI*) and the internal cache. It consists of two main cache implementations that both utilize a common sync manager to handle periodic and one-time synchronization operations. The architecture consists of two main flows: **SyncManager-driven synchronization** for package content and **Background process** for Repository CR lifecycle management.
 
 ### High-Level Architecture
 
@@ -16,48 +16,48 @@ The Porch sync system manages the synchronization of package repositories betwee
 
 ## Core Components
 
-### 1. SyncManager (`pkg/cache/sync/sync.go`)
+### 1. SyncManager
 
 **Purpose**: Central orchestrator for repository synchronization operations.
 
 **Components**:
-- `handler` (SyncHandler interface)
-- `coreClient` (Kubernetes client)
-- `nextSyncTime` (scheduling)
-- `lastSyncError` (error tracking)
+- **Handler**: Interface for cache-specific sync operations
+- **Core Client**: Kubernetes API client for cluster communication
+- **Next Sync Time**: Tracks when the next synchronization should occur
+- **Last Sync Error**: Records any errors from previous sync attempts
 
 **Goroutines**:
 
-1. **syncForever()** - Periodic sync with cron scheduling
-   - Syncs once at startup, then uses ticker to check countdown
-   - Supports both cron expressions (spec.sync.schedule) and default frequency fallback
+1. **Periodic Sync Goroutine** - Handles recurring synchronization
+   - Performs initial sync at startup, then uses timer to track intervals
+   - Supports both cron expressions from repository configuration and default frequency fallback
    - Recalculates next sync time when cron expression changes
-   - Updates repository conditions after each sync
+   - Updates repository status conditions after each sync
 
-2. **handleRunOnceAt()** - One-time sync with timer-based execution
-   - Monitors spec.sync.runOnceAt field for scheduled one-time syncs
-   - Creates/cancels timers when the runOnceAt time changes
+2. **One-time Sync Goroutine** - Manages scheduled single synchronizations
+   - Monitors repository configuration for one-time sync requests
+   - Creates and cancels timers when the scheduled time changes
    - Skips past timestamps and handles timer cleanup
-   - Independent of periodic sync schedule
+   - Operates independently of periodic sync schedule
 
 
 ### 2. Cache Handlers (Implements SyncHandler)
 
 Both cache implementations follow the same interface pattern:
 
-#### repositorySync (DB Cache)
-- Database-backed repository cache
-- External repository synchronization
-- Mutex-based thread safety
-- Sync statistics tracking
+#### Database Cache Handler
+- Persistent storage-backed repository cache
+- Synchronizes with external Git/OCI* repositories
+- Thread-safe operations using mutex locks
+- Tracks synchronization statistics and metrics
 
-#### cachedRepository (CR Cache)  
-- In-memory repository cache
-- External repository synchronization
-- Mutex-based thread safety
-- Metadata store integration
+#### Custom Resource Cache Handler
+- Memory-based repository cache for faster access
+- Synchronizes with external Git/OCI* repositories
+- Thread-safe operations using mutex locks
+- Integrates with Kubernetes metadata storage
 
-### 3. Background Process (`pkg/registry/porch/background.go`)
+### 3. Background Process
 
 **Purpose**: Manages Repository CR lifecycle and cache updates.
 
@@ -103,29 +103,60 @@ Kubernetes    CR Changes        Added/Modified/      Event Handler      OpenRepo
 ### Event-Driven Status Updates
 
 <pre>
-Background.go     ←-→   Watch Events   ←-→  Repository CRs
-     ↓                                            ↑
-Cache Repository Update                    Status Updates
-     ↓                                            ↑
-Repository SyncManagers     --→        Condition Management
+Repository CRs  →  Watch Events  →  Background Process
+        ↑                                        ↓
+        |                                 Cache Updates
+        |                                        ↓
+Status Updates  ←  Condition Mgmt  ←  Sync Operations
+        ↑                                        ↑
+        └─────────── Sync Triggers ──────────────┘
 </pre>
+
+**Flow**:
+- **Repository CRs** generate watch events when created/modified/deleted
+- **Background Process** receives events and triggers cache updates
+- **Cache Updates** initiate sync operations through SyncManagers
+- **Sync Operations** update conditions, which flow back to Repository CR status
 
 ## Sync Process Details
 
 ### Common Sync Process (Both Caches)
-1. Acquire mutex lock (if applicable)
-2. Set condition to "sync-in-progress"
-3. Fetch cached package revisions
-4. Fetch external package revisions
-5. Compare and identify differences
-6. Update cache (add/remove packages)
-7. Release mutex and update final condition
+
+<pre>
+Start Sync
+    ↓
+Acquire Mutex Lock
+    ↓
+Set "sync-in-progress"
+    ↓
+Fetch Cached Packages ←→ Fetch External Packages
+    ↓                           ↓
+    └─── Compare & Identify Differences ───┘
+                    ↓
+            Update Cache
+         (Add/Remove Packages)
+                    ↓
+            Release Mutex
+                    ↓
+          Update Final Condition
+                    ↓
+                Complete
+</pre>
+
+**Process Steps**:
+1. **Acquire mutex lock** (if applicable) - Ensures thread-safe access to cache
+2. **Set condition to "sync-in-progress"** - Updates repository status for visibility
+3. **Fetch cached package revisions** - Retrieves current cache state
+4. **Fetch external package revisions** - Queries external repository for latest packages
+5. **Compare and identify differences** - Determines what packages need to be added/removed
+6. **Update cache (add/remove packages)** - Applies changes to internal cache
+7. **Release mutex and update final condition** - Completes sync and updates status
 
 ### Background Event Handling
-1. **Added/Modified Events**: Call `cache.OpenRepository()`
-2. **Deleted Events**: Call `cache.CloseRepository()`
-3. **Bookmark Events**: Update resource version for watch continuity
-4. **Status Updates**: Update Repository CR conditions
+1. **Added/Modified Events**: Initialize or update repository cache when repositories are created or changed
+2. **Deleted Events**: Clean up and remove repository cache when repositories are deleted
+3. **Bookmark Events**: Update resource version tracking to maintain watch continuity
+4. **Status Updates**: Refresh Repository Custom Resource status conditions
 
 ## Condition Management
 
@@ -135,25 +166,24 @@ Repository SyncManagers     --→        Condition Management
 - **error**: Synchronization failed with error details
 
 ### Condition Functions
-- `SetRepositoryCondition()`: Updates repository status
-- `BuildRepositoryCondition()`: Creates condition objects
-- `ApplyRepositoryCondition()`: Applies conditions to CRs
+- **Set Repository Condition**: Updates the status of a repository with new condition information
+- **Build Repository Condition**: Creates condition objects with appropriate status, reason, and message
+- **Apply Repository Condition**: Writes condition updates to Repository Custom Resources in Kubernetes
 
 ## Interface Contracts
 
 ### SyncHandler Interface
-```go
-type SyncHandler interface {
-    SyncOnce(ctx context.Context) error
-    Key() repository.RepositoryKey
-    GetSpec() *configapi.Repository
-}
-```
 
-The SyncHandler interface is implemented by two cache types:
+The SyncHandler interface defines the contract for repository synchronization operations:
 
-- **Database Cache**: `repositorySync` struct in `pkg/cache/dbcache/dbreposync.go`
-- **Custom Resource Cache**: `cachedRepository` struct in `pkg/cache/crcache/repository.go`
+- **SyncOnce**: Performs a single synchronization operation with the external repository
+- **Key**: Returns the unique identifier for the repository being synchronized
+- **GetSpec**: Retrieves the repository configuration specification
+
+This interface is implemented by two cache types:
+
+- **Database Cache**: Persistent storage implementation for repository synchronization
+- **Custom Resource Cache**: In-memory implementation optimized for Kubernetes Custom Resource operations
 
 ## Configuration
 
@@ -174,9 +204,9 @@ spec:
 ## Error Handling & Resilience
 
 ### SyncManager Errors
-- Captured in `lastSyncError`
-- Reflected in repository conditions
-- Retried on next sync cycle
+- Captured in the last sync error field for tracking
+- Reflected in repository status conditions for visibility
+- Automatically retried on the next scheduled sync cycle
 
 ### Background Process Errors
 - Watch connection failures → Exponential backoff reconnection
@@ -191,9 +221,9 @@ spec:
 ## Concurrency & Safety
 
 ### Thread Safety
-- **DB Cache**: `sync.Mutex` for sync operations
-- **CR Cache**: `sync.Mutex` for cache access
-- **Background**: Watch event serialization
+- **Database Cache**: Uses mutex locks to ensure safe concurrent access during sync operations
+- **Custom Resource Cache**: Uses mutex locks to protect cache data during concurrent access
+- **Background Process**: Serializes watch events to prevent race conditions
 
 ### Context Management
 - Cancellable contexts for graceful shutdown
@@ -216,3 +246,7 @@ spec:
 - Success/failure rates
 - Condition transition events
 - Background event processing rates
+
+---
+
+*OCI repository support is experimental and may not have full feature parity with Git repositories.
