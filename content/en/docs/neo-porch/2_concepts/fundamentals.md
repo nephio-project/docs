@@ -56,7 +56,7 @@ In addition, some terms may be used with specific qualifiers, frequently enough 
 
 * ***Upstream package revision***: a package revision of an ***upstream package*** may be *cloned*, producing a new,
 ***downstream package*** and associated package revision. The downstream package maintains a link (URL) to the upstream
-package revision from which it was cloned. [More details](#package-relationships---upstream-and-downstream)
+package revision from which it was cloned. [More details]({{% relref "/docs/neo-porch/5_architecture_and_components/relevant_old_docs/extracted_from_old_porch_concepts.md#package-relationships---upstream-and-downstream" %}})
 
 * ***Deployment repository***: a repository can be designated as a deployment repository. Package revisions in *Published*
 state in a deployment repository are considered [deployment-ready]({{% relref "/docs/neo-porch/2_concepts/theory.md#deployment-mechanism" %}}).
