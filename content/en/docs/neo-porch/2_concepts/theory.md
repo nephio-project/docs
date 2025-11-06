@@ -3,8 +3,8 @@ title: "Theoretical Concepts"
 type: docs
 weight: 3
 description: |
-  The principles and theories behind Porch; Porch as a service which provides kpt workflows, implementing a "configuration as
-  data" approach to management of kpt packages.
+  The principles and theories behind Porch; Porch as a service which provides kpt workflows, implementing a "configuration
+  as data" approach to management of kpt packages.
 ---
 
 ## Configuration as Data (CaD)
@@ -43,12 +43,15 @@ A system based on CaD should observe the following key principles:
 Having established the basics of a very generic CaD architecture, the remainder of the document will focus
 on **Porch** - the Package Orchestration service.
 
-Package Orchestration - "Porch" for short - is "[kpt][kpt]-as-a-service". It provides opinionated, Kubernetes-based interfaces
-to manage and orchestrate kpt configuration packages, allowing the use of standard Kubernetes controller techniques to automate:
-* package management, including [CRUD][CRUD] operations, content manipulation, and lifecycle operations
+Package Orchestration - "Porch" for short - is "[kpt](https://kpt.dev/)-as-a-service". It provides opinionated,
+Kubernetes-based interfaces to manage and orchestrate kpt configuration packages, allowing the use of standard Kubernetes
+controller techniques to automate:
+* package management, including [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) operations, content
+  manipulation, and lifecycle operations
 * connection to package repositories, with automatic discovery of packages contained in them
 * [WYSIWYG](https://en.wikipedia.org/wiki/WYSIWYG) package authoring
-* evaluation of [KRM functions][krm functions] on package contents
+* evaluation of [KRM functions](https://github.com/kubernetes-sigs/kustomize/blob/master/cmd/config/docs/api-conventions/functions-spec.md)
+  on package contents
 * package version control, with a proposal/approval workflow around publishing new package versions
 * package customization with guardrails
 
@@ -64,9 +67,9 @@ interacting with the API (e.g., through a web application or a command-line tool
 ### Rationale behind Porch
 
 The benefits of Configuration as Data are already available in CLI form, using kpt and the KRM function ecosystem, which
-includes a kpt-hosted [function catalog](https://catalog.kpt.dev/). YAML files can be created and organised into packages
-using any editor with YAML support. However, a WYSIWYG user experience of package management is not yet available which can
-support broader package lifecycle management and necessary development guardrails.
+includes a kpt-hosted [function catalog](https://catalog.kpt.dev/function-catalog/). YAML files can be created and
+organised into packages using any editor with YAML support. However, a WYSIWYG user experience of package management is
+not yet available which can support broader package lifecycle management and necessary development guardrails.
 
 Porch enables development of such a user experience. It enables workflows similar to those supported by the kpt CLI, offering
 them as-a-service over an API and CLI which provide lifecycle management of kpt packages, package authoring with guardrails,
@@ -92,7 +95,8 @@ Porch's package discovery functionality enables the client to read package data:
   * Sort and filter based on package metadata (labels) or a selection of field values.
   * To improve performance and latency, package revisions are automatically discovered and cached in Porch upon repository
     registration.
-  * Porch's repository-synchronisation then polls the repository at a user-customizable interval to keep the cache up to date.
+  * Porch's repository-synchronisation then polls the repository at a user-customizable interval to keep the cache up to
+    date.
 * Retrieve details of an individual package revision.
 * Discover upstream packages with new latest revisions to which their downstream packages can be upgraded.
 * Identify deployment-ready packages that are available to be deployed by the chosen deployment software.
@@ -118,7 +122,8 @@ Porch's package lifecycle management enables the client to orchestrate packages 
   Example edits:
   * Add, modify, or delete resources in the package.
   * Add, modify, or delete the KRM functions in the pipeline in the package's `kptfile`.
-    * e.g.: mutator functions to transform the KRM resources in the package contents; validator functions to enforce validation.
+    * e.g.: mutator functions to transform the [KRM resources](https://github.com/kubernetes/design-proposals-archive/blob/main/architecture/resource-management.md)
+      in the package contents; validator functions to enforce validation.
   * Add, modify, or delete a sub-package.
 
 * Guard against pushing invalid package changes:
@@ -138,7 +143,7 @@ An important goal of Porch is to support building of task-specific UIs. In order
 of operations, package authors must ensure their packages allow the innermost authoring loop (depicted below) to execute
 quickly in the following areas:
 * Low-latency execution of mutations and transformations on the package contents.
-* Low-latency rendering of the package's [KRM function][krm functions] pipeline.
+* Low-latency rendering of the package's KRM function pipeline.
 
 ![Inner Loop](/static/images/porch/Porch-Inner-Loop.svg)
 
@@ -153,11 +158,3 @@ user, service account) can perform. For example, access can be segregated to res
 * clone packages from a specific upstream repository.
 * perform bulk operations (using package variants, scripts, user-developed client, etc.) such as rolling out upgrade of
   downstream packages, including rollouts across multiple downstream repositories.
-
-<!-- Reference links -->
-[Config Sync]: https://cloud.google.com/anthos-config-management/docs/config-sync-overview
-[CRUD]: https://en.wikipedia.org/wiki/Create,_read,_update_and_delete
-[kpt]: https://kpt.dev/
-[krm]: https://github.com/kubernetes/design-proposals-archive/blob/main/architecture/resource-management.md
-[krm functions]: https://github.com/kubernetes-sigs/kustomize/blob/master/cmd/config/docs/api-conventions/functions-spec.md
-[Porch]: https://github.com/nephio-project/porch

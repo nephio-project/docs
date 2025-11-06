@@ -1,8 +1,14 @@
 ---
-title: "Architectural Concepts"
+title: "[### Extracted from Old Porch Concepts Document ###]"
 type: docs
 weight: 4
 ---
+
+### Package Relationships - Upstream and Downstream
+
+kpt packages support the concept of ***upstream*** and ***downstream*** relationships. When a package is cloned from another,
+the new package (the downstream package) maintains an upstream link to the specific package revision from which it was cloned.
+If a new revision of the upstream package is published, the upstream link can be used to upgrade the downstream package.
 
 ### High-Level CaD Architecture
 
@@ -39,7 +45,7 @@ The primary Porch components are:
 
 #### Porch Server
 
-The Porch server is implemented as a [Kubernetes extension API server][apiserver] which works with the Kubernetes API
+The Porch server is implemented as a [Kubernetes extension API server](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/apiserver-aggregation/) which works with the Kubernetes API
 aggregation layer. The benefits of this approach are:
 
 * seamless integration with the well-defined Kubernetes API style
@@ -57,10 +63,10 @@ resources required for basic package authoring and lifeycle management, includin
   * `PackageRevisionResources` - represents the *file contents* of the package revision.
     {{% alert color="primary" %}}
   Note that each package revision is represented by a *pair* of resources, each presenting a different view
-  (or [representation][differing representations])
+  (or [representation](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#differing-representations))
   of the same underlying package revision.
     {{% /alert %}}
-* A `Repository` [custom resource][crds], which supports repository registration.
+* A `Repository` [custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/), which supports repository registration.
 
 The **Porch server** itself includes the following key components:
 
@@ -102,6 +108,26 @@ two mechanisms available to it for evaluation of a function:
   it can be re-used quickly as a cache hit. After a pre-configured period of disuse (default 30 minutes), the function
   runner terminates the function pod and its service, to recreate them from the start on the next invocation of that function.
 
+#### Repository registration
+
+At repository registration, customers must be able to specify details needed to store packages in an appropriate location
+in the repository. For example, registration of a Git repository must accept a URL or directory path to locate the repository,
+a branch and a directory to narrow down the location of packages, and any credentials needed to read from and/or write to
+the repository
+
+A successful repository registration results in the creation of a Repository custom resource, a *Repository object*. This
+is not to be confused with, for example, the remote Git repository - the Porch repository only stores the details Porch
+uses to interact with the Git repository.
+
+{{% alert title="Note" color="primary" %}}
+
+A user role with sufficient permissions can register a repository at practically any URL, including repositories containing
+packages authored by third parties. Since the contents of the registered repositories become discoverable, a customer
+registering a third-part repository must be aware of the implications and trust the contents thereof.
+
+{{% /alert %}}
+
+
 #### CaD Library
 
 The [kpt](https://kpt.dev/) CLI already implements the fundamental package manipulation algorithms in order to provide its command line user experience:
@@ -135,7 +161,4 @@ This approach will allow leveraging the investment already made into the high-qu
 
 
 <!-- Reference links -->
-[apiserver]: https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/apiserver-aggregation/
-[crds]: https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/
-[differing representations]: https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#differing-representations
 [functions]: https://kpt.dev/book/02-concepts/#functions

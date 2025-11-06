@@ -41,8 +41,8 @@ The primary Porch components are:
 
 #### Porch Server
 
-The Porch server is implemented as a [Kubernetes extension API server][apiserver] which works with the Kubernetes API
-aggregation layer. The benefits of this approach are:
+The Porch server is implemented as a [Kubernetes extension API server](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/apiserver-aggregation/)
+which works with the Kubernetes API aggregation layer. The benefits of this approach are:
 
 * seamless integration with the well-defined Kubernetes API style
 * availability of generated clients for use in code
@@ -51,10 +51,10 @@ aggregation layer. The benefits of this approach are:
 * avoids requirement to open another network port to access a separate endpoint running inside k8s cluster
   * this is a distinct advantage over GRPC which was initially considered as an alternative approach
 
-The Porch server serves the primary Kubernetes
-resources required for basic package authoring and lifeycle management, including:
+The Porch server serves the primary Kubernetes required for basic package authoring and lifeycle management, including:
 
-* A `Repository` [custom resource][crds], which supports repository registration.
+* A `Repository` [custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/),
+  which supports repository registration.
 * For each package revision (see [Package Revisions]({{% relref "/docs/neo-porch/2_concepts/fundamentals.md#package-revisions" %}})):
   * `PackageRevision` - represents the *metadata* of the package revision stored in a repository.
   * `PackageRevisionResources` - represents the *file contents* of the package revision.
@@ -67,12 +67,12 @@ of the same underlying package revision.
 
 The **Porch server** itself includes the following key components:
 
-* The *aggregated API server*, which implements the integration into the main Kubernetes API server and 
-  serves API requests for the `PackageRevision` and `PackageRevisionResources` resources.
+* The *aggregated API server*, which implements the integration into the main Kubernetes API server and serves API requests
+  for the `PackageRevision` and `PackageRevisionResources` resources.
 * Package orchestration *engine*, which implements the package lifecycle operations and package mutation workflows.
-* *CaD Library*, which implements specific package manipulation algorithms such as package rendering (evaluation of
-  package's function *pipeline*), initialization of a new package, etc. The CaD Library is a fork of `kpt` to allow Porch
-  to reuse the `kpt` algorithms and fulfil its overarching use case to be "kpt as a service".
+* *CaD Library*, which implements specific package manipulation algorithms such as package rendering (evaluation of package's
+  function *pipeline*), initialization of a new package, etc. The CaD Library is a fork of `kpt` to allow Porch to reuse
+  the `kpt` algorithms and fulfil its overarching use case to be "kpt as a service".
 * *Package cache*, which enables:
   * local caching to allow package lifecycle and content manipulation operations to be executed within the Porch server
     with minimal latency.
@@ -101,14 +101,14 @@ two mechanisms available to it for evaluation of a function:
   image for the Executable Evaluation approach. The `function-runner` pod spawns a separate *function pod*, based on the
   image of the invoked function, along with a corresponding front-end service. Once the pod and service are ready, the
   exposed GRPC endpoint is invoked to evaluate the function with the package contents as input. Once a function pod completes
-  evaluation and returns the result to the `function-runner` pod, the function pod is kept in existence temporarily so
-  it can be re-used quickly as a cache hit. After a pre-configured period of disuse (default 30 minutes), the function
-  runner terminates the function pod and its service, to recreate them from the start on the next invocation of that function.
+  evaluation and returns the result to the `function-runner` pod, the function pod is kept in existence temporarily so it
+  can be re-used quickly as a cache hit. After a pre-configured period of disuse (default 30 minutes), the function runner
+  terminates the function pod and its service, to recreate them from the start on the next invocation of that function.
 
 #### CaD (kpt) Operations
 
-The [kpt](https://kpt.dev/) CLI already implements the fundamental package manipulation algorithms (explained
-[in kpt documentation](https://kpt.dev/book/03-packages/)) in order to provide its command line user experience.
+The [kpt CLI](https://kpt.dev/installation/kpt-cli) already implements the fundamental package manipulation algorithms
+(explained [in kpt documentation](https://kpt.dev/book/03-packages/)) in order to provide its command line user experience.
 
 The same set of primitive operations form the foundational building blocks of the package orchestration service. Further,
 Porch combines these blocks into higher-level operations (for example, Porch renders packages automatically on changes;
@@ -116,6 +116,4 @@ future versions will support bulk operations such as upgrade of multiple package
 
 
 <!-- Reference links -->
-[apiserver]: https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/apiserver-aggregation/
-[crds]: https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/
 [functions]: https://kpt.dev/book/02-concepts/#functions
