@@ -14,7 +14,6 @@ This guide provides instructions for setting up a local development environment 
 - [Prerequisites](#prerequisites)
 - [Local Environment Setup](#local-environment-setup)
 - [Verifying the Setup](#verifying-the-setup)
-- [Package Lifecycle Workflow](#package-lifecycle-workflow)
 
 ## Prerequisites
 
