@@ -63,7 +63,7 @@ Sections marked as <span style="color: red;">[Section in Red]</span> means they 
 * Supported environments / prerequisites summary.
 
 <details>
-<summary>More Detail on concepts requiring explination</summary>
+<summary>More Detail on concepts requiring explanation</summary>
 
 * Stuff here
 
@@ -95,7 +95,7 @@ Sections marked as <span style="color: red;">[Section in Red]</span> means they 
 * Mapping of Porch functions vs Nephio components
 
 <details>
-<summary>More Detail on concepts requiring explination</summary>
+<summary>More Detail on concepts requiring explanation</summary>
 
 * <span style="color: green;">[PACKAGE-ORCHESTRATION]</span> <https://docs.nephio.org/docs/porch/package-orchestration/>  ← A LOT OF GREAT REUSABLE CONTENT HERE FOR THIS SECTION. THIS SECTION CAN BE OUR HIGH LEVEL INTRODUCTION OF THE ENTIRE PROJECT BEFORE DIVING DEEPER INTO THE DETAILS IN THE LATER SECTIONS BELOW.
 * <span style="color: green;">[MODIFYING-PORCH-PACKAGES]</span> MUTATORS VS VALIDATORS
@@ -158,7 +158,7 @@ Sections marked as <span style="color: red;">[Section in Red]</span> means they 
 * CI/CD testing integration
 
 <details>
-<summary>More Detail on concepts requiring explination</summary>
+<summary>More Detail on concepts requiring explanation</summary>
 
 * <span style="color: green;">[EXPECT EXAMPLE SCRIPT HAVING DEPLOYED PORCH FOR THEM AS A FIRST TIME USER]</span>
 * <span style="color: green;">[STEP 1: SETUP PORCH REPOSITORIES RESOURCE]</span> LIKELY FIRST STEP FROM A DEPLOYMENT OF PORCH TO USE IT
@@ -196,7 +196,7 @@ Sections marked as <span style="color: red;">[Section in Red]</span> means they 
 * Package lifecycle description and flow diagram
 
 <details>
-<summary>More Detail on concepts requiring explination</summary>
+<summary>More Detail on concepts requiring explanation</summary>
 
 * [PORCH-SERVER] PORCH SERVER SPECIFIC MAIN CHUNK FOR DETAIL HERE
   * [AGGREGATED API SERVER] HOW CERTAIN PORCH RESOURCES ARE SERVED AND HANDLED AKA NOT THROUGH CRDS BUT AGGR API
@@ -255,7 +255,7 @@ Sections marked as <span style="color: red;">[Section in Red]</span> means they 
 * Upgrade instructions / versioning policy
 
 <details>
-<summary>More Detail on concepts requiring explination</summary>
+<summary>More Detail on concepts requiring explanation</summary>
 
 * [DEPLOYMENTS] HOW DO DEPLOY/INSTALL PORCH ON DIFFERENT ENV’S
   * [OFFICIAL DEPLOYMENT] <https://github.com/nephio-project/catalog/tree/main/nephio/core/porch>
@@ -294,7 +294,7 @@ Sections marked as <span style="color: red;">[Section in Red]</span> means they 
 * YAML schema definitions and validation docs
 
 <details>
-<summary>More Detail on concepts requiring explination</summary>
+<summary>More Detail on concepts requiring explanation</summary>
 
 * [CLI] largely already completed here <https://docs.nephio.org/docs/porch/user-guides/porchctl-cli-guide/>
 
@@ -322,7 +322,7 @@ Sections marked as <span style="color: red;">[Section in Red]</span> means they 
 * Monitoring/logging guides
 
 <details>
-<summary>More Detail on concepts requiring explination</summary>
+<summary>More Detail on concepts requiring explanation</summary>
 
 </details>
 
@@ -348,7 +348,7 @@ Sections marked as <span style="color: red;">[Section in Red]</span> means they 
 * CLI diagnostic/debugging guide
 
 <details>
-<summary>More Detail on concepts requiring explination</summary>
+<summary>More Detail on concepts requiring explanation</summary>
 
 </details>
 
@@ -374,7 +374,7 @@ Sections marked as <span style="color: red;">[Section in Red]</span> means they 
 * RBAC requirements and guidance
 
 <details>
-<summary>More Detail on concepts requiring explination</summary>
+<summary>More Detail on concepts requiring explanation</summary>
 
   [TLS IN CONTAINER REG'S]
   [GIT REG AUTH IN PORCH REPOSITORIES RESOUCES]
@@ -400,7 +400,7 @@ Sections marked as <span style="color: red;">[Section in Red]</span> means they 
 * Term definitions + cross-links
 
 <details>
-<summary>More Detail on concepts requiring explination</summary>
+<summary>More Detail on concepts requiring explanation</summary>
 
 </details>
 
@@ -425,7 +425,7 @@ Sections marked as <span style="color: red;">[Section in Red]</span> means they 
 * Maintainer guide / governance model
 
 <details>
-<summary>More Detail on concepts requiring explination</summary>
+<summary>More Detail on concepts requiring explanation</summary>
 
 * [SIGNING CLA GUIDE/OTHER REQUIREMENTS ETC]
 * [DEPLOY DEV ENV GUIDE]
@@ -461,7 +461,7 @@ Sections marked as <span style="color: red;">[Section in Red]</span> means they 
 * Release tagging structure
 
 <details>
-<summary>More Detail on concepts requiring explination</summary>
+<summary>More Detail on concepts requiring explanation</summary>
 
 * [CAN POINT IN SOME WAY TO THE RELEASE IN PORCH HERE] <https://github.com/nephio-project/porch/releases>
 
