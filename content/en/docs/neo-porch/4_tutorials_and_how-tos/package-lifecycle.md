@@ -18,4 +18,4 @@ The typical lifecycle of a package is as follows:
     *   **Rejected:** If changes are required, the package is rejected. The user must pull the package, make the necessary modifications, and re-propose it for another review.
 4.  **Published:** After approval, the package is published. Published packages are considered stable and are available for deployment and consumption by other systems or clusters. They typically become the "latest" version of a package.
 
-![Flowchart](/flowchart.drawio.svg)
+![Flowchart](/images/flowchart.drawio.svg)

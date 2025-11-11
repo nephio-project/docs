@@ -1,13 +1,13 @@
 ---
-title: "Upgrading Packages"
+title: "Upgrading Package Revisions"
 type: docs
 weight: 6
 description: "A guide to upgrade package revisions using Porch and porchctl"
 ---
 
-# Upgrading Porch Packages
-
 The package upgrade feature in Porch is a powerful mechanism for keeping deployed packages (downstream) up-to-date with their source blueprints (upstream). This guide walks through the entire workflow, from creating packages to performing an upgrade, with a special focus on the different upgrade scenarios and merge strategies.
+
+For detailed command reference, see the [porchctl CLI guide]({{% relref "/docs/neo-porch/7_cli_api/relevant_old_docs/porchctl-cli-guide/#package-upgrade" %}}).
 
 ## Table of Contents
 
@@ -30,24 +30,28 @@ The upgrade process combines changes from the **Upstream** blueprint with your *
 
 This example demonstrates the complete process of creating, customizing, and upgrading a package.
 
-### Step 1: Create a Base Blueprint Package (v1)
+### Step 1: Create a Base Blueprint Package (revision 1)
 
-First, we create the initial version of our blueprint. This will be the "upstream" source for our deployment package.
+Create the initial revision of our blueprint. This will be the "upstream" source for our deployment package.
 
 ```bash
 # Initialize a new package draft named 'blueprint' in the 'porch-test' repository
 porchctl rpkg init blueprint --namespace=porch-demo --repository=porch-test --workspace=1
+```
 
+```bash
 # Propose the draft for review
 porchctl rpkg propose porch-test.blueprint.1 --namespace=porch-demo
+```
 
-# Approve and publish the package, making it available as v1
+```bash
+# Approve and publish the package, making it available as revision 1
 porchctl rpkg approve porch-test.blueprint.1 --namespace=porch-demo
 ```
 
-### Step 2: Create a New Blueprint Version (v2)
+### Step 2: Create a New Blueprint Package Revision (revision 2)
 
-Next, we'll create a new version of the blueprint to simulate an update. In this case, we add a new ConfigMap.
+Create a new revision of the blueprint to simulate an update. In this case, we add a new ConfigMap.
 
 ```bash
 # Create a new draft (v2) by copying v1
@@ -68,9 +72,9 @@ porchctl rpkg approve porch-test.blueprint.2 --namespace=porch-demo
 ```
 At this point, we have two published blueprint versions: `v1` (the original) and `v2` (with the new ConfigMap).
 
-### Step 3: Clone Blueprint v1 into a Deployment Package
+### Step 3: Clone Blueprint revision 1 into a Deployment Package
 
-Now, a user clones the blueprint to create a "downstream" deployment package.
+Clone the blueprint to create a "downstream" deployment package.
 
 ```bash
 # Clone blueprint v1 to create a new deployment package
@@ -113,6 +117,17 @@ After approval, `porch-test.deployment.2` is the new, published deployment packa
 2.  The local `kpt.dev/annotation=true` customization applied in Step 3.
 
 ## Understanding Merge Strategies
+
+![Package Upgrade Flow](/images/upgrade.drawio.svg)
+
+**Schema Explanation:**
+The diagram above illustrates the package upgrade workflow in Porch:
+
+1. **CLONE**: A deployment package (Deployment.v1) is initially cloned from a blueprint (Blueprint.v1) in the blueprints repository
+2. **COPY**: The blueprint evolves to a new version (Blueprint.v2) with additional features or fixes
+3. **UPGRADE**: The deployment package is upgraded to incorporate changes from the new blueprint version, creating Deployment.v2
+
+The dashed line shows the relationship between the new blueprint version and the upgrade process, indicating that the upgrade "uses the new blueprint" as its source for changes.
 
 The outcome of an upgrade depends on the changes made in the upstream blueprint and the local deployment package, combined with the chosen merge strategy. You can specify a strategy using the `--strategy` flag (e.g., `porchctl rpkg upgrade ... --strategy=copy-merge`).
 
@@ -158,12 +173,14 @@ This section contains short, focused examples showing how each merge strategy be
 
 Scenario: Upstream adds a new ConfigMap and local changes added an annotation to Kptfile. `resource-merge` should apply the upstream addition while preserving the local annotation.
 
-Commands (happy path):
+Commands:
 
 ```bash
 # discover available upgrades
 porchctl rpkg upgrade --discover=upstream
+```
 
+```bash
 # perform upgrade using the default strategy
 porchctl rpkg upgrade porch-test.deployment.1 --namespace=porch-demo --revision=2 --workspace=2
 ```
