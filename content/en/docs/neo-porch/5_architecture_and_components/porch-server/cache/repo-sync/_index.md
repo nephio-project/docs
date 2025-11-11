@@ -2,9 +2,8 @@
 title: "Repository Sync"
 type: docs
 weight: 4
+description: "Porch repository synchronization architecture with SyncManager, cache handlers, and background processes for Git/OCI repositories."
 ---
-
-# Porch Repository Sync Architecture
 
 ## Overview
 
@@ -13,6 +12,10 @@ The Porch sync system manages the synchronization of package repositories betwee
 ### High-Level Architecture
 
 ![Repository Sync Architecture](/static/images/porch/repository-sync.svg)
+
+{{< rawhtml >}}
+<a href="/images/porch/repository-sync-interactive.html" target="_blank">📊 Interactive Architecture Diagram</a>
+{{< /rawhtml >}}
 
 ## Core Components
 
@@ -65,7 +68,7 @@ Both cache implementations follow the same interface pattern:
 - **K8S API** - Source of Repository CRs
 - **Repository CRs** - Custom resources defining repositories
 - **Watch Events** - Real-time CR change notifications
-- **Periodic Ticker** - RepoCrSyncFrequency-based updates
+- **Periodic Ticker** - RepoSyncFrequency-based updates
 
 ## Architecture Flows
 
@@ -162,8 +165,10 @@ Fetch Cached Packages ←→ Fetch External Packages
 
 ### Condition States
 - **sync-in-progress**: Repository synchronization actively running
+  - ⚠️ **Important**: Do not perform API operations (create, update, delete packages) on the repository while this condition is active. Wait for the sync to complete and the repository to return to "ready" state to avoid conflicts and data inconsistencies.
 - **ready**: Repository synchronized and ready for use
 - **error**: Synchronization failed with error details
+  - ⚠️ **Important**: Do not perform API operations on the repository while in error state. Check the error message in the condition details, debug and resolve the underlying issue (e.g., network connectivity, authentication, repository access), then wait for the repository to return to "ready" state before running API calls. See the [troubleshooting guide]({{% relref "/docs/neo-porch/9_troubleshooting_and_faq/repository-sync.md" %}}) for common sync issues and solutions.
 
 ### Condition Functions
 - **Set Repository Condition**: Updates the status of a repository with new condition information
@@ -187,18 +192,10 @@ This interface is implemented by two cache types:
 
 ## Configuration
 
-### Repository Sync Specification
-```yaml
-apiVersion: config.porch.kpt.dev/v1alpha1
-kind: Repository
-spec:
-  sync:
-    schedule: "0 */30 * * *"  # Cron expression
-    runOnceAt: "2024-01-15T10:00:00Z"  # One-time sync
-```
+For repository sync configuration options, see the [Repository Sync Configuration]({{% relref "/docs/neo-porch/6_configuration_and_deployments/configurations/repository-sync.md" %}}) documentation.
 
 ### Background Process Configuration
-- **RepoCrSyncFrequency**: Periodic sync interval
+- **RepoSyncFrequency**: Periodic sync interval
 - **Watch Reconnection**: Exponential backoff (1s - 30s)
 
 ## Error Handling & Resilience
@@ -249,4 +246,6 @@ spec:
 
 ---
 
-*OCI repository support is experimental and may not have full feature parity with Git repositories.
+{{% alert title="Note" color="primary" %}}
+OCI repository support is experimental and may not have full feature parity with Git repositories.
+{{% /alert %}}

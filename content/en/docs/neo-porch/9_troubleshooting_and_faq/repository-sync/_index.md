@@ -227,4 +227,6 @@ porchctl repo sync --all --all-namespaces
 
 ---
 
-*OCI repository support is experimental and may not have full feature parity with Git repositories.
+{{% alert title="Note" color="primary" %}}
+OCI repository support is experimental and may not have full feature parity with Git repositories.
+{{% /alert %}}

@@ -15,7 +15,7 @@ menu: {main: {weight: 10}}
 </a>
 
 <p class="lead mt-5">Cloud Native Network Automation</p>
-{{< blocks/link-down color="info" >}}
+{{< blocks/link-down color="primary" >}}
 
 {{< /blocks/cover >}}
 

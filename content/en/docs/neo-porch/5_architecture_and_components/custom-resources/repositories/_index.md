@@ -8,7 +8,7 @@ weight: 4
 
 ## What is a Repository CR?
 
-The Porch Repository is a Kubernetes custom resource (https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) that represents an external repository containing KPT packages. It serves as Porch's interface to Git repositories and OCI* registries that store package content.
+The Porch Repository is a Kubernetes [custom resource](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) that represents an external repository containing KPT packages. It serves as Porch's interface to Git repositories and OCI* registries that store package content.
 
 ## Purpose and Use Cases
 
@@ -44,11 +44,10 @@ spec:
 ## Key Specifications
 
 ### Repository Spec Fields
-- **type**: Repository type (`git` or `oci*`)
-- **description**: Human-readable description
-- **deployment**: Boolean flag indicating if repository contains deployment-ready packages
-- **sync**: Synchronization configuration (schedule, one-time sync)
-- **git/oci**: Type-specific configuration (URL, branch, directory, authentication)
+
+For detailed Repository CR specification fields, see the [API documentation](https://doc.crds.dev/github.com/nephio-project/porch/config.porch.kpt.dev/Repository/v1alpha1@v1.5.3#spec):
+
+{{< iframe src="https://doc.crds.dev/github.com/nephio-project/porch/config.porch.kpt.dev/Repository/v1alpha1@v1.5.3#spec" sub="https://doc.crds.dev/github.com/nephio-project/porch/config.porch.kpt.dev/Repository/v1alpha1@v1.5.3#spec">}}
 
 ### Deployment vs Non-Deployment Repositories
 - **Non-Deployment**: Contains blueprint packages for reuse and customization
@@ -79,32 +78,12 @@ repository-root/
 ## Authentication
 
 ### Basic Authentication
-```yaml
-spec:
-  git:
-    secretRef:
-      name: git-auth-secret
-```
 
-```bash
-kubectl create secret generic git-auth-secret \
-  --type=kubernetes.io/basic-auth \
-  --from-literal=username=<username> \
-  --from-literal=password=<token>
-```
+For basic authentication configuration and repository registration examples, see the [Basic Auth]({{% relref "/docs/neo-porch/7_cli_api/relevant_old_docs/porchctl-cli-guide.md#basic-auth" %}}) documentation.
 
 ### Workload Identity
-```yaml
-spec:
-  git:
-    secretRef:
-      name: workload-identity-secret
-```
 
-```bash
-kubectl create secret generic workload-identity-secret \
-  --type=kpt.dev/workload-identity-auth
-```
+For workload identity configuration and repository registration examples, see the [Workload Identity]({{% relref "/docs/neo-porch/7_cli_api/relevant_old_docs/porchctl-cli-guide.md#workload-identity" %}}) documentation.
 
 ## Repository Lifecycle
 
@@ -116,9 +95,12 @@ kubectl create secret generic workload-identity-secret \
 
 ### Synchronization
 1. Periodic sync based on `spec.sync.schedule` or default frequency
-2. Package discovery and cache updates
-3. Status condition updates
-4. Package change detection and notification
+2. One-time sync using `spec.sync.runOnceAt` for immediate synchronization
+3. Package discovery and cache updates
+4. Status condition updates
+5. Package change detection and notification
+
+**Note**: One-time syncs should only be used when discrepancies are found between the external repository and Porch cache. Under normal conditions, rely on periodic syncs for regular synchronization.
 
 ### Package Operations
 - **Discovery**: Automatic detection of new packages
@@ -181,4 +163,6 @@ status:
 
 ---
 
-*OCI repository support is experimental and may not have full feature parity with Git repositories.
+{{% alert title="Note" color="primary" %}}
+OCI repository support is experimental and may not have full feature parity with Git repositories.
+{{% /alert %}}

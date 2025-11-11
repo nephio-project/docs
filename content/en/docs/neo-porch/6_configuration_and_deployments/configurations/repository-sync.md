@@ -2,16 +2,12 @@
 title: "Repository Sync Configuration"
 type: docs
 weight: 1
-description: Repository Sync Configuration
+description: Configure repository synchronization for Porch Repositories
 ---
-
-# Repository Sync Configuration
-
-This document describes how to configure repository synchronization for Porch Repositories.
 
 ## Sync Configuration Fields
 
-The `spec.sync` field in a Repository CR controls how Porch synchronizes with the external repository:
+The `spec.sync` field in a Repository CR controls synchronization behavior with the external repository. Repositories without sync configuration use the system default for periodic synchronization (10 minutes, overridden by RepoSyncFrequency parameter in porch-server deployment).
 
 ```yaml
 apiVersion: config.porch.kpt.dev/v1alpha1
@@ -27,7 +23,7 @@ spec:
 
 ### Schedule Field
 
-The `schedule` field accepts standard cron expressions(https://en.wikipedia.org/wiki/Cron) for periodic synchronization:
+The `schedule` field accepts standard [cron expressions](https://en.wikipedia.org/wiki/Cron) for periodic synchronization:
 
 - **Format**: Standard 5-field cron expression (`minute hour day month weekday`)
 - **Examples**:
@@ -41,11 +37,18 @@ The `schedule` field accepts standard cron expressions(https://en.wikipedia.org/
 The `runOnceAt` field schedules a one-time sync at a specific timestamp:
 
 - **Format**: RFC3339 timestamp (`metav1.Time`)
+- **Examples**:
+  - `"2025-01-15T14:30:00Z"` - Sync at 2:30 PM UTC on January 15, 2025
+  - `"2025-12-25T00:00:00Z"` - Sync at midnight UTC on Christmas Day
+  - `"2025-06-01T09:15:30Z"` - Sync at 9:15:30 AM UTC on June 1st
+  - `"2025-12-10T15:45:00-05:00"` - Sync at 3:45 PM EST (UTC-5) on March 10th
 - **Behavior**: 
   - Executes once at the specified time
   - Ignored if timestamp is in the past
   - Independent of periodic schedule
   - Can be updated to reschedule
+
+**Note**: One-time syncs should only be used when discrepancies are found between the external repository and Porch cache. Under normal conditions, rely on periodic syncs for regular synchronization.
 
 ## Complete Examples
 
@@ -89,9 +92,11 @@ spec:
 ## Sync Behavior
 
 ### Default Behavior
-- Without `spec.sync`: Uses system default sync frequency()
+- Without `spec.sync`: Uses system default sync frequency
 - Empty `schedule`: Falls back to default frequency
 - Invalid cron expression: Falls back to default frequency
+
+**Default frequency**: 10 minutes (overridden by RepoSyncFrequency parameter in porch-server deployment)
 
 ### Sync Manager Operation
 Each repository runs two independent goroutines:
@@ -124,99 +129,34 @@ status:
 ### Common Issues
 
 1. **Invalid Cron Expression**:
-   - Check logs for parsing errors
+   - Check porch-server logs for parsing errors
    - Verify 5-field format
    - Repository falls back to default frequency
 
 2. **Past RunOnceAt Time**:
    - One-time sync is skipped
    - Update to future timestamp
-   - Check repository logs
+   - Check porch-server logs for details
 
 3. **Sync Failures**:
    - Check repository conditions
    - Verify authentication credentials
    - Review repository accessibility
+   - Check porch-server logs for detailed error information
 
 ### Monitoring
 - Repository conditions show sync status
-- Logs contain detailed sync information
-- Next sync time is logged for periodic syncs
+- Porch-server logs contain detailed sync information, next sync times, and any errors
 
 
 ## CLI Commands
 
-### Repository Registration with Sync
-
-Use `porchctl repo reg` to register repositories with sync configuration:
-
-```bash
-# Register Git repository with periodic sync
-porchctl repo reg https://github.com/example/repo.git \
-  --name my-repo \
-  --namespace default \
-  --sync-schedule "*/10 * * * *"
-
-# Register OCI* repository with sync
-porchctl repo reg oci://gcr.io/example/packages \
-  --name oci-repo \
-  --sync-schedule "0 */2 * * *"
-
-# Register with authentication
-porchctl repo reg https://github.com/private/repo.git \
-  --name private-repo \
-  --repo-basic-username myuser \
-  --repo-basic-password mytoken \
-  --sync-schedule "0 9 * * 1-5"
-```
-
-#### Registration Flags
-- `--sync-schedule`: Cron expression for periodic sync
-- `--name`: Repository name (defaults to last URL segment)
-- `--description`: Repository description
-- `--branch`: Git branch (default: main)
-- `--directory`: Package directory within repo
-- `--deployment`: Mark as deployment repository
-- `--repo-basic-username/--repo-basic-password`: Basic auth
-- `--repo-workload-identity`: Use workload identity
-
-### Repository Sync Commands
-
-Use `porchctl repo sync` to trigger immediate syncs:
-
-```bash
-# Sync specific repository (schedules 1-minute delayed sync)
-porchctl repo sync my-repo --namespace default
-
-# Sync multiple repositories
-porchctl repo sync repo1 repo2 repo3 --namespace default
-
-# Sync all repositories in namespace
-porchctl repo sync --all --namespace default
-
-# Sync all repositories across all namespaces
-porchctl repo sync --all --all-namespaces
-
-# Schedule sync with custom delay
-porchctl repo sync my-repo --run-once 5m
-porchctl repo sync my-repo --run-once 2h30m
-
-# Schedule sync at specific time
-porchctl repo sync my-repo --run-once "2024-01-15T14:30:00Z"
-```
-
-#### Sync Command Flags
-- `--all`: Sync all repositories in namespace
-- `--all-namespaces`: Include all namespaces
-- `--run-once`: Schedule one-time sync (duration or RFC3339 timestamp)
-- `--namespace`: Target namespace
-
-#### Sync Behavior
-- Minimum delay: 1 minute from command execution
-- Updates `spec.sync.runOnceAt` field in Repository CR
-- Independent of existing periodic sync schedule
-- Past timestamps automatically adjusted to minimum delay
+For repository registration and sync commands, see the [porchctl CLI guide]({{% relref "/docs/neo-porch/7_cli_api/relevant_old_docs/porchctl-cli-guide.md" %}}):
+- [Repository Registration]({{% relref "/docs/neo-porch/7_cli_api/relevant_old_docs/porchctl-cli-guide.md#repository-registration" %}}) - Register repositories with sync configuration
+- [Repository Sync Command]({{% relref "/docs/neo-porch/7_cli_api/relevant_old_docs/porchctl-cli-guide.md#repository-sync-command" %}}) - Trigger immediate repository synchronization
 
 ---
 
-*OCI repository support is experimental and may not have full feature parity with Git repositories.
+{{% alert title="Note" color="primary" %}}
+OCI repository support is experimental and may not have full feature parity with Git repositories.
+{{% /alert %}}

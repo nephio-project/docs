@@ -127,8 +127,11 @@ porchctl repo register --namespace default https://github.com/nephio-project/cat
 porchctl repo register --namespace default https://github.com/nephio-project/catalog --name=infra --directory=infra --deployment=true --sync-schedule="*/10 * * * *"
 ```
 
-```bash
 # Authenticated Repositories
+
+## Basic Auth
+
+```bash
 GITHUB_USERNAME=<your github username>
 GITHUB_TOKEN=<GitHub Personal Access Token>
 
@@ -138,6 +141,16 @@ $ porchctl repo register \
   --repo-basic-password=${GITHUB_TOKEN} \
   https://github.com/${GITHUB_USERNAME}/blueprints.git \
   --sync-schedule="*/10 * * * *"
+```
+
+## Workload Identity
+
+```bash
+$ porchctl repo register \
+  --namespace default \
+  --repo-workload-identity \
+  https://github.com/example/private-blueprints.git \
+  --sync-schedule="0 */2 * * *"
 ```
 
 For more details on configuring authenticated repositories see [Authenticating to Remote Git Repositories]({{% relref "/docs/porch/user-guides/git-authentication-config.md" %}}).
@@ -153,7 +166,8 @@ The command line flags supported by `porchctl repo register` are:
   deployment repository are considered deployment-ready.
 * `--repo-basic-username` - Username for repository authentication using basic auth.
 * `--repo-basic-password` - Password for repository authentication using basic auth.
-* `--sync-schedule:`  - Cron schedule for reconciling packages in the repository. If not specified, porch will use --repo-sync-frequency.
+* `--repo-workload-identity` - Use workload identity for authentication.
+* `--sync-schedule` - Cron expression for periodic repository synchronization (e.g., "*/10 * * * *" for every 10 minutes).
 
 Additionally, common `kubectl` command line flags for controlling aspects of
 interaction with the Kubernetes apiserver, logging, and more (this is true for
@@ -178,15 +192,42 @@ The command `porchctl repo unregister` can be used to unregister a repository:
 ```bash
 $ porchctl repo unregister test-blueprints --namespace default
 ```
+## Repository Sync Command
 
 The command `porchctl repo sync` can be used to schedule one-time synchronization of repositories:
 
 ```bash
+# Sync specific repository (schedules 1-minute delayed sync)
 $ porchctl repo sync test-blueprints --namespace default
-$ porchctl repo sync foo --namespace bar --run-once=10m
-$ porchctl repo sync foo1 foo2 --namespace bar --run-once=2025-09-16T14:00:00Z
-$ porchctl repo sync --all --namespace bar
+
+# Sync multiple repositories
+$ porchctl repo sync repo1 repo2 repo3 --namespace default
+
+# Sync all repositories in namespace
+$ porchctl repo sync --all --namespace default
+
+# Sync all repositories across all namespaces
+$ porchctl repo sync --all --all-namespaces
+
+# Schedule sync with custom delay
+$ porchctl repo sync my-repo --run-once 5m
+$ porchctl repo sync my-repo --run-once 2h30m
+
+# Schedule sync at specific time
+$ porchctl repo sync my-repo --run-once "2024-01-15T14:30:00Z"
 ```
+
+### Sync Command Flags
+- `--all`: Sync all repositories in namespace
+- `--all-namespaces`: Include all namespaces
+- `--run-once`: Schedule one-time sync (duration or RFC3339 timestamp)
+- `--namespace`: Target namespace
+
+### Sync Behavior
+- Minimum delay: 1 minute from command execution
+- Updates `spec.sync.runOnceAt` field in Repository CR
+- Independent of existing periodic sync schedule
+- Past timestamps automatically adjusted to minimum delay
 
 ## Package Discovery And Introspection
 
