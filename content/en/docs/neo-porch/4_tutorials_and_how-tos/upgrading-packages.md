@@ -118,7 +118,7 @@ After approval, `porch-test.deployment.2` is the new, published deployment packa
 
 ## Understanding Merge Strategies
 
-![Package Upgrade Flow](/images/upgrade.drawio.svg)
+![Package Upgrade Flow](/static/images/porch/upgrade.drawio.svg)
 
 **Schema Explanation:**
 The diagram above illustrates the package upgrade workflow in Porch:
