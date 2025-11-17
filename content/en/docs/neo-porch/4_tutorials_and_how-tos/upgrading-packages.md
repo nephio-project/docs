@@ -199,22 +199,22 @@ The outcome of an upgrade depends on the changes made in the upstream blueprint 
 #### **resource-merge (Default)**
 This is a structural 3-way merge designed for Kubernetes resources. It understands the structure of YAML files and attempts to intelligently merge changes from the upstream and local packages.
 
-*   **When to use:** This is the **recommended default strategy** for managing Kubernetes configuration. Use it when you want to preserve local customizations while incorporating upstream updates.
+*   **Use case:** This is the **recommended default strategy** for managing Kubernetes configuration. Use it when you want to preserve local customizations while incorporating upstream updates.
 
 #### **copy-merge**
 A file-level replacement strategy. For any file present in both local and upstream, the upstream version is used, overwriting local changes. Files that only exist locally are kept.
 
-*   **When to use:** When you trust the upstream source more than local changes or when Porch cannot parse the file contents (e.g., non-KRM files).
+*   **Use case:** When you trust the upstream source more than local changes or when Porch cannot parse the file contents (e.g., non-KRM files).
 
 #### **force-delete-replace**
 The most aggressive strategy. It completely discards the local package's contents and replaces them with the contents of the new upstream package.
 
-*   **When to use:** To completely reset a deployment package to a new blueprint version, abandoning all previous customizations.
+*   **Use case:** To completely reset a deployment package to a new blueprint version, abandoning all previous customizations.
 
 #### **fast-forward**
 A fail-fast safety check. The upgrade only succeeds if the local package has **zero modifications** compared to the original blueprint version it was cloned from.
 
-*   **When to use:** To guarantee that you are only upgrading unmodified packages, preventing accidental overwrites of important local customizations.
+*   **Use case:** To guarantee that you are only upgrading unmodified packages, preventing accidental overwrites of important local customizations.
 
 ## Practical examples: upgrade strategies in action
 
