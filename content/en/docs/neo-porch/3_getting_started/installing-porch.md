@@ -28,6 +28,7 @@ The porchctl CLI can be obtained through the following means:
 
 ### Download the latest porchctl binary
 
+<!-- linkchecker-disable -->
 {{< tabpane lang="bash" >}}
 {{< tab header="Linux AMD64" >}}
 curl -LO "https://github.com/nephio-project/porch/releases/download/v{{% latestTag %}}/porchctl_{{% latestTag %}}_linux_amd64.tar.gz"
@@ -42,6 +43,7 @@ curl -LO "https://github.com/nephio-project/porch/releases/download/v{{% latestT
 curl -LO "https://github.com/nephio-project/porch/releases/download/v{{% latestTag %}}/porchctl_{{% latestTag %}}_darwin_arm64.tar.gz"
 {{< /tab >}}
 {{< /tabpane >}}
+<!-- linkchecker-enable -->
 
 {{% alert color="primary" title="Note:" %}}
 To download a specific version of porch and its porchctl binary you can do so by replacing the version number and machine type its for in the curl link above.
