@@ -9,12 +9,10 @@ The package upgrade feature in Porch is a powerful mechanism for keeping deploye
 
 For detailed command reference, see the [porchctl CLI guide]({{% relref "/docs/neo-porch/7_cli_api/relevant_old_docs/porchctl-cli-guide/#package-upgrade" %}}).
 
-## Table of Contents
+## Prerequisetes
 
-- [Key Concepts](#key-concepts)
-- [End-to-End Upgrade Example](#end-to-end-upgrade-example)
-- [Understanding Merge Strategies](#understanding-merge-strategies)
-- [Reference](#reference)
+*   Porch installed in your Kubernetes cluster, along with its CLI `porchctl`. [Setup Guide]({{% relref "/docs/neo-porch/3_getting_started/installing-porch.md" %}})
+*   A Git Repository registered with Porch, in this example it's assumed that the Porch-Repository's name is "porch-test". [Repository Guide]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/setting-up-repositories" %}})
 
 ## Key Concepts
 
@@ -133,34 +131,87 @@ The outcome of an upgrade depends on the changes made in the upstream blueprint 
 
 ### Merge Strategy Comparison
 
-| Scenario                               | `resource-merge` (Default)                               | `copy-merge`                                             | `force-delete-replace`                                   | `fast-forward`                                               |
-| -------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | ------------------------------------------------------------ |
-| **File added in Upstream**             | File is added to Local.                                  | File is added to Local.                                  | File is added to Local.                                  | Fails (Local must be unchanged).                             |
-| **File modified in Upstream only**     | Changes are applied to Local.                            | Upstream file overwrites Local file.                     | Upstream file overwrites Local file.                     | Fails (Local must be unchanged).                             |
-| **File modified in Local only**        | Local changes are kept.                                  | Local changes are kept.                                  | Local changes are discarded; Upstream version is used.   | Fails (Local must be unchanged).                             |
-| **File modified in both** (no conflict) | Both changes are merged.                                 | Upstream file overwrites Local file.                     | Upstream file overwrites Local file.                     | Fails (Local must be unchanged).                             |
-| **File modified in both** (conflict)   | Merge autoconflic resolution: always choose the new upstream version.                 | Upstream file overwrites Local file.                     | Upstream file overwrites Local file.                     | Fails (Local must be unchanged).                             |
-| **File deleted in Upstream**           | File is deleted from Local.                              | File is deleted from Local.                              | File is deleted from Local.                              | Fails (Local must be unchanged).                             |
-| **Local package is unmodified**        | Upgrade succeeds.                                        | Upgrade succeeds.                                        | Upgrade succeeds.                                        | Upgrade succeeds.                                            |
+<table class="table">
+  <thead class="table-light">
+    <tr>
+      <th scope="col" class="table-light">Scenario</th>
+      <th scope="col">resource-merge (Default)</th>
+      <th scope="col">copy-merge</th>
+      <th scope="col">force-delete-replace</th>
+      <th scope="col">fast-forward</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row" class="table-light"><strong>File added in Upstream</strong></th>
+      <td>File is added to Local.</td>
+      <td>File is added to Local.</td>
+      <td>File is added to Local.</td>
+      <td>Fails (Local must be unchanged).</td>
+    </tr>
+    <tr>
+      <th scope="row" class="table-light"><strong>File modified in Upstream only</strong></th>
+      <td>Changes are applied to Local.</td>
+      <td>Upstream file overwrites Local file.</td>
+      <td>Upstream file overwrites Local file.</td>
+      <td>Fails (Local must be unchanged).</td>
+    </tr>
+    <tr>
+      <th scope="row" class="table-light"><strong>File modified in Local only</strong></th>
+      <td>Local changes are kept.</td>
+      <td>Local changes are kept.</td>
+      <td>Local changes are discarded; Upstream version is used.</td>
+      <td>Fails (Local must be unchanged).</td>
+    </tr>
+    <tr>
+      <th scope="row" class="table-light"><strong>File modified in both (no conflict)</strong></th>
+      <td>Both changes are merged.</td>
+      <td>Upstream file overwrites Local file.</td>
+      <td>Upstream file overwrites Local file.</td>
+      <td>Fails (Local must be unchanged).</td>
+    </tr>
+    <tr>
+      <th scope="row" class="table-light"><strong>File modified in both (conflict)</strong></th>
+      <td>Merge autoconflic resolution: always choose the new upstream version.</td>
+      <td>Upstream file overwrites Local file.</td>
+      <td>Upstream file overwrites Local file.</td>
+      <td>Fails (Local must be unchanged).</td>
+    </tr>
+    <tr>
+      <th scope="row" class="table-light"><strong>File deleted in Upstream</strong></th>
+      <td>File is deleted from Local.</td>
+      <td>File is deleted from Local.</td>
+      <td>File is deleted from Local.</td>
+      <td>Fails (Local must be unchanged).</td>
+    </tr>
+    <tr>
+      <th scope="row" class="table-light"><strong>Local package is unmodified</strong></th>
+      <td>Upgrade succeeds.</td>
+      <td>Upgrade succeeds.</td>
+      <td>Upgrade succeeds.</td>
+      <td>Upgrade succeeds.</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Detailed Strategy Explanations
 
-#### `resource-merge` (Default)
+#### **resource-merge (Default)**
 This is a structural 3-way merge designed for Kubernetes resources. It understands the structure of YAML files and attempts to intelligently merge changes from the upstream and local packages.
 
 *   **When to use:** This is the **recommended default strategy** for managing Kubernetes configuration. Use it when you want to preserve local customizations while incorporating upstream updates.
 
-#### `copy-merge`
+#### **copy-merge**
 A file-level replacement strategy. For any file present in both local and upstream, the upstream version is used, overwriting local changes. Files that only exist locally are kept.
 
 *   **When to use:** When you trust the upstream source more than local changes or when Porch cannot parse the file contents (e.g., non-KRM files).
 
-#### `force-delete-replace`
+#### **force-delete-replace**
 The most aggressive strategy. It completely discards the local package's contents and replaces them with the contents of the new upstream package.
 
 *   **When to use:** To completely reset a deployment package to a new blueprint version, abandoning all previous customizations.
 
-#### `fast-forward`
+#### **fast-forward**
 A fail-fast safety check. The upgrade only succeeds if the local package has **zero modifications** compared to the original blueprint version it was cloned from.
 
 *   **When to use:** To guarantee that you are only upgrading unmodified packages, preventing accidental overwrites of important local customizations.
@@ -169,7 +220,7 @@ A fail-fast safety check. The upgrade only succeeds if the local package has **z
 
 This section contains short, focused examples showing how each merge strategy behaves in realistic scenarios. Each example assumes you have a deployment package `porch-test.deployment.1` cloned from `porch-test.blueprint.1` and that `porch-test.blueprint.2` is available upstream.
 
-### Example A — `resource-merge` (default)
+### Example A — resource-merge (default)
 
 Scenario: Upstream adds a new ConfigMap and local changes added an annotation to Kptfile. `resource-merge` should apply the upstream addition while preserving the local annotation.
 
@@ -187,7 +238,7 @@ porchctl rpkg upgrade porch-test.deployment.1 --namespace=porch-demo --revision=
 
 Outcome: A new draft `porch-test.deployment.2` is created containing both the new `ConfigMap` and the local annotation.
 
-### Example B — `copy-merge`
+### Example B — copy-merge
 
 Scenario: Upstream changes a file that the local package also modified, but you want the upstream version to win (file-level overwrite).
 
@@ -199,7 +250,7 @@ porchctl rpkg upgrade porch-test.deployment.1 --namespace=porch-demo --revision=
 
 Outcome: Files present in both upstream and local are replaced with the upstream copy. Files only present locally are preserved.
 
-### Example C — `force-delete-replace`
+### Example C — force-delete-replace
 
 Scenario: The blueprint has diverged substantially; you want to reset the deployment package to exactly match upstream v2.
 
@@ -211,7 +262,7 @@ porchctl rpkg upgrade porch-test.deployment.1 --namespace=porch-demo --revision=
 
 Outcome: The new draft contains only the upstream contents; local customizations are discarded.
 
-### Example D — `fast-forward`
+### Example D — fast-forward
 
 Scenario: You want to ensure upgrades are only applied to unmodified, pristine clones.
 
