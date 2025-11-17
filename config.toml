@@ -85,6 +85,27 @@ archived_version = false
 
 version = "latest"
 
+# The version of the latest code build
+latestTag = "1.5.4"
+
+# The version of docker the latest code build in automated jobs
+version_docker = "v28.1.1"
+
+# The version of golang the latest code build in automated jobs
+version_go = "v1.25.3"
+
+# The version of git the latest code build in automated jobs
+version_git = "v2.51.2"
+
+# The version of kind the latest code build in automated jobs
+version_kind = "v0.30.0"
+
+# The version of kubectl the latest code build in automated jobs
+version_kube = "v1.34.2"
+
+# The version of kpt the latest code build in automated jobs
+version_kpt = "v1.0.0-beta.59"
+
 # A link to latest version of the docs. Used in the "version-banner" partial to
 # point people to the main doc site.
 
