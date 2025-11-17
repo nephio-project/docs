@@ -11,26 +11,14 @@ Before Porch can manage packages, you must register the Git repositories where t
 
 If you don't have an Git repository already created and initialized then follow the steps below to use Gitea (already provided by the developer environment installation), or create and use your own Git repository.
 
-## Creating Additional Gitea Repositories (Optional)
+## Creating and initializing a Git Repository
 
-You can create repositories in two ways:
+1. **Create a new repository** in your Git hosting service (e.g., GitHub, GitLab, Gitea, Bitbucket). Navigate to your user or organization page and create a new repository. Provide a name (e.g., `porch-repo`), description, and set visibility as needed.
+2. **Initialize the repository** with a README.md file or clone it locally and add initial content.
 
-- **Manual — Gitea web UI:** Open your Gitea instance, sign in, and click the **New Repository** (or **+**) button in the top-right of the UI. Follow the form to set the repository name, description, visibility, and initialize the repository. This is the simplest option for one-off repositories.
-- **Automated — API / CLI / script:** Automate repository creation via the Gitea REST API, the `gitea` CLI, or an automation script. The Porch project includes an example automated setup script that demonstrates creating repositories and initializing branches:
+For detailed instructions on repository creation, refer to your Git hosting service documentation. [For example on GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/quickstart-for-repositories).
 
-[install-dev-gitea-setup.sh](https://github.com/nephio-project/porch/blob/23da894a8ef61fea4a4843294f249c3e1817a104/scripts/install-dev-gitea-setup.sh#L82-L100)
-
-You can customize the `$git_repo_name` variable for the custom repository you wish to create.
-
-Below is a high-level explanation of the steps performed by the automated script when initializing a new Gitea repository for use with Porch. These numbered steps reflect the scripted (API/CLI) approach — you may copy the equivalent commands to run them manually if you prefer.
-
-1. Create the repository via the Gitea REST API
-2. Clone the (now-empty) repository locally
-3. Ensure a main branch exists and push an initial commit
-4. Clean up temporary files
-5. Register the new repository with Porch using the command shown in the `porchctl` section above
-
-## Using `porchctl`
+## Register a Git-Repository as a Porch-Repository
 
 The `porchctl` command-line tool provides a straightforward way to register a repository.
 
@@ -58,6 +46,10 @@ porchctl repo register http://gitea.gitea:3000/nephio/porch-test.git \
   --repo-basic-username=nephio \
   --repo-basic-password=secret
 ```
+
+{{% alert title="Note" color="primary" %}}
+Replace the Git URL, repository name, username, and password with your values.
+{{% /alert %}}
 
 # See Also
 
