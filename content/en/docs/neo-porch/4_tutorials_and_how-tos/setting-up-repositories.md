@@ -2,19 +2,15 @@
 title: "Managing Porch Repositories"
 type: docs
 weight: 2
-description: "A how-to guide on registering Git repositories with Porch"
+description: "Tutorial on setting up porch repositories and using them. Before Porch can manage packages, you must register the Git repositories where those packages are stored. This tells Porch where to find package blueprints and where to store deployment packages."
 ---
 
-# Setting Up Repositories
-
-Before Porch can manage packages, you must register the Git repositories where those packages are stored. This tells Porch where to find package blueprints and where to store deployment packages.
-
-If you don't have an Git repository already created and initialized then follow the steps below to use Gitea (already provided by the developer environment installation), or create and use your own Git repository.
+If you don't have a Git repository already created and initialized, follow the steps below to create and use your own Git repository.
 
 ## Creating and initializing a Git Repository
 
 1. **Create a new repository** in your Git hosting service (e.g., GitHub, GitLab, Gitea, Bitbucket). Navigate to your user or organization page and create a new repository. Provide a name (e.g., `porch-repo`), description, and set visibility as needed.
-2. **Initialize the repository** with a README.md file or clone it locally and add initial content.
+2. **Initialize the repository** for the main/master branch to exist (typically done by adding a README.md file in the UI) or by cloning it locally and add initial content.
 
 For detailed instructions on repository creation, refer to your Git hosting service documentation. [For example on GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/quickstart-for-repositories).
 
