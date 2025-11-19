@@ -175,65 +175,65 @@ The outcome of an upgrade depends on the changes made in the upstream blueprint 
 
 ### Merge Strategy Comparison
 
-<table class="table">
-  <thead class="table-light">
+<table class="table" style="border: 2px solid var(--bs-body-color);">
+  <thead>
     <tr>
-      <th scope="col" class="table-light">Scenario</th>
-      <th scope="col">resource-merge (Default)</th>
-      <th scope="col">copy-merge</th>
-      <th scope="col">force-delete-replace</th>
-      <th scope="col">fast-forward</th>
+      <th scope="col" style="border-bottom: 2px solid var(--bs-body-color);border-right: 2px solid var(--bs-body-color);"><strong>Scenario</strong></th>
+      <th scope="col" style="border-bottom: 2px solid var(--bs-body-color);border-right: 2px solid var(--bs-body-color)">resource-merge (Default)</th>
+      <th scope="col" style="border-bottom: 2px solid var(--bs-body-color);border-right: 2px solid var(--bs-body-color)">copy-merge</th>
+      <th scope="col" style="border-bottom: 2px solid var(--bs-body-color);border-right: 2px solid var(--bs-body-color)">force-delete-replace</th>
+      <th scope="col" style="border-bottom: 2px solid var(--bs-body-color);">fast-forward</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th scope="row" class="table-light"><strong>File added in Upstream</strong></th>
-      <td>File is added to Local.</td>
-      <td>File is added to Local.</td>
-      <td>File is added to Local.</td>
-      <td>Fails (Local must be unchanged).</td>
+      <th scope="row" style="border-right: 2px solid var(--bs-body-color);"><strong>File added in Upstream</strong></th>
+      <td scope="row" style="border-right: 1px solid var(--bs-body-color);">File is added to Local.</td>
+      <td scope="row" style="border-right: 1px solid var(--bs-body-color);">File is added to Local.</td>
+      <td scope="row" style="border-right: 1px solid var(--bs-body-color);">File is added to Local.</td>
+      <td scope="row">Fails (Local must be unchanged).</td>
     </tr>
     <tr>
-      <th scope="row" class="table-light"><strong>File modified in Upstream only</strong></th>
-      <td>Changes are applied to Local.</td>
-      <td>Upstream file overwrites Local file.</td>
-      <td>Upstream file overwrites Local file.</td>
-      <td>Fails (Local must be unchanged).</td>
+      <th scope="row" style="border-right: 2px solid var(--bs-body-color);"><strong>File modified in Upstream only</strong></th>
+      <td scope="row" style="border-right: 1px solid var(--bs-body-color);">Changes are applied to Local.</td>
+      <td scope="row" style="border-right: 1px solid var(--bs-body-color);">Upstream file overwrites Local file.</td>
+      <td scope="row" style="border-right: 1px solid var(--bs-body-color);">Upstream file overwrites Local file.</td>
+      <td scope="row">Fails (Local must be unchanged).</td>
     </tr>
     <tr>
-      <th scope="row" class="table-light"><strong>File modified in Local only</strong></th>
-      <td>Local changes are kept.</td>
-      <td>Local changes are kept.</td>
-      <td>Local changes are discarded; Upstream version is used.</td>
-      <td>Fails (Local must be unchanged).</td>
+      <th scope="row" style="border-right: 2px solid var(--bs-body-color);"><strong>File modified in Local only</strong></th>
+      <td scope="row" style="border-right: 1px solid var(--bs-body-color);">Local changes are kept.</td>
+      <td scope="row" style="border-right: 1px solid var(--bs-body-color);">Local changes are kept.</td>
+      <td scope="row" style="border-right: 1px solid var(--bs-body-color);">Local changes are discarded; Upstream version is used.</td>
+      <td scope="row">Fails (Local must be unchanged).</td>
     </tr>
     <tr>
-      <th scope="row" class="table-light"><strong>File modified in both (no conflict)</strong></th>
-      <td>Both changes are merged.</td>
-      <td>Upstream file overwrites Local file.</td>
-      <td>Upstream file overwrites Local file.</td>
-      <td>Fails (Local must be unchanged).</td>
+      <th scope="row" style="border-right: 2px solid var(--bs-body-color);"><strong>File modified in both (no conflict)</strong></th>
+      <td scope="row" style="border-right: 1px solid var(--bs-body-color);">Both changes are merged.</td>
+      <td scope="row" style="border-right: 1px solid var(--bs-body-color);">Upstream file overwrites Local file.</td>
+      <td scope="row" style="border-right: 1px solid var(--bs-body-color);">Upstream file overwrites Local file.</td>
+      <td scope="row">Fails (Local must be unchanged).</td>
     </tr>
     <tr>
-      <th scope="row" class="table-light"><strong>File modified in both (conflict)</strong></th>
-      <td>Merge autoconflic resolution: always choose the new upstream version.</td>
-      <td>Upstream file overwrites Local file.</td>
-      <td>Upstream file overwrites Local file.</td>
-      <td>Fails (Local must be unchanged).</td>
+      <th scope="row" style="border-right: 2px solid var(--bs-body-color);"><strong>File modified in both (conflict)</strong></th>
+      <td scope="row" style="border-right: 1px solid var(--bs-body-color);">Merge autoconflic resolution: always choose the new upstream version.</td>
+      <td scope="row" style="border-right: 1px solid var(--bs-body-color);">Upstream file overwrites Local file.</td>
+      <td scope="row" style="border-right: 1px solid var(--bs-body-color);">Upstream file overwrites Local file.</td>
+      <td scope="row">Fails (Local must be unchanged).</td>
     </tr>
     <tr>
-      <th scope="row" class="table-light"><strong>File deleted in Upstream</strong></th>
-      <td>File is deleted from Local.</td>
-      <td>File is deleted from Local.</td>
-      <td>File is deleted from Local.</td>
-      <td>Fails (Local must be unchanged).</td>
+      <th scope="row" style="border-right: 2px solid var(--bs-body-color);"><strong>File deleted in Upstream</strong></th>
+      <td scope="row" style="border-right: 1px solid var(--bs-body-color);">File is deleted from Local.</td>
+      <td scope="row" style="border-right: 1px solid var(--bs-body-color);">File is deleted from Local.</td>
+      <td scope="row" style="border-right: 1px solid var(--bs-body-color);">File is deleted from Local.</td>
+      <td scope="row">Fails (Local must be unchanged).</td>
     </tr>
     <tr>
-      <th scope="row" class="table-light"><strong>Local package is unmodified</strong></th>
-      <td>Upgrade succeeds.</td>
-      <td>Upgrade succeeds.</td>
-      <td>Upgrade succeeds.</td>
-      <td>Upgrade succeeds.</td>
+      <th scope="row" style="border-right: 2px solid var(--bs-body-color);"><strong>Local package is unmodified</strong></th>
+      <td scope="row" style="border-right: 1px solid var(--bs-body-color);">Upgrade succeeds.</td>
+      <td scope="row" style="border-right: 1px solid var(--bs-body-color);">Upgrade succeeds.</td>
+      <td scope="row" style="border-right: 1px solid var(--bs-body-color);">Upgrade succeeds.</td>
+      <td scope="row">Upgrade succeeds.</td>
     </tr>
   </tbody>
 </table>
