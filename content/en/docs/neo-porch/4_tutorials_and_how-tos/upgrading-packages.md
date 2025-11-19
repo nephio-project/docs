@@ -35,16 +35,22 @@ Create the initial revision of our blueprint. This will be the "upstream" source
 ```bash
 # Initialize a new package draft named 'blueprint' in the 'porch-test' repository
 porchctl rpkg init blueprint --namespace=porch-demo --repository=porch-test --workspace=1
-```
 
-```bash
 # Propose the draft for review
 porchctl rpkg propose porch-test.blueprint.1 --namespace=porch-demo
-```
 
-```bash
 # Approve and publish the package, making it available as revision 1
 porchctl rpkg approve porch-test.blueprint.1 --namespace=porch-demo
+```
+
+![Step 1: Create Base Blueprint](/images/porch/upgrade-step1.drawio.svg)
+
+**PackageRevisions State After Step 1:**
+```bash
+$ porchctl rpkg get --namespace=porch-demo
+NAME                        PACKAGE     WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
+porch-test.blueprint.main   blueprint   main            -1         false    Published   porch-test
+porch-test.blueprint.1      blueprint   1               1          true     Published   porch-test
 ```
 
 ### Step 2: Create a New Blueprint Package Revision (revision 2)
@@ -70,6 +76,17 @@ porchctl rpkg approve porch-test.blueprint.2 --namespace=porch-demo
 ```
 At this point, we have two published blueprint versions: `v1` (the original) and `v2` (with the new ConfigMap).
 
+![Step 2: Create New Blueprint Revision](/images/porch/upgrade-step2.drawio.svg)
+
+**PackageRevisions State After Step 2:**
+```bash
+$ porchctl rpkg get --namespace=porch-demo
+NAME                        PACKAGE     WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
+porch-test.blueprint.main   blueprint   main            -1         false    Published   porch-test
+porch-test.blueprint.1      blueprint   1               1          false    Published   porch-test
+porch-test.blueprint.2      blueprint   2               2          true     Published   porch-test
+```
+
 ### Step 3: Clone Blueprint revision 1 into a Deployment Package
 
 Clone the blueprint to create a "downstream" deployment package.
@@ -90,6 +107,19 @@ porchctl rpkg push porch-test.deployment.1 --namespace=porch-demo ./tmp/deployme
 # Propose and approve the deployment package
 porchctl rpkg propose porch-test.deployment.1 --namespace=porch-demo
 porchctl rpkg approve porch-test.deployment.1 --namespace=porch-demo
+```
+
+![Step 3: Clone Blueprint into Deployment Package](/images/porch/upgrade-step3.drawio.svg)
+
+**PackageRevisions State After Step 3:**
+```bash
+$ porchctl rpkg get --namespace=porch-demo
+NAME                         PACKAGE      WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
+porch-test.blueprint.main    blueprint    main            -1         false    Published   porch-test
+porch-test.blueprint.1       blueprint    1               1          false    Published   porch-test
+porch-test.blueprint.2       blueprint    2               2          true     Published   porch-test
+porch-test.deployment.main   deployment   main            -1         false    Published   porch-test
+porch-test.deployment.1      deployment   1               1          true     Published   porch-test
 ```
 
 ### Step 4: Discover and Perform the Upgrade
@@ -113,6 +143,20 @@ porchctl rpkg approve porch-test.deployment.2 --namespace=porch-demo
 After approval, `porch-test.deployment.2` is the new, published deployment package. It now contains:
 1.  The `new-configmap.yaml` from the upstream `blueprint.2`.
 2.  The local `kpt.dev/annotation=true` customization applied in Step 3.
+
+![Step 4: Discover and Perform Upgrade](/images/porch/upgrade-step4.drawio.svg)
+
+**PackageRevisions State After Step 4:**
+```bash
+$ porchctl rpkg get --namespace=porch-demo
+NAME                         PACKAGE      WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
+porch-test.blueprint.main    blueprint    main            -1         false    Published   porch-test
+porch-test.blueprint.1       blueprint    1               1          false    Published   porch-test
+porch-test.blueprint.2       blueprint    2               2          true     Published   porch-test
+porch-test.deployment.main   deployment   main            -1         false    Published   porch-test
+porch-test.deployment.1      deployment   1               1          false    Published   porch-test
+porch-test.deployment.2      deployment   2               2          true     Published   porch-test
+```
 
 ## Understanding Merge Strategies
 
@@ -300,8 +344,8 @@ To remove the packages created in this guide, you must first propose them for de
 rm -rf ./tmp
 
 # Propose all packages for deletion
-porchctl rpkg propose-delete porch-test.blueprint.1 porch-test.blueprint.2 porch-test.deployment.1 porch-test.deployment.2 --namespace=porch-demo
+porchctl rpkg propose-delete porch-test.blueprint.1 porch-test.blueprint.2 porch-test.deployment.1 porch-test.deployment.2 porch-test.blueprint.main porch-test.deployment.main --namespace=porch-demo
 
 # Delete the packages
-porchctl rpkg delete porch-test.blueprint.1 porch-test.blueprint.2 porch-test.deployment.1 porch-test.deployment.2 --namespace=porch-demo
+porchctl rpkg delete porch-test.blueprint.1 porch-test.blueprint.2 porch-test.deployment.1 porch-test.deployment.2 porch-test.blueprint.main porch-test.deployment.main --namespace=porch-demo
 ```
