@@ -43,7 +43,7 @@ porchctl rpkg propose porch-test.blueprint.1 --namespace=porch-demo
 porchctl rpkg approve porch-test.blueprint.1 --namespace=porch-demo
 ```
 
-![Step 1: Create Base Blueprint](/images/porch/upgrade-step1.drawio.svg)
+![Step 1: Create Base Blueprint](/static/images/porch/upgrade-step1.drawio.svg)
 
 **PackageRevisions State After Step 1:**
 ```bash
@@ -76,7 +76,7 @@ porchctl rpkg approve porch-test.blueprint.2 --namespace=porch-demo
 ```
 At this point, we have two published blueprint versions: `v1` (the original) and `v2` (with the new ConfigMap).
 
-![Step 2: Create New Blueprint Revision](/images/porch/upgrade-step2.drawio.svg)
+![Step 2: Create New Blueprint Revision](/static/images/porch/upgrade-step2.drawio.svg)
 
 **PackageRevisions State After Step 2:**
 ```bash
@@ -109,7 +109,7 @@ porchctl rpkg propose porch-test.deployment.1 --namespace=porch-demo
 porchctl rpkg approve porch-test.deployment.1 --namespace=porch-demo
 ```
 
-![Step 3: Clone Blueprint into Deployment Package](/images/porch/upgrade-step3.drawio.svg)
+![Step 3: Clone Blueprint into Deployment Package](/static/images/porch/upgrade-step3.drawio.svg)
 
 **PackageRevisions State After Step 3:**
 ```bash
@@ -144,7 +144,7 @@ After approval, `porch-test.deployment.2` is the new, published deployment packa
 1.  The `new-configmap.yaml` from the upstream `blueprint.2`.
 2.  The local `kpt.dev/annotation=true` customization applied in Step 3.
 
-![Step 4: Discover and Perform Upgrade](/images/porch/upgrade-step4.drawio.svg)
+![Step 4: Discover and Perform Upgrade](/static/images/porch/upgrade-step4.drawio.svg)
 
 **PackageRevisions State After Step 4:**
 ```bash
