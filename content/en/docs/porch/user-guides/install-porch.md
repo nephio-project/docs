@@ -2,33 +2,39 @@
 title: "Installing Porch"
 type: docs
 weight: 1
-description: "A tutorial to install Porch"
+description: "Installing Porch: a tutorial"
 ---
 
-This tutorial is a guide to installing Porch. It is based on the
-[Porch demo produced by Tal Liron of Google](https://github.com/tliron/klab/tree/main/environments/porch-demo). Users
-should be comfortable using *git*, *docker*, and *kubernetes*.
+## Overview
 
-See also [the Nephio Learning Resource](https://github.com/nephio-project/docs/blob/main/learning.md) page for
-background help and information.
+This tutorial serves as a guide to installing Porch. It is based on the
+[Porch demo produced by Tal Liron of Google](https://github.com/tliron/klab/tree/main/environments/porch-demo). Users should be comfortable using *Git*, *Docker*, and *Kubernetes*.
+
+For background help and information, see
+[the Nephio Learning Resource](https://github.com/nephio-project/docs/blob/main/learning.md) page.
 
 ## Prerequisites
 
-The tutorial can be executed on a Linux VM or directly on a laptop. It has been verified to execute on a MacBook Pro M1
-machine and an Ubuntu 20.04 VM.
+This tutorial can be executed on a Linux VM or directly on a laptop. It has been verified to execute
+on a MacBook Pro M1 machine and an Ubuntu 20.04 VM.
 
 The following software should be installed prior to running through the tutorial:
 
 1. [git](https://git-scm.com/)
 2. [Docker](https://www.docker.com/get-started/)
-3. [kubectl](https://kubernetes.io/docs/reference/kubectl/) - make sure that [kubectl context](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/) configured with your cluster
+3. [kubectl](https://kubernetes.io/docs/reference/kubectl/): make sure that the
+   [kubectl context](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/)
+   is configured with your cluster.
 4. [kind](https://kind.sigs.k8s.io/)
 5. [kpt](https://github.com/kptdev/kpt)
 6. [The go programming language](https://go.dev/)
 7. [Visual Studio Code](https://code.visualstudio.com/download)
 8. [VS Code extensions for go](https://code.visualstudio.com/docs/languages/go)
 
-## Clone the repository and cd into the tutorial
+## Cloning the repository and cd into the tutorial
+
+To clone the repository and cd into the tutorial, access Github via the link below and follow the
+filepath set out below:
 
 ```bash
 git clone https://github.com/nephio-project/porch.git
@@ -36,23 +42,23 @@ git clone https://github.com/nephio-project/porch.git
 cd porch/examples/tutorials/starting-with-porch/
 ```
 
-## Create the Kind clusters for management and edge1
+## Creating the Kind clusters for management and edge1
 
-Create the clusters:
+Use the following commands to create the clusters:
 
 ```bash
 kind create cluster --config=kind_management_cluster.yaml
 kind create cluster --config=kind_edge1_cluster.yaml
 ```
 
-Output the *kubectl* configuration for the clusters:
+Use the following commands to output the *kubectl* configuration for the clusters:
 
 ```bash
 kind get kubeconfig --name=management > ~/.kube/kind-management-config
 kind get kubeconfig --name=edge1 > ~/.kube/kind-edge1-config
 ```
 
-Toggling *kubectl* between the clusters:
+Use the following commands to toggle *kubectl* between the clusters:
 
 ```bash
 export KUBECONFIG=~/.kube/kind-management-config
@@ -60,9 +66,10 @@ export KUBECONFIG=~/.kube/kind-management-config
 export KUBECONFIG=~/.kube/kind-edge1-config
 ```
 
-## Install MetalLB on the management cluster
+## Installing MetalLB on the management cluster
 
-Install the MetalLB load balancer on the management cluster to expose services:
+Use the following command to install the MetalLB load balancer on the management cluster to expose
+the services:
 
 ```bash
 export KUBECONFIG=~/.kube/kind-management-config
@@ -73,20 +80,21 @@ kubectl wait --namespace metallb-system \
                 --timeout=90s
 ```
 
-Check the subnet that is being used by the kind network in docker
+Use the following command to check the subnet that is being used by the Kind network in Docker:
 
 ```bash
 docker network inspect kind | grep Subnet
 ```
 
-Sample output:
+Below is a sample output:
 
 ```yaml
 "Subnet": "172.18.0.0/16",
 "Subnet": "fc00:f853:ccd:e793::/64"
 ```
 
-Edit the *metallb-conf.yaml* file and ensure the spec.addresses range is in the IPv4 subnet being used by the kind network in docker.
+Edit the *metallb-conf.yaml* file and ensure that the *spec.addresses* range is in the IPv4 subnet
+that is being used by the Kind network in Docker.
 
 ```yaml
 ...
@@ -96,15 +104,15 @@ spec:
 ...
 ```
 
-Apply the MetalLB configuration:
+Apply the MetalLB configuration with the following command:
 
 ```bash
 kubectl apply -f metallb-conf.yaml
 ```
 
-## Deploy and set up Gitea on the management cluster using kpt
+## Deploying and setting up Gitea on the management cluster using kpt
 
-Get the *gitea kpt* package:
+Get the *gitea kpt* package with the following command:
 
 ```bash
 export KUBECONFIG=~/.kube/kind-management-config
@@ -114,7 +122,8 @@ cd kpt_packages
 kpt pkg get https://github.com/nephio-project/catalog/tree/main/distros/sandbox/gitea
 ```
 
-Comment out the preconfigured IP address from the *gitea/service-gitea.yaml* file in the *gitea kpt* package:
+Comment out the preconfigured IP address from the *gitea/service-gitea.yaml* file, in the
+*gitea kpt* package:
 
 ```bash
 11c11
@@ -123,7 +132,7 @@ Comment out the preconfigured IP address from the *gitea/service-gitea.yaml* fil
 >     #    metallb.universe.tf/loadBalancerIPs: 172.18.0.200
 ```
 
-Now render, init and apply the *gitea kpt* package:
+Render, initiate (init), and apply the *gitea kpt* package, as follows:
 
 ```bash
 kpt fn render gitea
@@ -131,8 +140,8 @@ kpt live init gitea # You only need to do this command once
 kpt live apply gitea
 ```
 
-Once the package is applied, all the Gitea pods should come up and you should be able to reach the Gitea UI on the
-exposed IP Address/port of the Gitea service.
+Once the package is applied, all the Gitea pods should appear. You should be able to reach the
+Gitea UI on the exposed IP Address/port of the Gitea service.
 
 ```bash
 kubectl get svc -n gitea gitea
@@ -141,19 +150,20 @@ NAME    TYPE           CLUSTER-IP      EXTERNAL-IP      PORT(S)                 
 gitea   LoadBalancer   10.96.243.120   172.18.255.200   22:31305/TCP,3000:31102/TCP   10m
 ```
 
-The UI is available at http://172.18.255.200:3000 in the example above.
+The UI is available at http://172.18.255.200:3000, in the example above.
 
-To login to Gitea, use the credentials nephio:secret.
+To log in to Gitea, use the nephio:secret credentials.
 
-## Create repositories on Gitea for management and edge1
+## Creating repositories on Gitea for management and edge1
 
-On the Gitea UI, click the **+** opposite **Repositories** and fill in the form for both the *management* and *edge1*
-repositories. Use default values except for the following fields:
+On the Gitea UI, select the *plus* sign (**+**) opposite **Repositories**, and fill in the form for
+both the *management* the and *edge1* repositories. Use the default values, except for the following
+fields:
 
 - Repository Name: "Management" or "edge1"
-- Description: Something appropriate
+- Description: This should be an appropriate piece of text.
  
-Alternatively, we can create the repositories via curl:
+Alternatively, the repositories can be created via curl, as follows:
 
 ```bash
 curl -k -H "content-type: application/json" "http://nephio:secret@172.18.255.200:3000/api/v1/user/repos" --data '{"name":"management"}'
@@ -161,15 +171,15 @@ curl -k -H "content-type: application/json" "http://nephio:secret@172.18.255.200
 curl -k -H "content-type: application/json" "http://nephio:secret@172.18.255.200:3000/api/v1/user/repos" --data '{"name":"edge1"}'
 ```
 
-Check the repositories:
+Check the repositories using the following command:
 
 ```bash
  curl -k -H "content-type: application/json" "http://nephio:secret@172.18.255.200:3000/api/v1/user/repos" | grep -Po '"name": *\K"[^"]*"'
 ```
 
-Now initialize both repositories with an initial commit.
+Initialize both repositories with an initial commit.
 
-Initialize the *management* repository:
+Initialize the *management* repository, as follows:
 
 ```bash
 cd ../repos
@@ -190,7 +200,7 @@ git push -u origin main
 cd ..
  ```
 
-Initialize the *edge1* repository:
+Initialize the *edge1* repository, as follows:
 
 ```bash
 git clone http://172.18.255.200:3000/nephio/edge1
@@ -210,9 +220,9 @@ git push -u origin main
 cd ../../
 ```
 
-## Install Porch
+## Installing Porch
 
-We will use the *Porch Kpt* package from Nephio catalog repository.
+The *Porch Kpt* package, from the Nephio catalog repository, will be used, as follows:
 
 ```bash
 cd kpt_packages
@@ -220,7 +230,7 @@ cd kpt_packages
 kpt pkg get https://github.com/nephio-project/catalog/tree/main/nephio/core/porch
 ```
 
-Now we can install porch. We render the *kpt* package and then init and apply it.
+To install Porch, render the *kpt* package, initiate it, and then apply it, as follows:
 
 ```bash
 kpt fn render porch
@@ -228,7 +238,7 @@ kpt live init porch # You only need to do this command once
 kpt live apply porch
 ```
 
-Check that the Porch PODs are running on the management cluster:
+Check that the Porch pods are running on the management cluster, as follows:
 
 ```bash
 kubectl get pod -n porch-system
@@ -252,15 +262,15 @@ packagerevisions                               porch.kpt.dev/v1alpha1           
 packages                                       porch.kpt.dev/v1alpha1                 true         Package
 ```
 
-## Connect the Gitea repositories to Porch
+## Connecting the Gitea repositories to Porch
 
-Create a demo namespace:
+Create a demo namespace, using the following command:
 
 ```bash
 kubectl create namespace porch-demo
 ```
 
-Create a secret for the Gitea credentials in the demo namespace:
+Create a secret for the Gitea credentials in the demo namespace, as follows:
 
 ```bash
 kubectl create secret generic gitea \
@@ -270,13 +280,13 @@ kubectl create secret generic gitea \
     --from-literal=password=secret
 ```
 
-Now, define the Gitea repositories in Porch:
+Define the Gitea repositories in Porch, as follows:
 
 ```bash
 kubectl apply -f porch-repositories.yaml
 ```
 
-Check that the repositories have been correctly created:
+Check that the repositories have been created correctly:
 
 ```bash
 kubectl get repositories -n porch-demo
@@ -286,10 +296,11 @@ external-blueprints   git    Package   false        True    https://github.com/n
 management            git    Package   false        True    http://172.18.255.200:3000/nephio/management.git
 ```
 
-## Configure configsync on the workload cluster
+## Configuring configsync on the workload cluster
 
-configsync is installed on the edge1 cluster so that it syncs the contents of the *edge1* repository onto the edge1
-workload cluster. We will use the configsync package from Nephio.
+The configsync package is installed on the *edge1* cluster so that it synchronizes the contents of
+the *edge1* repository onto the *edge1* workload cluster. We will use the configsync package from
+Nephio. Follow the procedure set out below to install configsync:
 
 ```bash
 export KUBECONFIG=~/.kube/kind-edge1-config
@@ -302,7 +313,7 @@ kpt live init configsync
 kpt live apply configsync
 ```
 
-Check that the configsync PODs are up and running:
+Check that the configsync pods are up and running, as follows:
 
 ```bash
 kubectl get pod -n config-management-system
@@ -311,13 +322,14 @@ config-management-operator-6946b77565-f45pc   1/1     Running   0          118m
 reconciler-manager-5b5d8557-gnhb2             2/2     Running   0          118m
 ```
 
-Now, we need to set up a RootSync CR to synchronize the *edge1* repository:
+Using the following command, set up a RootSync CR to synchronize the *edge1* repository:
 
 ```bash
 kpt pkg get https://github.com/nephio-project/catalog/tree/main/nephio/optional/rootsync
 ```
 
-Edit the *rootsync/package-context.yaml* file to set the name of the cluster/repo we are syncing from/to:
+Edit the *rootsync/package-context.yaml* file to set the name of the cluster or repository from
+which, or to which, we are syncing:
 
 ```bash
 9c9
@@ -332,8 +344,8 @@ Render the package. This configures the *rootsync/rootsync.yaml* file in the Kpt
 kpt fn render rootsync
 ```
 
-Edit the *rootsync/rootsync.yaml* file to set the IP address of Gitea and to turn off authentication for accessing
-Gitea:
+Edit the *rootsync/rootsync.yaml* file to set the IP address of Gitea and to turn off the
+authentication for accessing Gitea, as follows:
 
 ```bash
 11c11
@@ -351,7 +363,7 @@ Gitea:
 > #      name: edge1-access-token-configsync
 ```
 
-Initialize and apply RootSync:
+Initialize and apply RootSync, as follows:
 
 ```bash
 export KUBECONFIG=~/.kube/kind-edge1-config
@@ -360,7 +372,7 @@ kpt live init rootsync # This command is only needed once
 kpt live apply rootsync
 ```
 
-Check that the RootSync CR is created:
+Check that the RootSync CR has been created:
 
 ```bash
 kubectl get rootsync -n config-management-system
@@ -379,7 +391,7 @@ kubectl logs -n config-management-system root-reconciler-edge1-68576f878c-92k54 
 
 ```
 
-The result should be similar to:
+The result should look like this:
 
 ```bash
 INFO: detected pid 1, running init handler
