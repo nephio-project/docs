@@ -11,22 +11,20 @@ The porchctl CLI can be obtained through the following means:
 
 ### Download the latest porchctl binary
 
-<!-- markdownlint-disable MD034 -->
 {{< tabpane lang="bash" >}}
 {{< tab header="Linux AMD64" >}}
-curl -LO 'https://github.com/nephio-project/porch/releases/download/v{{<params"latestTag">}}/porchctl_{{<params"latestTag">}}_linux_amd64.tar.gz'
+curl -LO "https://github.com/nephio-project/porch/releases/download/v{{<params"latestTag">}}/porchctl_{{<params"latestTag">}}_linux_amd64.tar.gz"
 {{< /tab >}}
 {{< tab header="Linux ARM64" >}}
-curl -LO 'https://github.com/nephio-project/porch/releases/download/v{{<params"latestTag">}}/porchctl_{{<params"latestTag">}}_linux_arm64.tar.gz'
+curl -LO "https://github.com/nephio-project/porch/releases/download/v{{<params"latestTag">}}/porchctl_{{<params"latestTag">}}_linux_arm64.tar.gz"
 {{< /tab >}}
 {{< tab header="macOS AMD64" >}}
-curl -LO https://github.com/nephio-project/porch/releases/download/v{{<params"latestTag">}}/porchctl_{{<params"latestTag">}}_darwin_amd64.tar.gz
+curl -LO "https://github.com/nephio-project/porch/releases/download/v{{<params"latestTag">}}/porchctl_{{<params"latestTag">}}_darwin_amd64.tar.gz"
 {{< /tab >}}
 {{< tab header="macOS ARM64" >}}
-curl -LO 'https://github.com/nephio-project/porch/releases/download/v{{<params"latestTag">}}/porchctl_{{<params"latestTag">}}_darwin_arm64.tar.gz'
+curl -LO "https://github.com/nephio-project/porch/releases/download/v{{<params"latestTag">}}/porchctl_{{<params"latestTag">}}_darwin_arm64.tar.gz"
 {{< /tab >}}
 {{< /tabpane >}}
-<!-- markdownlint-enable MD034 -->
 
 {{% alert color="primary" title="Note:" %}}
 To download a specific version of porch and its porchctl binary you can do so by replacing the version number and machine type its for in the curl link above.
@@ -72,7 +70,7 @@ Git commit: cddc13bdcd569141142e2b632f09eb7a3e4988c9 (dirty)
 
 ### Enable porchctl autocompletion (optional)
 
-Create the completions directory (if it doesn’t already exist):
+Create the completions directory (if it doesn't already exist):
 
 ```bash
 mkdir -p ~/.local/share/bash-completion/completions

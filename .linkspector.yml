@@ -24,7 +24,7 @@ ignorePatterns:
   - pattern: "https://docs\\.google\\.com/.*"
   - pattern: "https://github\\.com/nephio-project/porch/releases/download/.*/porchctl_.*_linux_amd64\\.tar\\.gz"
   - pattern: "https://kubernetes\\.io/.*"
-
+  - pattern: "https://github\\.com/nephio-project/porch/releases/download/v\\{\\{"
 
 
 
