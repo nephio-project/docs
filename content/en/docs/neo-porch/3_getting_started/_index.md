@@ -16,5 +16,5 @@ description: "A set of guides for installing Porch prerequisites, the porchctl C
 7. A Kubernetes Cluster
 
 {{% alert color="primary" title="Note:" %}}
-The versions above relate to the latest tested versions of the software confirmed to work and are **NOT** the only versions that will of that software which will work.
+The versions above relate to the latest tested versions confirmed to work and are **NOT** the only compatible versions.
 {{% /alert %}}

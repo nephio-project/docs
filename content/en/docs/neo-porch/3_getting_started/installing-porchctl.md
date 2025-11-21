@@ -14,16 +14,16 @@ The porchctl CLI can be obtained through the following means:
 <!-- markdownlint-disable MD034 -->
 {{< tabpane lang="bash" >}}
 {{< tab header="Linux AMD64" >}}
-curl -LO 'https://github.com/nephio-project/porch/releases/download/v{{%params"latestTag"%}}/porchctl_{{%params"latestTag"%}}_linux_amd64.tar.gz'
+curl -LO 'https://github.com/nephio-project/porch/releases/download/v{{<params"latestTag">}}/porchctl_{{<params"latestTag">}}_linux_amd64.tar.gz'
 {{< /tab >}}
 {{< tab header="Linux ARM64" >}}
-curl -LO 'https://github.com/nephio-project/porch/releases/download/v{{%params"latestTag"%}}/porchctl_{{%params"latestTag"%}}_linux_arm64.tar.gz'
+curl -LO 'https://github.com/nephio-project/porch/releases/download/v{{<params"latestTag">}}/porchctl_{{<params"latestTag">}}_linux_arm64.tar.gz'
 {{< /tab >}}
 {{< tab header="macOS AMD64" >}}
-curl -LO 'https://github.com/nephio-project/porch/releases/download/v{{%params"latestTag"%}}/porchctl_{{%params"latestTag"%}}_darwin_amd64.tar.gz'
+curl -LO https://github.com/nephio-project/porch/releases/download/v{{<params"latestTag">}}/porchctl_{{<params"latestTag">}}_darwin_amd64.tar.gz
 {{< /tab >}}
 {{< tab header="macOS ARM64" >}}
-curl -LO 'https://github.com/nephio-project/porch/releases/download/v{{%params"latestTag"%}}/porchctl_{{%params"latestTag"%}}_darwin_arm64.tar.gz'
+curl -LO 'https://github.com/nephio-project/porch/releases/download/v{{<params"latestTag">}}/porchctl_{{<params"latestTag">}}_darwin_arm64.tar.gz'
 {{< /tab >}}
 {{< /tabpane >}}
 <!-- markdownlint-enable MD034 -->
