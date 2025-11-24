@@ -13,31 +13,31 @@ Create a new directory for the kpt package and path inside of it
 mkdir porch-{{% params "latestTag" %}} && cd porch-{{% params "latestTag" %}}
 ```
 
-Download the latest Porch kpt package blueprint
+Download the latest Porch kpt package blueprint:
 
 ```bash
 curl -LO "https://github.com/nephio-project/porch/releases/download/v{{% params "latestTag" %}}/porch_blueprint.tar.gz"
 ```
 
-Extract the Porch kpt package contents
+Extract the Porch kpt package contents:
 
 ```bash
 tar -xzf porch_blueprint.tar.gz
 ```
 
-Initialize and apply the Porch kpt package
+Initialize and apply the Porch kpt package:
 
 ```bash
 kpt live init && kpt live apply
 ```
 
-You can check that porch is up and running by doing
+You can check that Porch is up and running with the following command:
 
 ```bash
 kubectl get all -n porch-system
 ```
 
-A healthy porch install should look as such
+A healthy Porch install should look like the following:
 
 ```bash
 NAME                                   READY   STATUS    RESTARTS   AGE

@@ -5,11 +5,7 @@ weight: 1
 description: Install guide for the Porchctl CLI.
 ---
 
-## Installing the porchctl CLI
-
-The porchctl CLI can be obtained through the following means:
-
-### Download the latest porchctl binary
+## Download the latest porchctl binary
 
 {{< tabpane lang="bash" >}}
 {{< tab header="Linux AMD64" >}}
@@ -37,12 +33,12 @@ curl -LO "https://github.com/nephio-project/porch/releases/download/v1.5.0/porch
 
 {{% /alert %}}
 
-### Install the porchctl binary
+## Install the porchctl binary
 
 This extracts the tar file containting the binary executable and installs it into the root binary directory of the machine.
 
 {{% alert color="primary" title="Note:" %}}
-That this requires **root** permissions on the host machine.
+This requires **root** permissions on the host machine.
 {{% /alert %}}
 
 ```bash
@@ -61,14 +57,14 @@ mv ./porchctl ~/.local/bin/porchctl
 # and then append (or prepend) ~/.local/bin to $PATH
 ```
 
-You can test that the CLI has been installed correctly by doing `porchctl version` in your terminal and you should be prompted with a printout that looks similar to this.
+You can test that the CLI has been installed correctly with the `porchctl version` command. The output should be a printout that looks similar to this.
 
 ```bash
 Version: {{% params "latestTag" %}}
 Git commit: cddc13bdcd569141142e2b632f09eb7a3e4988c9 (dirty)
 ```
 
-### Enable porchctl autocompletion (optional)
+## Enable porchctl autocompletion (optional)
 
 Create the completions directory (if it doesn't already exist):
 
@@ -94,16 +90,16 @@ exec bash
 ```
 
 {{% alert color="primary" title="Note:" %}}
-You can just reload/refresh your terminal manually without the command by just closing the terminal and starting a new one. Either works as intended.
+You can reload/refresh your terminal manually without the command by just closing the terminal and starting a new one. Either works as intended.
 {{% /alert %}}
 
-Test that the auto-completion works with the following command and pressing the auto-complete key usually `<TAB>` twice.
+Test that the auto-completion works with the following command and pressing the auto-complete key, which is usually `<TAB>`, twice.
 
 ```bash
 porchctl
 ```
 
-If auto-completion is working as correctly this should return a similar output to the one below
+If auto-completion is working as intended, this should return a similar output to the one below:
 
 ```bash
 completion  (Generate the autocompletion script for the specified shell)
