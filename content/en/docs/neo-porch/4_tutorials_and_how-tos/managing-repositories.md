@@ -8,7 +8,7 @@ description: "A guide to registering, viewing, and managing repositories in Porc
 ## Prerequisites
 
 - Porch deployed on a Kubernetes cluster [Setup Porch Guide]({{% relref "/docs/neo-porch/3_getting_started/installing-porch.md" %}}).
-- **Porchctl** CLI tool installed [Setup Porchctl Guide]({{% relref "/docs/neo-porch/3_getting_started/installing-porch.md" %}}).
+- **Porchctl** CLI tool installed [Setup Porchctl Guide]({{% relref "/docs/neo-porch/3_getting_started/installing-porchctl.md" %}}).
 - **Kubectl** configured to access your cluster.
 - A Git repository to register with Porch. If you need to create one, see [GitHub's Repository Guide](https://docs.github.com/en/repositories/creating-and-managing-repositories/quickstart-for-repositories).
 
