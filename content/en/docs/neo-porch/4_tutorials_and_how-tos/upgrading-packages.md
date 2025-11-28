@@ -12,7 +12,7 @@ For detailed command reference, see the [porchctl CLI guide]({{% relref "/docs/n
 ## Prerequisites
 
 *   Porch installed in your Kubernetes cluster, along with its CLI `porchctl`. [Setup Guide]({{% relref "/docs/neo-porch/3_getting_started/installing-porch.md" %}})
-*   A Git Repository registered with Porch, in this example it's assumed that the Porch-Repository's name is "porch-test". [Repository Guide]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/managing-repositories" %}})
+*   A Git Repository registered with Porch, in this example it's assumed that the Porch-Repository's name is "porch-test". [Repository Guide]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/working_with_porch_repositories/repository-registration.md" %}})
 
 ## Key Concepts
 

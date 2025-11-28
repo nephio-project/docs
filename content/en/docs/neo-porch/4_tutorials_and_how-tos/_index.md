@@ -1,8 +1,8 @@
 ---
-title: "Tutorials & How-to's"
+title: "Guides"
 type: docs
 weight: 4
-description: Tutorials in Porch
+description: Guides detailing how to use Porch
 ---
 
 ## Overview
