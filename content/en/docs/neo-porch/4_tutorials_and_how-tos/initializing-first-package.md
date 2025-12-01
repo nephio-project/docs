@@ -160,7 +160,7 @@ pipeline:
 
 - Adds a `set-namespace` function to the pipeline
 - This function will set the namespace to `production` for all resources
-- Functions run automatically when the package revision is rendered
+- These Functions are not rendered until the package is "pushed" to porch
 
 **Add new resource:**
 
