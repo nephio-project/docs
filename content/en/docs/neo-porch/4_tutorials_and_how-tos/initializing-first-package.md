@@ -1,8 +1,8 @@
 ---
-title: "Creating your first package"
+title: "Creating Packages"
 type: docs
 weight: 3
-description: "A tutorial designed to guide a first time user's to the package creation process in Porch" 
+description: "A step by step guide to creating a package revision in Porch" 
 ---
 
 ## Prerequisites
@@ -24,6 +24,11 @@ You will learn how to:
 6. Approve or reject the package
 
 ---
+
+{{% alert title="Note" color="primary" %}}
+Please note the tutorial assumes a porch repository is initialized with the "porch-test" name.
+We recommended to use this for simpler copy pasting of commands otherwise replace any "porch-test" value with your repository's name in the below commands.
+{{% /alert %}}
 
 ## Step 1: Initialize Your First Package
 
@@ -169,7 +174,7 @@ kind: ConfigMap
 metadata:
   name: test-config
 data:
-  Key: "Value"
+  key: "value"
 ```
 
 **Save and close the file.**
@@ -227,7 +232,7 @@ porchctl rpkg propose porch-test.my-first-package.v1 --namespace default
 ![Diagram](/static/images/porch/guides/propose-workflow.drawio.svg)
 
 {{% alert title="Note" color="primary" %}}
-Note a state change from `Draft` to `Proposed` means that in Git the package has moved from the `draft` branch to the `proposed` branch
+A lifecycle state change from `Draft` to `Proposed` means that in Git the package has moved from the `draft` branch to the `proposed` branch
 {{% /alert %}}
 
 **Verify the state change:**
@@ -255,7 +260,7 @@ porchctl rpkg approve porch-test.my-first-package.v1 --namespace default
 
 **What this does:**
 
-- Changes lifecycle from `Proposed` to `Published`
+- Changes packageRevision lifecycle from `Proposed` (0) to `Published` (1)
 - Package becomes **immutable** (content cannot be changed)
 - Records who approved and when
 - Package is now available for cloning/deployment
@@ -299,7 +304,9 @@ porchctl rpkg reject porch-test.my-first-package.v1 --namespace default
 
 ![Diagram](/static/images/porch/guides/reject-workflow.drawio.svg)
 
-Once rejected the process repeats from Stage 2 to [Pull -> Modify -> Propose and Approve] users are satisfied with its state.
+If the package is rejected, the process begins again from Step 2 until the desired state is achieved.
+
+![Diagram](/static/images/porch/guides/lifecycle-workflow.drawio.svg)
 
 ---
 
@@ -317,7 +324,7 @@ Once rejected the process repeats from Stage 2 to [Pull -> Modify -> Propose and
 **Cannot modify Published package?**
 
 - Published packages are immutable
-- Create a new revision using `porchctl rpkg copy`
+- Create a new revision using `porchctl rpkg copy` [Copying Packages Guide]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/copying-packages.md" %}}).
 
 ---
 
