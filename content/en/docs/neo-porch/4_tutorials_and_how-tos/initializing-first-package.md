@@ -23,7 +23,7 @@ You will learn how to:
 5. Propose the package revision for review
 6. Approve or reject the package revision
 
-{{% alert title="Understanding Terminology" color="info" %}}
+{{% alert title="Understanding Terminology" color="primary" %}}
 In Porch, you work with **PackageRevisions** - there is no separate "Package" resource. When we say "package" colloquially, we're referring to a PackageRevision. The `rpkg` command stands for "revision package".
 {{% /alert %}}
 
