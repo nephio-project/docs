@@ -1,5 +1,5 @@
 ---
-title: "Creating Packages"
+title: "Creating Package Revisions"
 type: docs
 weight: 3
 description: "A step by step guide to creating a package revision in Porch" 
@@ -16,12 +16,16 @@ description: "A step by step guide to creating a package revision in Porch"
 
 You will learn how to:
 
-1. Initialize a new package
-2. Pull the package locally
-3. Modify the package (update Kptfile)
+1. Initialize a new package revision
+2. Pull the package revision locally
+3. Modify the package revision contents
 4. Push changes back to Porch
-5. Propose the package for review
-6. Approve or reject the package
+5. Propose the package revision for review
+6. Approve or reject the package revision
+
+{{% alert title="Understanding Terminology" color="info" %}}
+In Porch, you work with **PackageRevisions** - there is no separate "Package" resource. When we say "package" colloquially, we're referring to a PackageRevision. The `rpkg` command stands for "revision package".
+{{% /alert %}}
 
 ---
 
@@ -30,9 +34,9 @@ Please note the tutorial assumes a porch repository is initialized with the "por
 We recommended to use this for simpler copy pasting of commands otherwise replace any "porch-test" value with your repository's name in the below commands.
 {{% /alert %}}
 
-## Step 1: Initialize Your First Package
+## Step 1: Initialize Your First Package Revision
 
-Create a new package in Porch using the `init` command:
+Create a new package revision in Porch using the `init` command:
 
 ```bash
 porchctl rpkg init my-first-package \
@@ -44,20 +48,20 @@ porchctl rpkg init my-first-package \
 
 **What this does:**
 
-- Creates a new package named `my-first-package`
+- Creates a new PackageRevision named `my-first-package`
 - Places it in the `porch-test` repository
-- Uses `v1` as the workspace name (must be unique)
+- Uses `v1` as the workspace name (must be unique within this package)
 - Starts in `Draft` lifecycle state
 
 ![Diagram](/static/images/porch/guides/init-workflow.drawio.svg)
 
-**Verify the package was created:**
+**Verify the package revision was created:**
 
 ```bash
 porchctl rpkg get --namespace default
 ```
 
-You should see your package listed with lifecycle `Draft`:
+You should see your package revision listed with lifecycle `Draft`:
 
 ```bash
 NAME                             PACKAGE            WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
@@ -66,9 +70,9 @@ porch-test.my-first-package.v1   my-first-package   v1              0          f
 
 ---
 
-## Step 2: Pull the Package Locally
+## Step 2: Pull the Package Revision Locally
 
-Download the package contents to your local filesystem:
+Download the package revision contents to your local filesystem:
 
 ```bash
 porchctl rpkg pull porch-test.my-first-package.v1 ./my-first-package --namespace default
@@ -76,13 +80,13 @@ porchctl rpkg pull porch-test.my-first-package.v1 ./my-first-package --namespace
 
 **What this does:**
 
-- Fetches all package resources from Porch
+- Fetches all resources from the PackageRevision
 - Saves them to the `./my-first-package` directory
 - Includes the Kptfile and any other resources
 
 ![Diagram](/static/images/porch/guides/pull-workflow.drawio.svg)
 
-**Explore the package:**
+**Explore the package revision contents:**
 
 ```bash
 ls -al ./my-first-package
@@ -90,7 +94,7 @@ ls -al ./my-first-package
 
 You'll see:
 
-- The `Kptfile` - Package metadata and pipeline configuration
+- The `Kptfile` - PackageRevision metadata and pipeline configuration
 - Other YAML files (if any were created)
 
 ```bash
@@ -111,7 +115,7 @@ If you have the tree command installed on your system you can use it to view the
 tree ./my-first-package/
 ```
 
-Should return the following output on your package:
+Should return the following output:
 
 ```bash
 my-first-package/
@@ -124,7 +128,7 @@ my-first-package/
 
 ---
 
-## Step 3: Modify the Package
+## Step 3: Modify the Package Revision
 
 Let's add a simple KRM function to the pipeline.
 
@@ -155,12 +159,12 @@ pipeline:
 **What this does:**
 
 - Adds a `set-namespace` function to the pipeline
-- This function will set the namespace to `production` for all resources in the package
-- Functions run automatically when the package is rendered
+- This function will set the namespace to `production` for all resources
+- Functions run automatically when the package revision is rendered
 
 **Add new resource:**
 
-Create a new configmap inside the package:
+Create a new configmap:
 
 ```bash
 vim ./my-first-package/test-config.yaml
@@ -187,7 +191,7 @@ Changes are LOCAL ONLY (Porch doesn't know about them yet) at this stage
 
 ## Step 4: Push Changes Back to Porch
 
-Upload your modified package back to Porch:
+Upload your modified package revision back to Porch:
 
 ```bash
 porchctl rpkg push porch-test.my-first-package.v1 ./my-first-package --namespace default
@@ -195,9 +199,9 @@ porchctl rpkg push porch-test.my-first-package.v1 ./my-first-package --namespace
 
 **What this does:**
 
-- Updates the package revision in Porch
+- Updates the PackageRevision in Porch
 - Triggers rendering (executes pipeline functions)
-- Package remains in `Draft` state
+- PackageRevision remains in `Draft` state
 
 ![Diagram](/static/images/porch/guides/push-workflow.drawio.svg)
 
@@ -215,9 +219,9 @@ porch-test.my-first-package.v1 pushed
 
 ---
 
-## Step 5: Propose the Package
+## Step 5: Propose the Package Revision
 
-Move the package to `Proposed` state for review:
+Move the package revision to `Proposed` state for review:
 
 ```bash
 porchctl rpkg propose porch-test.my-first-package.v1 --namespace default
@@ -226,13 +230,13 @@ porchctl rpkg propose porch-test.my-first-package.v1 --namespace default
 **What this does:**
 
 - Changes lifecycle from `Draft` to `Proposed`
-- Signals the package is ready for review
-- Package can still be modified if needed
+- Signals the package revision is ready for review
+- PackageRevision can still be modified if needed
 
 ![Diagram](/static/images/porch/guides/propose-workflow.drawio.svg)
 
 {{% alert title="Note" color="primary" %}}
-A lifecycle state change from `Draft` to `Proposed` means that in Git the package has moved from the `draft` branch to the `proposed` branch
+A lifecycle state change from `Draft` to `Proposed` means that in Git the package revision has moved from the `draft` branch to the `proposed` branch
 {{% /alert %}}
 
 **Verify the state change:**
@@ -250,9 +254,9 @@ porch-test.my-first-package.v1   my-first-package   v1              0          f
 
 ---
 
-## Step 6a: Approve the Package
+## Step 6a: Approve the Package Revision
 
-If the package looks good, approve it to publish:
+If the package revision looks good, approve it to publish:
 
 ```bash
 porchctl rpkg approve porch-test.my-first-package.v1 --namespace default
@@ -260,10 +264,10 @@ porchctl rpkg approve porch-test.my-first-package.v1 --namespace default
 
 **What this does:**
 
-- Changes packageRevision lifecycle from `Proposed` (0) to `Published` (1)
-- Package becomes **immutable** (content cannot be changed)
+- Changes PackageRevision lifecycle from `Proposed` (revision 0) to `Published` (revision 1)
+- PackageRevision becomes **immutable** (content cannot be changed)
 - Records who approved and when
-- Package is now available for cloning/deployment
+- PackageRevision is now available for cloning/deployment
 
 ![Diagram](/static/images/porch/guides/approve-workflow.drawio.svg)
 
@@ -288,9 +292,9 @@ porch-test.my-first-package.v1   my-first-package   v1              1          t
 
 ---
 
-## Step 6b: Reject the Package (Alternative)
+## Step 6b: Reject the Package Revision (Alternative)
 
-If the package needs more work, reject it to return to `Draft`:
+If the package revision needs more work, reject it to return to `Draft`:
 
 ```bash
 porchctl rpkg reject porch-test.my-first-package.v1 --namespace default
@@ -304,7 +308,7 @@ porchctl rpkg reject porch-test.my-first-package.v1 --namespace default
 
 ![Diagram](/static/images/porch/guides/reject-workflow.drawio.svg)
 
-If the package is rejected, the process begins again from Step 2 until the desired state is achieved.
+If the package revision is rejected, the process begins again from Step 2 until the desired state is achieved.
 
 ![Diagram](/static/images/porch/guides/lifecycle-workflow.drawio.svg)
 
@@ -312,39 +316,42 @@ If the package is rejected, the process begins again from Step 2 until the desir
 
 ## Troubleshooting
 
-**Package stuck in Draft?**
+**PackageRevision stuck in Draft?**
 
-- Check readiness conditions: `porchctl rpkg get <PACKAGE> -o yaml | grep -A 5 conditions`
+- Check readiness conditions: `porchctl rpkg get <PACKAGE-REVISION> -o yaml | grep -A 5 conditions`
 
 **Push fails with conflict?**
 
-- Pull the latest version first: `porchctl rpkg pull <PACKAGE> ./dir`
-- The package may have been modified by someone else
+- Pull the latest version first: `porchctl rpkg pull <PACKAGE-REVISION> ./dir`
+- The PackageRevision may have been modified by someone else
 
-**Cannot modify Published package?**
+**Cannot modify Published PackageRevision?**
 
-- Published packages are immutable
-- Create a new revision using `porchctl rpkg copy` [Copying Packages Guide]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/copying-packages.md" %}}).
+- Published PackageRevisions are immutable
+- Create a new revision using `porchctl rpkg copy` [Copying Package Revisions Guide]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/copying-packages.md" %}}).
 
 ---
 
-## Understanding Package Names
+## Understanding PackageRevision Names
 
-Porch generates package names automatically:
+Porch generates PackageRevision names automatically:
 
-- Format: `{repoName}-{packageName}-{workspaceName}`
+- Format: `{repoName}.{packageName}.{workspaceName}`
 - Example: `porch-test.my-first-package.v1`
-- The workspace name must be unique per package
+- The workspace name must be unique within the package
+- Multiple PackageRevisions can share the same package name but have different workspaces
 
 ---
 
 ## Key Concepts
 
+- **PackageRevision**: The Kubernetes resource managed by Porch (there is no separate "Package" resource)
 - **Draft**: Work in progress, fully editable
 - **Proposed**: Ready for review, still editable
 - **Published**: Approved and immutable
-- **Workspace**: Unique identifier for a package revision
-- **Repository**: Git repo where packages are stored
-- **Pipeline**: KRM functions that transform package resources
+- **Workspace**: Unique identifier for a PackageRevision within a package
+- **Repository**: Git repo where PackageRevisions are stored
+- **Pipeline**: KRM functions that transform PackageRevision resources
+- **Revision Number**: 0 for Draft/Proposed, 1+ for Published (increments with each publication)
 
 ---
