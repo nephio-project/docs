@@ -12,7 +12,7 @@ description: "A guide to getting/listing, reading, querying, and inspecting pack
 - A Git repository registered with Porch [Setup Repositories Guide]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/setting-up-repositories.md" %}}).
 - **Kubectl** configured to access your cluster.
 
-{{% alert title="Understanding Terminology" color="info" %}}
+{{% alert title="Understanding Terminology" color="primary" %}}
 In Porch, you work with **PackageRevisions** - there is no separate "Package" resource. When we say "package" colloquially, we're referring to a PackageRevision. The `rpkg` command stands for "revision package".
 {{% /alert %}}
 
