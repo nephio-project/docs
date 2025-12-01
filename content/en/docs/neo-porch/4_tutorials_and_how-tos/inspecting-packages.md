@@ -18,9 +18,9 @@ description: "A guide to viewing, querying, and inspecting packages in Porch"
 
 These operations cover the fundamental commands for viewing and inspecting packages in Porch.
 
-### List All Packages
+### Getting All Packages
 
-View all packages across all repositories in a namespace:
+Get all packages across all repositories in a namespace:
 
 ```bash
 porchctl rpkg get --namespace default
@@ -93,7 +93,7 @@ blueprints.postgres.v1           postgres           v1              0          f
 
 ### Get Detailed Package Information
 
-View complete details about a specific package:
+Get complete details about a specific package:
 
 ```bash
 porchctl rpkg get porch-test.my-app.v1 --namespace default -o yaml
@@ -145,18 +145,18 @@ Use `jq` to extract specific fields: `porchctl rpkg get <name> -n default -o jso
 
 ---
 
-### View Package Resources
+### Reading Package Resources
 
-Inspect the actual contents of a package:
+Read the actual contents of a package:
 
 ```bash
-porchctl rpkg pull porch-test.my-first-package.v1 --namespace default
+porchctl rpkg read porch-test.my-first-package.v1 --namespace default
 ```
 
 **What this does:**
 
 - Fetches package resources and outputs to stdout
-- Shows all YAML files in ResourceList format
+- Shows all KRM of the package in ResourceList format
 - Displays the complete package contents
 
 **Example output:**
@@ -209,35 +209,11 @@ items:
     Key: "Value"
 ```
 
-**Filter specific resources:**
-
-```bash
-porchctl rpkg pull porch-test.my-first-package.v1 --namespace default | grep -A 15 "kind: Kptfile"
-```
-
-**Example output:**
-
-```yaml
-  kind: Kptfile
-  metadata:
-    name: my-first-package
-    annotations:
-      config.kubernetes.io/local-config: "true"
-      config.kubernetes.io/path: Kptfile
-  info:
-    description: My first Porch package
-  pipeline:
-    mutators:
-    - image: gcr.io/kpt-fn/set-namespace:v0.4.1
-      configMap:
-        namespace: production
-```
-
 ---
 
 ## Advanced Filtering
 
-Porch provides multiple ways to filter package revisions beyond basic listing. You can use porchctl's built-in flags, Kubernetes label selectors, or field selectors depending on your needs.
+Porch provides multiple ways to filter package revisions. You can either use `porchctl`'s built-in flags, Kubernetes label selectors, or field selectors depending on your needs.
 
 ### Using Porchctl Flags
 
@@ -277,7 +253,7 @@ porch-test.network-function.main        network-function   main            0    
 
 Filter using Kubernetes [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#list-and-watch-filtering) with the `--selector` flag:
 
-**Find latest published revisions:**
+**Get all "latest" published package revisions:**
 
 ```bash
 kubectl get packagerevisions -n default --selector 'kpt.dev/latest-revision=true'
