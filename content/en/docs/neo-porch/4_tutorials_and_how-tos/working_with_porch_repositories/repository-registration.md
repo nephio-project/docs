@@ -5,8 +5,6 @@ weight: 3
 description: "Registering Repositories guide in Porch"
 ---
 
-## Registering Repositories
-
 Registering a repository connects Porch to your Git storage backend, allowing it to discover and manage packages. You can register repositories with various authentication methods and configuration options.
 
 ### Register a Git Repository

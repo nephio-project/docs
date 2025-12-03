@@ -122,47 +122,13 @@ status:
 
 ### Update Repository Configuration
 
-Updating repository settings is uncommon in practice. The typical workflow is to unregister and re-register the repository with new details. However, if you need to modify an existing repository configuration, you can edit the Kubernetes resource directly.
+The typical workflow for changing repository settings is to unregister and re-register the repository with new configuration. This is the recommended approach.
 
 {{% alert title="Note" color="primary" %}}
-There is no `porchctl repo update` command. Repository updates must be done using kubectl.
+There is no `porchctl repo update` command. The standard approach is unregister/reregister.
 {{% /alert %}}
 
-**Edit a repository:**
-
-```bash
-kubectl edit repository porch-test -n default
-```
-
-This opens the repository configuration in your default editor. You can modify fields under `spec.git` such as:
-
-- `branch`: Change the Git branch
-- `directory`: Update the package directory path
-- `secretRef.name`: Change authentication credentials
-- `deployment`: Toggle deployment repository flag
-
-**Example using kubectl patch:**
-
-```bash
-# Change branch
-kubectl patch repository porch-test -n default --type=merge -p '{"spec":{"git":{"branch":"develop"}}}'
-
-# Update directory
-kubectl patch repository porch-test -n default --type=merge -p '{"spec":{"git":{"directory":"/packages"}}}'
-```
-
-{{% alert title="Note" color="primary" %}}
-After updating repository configuration, trigger a manual sync to apply changes immediately:
-
-```bash
-porchctl repo sync porch-test --namespace default
-```
-
-{{% /alert %}}
-
-**Alternative approach:**
-
-For significant changes, consider unregistering and re-registering:
+**Recommended approach - Unregister and re-register:**
 
 ```bash
 # Unregister the repository
@@ -175,5 +141,34 @@ porchctl repo register https://github.com/example/porch-test.git \
   --branch=develop \
   --directory=/new-path
 ```
+
+**Alternative - Direct kubectl editing (NOT RECOMMENDED):**
+
+While you can edit the repository resource directly with kubectl, this is highly discouraged:
+
+```bash
+kubectl edit repository porch-test -n default
+```
+
+{{% alert title="Warning" color="warning" %}}
+Direct editing with kubectl is not recommended because:
+
+- Some values like `url`, `branch`, and `directory` are immutable or not designed to be changed this way
+- Changes to authentication secrets (like `secretRef`) are cached by Porch and won't take effect immediately
+- Secret changes only apply when authentication fails and Porch refreshes the cached credentials
+- This can lead to unpredictable behavior
+{{% /alert %}}
+
+**If you must use kubectl editing:**
+
+Only modify fields that are safe to change, such as:
+
+- `secretRef.name`: Change authentication credentials (with caching caveats above)
+
+Avoid changing:
+
+- `url`: Repository URL
+- `branch`: Git branch
+- `directory`: Package directory path
 
 ---
