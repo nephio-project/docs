@@ -5,13 +5,6 @@ weight: 3
 description: "A step by step guide to creating a package revision in Porch" 
 ---
 
-## Prerequisites
-
-- Porch deployed on a Kubernetes cluster [Setup Porch Guide]({{% relref "/docs/neo-porch/3_getting_started/installing-porch.md" %}}).
-- **Porchctl** CLI tool installed [Setup Porchctl Guide]({{% relref "/docs/neo-porch/3_getting_started/installing-porch.md" %}}).
-- A Git repository registered with Porch [Setup Repositories Guide]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/setting-up-repositories.md" %}}).
-- **Kubectl** configured to access your cluster.
-
 ## Tutorial Overview
 
 You will learn how to:
@@ -22,10 +15,6 @@ You will learn how to:
 4. Push changes back to Porch
 5. Propose the package revision for review
 6. Approve or reject the package revision
-
-{{% alert title="Understanding Terminology" color="primary" %}}
-In Porch, you work with **PackageRevisions** - there is no separate "Package" resource. When we say "package" colloquially, we're referring to a PackageRevision. The `rpkg` command stands for "revision package".
-{{% /alert %}}
 
 ---
 
@@ -311,47 +300,5 @@ porchctl rpkg reject porch-test.my-first-package.v1 --namespace default
 If the package revision is rejected, the process begins again from Step 2 until the desired state is achieved.
 
 ![Diagram](/static/images/porch/guides/lifecycle-workflow.drawio.svg)
-
----
-
-## Troubleshooting
-
-**PackageRevision stuck in Draft?**
-
-- Check readiness conditions: `porchctl rpkg get <PACKAGE-REVISION> -o yaml | grep -A 5 conditions`
-
-**Push fails with conflict?**
-
-- Pull the latest version first: `porchctl rpkg pull <PACKAGE-REVISION> ./dir`
-- The PackageRevision may have been modified by someone else
-
-**Cannot modify Published PackageRevision?**
-
-- Published PackageRevisions are immutable
-- Create a new revision using `porchctl rpkg copy` [Copying Package Revisions Guide]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/copying-packages.md" %}}).
-
----
-
-## Understanding PackageRevision Names
-
-Porch generates PackageRevision names automatically:
-
-- Format: `{repoName}.{packageName}.{workspaceName}`
-- Example: `porch-test.my-first-package.v1`
-- The workspace name must be unique within the package
-- Multiple PackageRevisions can share the same package name but have different workspaces
-
----
-
-## Key Concepts
-
-- **PackageRevision**: The Kubernetes resource managed by Porch (there is no separate "Package" resource)
-- **Draft**: Work in progress, fully editable
-- **Proposed**: Ready for review, still editable
-- **Published**: Approved and immutable
-- **Workspace**: Unique identifier for a PackageRevision within a package
-- **Repository**: Git repo where PackageRevisions are stored
-- **Pipeline**: KRM functions that transform PackageRevision resources
-- **Revision Number**: 0 for Draft/Proposed, 1+ for Published (increments with each publication)
 
 ---

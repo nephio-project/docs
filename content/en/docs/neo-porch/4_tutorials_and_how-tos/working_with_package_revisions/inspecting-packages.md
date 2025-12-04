@@ -5,16 +5,7 @@ weight: 3
 description: "A guide to getting/listing, reading, querying, and inspecting package revisions in Porch"
 ---
 
-## Prerequisites
 
-- Porch deployed on a Kubernetes cluster [Setup Porch Guide]({{% relref "/docs/neo-porch/3_getting_started/installing-porch.md" %}}).
-- **Porchctl** CLI tool installed [Setup Porchctl Guide]({{% relref "/docs/neo-porch/3_getting_started/installing-porch.md" %}}).
-- A Git repository registered with Porch [Setup Repositories Guide]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/setting-up-repositories.md" %}}).
-- **Kubectl** configured to access your cluster.
-
-{{% alert title="Understanding Terminology" color="primary" %}}
-In Porch, you work with **PackageRevisions** - there is no separate "Package" resource. When we say "package" colloquially, we're referring to a PackageRevision. The `rpkg` command stands for "revision package".
-{{% /alert %}}
 
 ---
 
@@ -366,38 +357,5 @@ Both `porchctl` and `kubectl` support standard Kubernetes [output formatting fla
 {{% alert title="Note" color="primary" %}}
 For a complete reference of all available command options and flags, see the [Porch CLI Guide]({{% relref "/docs/neo-porch/7_cli_api/relevant_old_docs/porchctl-cli-guide.md" %}}).
 {{% /alert %}}
-
----
-
-## Troubleshooting
-
-**No PackageRevisions shown?**
-
-- Verify repositories are registered and healthy (see [Repository Management Guide]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/setting-up-repositories.md" %}}))
-- Ensure PackageRevisions exist in the Git repository
-
-**Permission denied errors?**
-
-- Check RBAC permissions: `kubectl auth can-i get packagerevisions -n default`
-- Verify service account has proper roles
-
-**PackageRevision not found?**
-
-- Confirm the exact PackageRevision name: `porchctl rpkg get --namespace default`
-- Check you're using the correct namespace
-- Verify the PackageRevision hasn't been deleted
-
----
-
-## Key Concepts
-
-- **PackageRevision**: The Kubernetes resource managed by Porch (there is no separate "Package" resource)
-- **Namespace**: Kubernetes namespace where PackageRevisions are managed
-- **Repository**: Git repository containing PackageRevision sources
-- **Lifecycle**: Current state of the PackageRevision (Draft, Proposed, Published, DeletionProposed)
-- **Workspace**: Unique identifier for a PackageRevision within a package (maps to Git branch/tag)
-- **Latest**: Flag indicating the most recent published PackageRevision of a package
-- **Path nodes**: Directory structure within repository where PackageRevision is located
-- **Revision Number**: 0 for Draft/Proposed, 1+ for Published (increments with each publication)
 
 ---
