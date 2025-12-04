@@ -5,14 +5,6 @@ weight: 4
 description: "A step by step guide to copying package revisions in Porch"
 ---
 
-## Prerequisites
-
-- Porch deployed on a Kubernetes cluster [Setup Porch Guide]({{% relref "/docs/neo-porch/3_getting_started/installing-porch.md" %}}).
-- **Porchctl** CLI tool installed [Setup Porchctl Guide]({{% relref "/docs/neo-porch/3_getting_started/installing-porch.md" %}}).
-- A Git repository registered with Porch [Setup Repositories Guide]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/setting-up-repositories.md" %}}).
-- **Kubectl** configured to access your cluster.
-- At least one published PackageRevision to copy from.
-
 ## Tutorial Overview
 
 You will learn how to:
@@ -22,16 +14,18 @@ You will learn how to:
 3. Modify the copied PackageRevision
 4. Propose and approve the new revision
 
-{{% alert title="Understanding Terminology" color="primary" %}}
-In Porch, you work with **PackageRevisions** - there is no separate "Package" resource. When we say "package" colloquially, we're referring to a PackageRevision. The `rpkg` command stands for "revision package".
-{{% /alert %}}
-
----
-
 {{% alert title="Note" color="primary" %}}
 Please note the tutorial assumes a porch repository is initialized with the "porch-test" name.
 We recommended to use this for simpler copy pasting of commands otherwise replace any "porch-test" value with your repository's name in the below commands.
 {{% /alert %}}
+
+---
+
+## Understanding Copy Operations
+
+Copying creates a new PackageRevision based on an existing one **within the same repository**. The copied PackageRevision is completely independent with no upstream link to the source.
+
+---
 
 ## When to Use Copy
 
@@ -50,14 +44,8 @@ We recommended to use this for simpler copy pasting of commands otherwise replac
 - You're importing blueprints from a central repository - use `porchctl rpkg clone` instead
 
 {{% alert title="Note" color="primary" %}}
-For cross-repository operations or maintaining upstream relationships, see [Cloning Package Revisions Guide]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/cloning-packages.md" %}}).
+For cross-repository operations or maintaining upstream relationships, see [Cloning Package Revisions Guide]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/working_with_package_revisions/cloning-packages.md" %}}).
 {{% /alert %}}
-
----
-
-## Understanding Copy Operations
-
-Copying creates a new PackageRevision based on an existing one **within the same repository**. The copied PackageRevision is completely independent with no upstream link to the source.
 
 ---
 
@@ -222,7 +210,7 @@ Here are practical scenarios where copying PackageRevisions is useful.
 
 ### Creating a New Version
 
-When you need to update a published PackageRevision:
+When you need to update a published PackageRevision in the same Repository:
 
 ```bash
 # Copy the latest published version
@@ -282,7 +270,7 @@ Common issues when copying PackageRevisions and how to resolve them.
 
 - Use `porchctl rpkg clone` instead of `copy`
 - The `clone` command supports the `--repository` flag for cross-repository operations
-- See [Cloning Package Revisions Guide]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/cloning-packages.md" %}})
+- See [Cloning Package Revisions Guide]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/working_with_package_revisions/cloning-packages.md" %}})
 
 ---
 
