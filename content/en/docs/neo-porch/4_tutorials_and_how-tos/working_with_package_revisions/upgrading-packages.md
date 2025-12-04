@@ -9,10 +9,7 @@ The package upgrade feature in Porch is a powerful mechanism for keeping deploye
 
 For detailed command reference, see the [porchctl CLI guide]({{% relref "/docs/neo-porch/7_cli_api/relevant_old_docs/porchctl-cli-guide/#package-upgrade" %}}).
 
-## Prerequisites
 
-*   Porch installed in your Kubernetes cluster, along with its CLI `porchctl`. [Setup Guide]({{% relref "/docs/neo-porch/3_getting_started/installing-porch.md" %}})
-*   A Git Repository registered with Porch, in this example it's assumed that the Porch-Repository's name is "porch-test". [Repository Guide]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/working_with_porch_repositories/repository-registration.md" %}})
 
 ## Key Concepts
 
