@@ -9,7 +9,7 @@ description: "A step by step guide to creating a package revision in Porch"
 
 - Porch deployed on a Kubernetes cluster [Setup Porch Guide]({{% relref "/docs/neo-porch/3_getting_started/installing-porch.md" %}}).
 - **Porchctl** CLI tool installed [Setup Porchctl Guide]({{% relref "/docs/neo-porch/3_getting_started/installing-porch.md" %}}).
-- A Git repository registered with Porch [Setup Repositories Guide]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/setting-up-repositories.md" %}}).
+- A Git repository registered with Porch [Registering Repositories]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/working_with_porch_repositories/repository-registration.md" %}}).
 - **Kubectl** configured to access your cluster.
 
 ## Tutorial Overview

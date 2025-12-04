@@ -9,7 +9,7 @@ description: "A guide to getting/listing, reading, querying, and inspecting pack
 
 - Porch deployed on a Kubernetes cluster [Setup Porch Guide]({{% relref "/docs/neo-porch/3_getting_started/installing-porch.md" %}}).
 - **Porchctl** CLI tool installed [Setup Porchctl Guide]({{% relref "/docs/neo-porch/3_getting_started/installing-porch.md" %}}).
-- A Git repository registered with Porch [Setup Repositories Guide]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/setting-up-repositories.md" %}}).
+- A Git repository registered with Porch [Registering Repositories]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/working_with_porch_repositories/repository-registration.md" %}}).
 - **Kubectl** configured to access your cluster.
 
 {{% alert title="Understanding Terminology" color="primary" %}}
@@ -373,7 +373,7 @@ For a complete reference of all available command options and flags, see the [Po
 
 **No PackageRevisions shown?**
 
-- Verify repositories are registered and healthy (see [Repository Management Guide]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/setting-up-repositories.md" %}}))
+- Verify repositories are registered and healthy (see [Registering Repositories]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/working_with_porch_repositories/repository-registration.md" %}}))
 - Ensure PackageRevisions exist in the Git repository
 
 **Permission denied errors?**
