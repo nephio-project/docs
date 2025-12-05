@@ -16,5 +16,5 @@ integration with GitOps for the packages.
 
 The goal of Porch is to orchestrate kpt packages in a configuration as code and GitOps context. It provides an API and a CLI as enablers to build lifecycle management, package repository management, package discovery, and authoring kpt packages. 
 
-Porch does not intend to run mutation pipelines, package specialization and basic package manipulation in GitOps
+Porch does not intend to run mutation pipelines, package specialization and basic package manipulation in GitOps, but uses kpt for these operations.
 
