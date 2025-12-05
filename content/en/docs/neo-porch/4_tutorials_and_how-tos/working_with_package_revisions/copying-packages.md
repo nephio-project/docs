@@ -15,15 +15,27 @@ You will learn how to:
 4. Propose and approve the new revision
 
 {{% alert title="Note" color="primary" %}}
-Please note the tutorial assumes a porch repository is initialized with the "porch-test" name.
+The tutorial assumes a porch repository is initialized with the "porch-test" name.
 We recommended to use this for simpler copy pasting of commands otherwise replace any "porch-test" value with your repository's name in the below commands.
 {{% /alert %}}
 
 ---
 
+## Key Concepts
+
+- **Copy**: Creates a new independent PackageRevision within the same repository
+- **Source PackageRevision**: The original PackageRevision being copied
+- **Target PackageRevision**: The new PackageRevision created by the copy operation
+- **Workspace**: Must be unique within the package for the target
+- **Same-repository operation**: Copy only works within a single repository
+- **Immutability**: Published PackageRevisions cannot be modified, only copied
+- **Clone vs Copy**: Use clone for cross-repository operations, copy for same-repository versions
+
+---
+
 ## Understanding Copy Operations
 
-Copying creates a new PackageRevision based on an existing one **within the same repository**. The copied PackageRevision is completely independent with no upstream link to the source.
+Copying creates a new PackageRevision based on an existing one **within the same repository**. The copied PackageRevision is completely **independent with no upstream link** to the source.
 
 ---
 
@@ -44,7 +56,7 @@ Copying creates a new PackageRevision based on an existing one **within the same
 - You're importing blueprints from a central repository - use `porchctl rpkg clone` instead
 
 {{% alert title="Note" color="primary" %}}
-For cross-repository operations or maintaining upstream relationships, see [Cloning Package Revisions Guide]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/working_with_package_revisions/cloning-packages.md" %}}).
+For cross-repository operations or maintaining upstream relationships, see the [Cloning Package Revisions Guide]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/working_with_package_revisions/cloning-packages.md" %}}).
 {{% /alert %}}
 
 ---
@@ -123,7 +135,7 @@ porchctl rpkg pull porch-test.my-app.v2 ./my-app-v2 --namespace default
 vim ./my-app-v2/Kptfile
 ```
 
-For example, update the description:
+For example, you can update the description:
 
 ```yaml
 apiVersion: kpt.dev/v1
@@ -176,7 +188,7 @@ porch-test.my-app.v2             my-app             v2              0          f
 porchctl rpkg approve porch-test.my-app.v2 --namespace default
 ```
 
-**Verify publication:**
+**Verify the publication:**
 
 ```bash
 porchctl rpkg get --namespace default --name my-app
@@ -190,7 +202,7 @@ porch-test.my-app.v1             my-app             v1              1          f
 porch-test.my-app.v2             my-app             v2              2          true     Published   porch-test
 ```
 
-Notice:
+Notice the following changes:
 
 - `v2` now has revision number `2`
 - `v2` is marked as `LATEST`
@@ -247,41 +259,23 @@ porchctl rpkg copy porch-test.my-app.v1 my-app --namespace default --workspace p
 
 Common issues when copying PackageRevisions and how to resolve them.
 
-**Copy fails with "workspace already exists"?**
+**Copy fails with "workspace already exists":**
 
 - The workspace name must be unique within the package
 - Choose a different workspace name: `--workspace v3` or `--workspace dev-2`
-- List existing workspaces: `porchctl rpkg get --namespace default --name <package>`
+- List existing workspaces with the `porchctl rpkg get --namespace default --name <package>` command
 
-**Copy fails with "source not found"?**
+**Copy fails with "source not found":**
 
-- Verify the source PackageRevision exists: `porchctl rpkg get --namespace default`
+- Verify that the source PackageRevision exists with the `porchctl rpkg get --namespace default` command
 - Check the exact name including repository, package, and workspace
 - Ensure you have permission to read the source PackageRevision
 - Ensure the source is in the same repository (copy only works within the same repository)
 
-**Copied PackageRevision has unexpected content?**
+**Copied PackageRevision has unexpected content:**
 
 - The copy includes all resources from the source at the time of copying
-- Pull and inspect: `porchctl rpkg pull <name> ./dir --namespace default`
+- Pull and inspect with the `porchctl rpkg pull <name> ./dir --namespace default` command
 - Make corrections and push back
-
-**Need to copy to a different repository?**
-
-- Use `porchctl rpkg clone` instead of `copy`
-- The `clone` command supports the `--repository` flag for cross-repository operations
-- See [Cloning Package Revisions Guide]({{% relref "/docs/neo-porch/4_tutorials_and_how-tos/working_with_package_revisions/cloning-packages.md" %}})
-
----
-
-## Key Concepts
-
-- **Copy**: Creates a new independent PackageRevision within the same repository
-- **Source PackageRevision**: The original PackageRevision being copied
-- **Target PackageRevision**: The new PackageRevision created by the copy operation
-- **Workspace**: Must be unique within the package for the target
-- **Same-repository operation**: Copy only works within a single repository
-- **Immutability**: Published PackageRevisions cannot be modified, only copied
-- **Clone vs Copy**: Use clone for cross-repository operations, copy for same-repository versions
 
 ---
