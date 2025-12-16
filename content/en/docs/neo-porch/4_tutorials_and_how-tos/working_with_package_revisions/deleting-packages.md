@@ -345,7 +345,7 @@ Error: cannot delete published package revision directly, use propose-delete fir
 
 **Permission denied:**
 
-- Check RBAC permissions: `kubectl auth can-i delete packagerevisions -n default`
+- Check RBAC permissions with the `kubectl auth can-i delete packagerevisions -n default` command
 - Verify your service account has proper deletion roles
 
 **Deletion proposal stuck:**
