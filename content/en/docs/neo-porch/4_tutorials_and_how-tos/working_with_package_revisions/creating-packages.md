@@ -275,9 +275,14 @@ porchctl rpkg get porch-test.my-first-package.v1 --namespace default
 The lifecycle should now show `Published`.
 
 ```bash
-NAME                             PACKAGE            WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
-porch-test.my-first-package.v1   my-first-package   v1              1          true     Published   porch-test
+NAME                               PACKAGE            WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
+porch-test.my-first-package.main   my-first-package   main            -1         true     Published   porch-test
+porch-test.my-first-package.v1     my-first-package   v1              1          false    Published   porch-test
 ```
+
+{{% alert title="Note" color="primary" %}}
+Porch automatically creates a main branch-tracking PackageRevision (with workspace `main` and revision `-1`) to track the latest published version of this package.
+{{% /alert %}}
 
 ---
 
