@@ -200,7 +200,7 @@ porchctl rpkg del porch-test.test-published-package.published-v1 --namespace=def
 
 - Permanently deletes the PackageRevision
 - Removes the Git tag and any associated branches
-- Cannot be undone once completed
+- **Important**: This cannot be undone once completed
 
 **Verify deletion:**
 
