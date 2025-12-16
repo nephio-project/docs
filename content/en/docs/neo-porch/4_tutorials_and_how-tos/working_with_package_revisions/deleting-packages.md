@@ -190,7 +190,7 @@ porch-test.test-published-package.published-v1 test-published-package   publishe
 
 ## Step 5a: Approve Deletion Proposal
 
-If you want to proceed with deletion, approve the deletion proposal:
+If you want to proceed with the deletion, approve the deletion proposal:
 
 ```bash
 porchctl rpkg del porch-test.test-published-package.published-v1 --namespace=default
