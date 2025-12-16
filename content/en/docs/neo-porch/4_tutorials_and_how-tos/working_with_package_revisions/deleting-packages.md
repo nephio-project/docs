@@ -339,7 +339,7 @@ Error: cannot delete published package revision directly, use propose-delete fir
 
 **PackageRevision not found:**
 
-- Verify the exact PackageRevision name: `porchctl rpkg get --namespace=default`
+- Verify the exact PackageRevision name with the `porchctl rpkg get --namespace=default` command
 - Check you're using the correct namespace
 - Ensure the PackageRevision hasn't already been deleted
 
