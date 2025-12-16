@@ -262,7 +262,7 @@ porch-test.test-reject-delete.reject-v1 test-reject-delete reject-v1       1    
 
 ## Batch Deletion Operations
 
-You can delete multiple PackageRevisions in a single command:
+You can delete multiple PackageRevisions with a single command:
 
 **Delete multiple Draft/Proposed PackageRevisions:**
 
