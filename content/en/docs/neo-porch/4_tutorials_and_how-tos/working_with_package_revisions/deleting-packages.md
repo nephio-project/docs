@@ -142,7 +142,7 @@ porchctl rpkg del porch-test.test-proposed-package.proposed-v1 --namespace=defau
 - Deletes the corresponding Git branch (`proposed/proposed-v1`)
 - No approval process required
 
-**Verify deletion:**
+**Verify the deletion:**
 
 ```bash
 porchctl rpkg get --namespace=default
