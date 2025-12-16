@@ -85,7 +85,7 @@ porchctl rpkg approve porch-test.test-published-package.published-v1 --namespace
 porchctl rpkg get --namespace=default
 ```
 
-You should see output similar to:
+You should see an output similar to:
 
 ```bash
 NAME                                           PACKAGE                  WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
