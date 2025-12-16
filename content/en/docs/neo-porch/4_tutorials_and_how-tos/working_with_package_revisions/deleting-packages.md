@@ -370,7 +370,7 @@ Main branch-tracking PackageRevisions (with workspace name "main" and revision "
 porchctl rpkg get --namespace=default
 ```
 
-You might see output like:
+You might see an output like:
 
 ```bash
 NAME                                    PACKAGE                  WORKSPACENAME   REVISION   LATEST   LIFECYCLE   REPOSITORY
