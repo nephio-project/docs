@@ -111,7 +111,7 @@ porchctl rpkg del porch-test.test-draft-package.draft-v1 --namespace=default
 - Deletes the corresponding Git branch (`draft/draft-v1`)
 - No approval or confirmation required
 
-**Verify deletion:**
+**Verify the deletion:**
 
 ```bash
 porchctl rpkg get --namespace=default
