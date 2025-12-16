@@ -350,7 +350,7 @@ Error: cannot delete published package revision directly, use propose-delete fir
 
 **Deletion proposal stuck:**
 
-- Check the PackageRevision status: `porchctl rpkg get <name> -o yaml`
+- Check the PackageRevision status with the `porchctl rpkg get <name> -o yaml` command
 - Look for conditions that might prevent deletion
 - Ensure no other processes are modifying the PackageRevision
 
