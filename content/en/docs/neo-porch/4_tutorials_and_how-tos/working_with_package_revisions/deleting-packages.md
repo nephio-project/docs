@@ -202,7 +202,7 @@ porchctl rpkg del porch-test.test-published-package.published-v1 --namespace=def
 - Removes the Git tag and any associated branches
 - **Important**: This cannot be undone once completed
 
-**Verify deletion:**
+**Verify the deletion:**
 
 ```bash
 porchctl rpkg get --namespace=default
