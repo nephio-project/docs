@@ -243,7 +243,7 @@ porchctl rpkg reject porch-test.test-reject-delete.reject-v1 --namespace=default
 
 - Changes lifecycle from `DeletionProposed` back to `Published`
 - PackageRevision returns to normal published state
-- Can be used again normally
+- The package can be used again normally
 
 **Verify the state change:**
 
