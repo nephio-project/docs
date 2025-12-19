@@ -168,7 +168,7 @@ Fetch Cached Packages ←→ Fetch External Packages
   - ⚠️ **Important**: Do not perform API operations (create, update, delete packages) on the repository while this condition is active. Wait for the sync to complete and the repository to return to "ready" state to avoid conflicts and data inconsistencies.
 - **ready**: Repository synchronized and ready for use
 - **error**: Synchronization failed with error details
-  - ⚠️ **Important**: Do not perform API operations on the repository while in error state. Check the error message in the condition details, debug and resolve the underlying issue (e.g., network connectivity, authentication, repository access), then wait for the repository to return to "ready" state before running API calls. See the [troubleshooting guide]({{% relref "/docs/neo-porch/9_troubleshooting_and_faq/repository-sync.md" %}}) for common sync issues and solutions.
+  - ⚠️ **Important**: Do not perform API operations on the repository while in error state. Check the error message in the condition details, debug and resolve the underlying issue (e.g., network connectivity, authentication, repository access), then wait for the repository to return to "ready" state before running API calls. See the [troubleshooting guide]({{% relref "/docs/neo-porch/9_troubleshooting_and_faq/repository-sync/" %}}) for common sync issues and solutions.
 
 ### Condition Functions
 - **Set Repository Condition**: Updates the status of a repository with new condition information

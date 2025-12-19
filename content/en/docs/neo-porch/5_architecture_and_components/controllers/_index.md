@@ -1,10 +1,12 @@
 ---
 title: "Controllers"
 type: docs
-weight: 3
-description: controllers
+weight: 5
+description: Kubernetes controllers for package automation
 ---
 
-## Lorem Ipsum
+## Overview
 
-Lorem Ipsum
+Porch controllers are Kubernetes controllers that watch Porch resources and automate package operations. They enable advanced workflows like automatic package cloning, updates, and variant management.
+
+Content to be added.
