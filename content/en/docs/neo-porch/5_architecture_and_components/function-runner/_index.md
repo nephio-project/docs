@@ -1,10 +1,12 @@
 ---
 title: "Function Runner"
 type: docs
-weight: 2
-description: function runner
+weight: 3
+description: KRM function execution service
 ---
 
-## Lorem Ipsum
+## Overview
 
-Lorem Ipsum
+The Function Runner is a gRPC service responsible for executing KRM functions that transform and validate package contents. It manages function execution in pods and maintains a cache of frequently-used function pods for performance.
+
+Content to be added.
