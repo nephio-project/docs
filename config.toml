@@ -20,7 +20,7 @@ enableMissingTranslationPlaceholders = true
 
   [module.hugoVersion]
     extended = true
-    min = "0.73.0"
+    min = "v0.148.2"
   [[module.imports]]
     path = "github.com/google/docsy"
     disable = false
