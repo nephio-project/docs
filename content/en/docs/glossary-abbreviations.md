@@ -45,7 +45,7 @@ services, applications, etc.) which:
 * abstracts configuration file structure and storage from operations that act upon the configuration data; clients
   manipulating configuration data don’t need to directly interact with storage (git, container images)
 
-Source of definition and more information about Configuration as Data can be found in the [kpt documentation]({{% relref "/docs/porch/config-as-data.md" %}}).
+Source of definition and more information about Configuration as Data can be found in the [porch documentation](https://docs.porch.nephio.org/docs/2_concepts/theory/#configuration-as-data-cad).
 
 ## Controller
 This term comes from Kubernetes where
