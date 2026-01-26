@@ -1,1 +1,3 @@
-{{ template "_default/_markup/td-render-heading.html" . }}
+<h{{ .Level }} class="docsy-heading" id="{{ .Anchor | safeHTMLAttr }}">
+  <span>{{ .Text | safeHTML }}</span>
+</h{{ .Level }}>
