@@ -92,7 +92,6 @@ latestTag = "1.5.4"
 version_docker = "v28.1.1"
 version_go = "v1.25.3"
 version_git = "v2.51.2"
-version_kind = "v0.30.0"
 version_kube = "v1.34.2"
 version_kpt = "v1.0.0-beta.59"
 
@@ -240,19 +239,3 @@ enable = false
 [[params.versions]]
   version = "R5"
   url = "https://r5.docs.nephio.org/docs/"
-
-[[params.versions]]
-  version = "R4"
-  url = "https://r4.docs.nephio.org/docs/"
-
-  [[params.versions]]
-  version = "R3"
-  url = "https://r3.docs.nephio.org/docs/"
-
-  [[params.versions]]
-  version = "R2"
-  url = "https://r2.docs.nephio.org/docs/"
-
-  [[params.versions]]
-  version = "R1"
-  url = "https://github.com/nephio-project/docs/tree/R1"
