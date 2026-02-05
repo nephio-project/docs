@@ -2,7 +2,7 @@
 title: "Package Orchestration API Specifications"
 type: docs
 weight: 5
-description: Reference for the Nephio Porch APIs
+description: Reference for the Porch APIs
 ---
 For detailed API and CRD specifications, please refer to:
 
