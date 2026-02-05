@@ -29,8 +29,8 @@ gcloud compute instances create --machine-type e2-standard-16 \
                                     --boot-disk-size 200GB \
                                     --image-family=ubuntu-2004-lts \
                                     --image-project=ubuntu-os-cloud \
-                                    --metadata=startup-script-url=https://raw.githubusercontent.com/nephio-project/test-infra/v3.0.0/e2e/provision/init.sh,nephio-test-infra-branch=v3.0.0 \
-                                    nephio-r3-e2e
+                                    --metadata=startup-script-url=https://raw.githubusercontent.com/nephio-project/test-infra/v4.0.0/e2e/provision/init.sh,nephio-test-infra-branch=v4.0.0 \
+                                    nephio-r4-e2e
 ```
 
 {{% alert title="Note" color="primary" %}}
@@ -46,7 +46,7 @@ reach a network-accessible state. Then log in with ssh and investigate the scrip
 tail:
 
 ```bash
-gcloud compute ssh ubuntu@nephio-r3-e2e -- \
+gcloud compute ssh ubuntu@nephio-r4-e2e -- \
                 sudo journalctl -u google-startup-scripts.service --follow
 ```
 
@@ -98,9 +98,9 @@ installation parameters and make changes to commands as required.
 Log on to your VM and run the following command :
 
 ```bash
-wget -O - https://raw.githubusercontent.com/nephio-project/test-infra/v3.0.0/e2e/provision/init.sh |  \
+wget -O - https://raw.githubusercontent.com/nephio-project/test-infra/v4.0.0/e2e/provision/init.sh |  \
 sudo NEPHIO_DEBUG=false   \
-     NEPHIO_BRANCH=v3.0.0 \
+     NEPHIO_BRANCH=v4.0.0 \
      NEPHIO_USER=ubuntu   \
      bash
 ```
@@ -117,9 +117,9 @@ and *repository* packages.
 
 
 ```bash
-wget -O - https://raw.githubusercontent.com/nephio-project/test-infra/v3.0.0/e2e/provision/init.sh |  \
+wget -O - https://raw.githubusercontent.com/nephio-project/test-infra/v4.0.0/e2e/provision/init.sh |  \
 sudo NEPHIO_DEBUG=false   \
-     NEPHIO_BRANCH=v3.0.0 \
+     NEPHIO_BRANCH=v4.0.0 \
      NEPHIO_USER=ubuntu   \
      DOCKERHUB_USERNAME=username \
      DOCKERHUB_TOKEN=password \
@@ -138,7 +138,7 @@ The following environment variables can be used to configure the installation:
 | *DOCKERHUB_USERNAME*      | alpha-num string |                    | This variable specifies the Docker Hub username.                             |
 | *DOCKERHUB_TOKEN*         | alpha-num string |                    | This variable specifies the password or token.                               |
 | *NEPHIO_REPO*             | URL              | https://github.com/nephio-project/test-infra.git | This variable specifies the URL of the repository to be used for installation. |
-| *NEPHIO_BRANCH*           | branch           | main/v3.0.0        | This variable specifies the tag or branch name to use in NEPHIO_REPO         |
+| *NEPHIO_BRANCH*           | branch           | main/v4.0.0        | This variable specifies the tag or branch name to use in NEPHIO_REPO         |
 | *DOCKER_REGISTRY_MIRRORS* | List of URLs in JSON format |         | This variable specifies the list of Docker registry mirrors in JSON format. If there are no mirrors to be set, then the variable remains empty. Here are two example values: ``["https://docker-registry-remote.mycompany.com", "https://docker-registry-remote2.mycompany.com"]``|
 | *K8S_CONTEXT*             | K8s context      | kind-kind          | This variable defines the Kubernetes context for the existing non-kind cluster (gathered from `kubectl config get-contexts`, for example, *kubernetes-admin@kubernetes*). |
 
@@ -157,7 +157,7 @@ Once the installation is complete, log in with ssh and forward the port to the u
 Using the GCE:
 
 ```bash
-gcloud compute ssh ubuntu@nephio-r3-e2e -- \
+gcloud compute ssh ubuntu@nephio-r4-e2e -- \
                 -L 7007:localhost:7007 \
                 -L 3000:172.18.0.200:3000 \
                 kubectl port-forward --namespace=nephio-webui svc/nephio-webui 7007
@@ -185,7 +185,7 @@ You may want a second ssh window open to run `kubectl` commands, and so on, with
 Using the GCE:
 
 ```bash
-gcloud compute ssh ubuntu@nephio-r3-e2e
+gcloud compute ssh ubuntu@nephio-r4-e2e
 ```
 
 Using a VM:

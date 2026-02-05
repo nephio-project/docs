@@ -15,6 +15,13 @@ ignorePatterns:
   - pattern: "https://my-gitlab\\.com/joe\\.bloggs/blueprints\\.git"
   - pattern: "http://172\\.18\\.0\\.200:3000/nephio/"
   - pattern: "https://www\\.gnu\\.org/"
+  - pattern: "https://stackoverflow.com/questions/.*"
+  - pattern: "https://www.npmjs.com/.*"
+  - pattern: "https://travis-ci.org/.*"
+  - pattern: "https://containerlab\\.dev.*"
+  - pattern: "https://docs\\.google\\.com/.*"
+  - pattern: "https://github\\.com/nephio-project/porch/releases/download/.*/porchctl_.*_linux_amd64\\.tar\\.gz"
+  - pattern: "https://kubernetes\\.io/.*"
 replacementPatterns:
   - pattern: ".md#.*$"
     replacement: ".md"
