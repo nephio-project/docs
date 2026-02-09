@@ -1,11 +1,15 @@
 ---
-title: "Porch documentation"
+title: "Porch"
 type: docs
 weight: 6
-description: Documentation of Porch
 ---
-
 ## Overview
+
+{{% alert title="Note" color="primary" %}}
+
+**The Porch documentation has been moved to [https://docs.porch.nephio.org/](https://docs.porch.nephio.org/).**
+
+{{% /alert %}}
 
 Porch is “kpt-as-a-service”, providing opinionated package management, manipulation, and lifecycle operations in a
 Kubernetes-based API. This allows automation of these operations using standard Kubernetes controller techniques.
