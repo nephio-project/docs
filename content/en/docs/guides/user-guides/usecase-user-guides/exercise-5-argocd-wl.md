@@ -161,7 +161,7 @@ oai-core-packages           git    Package   false        True    https://github
 
 Once *Ready*, we can utilize blueprint packages from these upstream repositories.
 
-In this example, we will use the [Porch package variant controller]({{% relref "/docs/porch/package-variant.md#core-concepts" %}}) 
+In this example, we will use the [Porch package variant controller](https://docs.porch.nephio.org/docs/5_architecture_and_components/relevant_old_docs/package-variant/#core-concepts) 
 to deploy the new Workload Cluster.
 
 This fully automates the onboarding process, including the auto approval and publishing of the new package.
