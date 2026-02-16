@@ -1,4 +1,4 @@
 ---
 title: Release Notes
-weight: 1
+weight: 8
 ---
