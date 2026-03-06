@@ -2,7 +2,7 @@
 title: Minimal Environment install for development
 description: >
   How to set up a minimal environment for development in the Nephio project.
-weight: 5
+weight: 2
 ---
 
 The following environment install works on a MacBook Pro M1 or via SSH to Ubuntu 22.04 to get the nephio-operators
