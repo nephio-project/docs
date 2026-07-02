@@ -28,19 +28,22 @@ Add the *area/docs* and the *documentation* labels to the issues created for the
 * Do not add manually a table of contents to the documents. Hugo and Docsy takes care of this.
 * Do not use H1 (#) headers in the documents. Docsy generates a H1 header to every document consistent with the title
   of the document. Start the headings with H2 (##)
-* Use the built in alerts for notes and alerts
+* Alerts (note/warning/critical boxes)**: There are three alert types available based on the importance of the information:
 
-  ```go-html-template
-  {{%/* alert title="Warning" color="primary" */%}}
-  This is a note.
+  | Alert type | Code              | Alert color |
+  |------------|-------------------|-------------|
+  | Note       | `color="primary"` | Blue        |
+  | Warning    | `color="warning"` | Yellow      |
+  | Critical   | `color="danger"`  | Red         |
+
+  Make sure not to change the title of the alert type. It should always be either Note, Warning or Critical.
+  
+  ```markdown
+  {{%/* alert title="Note" color="primary" */%}}
+  Important information here.
   {{%/* /alert */%}}
   ```
 
-  ```go-html-template
-  {{%/* alert title="Warning" color="warning" */%}}
-  This is a warning.
-  {{%/* /alert */%}}
-  ```
 * Colors to be used when creating figures are [here](https://color.adobe.com/Nephio-secondary-colors-color-theme-0bbcdea2-0533-4ab3-812f-f752f30b5b40/)
 * If you add any commands to the content inline surround the comand with backticks (\` \`), like \`ls -la\`
 * Do not surround IP addresses, domain names or any other identifyers with backticks. Use italics (\* \*) to mark any
