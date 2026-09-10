@@ -268,7 +268,7 @@ regional-md-0-m6cr5-wtzlx   regional   1          1       1           5m36s   v1
 
 ## Step 3: Deploy two Edge clusters
 
-Next, you can deploy two Edge clusters by applying the PackageVariantSet that can be found in the *tests* directory:
+Next, you can deploy two Edge clusters by applying the PackageVariantSet from the catalog's Free5GC test-resource package:
 
 {{% alert title="Note" color="primary" %}}
 
@@ -283,8 +283,17 @@ This should match the `NEPHIO_BRANCH` used during the [sandbox installation](/do
 
 {{% /alert %}}
 
+Fetch the resources once; the remaining commands in this guide use this local copy.
+
 ```bash
-envsubst < test-infra/e2e/tests/free5gc/002-edge-clusters.yaml | kubectl apply -f -
+FREE5GC_RESDIR="$(mktemp -d -t free5gc-e2e-resources)"
+kpt pkg get --for-deployment \
+  "https://github.com/nephio-project/catalog.git/test-infra-resources/free5gc@${BRANCH}" \
+  "${FREE5GC_RESDIR}"
+```
+
+```bash
+envsubst < "${FREE5GC_RESDIR}/002-edge-clusters.yaml" | kubectl apply -f -
 ```
 
 
@@ -388,10 +397,10 @@ can interact with external systems to fully configure packages. But it needs to 
 
 First, you will apply a package to define the high-level networks for attaching our workloads. The Nephio package
 specialization pipeline will determine the exact VLAN tags and IP addresses for those attachments based on the specific
-clusters. There is a predefined PackageVariant in the tests directory for this:
+clusters. There is a predefined PackageVariant in the catalog test-resource package for this:
 
 ```bash
-envsubst < test-infra/e2e/tests/free5gc/002-network.yaml | kubectl apply -f -
+envsubst < "${FREE5GC_RESDIR}/002-network.yaml" | kubectl apply -f -
 ```
 
 
@@ -405,7 +414,7 @@ packagevariant.config.porch.kpt.dev/network created
 Then you will create appropriate Secret to make sure that Nephio can authenticate to the external backend.
 
 ```bash
-kubectl apply -f test-infra/e2e/tests/free5gc/002-secret.yaml
+kubectl apply -f "${FREE5GC_RESDIR}/002-secret.yaml"
 ```
 
 
@@ -539,7 +548,7 @@ added to the Management cluster when you had deployed the *nephio-workload-clust
 PackageVariantSet).
 
 ```bash
-envsubst < test-infra/e2e/tests/free5gc/004-free5gc-operator.yaml | kubectl apply -f -
+envsubst < "${FREE5GC_RESDIR}/004-free5gc-operator.yaml" | kubectl apply -f -
 ```
 
 
@@ -603,9 +612,9 @@ yet-another-package - a "topology" package - and deploy them all as a unit. Or y
 create them. But for now, let's do each manually.
 
 ```bash
-envsubst < test-infra/e2e/tests/free5gc/005-edge-free5gc-upf.yaml | kubectl apply -f -
-envsubst < test-infra/e2e/tests/free5gc/006-regional-free5gc-amf.yaml | kubectl apply -f -
-envsubst < test-infra/e2e/tests/free5gc/006-regional-free5gc-smf.yaml | kubectl apply -f -
+envsubst < "${FREE5GC_RESDIR}/005-edge-free5gc-upf.yaml" | kubectl apply -f -
+envsubst < "${FREE5GC_RESDIR}/006-regional-free5gc-amf.yaml" | kubectl apply -f -
+envsubst < "${FREE5GC_RESDIR}/006-regional-free5gc-smf.yaml" | kubectl apply -f -
 ```
 
 Free5gc requires that the SMF and AMF NFs be explicitly configured with information about each UPF. Therefore, the AMF
@@ -795,7 +804,7 @@ Step 4.
 Once the subscriber is registered, you can deploy UERANSIM:
 
 ```bash
-envsubst < test-infra/e2e/tests/free5gc/007-edge01-ueransim.yaml | kubectl apply -f -
+envsubst < "${FREE5GC_RESDIR}/007-edge01-ueransim.yaml" | kubectl apply -f -
 ```
 
 You can check to see if the simulated UE is up and running by checking the UERANSIM deployment. First, you can use the
@@ -1070,4 +1079,3 @@ not reflect the new information. This is because the Nephio free5gc operator is 
 configuration. 
 
 {{% /alert %}}
-

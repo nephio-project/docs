@@ -92,9 +92,17 @@ This should match the `NEPHIO_BRANCH` used during the [sandbox installation](/do
 
 {{% /alert %}}
 
+Fetch the resources once; the remaining commands in this guide use this local copy.
 
 ```bash
-envsubst < test-infra/e2e/tests/oai/001-infra.yaml | kubectl apply -f -
+OAI_RESDIR="$(mktemp -d -t oai-e2e-resources)"
+kpt pkg get --for-deployment \
+  "https://github.com/nephio-project/catalog.git/test-infra-resources/oai@${BRANCH}" \
+  "${OAI_RESDIR}"
+```
+
+```bash
+envsubst < "${OAI_RESDIR}/001-infra.yaml" | kubectl apply -f -
 ```
 
 
@@ -242,10 +250,10 @@ worker nodes.
 Finally, you want to configure the resource backend to be aware of these clusters. The resource backend is an IP address and VLAN index management system. It is included for demonstration purposes to show how Nephio package specialization can interact with external systems to fully configure packages. But it needs to be configured to match our topology.
 
 First, you will apply a package to define the high-level networks for attaching our workloads. The Nephio package specialization pipeline will determine the exact VLAN tags and IP addresses for those attachments based on the specific
-clusters. There is a predefined *PackageVariant* in the tests directory for this:
+clusters. There is a predefined *PackageVariant* in the catalog test-resource package for this:
 
 ```bash
-envsubst < test-infra/e2e/tests/oai/001-network.yaml | kubectl apply -f -
+envsubst < "${OAI_RESDIR}/001-network.yaml" | kubectl apply -f -
 ```
 
 
@@ -259,7 +267,7 @@ packagevariant.config.porch.kpt.dev/network created
 Then you will create appropriate `Secret` to make sure that Nephio can authenticate to the external backend.
 
 ```bash
-kubectl apply -f test-infra/e2e/tests/oai/001-secret.yaml
+kubectl apply -f "${OAI_RESDIR}/001-secret.yaml"
 ```
 
 
@@ -356,8 +364,8 @@ packagerevision.porch.kpt.dev/mgmt-staging-f1b8e75b6c87549d67037f784abc0083ac601
 Now you will need to deploy the MySQL database required by OAI UDR network function, OAI Core and RAN operators across the Workload clusters. To do this, you use *PackageVariant* and *PackageVariantSet*. Later uses an objectSelector to select the WorkloadCluster resources previously added to the Management cluster when you had deployed the *nephio-workload-cluster* packages (manually as well as via *PackageVariantSet*).
 
 ```bash
-envsubst < test-infra/e2e/tests/oai/002-database.yaml | kubectl apply -f -
-envsubst < test-infra/e2e/tests/oai/002-operators.yaml | kubectl apply -f -
+envsubst < "${OAI_RESDIR}/002-database.yaml" | kubectl apply -f -
+envsubst < "${OAI_RESDIR}/002-operators.yaml" | kubectl apply -f -
 ```
 
 
@@ -503,7 +511,7 @@ You can start by deploying the core network functions which the operator will in
 yet-another-package - a "topology" package - and deploy them all as a unit. Or you can use a topology controller to create them. But for now, let's do each manually.
 
 ```bash
-envsubst < test-infra/e2e/tests/oai/003-core-network.yaml | kubectl apply -f -
+envsubst < "${OAI_RESDIR}/003-core-network.yaml" | kubectl apply -f -
 ```
 
 The output is similar to:
@@ -603,8 +611,8 @@ In the logs you should see **Received SX HEARTBEAT REQUEST** statement. If that 
 If the core network functions are running and configured properly then you can start by deploying RAN network function *PackageVariants*.
 
 ```bash
-envsubst < test-infra/e2e/tests/oai/004a-ran-network.yaml | kubectl apply -f -
-envsubst < test-infra/e2e/tests/oai/004b-ran-network.yaml | kubectl apply -f -
+envsubst < "${OAI_RESDIR}/004a-ran-network.yaml" | kubectl apply -f -
+envsubst < "${OAI_RESDIR}/004b-ran-network.yaml" | kubectl apply -f -
 ```
 
 The output is similar to:
@@ -705,7 +713,7 @@ The output is similar to:
 If all three links are configured then you can proceed with deploying the UE *PackageVariants*
 
 ```bash
-envsubst < test-infra/e2e/tests/oai/005-ue.yaml | kubectl apply -f -
+envsubst < "${OAI_RESDIR}/005-ue.yaml" | kubectl apply -f -
 ```
 
 The output is similar to:
